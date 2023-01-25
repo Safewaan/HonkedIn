@@ -21,8 +21,6 @@ Once you have the required packages/dependencies, build and run the system using
 yarn dev
 ```
 
-If everything installed and deployed correctly, you can locally access the application [here](http://localhost:3000/).
-
 ## Version Control Guide
 
 ### Branching
