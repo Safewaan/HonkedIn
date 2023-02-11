@@ -35,6 +35,24 @@ app.post('/api/createUser', (req, res) => {
 	connection.end();
 });
 
+app.post('/api/createEvent', (req,res) => { 
+
+
+	let connection = mysql.createConnection(config);
+	let sql = "INSERT INTO shchowdh.events (name, description, location, date, creatorID) VALUES (?, ?, ?, ?, ?)";
+	let data = [req.body.eventName, req.body.eventDesc, req.body.eventLocation, req.body.eventDate, req.body.userID];
+
+	connection.query(sql, data, (error, results, fields) => {
+		if (error) {
+			return console.error(error.message);
+		}
+
+		res.send({ express: results });
+	});
+
+	connection.end();
+
+})
 
 app.listen(port, () => console.log(`Listening on port ${port}`)); //for the dev version
 //app.listen(port, '172.31.31.77'); //for the deployed version, specify the IP address of the server
