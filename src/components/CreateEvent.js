@@ -1,20 +1,16 @@
 import React, { useRef, useState } from "react"
 import { Form, Button, Card, Alert } from "react-bootstrap"
-import { useAuth } from "../contexts/AuthContext"
 import { Link, useHistory } from "react-router-dom"
 import Paper from "@material-ui/core/Paper";
 import Grid from '@material-ui/core/Grid';
-import InputLabel from '@material-ui/core/InputLabel';
-import FormControlLabel from '@material-ui/core/FormControlLabel';
-import FormLabel from '@material-ui/core/FormLabel';
 import FormHelperText from '@material-ui/core/FormHelperText';
 import Snackbar from '@material-ui/core/Snackbar';
-import MuiAlert from '@material-ui/lab/Alert';
 import Typography from "@material-ui/core/Typography";
-import { createTheme, ThemeProvider, styled, MuiThemeProvider } from '@material-ui/core/styles';
+import { styled } from '@material-ui/core/styles';
 import { makeStyles } from '@material-ui/core/styles';
 import TextField from '@material-ui/core/TextField';
-
+import DatePicker from "react-datepicker";
+import "react-datepicker/dist/react-datepicker.css";
 
 const { REACT_APP_API_ENDPOINT } = process.env;
 
@@ -34,9 +30,22 @@ const MyPaper = styled(Paper)(({ theme }) => ({
 
 const CreateEvent = () => {
 
+ /* function Alert(props) {
+    return <MuiAlert elevation={6} variant="filled" {...props} />;
+  }
+*/
 
+  const [open, setOpen] = React.useState(false);
+  const [userID, setUserID] = React.useState('3'); //will need to update later
 
-  const [events, setEvents] = React.useState([]); 
+  const handleClose = (event, reason) => {
+    if (reason === 'clickaway') {
+      return;
+    }
+    setOpen(false);
+  };
+
+  const [createdEventsList, setCreatedEventsList] = React.useState([]); 
 
   const [eventName, setEventName] = React.useState('');
   const [eventNameError, setEventNameError] = React.useState('');
@@ -74,7 +83,55 @@ const CreateEvent = () => {
     setEventDateErrorText('');
   }
 
+  const resetForm = () => {
+    setEventName('');
+    setEventDesc('');
+    setEventLocation('');
+    setEventDate('');
+  }
 
+  const validateEvent = () => {
+
+    var date_regex =  '/^[0-9]{4}-(0[1-9]|1[0-2])-(0[1-9]|[1-2][0-9]|3[0-1])$/'; //to validate date format
+
+    if (eventName == '') {
+      setEventNameError(true);
+      setEventNameErrorText('Please enter your event name');
+      return false;
+    } else if (eventDesc == '') {
+      setEventDescError(true);
+      setEventDescErrorText('Please enter a description of your event');
+      return false;
+    } else if (eventLocation == '') {
+      setEventLocationError(true);
+      setEventLocationErrorText('Please enter the location of your event');
+      return false;
+    } else if (eventDate == ''/*|| !(date_regex.test(eventDate))*/) { 
+      //may need to rework to properly account for date functionality
+      setEventDateError(true);
+      setEventDateErrorText('Please enter the date of your event in the YYYY-MM_DD format');
+      return false
+    } else {
+
+      setOpen(true);
+
+      var newEvent = {
+        eventName: eventName,
+        eventDesc: eventDesc,
+        eventLocation: eventLocation,
+        eventDate: eventDate
+      }
+
+      var localList = [...createdEventsList];
+      localList.push(newEvent);
+      console.log("this is localList " + localList[0].eventName);
+      setCreatedEventsList(localList);
+      loadCreateEvent();
+      resetForm();
+
+      return false;
+    }
+  };
 
   const useStyles = makeStyles((theme) => ({
     formControl: {
@@ -98,6 +155,10 @@ const CreateEvent = () => {
 
   const classes = useStyles();
 
+  const loadCreateEvent = () => {
+    callApiCreateEvent()
+  }
+
   const callApiCreateEvent = async () => {
 
     const url = `${REACT_APP_API_ENDPOINT}/createEvent`;
@@ -110,14 +171,15 @@ const CreateEvent = () => {
           'Content-Type': 'application/json'
         },
         body: JSON.stringify({
-          eventName: eventName.current.value,
-          eventDesc: eventDesc.current.value, 
-          eventLocation: eventLocation.current.value,
-          eventDate: eventDate.current.value,
-
+          eventName: eventName/*.current.value*/,
+          eventDesc: eventDesc/*.current.value*/, 
+          eventLocation: eventLocation/*.current.value*/,
+          eventDate: eventDate/*.current.value*/,
+          userID: userID
         })
       });
-  
+      
+      console.log("got past the const response thing");
       if (!response.ok) {
         throw new Error(`${response.status}: ${response.statusText}`);
       }
@@ -130,21 +192,8 @@ const CreateEvent = () => {
 
   }
 
-  
-
     return (
         <>
-          <MyPaper>
-          <form style={{display: 'flex'}}>
-
-          <MainGridContainer
-            container
-            spacing={4}
-            style={{ maxWidth: '50%' }}
-            direction="column"
-            justifyContent="space-evenly"
-            alignItems="stretch"
-          >
 
             <Typography variant="h4" color="inherit" component="div" noWrap>
               Create new Event
@@ -167,42 +216,49 @@ const CreateEvent = () => {
                 eventDescError={eventDescError}
                 eventDescErrorText={eventDescErrorText}
               />
+
+               <EventLocation
+                classes={classes}
+                eventLocation={eventLocation}
+                onEnterEventLocation={handleEventLocation}
+                eventLocationError={eventLocationError}
+                eventLocationErrorText={eventLocationErrorText}
+              />
+
+               <EventDate
+                classes={classes}
+                eventDate={eventDate}
+                onEnterEventDate={handleEventDate}
+                eventDateError={eventDateError}
+                eventDateErrorText={eventDateErrorText}
+              />
             </form>
 
-            <ReviewRating
-              selectedRating={selectedRating}
-              ratingError={ratingError}
-              helperTextRating={helperTextRating}
-              onSelectedRating={handleSelectedRating}
-            />
 
             <Grid item>
               <SubmitButton
                 label={"SUBMIT"}
-                onButtonClick={validateReview}
-              />
-
-            </Grid>
-
-            <Grid>
-              <List
-                list={reviewList}
+                onButtonClick={validateEvent}
               />
             </Grid>
 
 
-            <Snackbar open={open} autoHideDuration={6000} onClose={handleClose}>
+            
+
+     
+        </>
+      )
+}
+
+
+/* moved from under submit item above: 
+<Snackbar open={open} autoHideDuration={6000} onClose={handleClose}>
               <Alert onClose={handleClose} severity="success">
                 Your review has been recieved
               </Alert>
             </Snackbar>
+            */
 
-          </MainGridContainer>
-          </form>
-        </MyPaper>
-        </>
-      )
-}
 
 const EventName = ({ eventName, onEnterEventName, eventNameError, eventNameErrorText }) => {
   return (
@@ -210,9 +266,11 @@ const EventName = ({ eventName, onEnterEventName, eventNameError, eventNameError
       <TextField
         id="name-of-event"
         label="Event Name"
+        placeholder="Enter the name of your event"
         value={eventName}
         onChange={onEnterEventName}
         error={eventNameError}
+        fullWidth
       />
       <FormHelperText>{eventNameErrorText}</FormHelperText>
     </Grid>
@@ -226,8 +284,8 @@ const EventDesc = ({ eventDesc, onEnterEventDesc, eventDescError, eventDescError
         id="desc-of-event"
         label="Event Description"
         multiline
-        rows={4}
-        placeholder="Enter a description of your event!"
+        minrows={4}
+        placeholder="Enter a description of your event"
         value={eventDesc}
         onChange={onEnterEventDesc}
         error={eventDescError}
@@ -239,5 +297,50 @@ const EventDesc = ({ eventDesc, onEnterEventDesc, eventDescError, eventDescError
   )
 }
 
+const EventLocation = ({ eventLocation, onEnterEventLocation, eventLocationError, eventLocationErrorText }) => {
+  return (
+    <Grid item>
+      <TextField
+        id="location-of-event"
+        label="Event Location"
+        placeholder="Enter the location of your event"
+        value={eventLocation}
+        onChange={onEnterEventLocation}
+        error={eventLocationError}
+        fullWidth
+
+      />
+      <FormHelperText>{eventLocationErrorText}</FormHelperText>
+    </Grid>
+  )
+}
+
+const EventDate = ({ eventDate, onEnterEventDate, eventDateError, eventDateErrorText }) => {
+  return (
+    <Grid item>
+      <TextField
+        id="date-of-event"
+        label="Event Date"
+        placeholder="Enter the date of the event in the format YYYY-MM-DD"
+        value={eventDate}
+        onChange={onEnterEventDate}
+        error={eventDateError}
+        fullWidth
+      />
+      <FormHelperText>{eventDateErrorText}</FormHelperText>
+    </Grid>
+  )
+}
+
+
+const SubmitButton = ({ label, onButtonClick }) => (
+  <Button
+    variant="contained"
+    color="secondary"
+    onClick={(event) => onButtonClick(event)}
+  >
+    {label}
+  </Button>
+)
 
 export default CreateEvent;

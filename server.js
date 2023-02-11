@@ -40,7 +40,9 @@ app.post('/api/createEvent', (req,res) => {
 
 	let connection = mysql.createConnection(config);
 	let sql = "INSERT INTO shchowdh.events (name, description, location, date, creatorID) VALUES (?, ?, ?, ?, ?)";
+	console.log(sql);
 	let data = [req.body.eventName, req.body.eventDesc, req.body.eventLocation, req.body.eventDate, req.body.userID];
+	console.log(data);
 
 	connection.query(sql, data, (error, results, fields) => {
 		if (error) {
