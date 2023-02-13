@@ -1,4 +1,4 @@
-import React, { useRef, useState } from "react"
+import React, { useRef, useState, useEffect } from "react"
 import { Form, Button, Card, Alert } from "react-bootstrap"
 import { Link, useHistory } from "react-router-dom"
 import Paper from "@material-ui/core/Paper";
@@ -11,6 +11,8 @@ import { makeStyles } from '@material-ui/core/styles';
 import TextField from '@material-ui/core/TextField';
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
+import { format } from 'date-fns'
+import moment from 'moment';
 
 const { REACT_APP_API_ENDPOINT } = process.env;
 
@@ -30,6 +32,8 @@ const MyPaper = styled(Paper)(({ theme }) => ({
 
 const CreateEvent = () => {
 
+ // const tester = new Date(); 
+ // moment(tester).format('')
  /* function Alert(props) {
     return <MuiAlert elevation={6} variant="filled" {...props} />;
   }
@@ -74,13 +78,22 @@ const CreateEvent = () => {
     setEventLocationErrorText('');
   }
   
-  const [eventDate, setEventDate] = React.useState('');
+  var holderDate = new Date();
+  //const [eventDateOG, setEventDateOG] = React.useState(new Date()); 
+  //eventDateOG is to handle date picker value input as Date
+  //below version accounts for built-in time offset due to JS date function
+  const [eventDateOG, setEventDateOG] = React.useState(new Date(holderDate.getTime() + Math.abs(holderDate.getTimezoneOffset()*60000) ))
+
+  //actual eventDate component needs to be string in order to be proper format
+  const [eventDate, setEventDate] = React.useState(''); 
   const [eventDateError, setEventDateError] = React.useState('');
   const [eventDateErrorText, setEventDateErrorText] = React.useState(''); //ERROR EDITING IN RETURN BRACKETS
-  const handleEventDate = (event) => {
-    setEventDate(event.target.value);
-    setEventDateError(false);
-    setEventDateErrorText('');
+  const handleEventDateOG = (event) => {
+    setEventDateOG(event.target.value);
+
+
+    //setEventDateError(false);
+   // setEventDateErrorText('');
   }
 
   const resetForm = () => {
@@ -90,28 +103,49 @@ const CreateEvent = () => {
     setEventDate('');
   }
 
-  const validateEvent = () => {
+  //const [enableError, setEnableError] = React.useState(false); 
 
-    var date_regex =  '/^[0-9]{4}-(0[1-9]|1[0-2])-(0[1-9]|[1-2][0-9]|3[0-1])$/'; //to validate date format
+  useEffect(() => {
+   validateEvent(); 
+  }, [eventDate]);
 
-    if (eventName == '') {
+
+  const formatDate = () => {
+
+    //setEnableError(true);
+    //console.log("before eventDate state is updated " + enableError)
+    setEventDate(eventDateOG.toISOString().split('T')[0]);
+
+
+    console.log(("eventDateOG = " + eventDateOG))
+    console.log("eventDate = " + eventDate)
+
+    validateEvent();
+  }
+
+
+  const validateEvent =  () => {
+
+   // console.log(" enableError is currently: " + enableError)
+
+    if (eventName == '' /* && enableError == true*/) {
       setEventNameError(true);
       setEventNameErrorText('Please enter your event name');
       return false;
-    } else if (eventDesc == '') {
+    } else if (eventDesc == '' /*&& enableError == true*/) {
       setEventDescError(true);
       setEventDescErrorText('Please enter a description of your event');
       return false;
-    } else if (eventLocation == '') {
+    } else if (eventLocation == '' /*&& enableError == true*/) {
       setEventLocationError(true);
       setEventLocationErrorText('Please enter the location of your event');
       return false;
-    } else if (eventDate == ''/*|| !(date_regex.test(eventDate))*/) { 
-      //may need to rework to properly account for date functionality
+    } else if (eventDate == '' /*&& enableError == true*/) { 
+      console.log("this is the problem");
       setEventDateError(true);
       setEventDateErrorText('Please enter the date of your event in the YYYY-MM_DD format');
       return false
-    } else {
+    } else /*if (enableError == true)*/{
 
       setOpen(true);
 
@@ -119,19 +153,26 @@ const CreateEvent = () => {
         eventName: eventName,
         eventDesc: eventDesc,
         eventLocation: eventLocation,
-        eventDate: eventDate
+       // eventDate: testDate
+       eventDate: eventDate
       }
 
       var localList = [...createdEventsList];
       localList.push(newEvent);
       console.log("this is localList " + localList[0].eventName);
       setCreatedEventsList(localList);
+     // console.log(format(eventDate))
       loadCreateEvent();
       resetForm();
 
       return false;
-    }
-  };
+    } /*else { 
+      console.log("stuck here since enableError is: " + enableError)
+      setEnableError(false);
+      return false; 
+    }*/ 
+  }; 
+
 
   const useStyles = makeStyles((theme) => ({
     formControl: {
@@ -163,6 +204,7 @@ const CreateEvent = () => {
 
     const url = `${REACT_APP_API_ENDPOINT}/createEvent`;
     console.log(url);
+    //console.log(eventDate);
 
     try {
       const response = await fetch(url, {
@@ -175,6 +217,7 @@ const CreateEvent = () => {
           eventDesc: eventDesc/*.current.value*/, 
           eventLocation: eventLocation/*.current.value*/,
           eventDate: eventDate/*.current.value*/,
+         // eventDate: testDate,
           userID: userID
         })
       });
@@ -224,32 +267,32 @@ const CreateEvent = () => {
                 eventLocationError={eventLocationError}
                 eventLocationErrorText={eventLocationErrorText}
               />
+                <DatePicker 
+                selected={eventDateOG} 
+                onChange={(eventDateOG) => setEventDateOG(eventDateOG)} 
+                
+                dateFormat="yyyy-MM-dd"
+               // showTimeSelect
+                //timeFormat="HH:mm"
+               // timeIntervals={15}
+               // timeCaption="time"
+                //dateFormat="yyyy-MM-dd hh:mm aa"
+                //formatWeekDay={(post.eventDate, 'yyyy/mm/dd hh:mm:ss')}
+                />
 
-               <EventDate
-                classes={classes}
-                eventDate={eventDate}
-                onEnterEventDate={handleEventDate}
-                eventDateError={eventDateError}
-                eventDateErrorText={eventDateErrorText}
-              />
             </form>
-
 
             <Grid item>
               <SubmitButton
                 label={"SUBMIT"}
-                onButtonClick={validateEvent}
+                //onButtonClick={validateEvent}
+                onButtonClick={formatDate}
               />
             </Grid>
 
-
-            
-
-     
         </>
       )
 }
-
 
 /* moved from under submit item above: 
 <Snackbar open={open} autoHideDuration={6000} onClose={handleClose}>
@@ -258,7 +301,6 @@ const CreateEvent = () => {
               </Alert>
             </Snackbar>
             */
-
 
 const EventName = ({ eventName, onEnterEventName, eventNameError, eventNameErrorText }) => {
   return (
@@ -314,24 +356,6 @@ const EventLocation = ({ eventLocation, onEnterEventLocation, eventLocationError
     </Grid>
   )
 }
-
-const EventDate = ({ eventDate, onEnterEventDate, eventDateError, eventDateErrorText }) => {
-  return (
-    <Grid item>
-      <TextField
-        id="date-of-event"
-        label="Event Date"
-        placeholder="Enter the date of the event in the format YYYY-MM-DD"
-        value={eventDate}
-        onChange={onEnterEventDate}
-        error={eventDateError}
-        fullWidth
-      />
-      <FormHelperText>{eventDateErrorText}</FormHelperText>
-    </Grid>
-  )
-}
-
 
 const SubmitButton = ({ label, onButtonClick }) => (
   <Button
