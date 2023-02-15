@@ -56,5 +56,27 @@ app.post('/api/createEvent', (req,res) => {
 
 })
 
+app.post('/api/getEvents', (req, res) => {
+
+	let connection = mysql.createConnection(config);
+	//will prob need to edit sql statement to account for search features later
+	//may need to modify later so that won't load them all as an array 
+	//need to make more efficient 
+	let sql = `SELECT * FROM shchowdh.events`; 
+	console.log(sql);
+
+	connection.query(sql, (error, results, fields) => {
+		if (error) {
+			return console.error(error.message);
+		}
+
+		let string = JSON.stringify(results);
+		let obj = JSON.parse(string);
+		res.send({ express: string });
+
+	});
+	connection.end();
+});
+
 app.listen(port, () => console.log(`Listening on port ${port}`)); //for the dev version
 //app.listen(port, '172.31.31.77'); //for the deployed version, specify the IP address of the server
