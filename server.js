@@ -74,7 +74,7 @@ app.post('/api/createEvent', (req,res) => {
 
 })
 
-app.post('/api/getEvents', (req, res) => {
+app.get('/api/getEvents', (req, res) => {
 
 	let connection = mysql.createConnection(config);
 	//will prob need to edit sql statement to account for search features later
@@ -95,7 +95,8 @@ app.post('/api/getEvents', (req, res) => {
 	});
 	connection.end();
 });
-app.get('/api/userEmailSearch', (req, res) => {
+
+app.post('/api/userEmailSearch', (req, res) => {
 
 	let connection = mysql.createConnection(config);
 
@@ -114,7 +115,9 @@ app.get('/api/userEmailSearch', (req, res) => {
 			return console.error(error.message);
 		}
 
-		res.send({ express: results });
+		let string = JSON.stringify(results);
+
+		res.send({ express: string });
 	});
 
 	connection.end();

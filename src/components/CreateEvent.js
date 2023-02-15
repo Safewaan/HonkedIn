@@ -1,4 +1,4 @@
-  import React, { useRef, useState, useEffect } from "react"
+import React, { useRef, useState, useEffect } from "react"
 import { Form, Button, Card, Alert } from "react-bootstrap"
 import { Link, useHistory } from "react-router-dom"
 import Paper from "@material-ui/core/Paper";
@@ -13,8 +13,11 @@ import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import { format } from 'date-fns'
 import moment from 'moment';
+import { useAuth } from "../contexts/AuthContext"
 
 const { REACT_APP_API_ENDPOINT } = process.env;
+
+
 
 const MainGridContainer = styled(Grid)(({ theme }) => ({
   margin: theme.spacing(4),
@@ -32,15 +35,51 @@ const MyPaper = styled(Paper)(({ theme }) => ({
 
 const CreateEvent = () => {
 
- // const tester = new Date(); 
- // moment(tester).format('')
- /* function Alert(props) {
-    return <MuiAlert elevation={6} variant="filled" {...props} />;
-  }
-*/
-
+  // const tester = new Date(); 
+  // moment(tester).format('')
+  /* function Alert(props) {
+     return <MuiAlert elevation={6} variant="filled" {...props} />;
+   }
+ */
+const { currentUser } = useAuth();
+  const email = currentUser.email;
+  const [userID, setUserID] = React.useState(''); //will need to update later
   const [open, setOpen] = React.useState(false);
-  const [userID, setUserID] = React.useState('3'); //will need to update later
+
+  React.useEffect(() => {
+    loadUserEmailSearch();
+  }, []);
+
+  const loadUserEmailSearch = () => {
+    callApiGetUserEmailSearch()
+      .then(res => {
+        var parsed = JSON.parse(res.express);
+        //console.log(parsed[0].id);
+        setUserID(parsed[0].id);
+      });
+
+  }
+
+  const callApiGetUserEmailSearch = async () => {
+    const url = `${REACT_APP_API_ENDPOINT}/userEmailSearch`;
+    console.log(url);
+
+    const response = await fetch(url, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        email: email
+      })
+    });
+    const body = await response.json();
+    if (response.status !== 200) throw Error(body.message);
+    return body;
+  }
+
+
+
 
   const handleClose = (event, reason) => {
     if (reason === 'clickaway') {
@@ -49,7 +88,7 @@ const CreateEvent = () => {
     setOpen(false);
   };
 
-  const [createdEventsList, setCreatedEventsList] = React.useState([]); 
+  const [createdEventsList, setCreatedEventsList] = React.useState([]);
 
   const [eventName, setEventName] = React.useState('');
   const [eventNameError, setEventNameError] = React.useState('');
@@ -77,15 +116,15 @@ const CreateEvent = () => {
     setEventLocationError(false);
     setEventLocationErrorText('');
   }
-  
+
   var holderDate = new Date();
   //const [eventDateOG, setEventDateOG] = React.useState(new Date()); 
   //eventDateOG is to handle date picker value input as Date
   //below version accounts for built-in time offset due to JS date function
-  const [eventDateOG, setEventDateOG] = React.useState(new Date(holderDate.getTime() + Math.abs(holderDate.getTimezoneOffset()*60000) ))
+  const [eventDateOG, setEventDateOG] = React.useState(new Date(holderDate.getTime() + Math.abs(holderDate.getTimezoneOffset() * 60000)))
 
   //actual eventDate component needs to be string in order to be proper format
-  const [eventDate, setEventDate] = React.useState(''); 
+  const [eventDate, setEventDate] = React.useState('');
   const [eventDateError, setEventDateError] = React.useState('');
   const [eventDateErrorText, setEventDateErrorText] = React.useState(''); //ERROR EDITING IN RETURN BRACKETS
   const handleEventDateOG = (event) => {
@@ -93,7 +132,7 @@ const CreateEvent = () => {
 
 
     //setEventDateError(false);
-   // setEventDateErrorText('');
+    // setEventDateErrorText('');
   }
 
   const resetForm = () => {
@@ -106,7 +145,7 @@ const CreateEvent = () => {
   //const [enableError, setEnableError] = React.useState(false); 
 
   useEffect(() => {
-   validateEvent(); 
+    validateEvent();
   }, [eventDate]);
 
 
@@ -124,9 +163,9 @@ const CreateEvent = () => {
   }
 
 
-  const validateEvent =  () => {
+  const validateEvent = () => {
 
-   // console.log(" enableError is currently: " + enableError)
+    // console.log(" enableError is currently: " + enableError)
 
     if (eventName == '' /* && enableError == true*/) {
       setEventNameError(true);
@@ -140,12 +179,12 @@ const CreateEvent = () => {
       setEventLocationError(true);
       setEventLocationErrorText('Please enter the location of your event');
       return false;
-    } else if (eventDate == '' /*&& enableError == true*/) { 
+    } else if (eventDate == '' /*&& enableError == true*/) {
       console.log("this is the problem");
       setEventDateError(true);
       setEventDateErrorText('Please enter the date of your event in the YYYY-MM_DD format');
       return false
-    } else /*if (enableError == true)*/{
+    } else /*if (enableError == true)*/ {
 
       setOpen(true);
 
@@ -153,15 +192,15 @@ const CreateEvent = () => {
         eventName: eventName,
         eventDesc: eventDesc,
         eventLocation: eventLocation,
-       // eventDate: testDate
-       eventDate: eventDate
+        // eventDate: testDate
+        eventDate: eventDate
       }
 
       var localList = [...createdEventsList];
       localList.push(newEvent);
       console.log("this is localList " + localList[0].eventName);
       setCreatedEventsList(localList);
-     // console.log(format(eventDate))
+      // console.log(format(eventDate))
       loadCreateEvent();
       resetForm();
 
@@ -170,8 +209,8 @@ const CreateEvent = () => {
       console.log("stuck here since enableError is: " + enableError)
       setEnableError(false);
       return false; 
-    }*/ 
-  }; 
+    }*/
+  };
 
 
   const useStyles = makeStyles((theme) => ({
@@ -214,19 +253,19 @@ const CreateEvent = () => {
         },
         body: JSON.stringify({
           eventName: eventName/*.current.value*/,
-          eventDesc: eventDesc/*.current.value*/, 
+          eventDesc: eventDesc/*.current.value*/,
           eventLocation: eventLocation/*.current.value*/,
           eventDate: eventDate/*.current.value*/,
-         // eventDate: testDate,
+          // eventDate: testDate,
           userID: userID
         })
       });
-      
+
       console.log("got past the const response thing");
       if (!response.ok) {
         throw new Error(`${response.status}: ${response.statusText}`);
       }
-  
+
       const data = await response.json();
       console.log(data);
     } catch (error) {
@@ -235,66 +274,66 @@ const CreateEvent = () => {
 
   }
 
-    return (
-        <>
+  return (
+    <>
 
-            <Typography variant="h4" color="inherit" component="div" noWrap>
-              Create new Event
-            </Typography>
+      <Typography variant="h4" color="inherit" component="div" noWrap>
+        Create new Event
+      </Typography>
 
 
-            <form className={classes.root} noValidate autoComplete="off">
-              <EventName
-                classes={classes}
-                eventName={eventName}
-                onEnterEventName={handleEventName}
-                eventNameError={eventNameError}
-                eventNameErrorText={eventNameErrorText}
-              />
+      <form className={classes.root} noValidate autoComplete="off">
+        <EventName
+          classes={classes}
+          eventName={eventName}
+          onEnterEventName={handleEventName}
+          eventNameError={eventNameError}
+          eventNameErrorText={eventNameErrorText}
+        />
 
-              <EventDesc
-                classes={classes}
-                eventDesc={eventDesc}
-                onEnterEventDesc={handleEventDesc}
-                eventDescError={eventDescError}
-                eventDescErrorText={eventDescErrorText}
-              />
+        <EventDesc
+          classes={classes}
+          eventDesc={eventDesc}
+          onEnterEventDesc={handleEventDesc}
+          eventDescError={eventDescError}
+          eventDescErrorText={eventDescErrorText}
+        />
 
-               <EventLocation
-                classes={classes}
-                eventLocation={eventLocation}
-                onEnterEventLocation={handleEventLocation}
-                eventLocationError={eventLocationError}
-                eventLocationErrorText={eventLocationErrorText}
-              />
-                <DatePicker 
-                selected={eventDateOG} 
-                onChange={(eventDateOG) => setEventDateOG(eventDateOG)} 
-                
-                dateFormat="yyyy-MM-dd"
-               // showTimeSelect
-                //timeFormat="HH:mm"
-               // timeIntervals={15}
-               // timeCaption="time"
-                //dateFormat="yyyy-MM-dd hh:mm aa"
-                //formatWeekDay={(post.eventDate, 'yyyy/mm/dd hh:mm:ss')}
-                />
+        <EventLocation
+          classes={classes}
+          eventLocation={eventLocation}
+          onEnterEventLocation={handleEventLocation}
+          eventLocationError={eventLocationError}
+          eventLocationErrorText={eventLocationErrorText}
+        />
+        <DatePicker
+          selected={eventDateOG}
+          onChange={(eventDateOG) => setEventDateOG(eventDateOG)}
 
-            </form>
+          dateFormat="yyyy-MM-dd"
+        // showTimeSelect
+        //timeFormat="HH:mm"
+        // timeIntervals={15}
+        // timeCaption="time"
+        //dateFormat="yyyy-MM-dd hh:mm aa"
+        //formatWeekDay={(post.eventDate, 'yyyy/mm/dd hh:mm:ss')}
+        />
 
-            <Grid item>
-              <SubmitButton
-                label={"SUBMIT"}
-                //onButtonClick={validateEvent}
-                onButtonClick={formatDate}
-              />
-            </Grid>
+      </form>
 
-        </>
-      )
+      <Grid item>
+        <SubmitButton
+          label={"SUBMIT"}
+          //onButtonClick={validateEvent}
+          onButtonClick={formatDate}
+        />
+      </Grid>
+
+    </>
+  )
 }
 
-/* moved from under submit item above: 
+/* may be implemented later - popup confirmation that new event was created 
 <Snackbar open={open} autoHideDuration={6000} onClose={handleClose}>
               <Alert onClose={handleClose} severity="success">
                 Your review has been recieved
