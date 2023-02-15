@@ -43,7 +43,7 @@ const CreateEvent = () => {
  */
 const { currentUser } = useAuth();
   const email = currentUser.email;
-  const [userID, setUserID] = React.useState(''); //will need to update later
+  const [userID, setUserID] = React.useState(''); 
   const [open, setOpen] = React.useState(false);
 
   React.useEffect(() => {

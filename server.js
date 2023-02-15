@@ -80,7 +80,11 @@ app.get('/api/getEvents', (req, res) => {
 	//will prob need to edit sql statement to account for search features later
 	//may need to modify later so that won't load them all as an array 
 	//need to make more efficient 
-	let sql = `SELECT * FROM shchowdh.events`; 
+	let sql = `select firstName, lastName, events.name, events.description, events.location, events.date
+	from shchowdh.users, shchowdh.events
+	where events.creatorID = users.id
+	and date >= curdate()
+	order by date`; 
 	console.log(sql);
 
 	connection.query(sql, (error, results, fields) => {
@@ -89,7 +93,7 @@ app.get('/api/getEvents', (req, res) => {
 		}
 
 		let string = JSON.stringify(results);
-		let obj = JSON.parse(string);
+		//let obj = JSON.parse(string);
 		res.send({ express: string });
 
 	});
