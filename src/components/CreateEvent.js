@@ -118,10 +118,10 @@ const { currentUser } = useAuth();
   }
 
   var holderDate = new Date();
-  //const [eventDateOG, setEventDateOG] = React.useState(new Date()); 
+  const [eventDateOG, setEventDateOG] = React.useState(new Date()); 
   //eventDateOG is to handle date picker value input as Date
   //below version accounts for built-in time offset due to JS date function
-  const [eventDateOG, setEventDateOG] = React.useState(new Date(holderDate.getTime() + Math.abs(holderDate.getTimezoneOffset() * 60000)))
+  //const [eventDateOG, setEventDateOG] = React.useState(new Date(holderDate.getTime() + Math.abs(holderDate.getTimezoneOffset() * 60000)))
 
   //actual eventDate component needs to be string in order to be proper format
   const [eventDate, setEventDate] = React.useState('');
@@ -144,10 +144,14 @@ const { currentUser } = useAuth();
 
   //const [enableError, setEnableError] = React.useState(false); 
 
-  useEffect(() => {
+ /* useEffect(() => {
     validateEvent();
-  }, [eventDate]);
+  }, [eventDate]);*/ 
 
+
+  useEffect(() => {
+    formatDate();
+  }, [eventDateOG]);
 
   const formatDate = () => {
 
@@ -159,7 +163,7 @@ const { currentUser } = useAuth();
     console.log(("eventDateOG = " + eventDateOG))
     console.log("eventDate = " + eventDate)
 
-    validateEvent();
+    //validateEvent();
   }
 
 
@@ -324,8 +328,8 @@ const { currentUser } = useAuth();
       <Grid item>
         <SubmitButton
           label={"SUBMIT"}
-          //onButtonClick={validateEvent}
-          onButtonClick={formatDate}
+          onButtonClick={validateEvent}
+          //onButtonClick={formatDate}
         />
       </Grid>
 
