@@ -8,6 +8,8 @@ import Login from "./Login"
 import PrivateRoute from "./PrivateRoute"
 import ForgotPassword from "./ForgotPassword"
 import UpdateProfile from "./UpdateProfile"
+import Events from "./Events"
+import CreateEvent from "./CreateEvent"
 
 function App() {
   return (
@@ -24,6 +26,8 @@ function App() {
               <Route path="/signup" component={Signup} />
               <Route path="/login" component={Login} />
               <Route path="/forgot-password" component={ForgotPassword} />
+              <Route path="/events" component={Events} />
+              <Route path="/create-event" component={CreateEvent} />
             </Switch>
           </AuthProvider>
         </Router>
