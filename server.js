@@ -42,6 +42,7 @@ app.post('/api/createUser', (req, res) => {
 			return console.error("Email cannot be null.");
 		};
 
+
 		if (error) {
 			res.status(400).send(error.message);
 			return console.error(error.message);
@@ -63,7 +64,9 @@ app.post('/api/createEvent', (req,res) => {
 	console.log(data);
 
 	connection.query(sql, data, (error, results, fields) => {
+
 		if (error) {
+			res.status(400).send(error.message);
 			return console.error(error.message);
 		}
 
@@ -102,6 +105,7 @@ app.get('/api/getEvents', (req, res) => {
 
 app.post('/api/userEmailSearch', (req, res) => {
 
+
 	let connection = mysql.createConnection(config);
 
 	let sql = "SELECT * FROM users WHERE email = ?";
@@ -122,6 +126,7 @@ app.post('/api/userEmailSearch', (req, res) => {
 		let string = JSON.stringify(results);
 
 		res.send({ express: string });
+
 	});
 
 	connection.end();
