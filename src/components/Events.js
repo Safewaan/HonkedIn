@@ -24,6 +24,15 @@ const MainGridContainer = styled(Grid)(({ theme }) => ({
 
 const Events = () => {
 
+  const { currentUser } = useAuth();
+  const history = useHistory()
+
+  React.useEffect(() => {
+    if (currentUser == null) {
+      history.push("/login");
+    }
+  }, []);
+
   const [events, setEvents] = React.useState([]);
 
   const loadGetEvents = () => {
@@ -92,7 +101,7 @@ const Events = () => {
         <div id="body">
           <html>
             <h1>
-              Welcome to the Events Page
+              Events
             </h1>
 
 

@@ -12,7 +12,6 @@ import TextField from '@material-ui/core/TextField';
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import { format } from 'date-fns'
-import moment from 'moment';
 import { useAuth } from "../contexts/AuthContext"
 
 const { REACT_APP_API_ENDPOINT } = process.env;
@@ -41,14 +40,22 @@ const CreateEvent = () => {
      return <MuiAlert elevation={6} variant="filled" {...props} />;
    }
  */
-const { currentUser } = useAuth();
-  const email = currentUser.email;
-  const [userID, setUserID] = React.useState(''); 
-  const [open, setOpen] = React.useState(false);
+  const { currentUser } = useAuth();
+  const history = useHistory()
 
   React.useEffect(() => {
+    if (currentUser == null) {
+      history.push("/login");
+    } else{
+      setEmail(currentUser.email); 
+    }
     loadUserEmailSearch();
   }, []);
+
+  //const email = currentUser.email;
+  const [email, setEmail] = React.useState(''); 
+  const [userID, setUserID] = React.useState('');
+  const [open, setOpen] = React.useState(false);
 
   const loadUserEmailSearch = () => {
     callApiGetUserEmailSearch()
@@ -57,7 +64,6 @@ const { currentUser } = useAuth();
         //console.log(parsed[0].id);
         setUserID(parsed[0].id);
       });
-
   }
 
   const callApiGetUserEmailSearch = async () => {
@@ -118,7 +124,7 @@ const { currentUser } = useAuth();
   }
 
   var holderDate = new Date();
-  const [eventDateOG, setEventDateOG] = React.useState(new Date()); 
+  const [eventDateOG, setEventDateOG] = React.useState(new Date());
   //eventDateOG is to handle date picker value input as Date
   //below version accounts for built-in time offset due to JS date function
   //const [eventDateOG, setEventDateOG] = React.useState(new Date(holderDate.getTime() + Math.abs(holderDate.getTimezoneOffset() * 60000)))
@@ -144,9 +150,9 @@ const { currentUser } = useAuth();
 
   //const [enableError, setEnableError] = React.useState(false); 
 
- /* useEffect(() => {
-    validateEvent();
-  }, [eventDate]);*/ 
+  /* useEffect(() => {
+     validateEvent();
+   }, [eventDate]);*/
 
 
   useEffect(() => {
@@ -282,7 +288,7 @@ const { currentUser } = useAuth();
     <>
 
       <Typography variant="h4" color="inherit" component="div" noWrap>
-        Create new Event
+        Create Event
       </Typography>
 
 
@@ -329,7 +335,7 @@ const { currentUser } = useAuth();
         <SubmitButton
           label={"SUBMIT"}
           onButtonClick={validateEvent}
-          //onButtonClick={formatDate}
+        //onButtonClick={formatDate}
         />
       </Grid>
 
