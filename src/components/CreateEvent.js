@@ -77,7 +77,7 @@ const CreateEvent = () => {
     setEventLocationErrorText('');
   }
 
-  const [eventParticipants, setEventParticipants] = React.useState();
+  const [eventParticipants, setEventParticipants] = React.useState('');
   const [eventParticipantsError, setEventParticipantsError] = React.useState('');
   const [eventParticipantsErrorText, setEventParticipantsErrorText] = React.useState(''); //ERROR EDITING IN RETURN BRACKETS
   const handleEventParticipants = (event) => {
