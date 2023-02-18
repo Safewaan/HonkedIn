@@ -206,7 +206,7 @@ const CreateEvent = () => {
       return false
     } else if (eventParticipants === '') {
       setEventParticipantsError(true);
-      setEventParticipantsErrorText('Please enter a valid number for the number of maximum participants of your event.');
+      setEventParticipantsErrorText('Please enter a valid number of maximum participants.');
       return false
     } else {
 
@@ -362,20 +362,12 @@ const CreateEvent = () => {
   )
 }
 
-/* may be implemented later - popup confirmation that new event was created 
-<Snackbar open={open} autoHideDuration={6000} onClose={handleClose}>
-              <Alert onClose={handleClose} severity="success">
-                Your review has been recieved
-              </Alert>
-            </Snackbar>
-            */
-
 const EventName = ({ eventName, onEnterEventName, eventNameError, eventNameErrorText }) => {
   return (
     <Grid item>
       <TextField
         id="name-of-event"
-        label="Event Name"
+        label="Name"
         placeholder="Enter the name of your event"
         value={eventName}
         onChange={onEnterEventName}
@@ -392,7 +384,7 @@ const EventDesc = ({ eventDesc, onEnterEventDesc, eventDescError, eventDescError
     <Grid item>
       <TextField
         id="desc-of-event"
-        label="Event Description"
+        label="Description"
         multiline
         minrows={4}
         placeholder="Enter a description of your event"
@@ -412,7 +404,7 @@ const EventLocation = ({ eventLocation, onEnterEventLocation, eventLocationError
     <Grid item>
       <TextField
         id="location-of-event"
-        label="Event Location"
+        label="Location"
         placeholder="Enter the location of your event"
         value={eventLocation}
         onChange={onEnterEventLocation}
@@ -430,8 +422,8 @@ const EventParticipants = ({ eventParticipants, onEnterEventParticipants, eventP
     <Grid item>
       <TextField
         id="Participants-of-event"
-        label="Event Participants"
-        placeholder="Enter the maximum number of participants for you event"
+        label="Participants"
+        placeholder="Enter the maximum number of participants for your event"
         value={eventParticipants}
         onChange={onEnterEventParticipants}
         error={eventParticipantsError}
