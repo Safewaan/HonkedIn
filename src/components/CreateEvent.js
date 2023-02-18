@@ -1,18 +1,19 @@
 import React, { useRef, useState, useEffect } from "react"
 import { Form, Button, Card, Alert } from "react-bootstrap"
 import { Link, useHistory } from "react-router-dom"
-import Paper from "@material-ui/core/Paper";
-import Grid from '@material-ui/core/Grid';
-import FormHelperText from '@material-ui/core/FormHelperText';
-import Snackbar from '@material-ui/core/Snackbar';
-import Typography from "@material-ui/core/Typography";
-import { styled } from '@material-ui/core/styles';
-import { makeStyles } from '@material-ui/core/styles';
-import TextField from '@material-ui/core/TextField';
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import { format } from 'date-fns'
 import { useAuth } from "../contexts/AuthContext"
+
+import Paper from "@material-ui/core/Paper";
+import Grid from '@material-ui/core/Grid';
+import FormHelperText from '@material-ui/core/FormHelperText';
+import Typography from "@material-ui/core/Typography";
+import { styled } from '@material-ui/core/styles';
+import { makeStyles } from '@material-ui/core/styles';
+import TextField from '@material-ui/core/TextField';
+import MuiAlert from '@mui/material/Alert';
 
 const { REACT_APP_API_ENDPOINT } = process.env;
 
@@ -81,9 +82,21 @@ const CreateEvent = () => {
   const [eventParticipantsError, setEventParticipantsError] = React.useState('');
   const [eventParticipantsErrorText, setEventParticipantsErrorText] = React.useState(''); //ERROR EDITING IN RETURN BRACKETS
   const handleEventParticipants = (event) => {
-    setEventParticipants(parseInt(event.target.value));
-    setEventParticipantsError(false);
-    setEventParticipantsErrorText('');
+    const strToInt = parseInt(event.target.value);
+
+    // If the input is number, update the react state
+    if (!isNaN(strToInt)) {
+      setEventParticipants(parseInt(event.target.value));
+      setEventParticipantsError(false);
+      setEventParticipantsErrorText('');
+    }
+
+    // Catch where first number can't be deleted, reset the state
+    else {
+      setEventParticipants('');
+      setEventParticipantsError('');
+      setEventParticipantsErrorText('');
+    }
   }
 
   var holderDate = new Date();
@@ -99,6 +112,25 @@ const CreateEvent = () => {
   const handleEventDateOG = (event) => {
     setEventDateOG(event.target.value);
   }
+
+  const [successfullSubmissionMsg, setsuccessfullSubmissionMsg] = React.useState(false);
+
+  const Alert = React.forwardRef(function Alert(props, ref) {
+    return (
+      <MuiAlert
+        elevation={6}
+        ref={ref}
+        variant="filled"
+        {...props}
+        style={{
+          position: 'fixed',
+          bottom: '20px',
+          right: '20px',
+          zIndex: 9999
+        }}
+      />
+    );
+  });
 
   const loadUserEmailSearch = (email) => {
     callApiGetUserEmailSearch(email)
@@ -194,6 +226,10 @@ const CreateEvent = () => {
       // console.log(format(eventDate))
       loadCreateEvent();
       resetForm();
+      setsuccessfullSubmissionMsg(true);
+      setTimeout(() => {
+        setsuccessfullSubmissionMsg(false);
+      }, 3000);
 
       return false;
     }
@@ -262,7 +298,7 @@ const CreateEvent = () => {
   }
 
   return (
-    <>
+    <div>
 
       <Typography variant="h4" color="inherit" component="div" noWrap>
         Create Event
@@ -317,8 +353,12 @@ const CreateEvent = () => {
           onButtonClick={validateEvent}
         />
       </Grid>
-
-    </>
+      {successfullSubmissionMsg && (
+        <Alert severity="success">
+          Event Successfully created.
+        </Alert>
+      )}
+    </div>
   )
 }
 
