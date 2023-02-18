@@ -16,8 +16,6 @@ import { useAuth } from "../contexts/AuthContext"
 
 const { REACT_APP_API_ENDPOINT } = process.env;
 
-
-
 const MainGridContainer = styled(Grid)(({ theme }) => ({
   margin: theme.spacing(4),
 }));
@@ -30,69 +28,25 @@ const MyPaper = styled(Paper)(({ theme }) => ({
   margin: theme.spacing(2)
 }));
 
-
-
 const CreateEvent = () => {
 
-  // const tester = new Date(); 
-  // moment(tester).format('')
-  /* function Alert(props) {
-     return <MuiAlert elevation={6} variant="filled" {...props} />;
-   }
- */
   const { currentUser } = useAuth();
   const history = useHistory()
 
   React.useEffect(() => {
+
     if (currentUser == null) {
       history.push("/login");
-    } else{
-      setEmail(currentUser.email); 
     }
-    loadUserEmailSearch();
+
+    setEmail(currentUser.email);
+    loadUserEmailSearch(currentUser.email);
   }, []);
 
   //const email = currentUser.email;
-  const [email, setEmail] = React.useState(''); 
+  const [email, setEmail] = React.useState('');
   const [userID, setUserID] = React.useState('');
   const [open, setOpen] = React.useState(false);
-
-  const loadUserEmailSearch = () => {
-    callApiGetUserEmailSearch()
-      .then(res => {
-        var parsed = JSON.parse(res.express);
-        //console.log(parsed[0].id);
-        setUserID(parsed[0].id);
-      });
-  }
-
-  const callApiGetUserEmailSearch = async () => {
-    const url = `${REACT_APP_API_ENDPOINT}/userEmailSearch`;
-    console.log(url);
-
-    const response = await fetch(url, {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({
-        email: email
-      })
-    });
-    const body = await response.json();
-    if (response.status !== 200) throw Error(body.message);
-    return body;
-  }
-
-
-
-
-  const handleClose = (event, reason) => {
-    if (reason === 'clickaway') {
-      return;
-    }
-    setOpen(false);
-  };
 
   const [createdEventsList, setCreatedEventsList] = React.useState([]);
 
@@ -123,6 +77,15 @@ const CreateEvent = () => {
     setEventLocationErrorText('');
   }
 
+  const [eventParticipants, setEventParticipants] = React.useState();
+  const [eventParticipantsError, setEventParticipantsError] = React.useState('');
+  const [eventParticipantsErrorText, setEventParticipantsErrorText] = React.useState(''); //ERROR EDITING IN RETURN BRACKETS
+  const handleEventParticipants = (event) => {
+    setEventParticipants(parseInt(event.target.value));
+    setEventParticipantsError(false);
+    setEventParticipantsErrorText('');
+  }
+
   var holderDate = new Date();
   const [eventDateOG, setEventDateOG] = React.useState(new Date());
   //eventDateOG is to handle date picker value input as Date
@@ -135,41 +98,57 @@ const CreateEvent = () => {
   const [eventDateErrorText, setEventDateErrorText] = React.useState(''); //ERROR EDITING IN RETURN BRACKETS
   const handleEventDateOG = (event) => {
     setEventDateOG(event.target.value);
-
-
-    //setEventDateError(false);
-    // setEventDateErrorText('');
   }
+
+  const loadUserEmailSearch = (email) => {
+    callApiGetUserEmailSearch(email)
+      .then(res => {
+        var parsed = JSON.parse(res.express);
+        //console.log(parsed[0].id);
+        setUserID(parsed[0].id);
+      });
+  }
+
+  const callApiGetUserEmailSearch = async (email) => {
+    const url = `${REACT_APP_API_ENDPOINT}/userEmailSearch`;
+    console.log(url);
+
+    const response = await fetch(url, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        email: email
+      })
+    });
+    const body = await response.json();
+    if (response.status !== 200) throw Error(body.message);
+    return body;
+  }
+
+  const handleClose = (event, reason) => {
+    if (reason === 'clickaway') {
+      return;
+    }
+    setOpen(false);
+  };
 
   const resetForm = () => {
     setEventName('');
     setEventDesc('');
     setEventLocation('');
     setEventDate('');
+    setEventParticipants('');
   }
-
-  //const [enableError, setEnableError] = React.useState(false); 
-
-  /* useEffect(() => {
-     validateEvent();
-   }, [eventDate]);*/
-
 
   useEffect(() => {
     formatDate();
   }, [eventDateOG]);
 
   const formatDate = () => {
-
-    //setEnableError(true);
     //console.log("before eventDate state is updated " + enableError)
     setEventDate(eventDateOG.toISOString().split('T')[0]);
-
-
-    console.log(("eventDateOG = " + eventDateOG))
-    console.log("eventDate = " + eventDate)
-
-    //validateEvent();
   }
 
 
@@ -177,24 +156,27 @@ const CreateEvent = () => {
 
     // console.log(" enableError is currently: " + enableError)
 
-    if (eventName == '' /* && enableError == true*/) {
+    if (eventName === '') {
       setEventNameError(true);
       setEventNameErrorText('Please enter your event name');
       return false;
-    } else if (eventDesc == '' /*&& enableError == true*/) {
+    } else if (eventDesc === '') {
       setEventDescError(true);
       setEventDescErrorText('Please enter a description of your event');
       return false;
-    } else if (eventLocation == '' /*&& enableError == true*/) {
+    } else if (eventLocation === '') {
       setEventLocationError(true);
       setEventLocationErrorText('Please enter the location of your event');
       return false;
-    } else if (eventDate == '' /*&& enableError == true*/) {
-      console.log("this is the problem");
+    } else if (eventDate === '') {
       setEventDateError(true);
       setEventDateErrorText('Please enter the date of your event in the YYYY-MM_DD format');
       return false
-    } else /*if (enableError == true)*/ {
+    } else if (eventParticipants === '') {
+      setEventParticipantsError(true);
+      setEventParticipantsErrorText('Please enter a valid number for the number of maximum participants of your event.');
+      return false
+    } else {
 
       setOpen(true);
 
@@ -202,7 +184,6 @@ const CreateEvent = () => {
         eventName: eventName,
         eventDesc: eventDesc,
         eventLocation: eventLocation,
-        // eventDate: testDate
         eventDate: eventDate
       }
 
@@ -215,11 +196,7 @@ const CreateEvent = () => {
       resetForm();
 
       return false;
-    } /*else { 
-      console.log("stuck here since enableError is: " + enableError)
-      setEnableError(false);
-      return false; 
-    }*/
+    }
   };
 
 
@@ -262,12 +239,12 @@ const CreateEvent = () => {
           'Content-Type': 'application/json'
         },
         body: JSON.stringify({
-          eventName: eventName/*.current.value*/,
-          eventDesc: eventDesc/*.current.value*/,
-          eventLocation: eventLocation/*.current.value*/,
-          eventDate: eventDate/*.current.value*/,
-          // eventDate: testDate,
-          userID: userID
+          eventName: eventName,
+          eventDesc: eventDesc,
+          eventLocation: eventLocation,
+          eventDate: eventDate,
+          userID: userID,
+          eventParticipants: eventParticipants
         })
       });
 
@@ -316,17 +293,20 @@ const CreateEvent = () => {
           eventLocationError={eventLocationError}
           eventLocationErrorText={eventLocationErrorText}
         />
+
+        <EventParticipants
+          classes={classes}
+          eventParticipants={eventParticipants}
+          onEnterEventParticipants={handleEventParticipants}
+          eventParticipantsError={eventParticipantsError}
+          eventParticipantsErrorText={eventParticipantsErrorText}
+        />
+
         <DatePicker
           selected={eventDateOG}
           onChange={(eventDateOG) => setEventDateOG(eventDateOG)}
 
           dateFormat="yyyy-MM-dd"
-        // showTimeSelect
-        //timeFormat="HH:mm"
-        // timeIntervals={15}
-        // timeCaption="time"
-        //dateFormat="yyyy-MM-dd hh:mm aa"
-        //formatWeekDay={(post.eventDate, 'yyyy/mm/dd hh:mm:ss')}
         />
 
       </form>
@@ -335,7 +315,6 @@ const CreateEvent = () => {
         <SubmitButton
           label={"SUBMIT"}
           onButtonClick={validateEvent}
-        //onButtonClick={formatDate}
         />
       </Grid>
 
@@ -402,6 +381,23 @@ const EventLocation = ({ eventLocation, onEnterEventLocation, eventLocationError
 
       />
       <FormHelperText>{eventLocationErrorText}</FormHelperText>
+    </Grid>
+  )
+}
+
+const EventParticipants = ({ eventParticipants, onEnterEventParticipants, eventParticipantsError, eventParticipantsErrorText }) => {
+  return (
+    <Grid item>
+      <TextField
+        id="Participants-of-event"
+        label="Event Participants"
+        placeholder="Enter the maximum number of participants for you event"
+        value={eventParticipants}
+        onChange={onEnterEventParticipants}
+        error={eventParticipantsError}
+        fullWidth
+      />
+      <FormHelperText>{eventParticipantsErrorText}</FormHelperText>
     </Grid>
   )
 }
