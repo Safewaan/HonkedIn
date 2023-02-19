@@ -26,5 +26,4 @@ router.post('/api/createEvent', (req, res) => {
 
 });
 
-
 module.exports = router;
