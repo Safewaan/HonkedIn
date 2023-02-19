@@ -31,7 +31,7 @@ const joinEvent = require('./routes/events/joinEvent');
 
 app.use(createEvent);
 app.use(getEvents);
-app.use('/api',joinEvent);
+app.use(joinEvent);
 
 
 app.listen(port, () => console.log(`Listening on port ${port}`)); //for the dev version
