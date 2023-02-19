@@ -68,7 +68,7 @@ const Events = () => {
     }
 
     setEmail(currentUser.email);
-    loadUserEmailSearch(currentUser.email);
+    loaduserSearchByEmail(currentUser.email);
   }, []);
 
   const loadGetEvents = async () => {
@@ -157,8 +157,8 @@ const Events = () => {
     loadGetEvents();
   }, []);
 
-  const loadUserEmailSearch = (email) => {
-    callApiGetUserEmailSearch(email)
+  const loaduserSearchByEmail = (email) => {
+    callApiGetuserSearchByEmail(email)
       .then(res => {
         var parsed = JSON.parse(res.express);
         //console.log(parsed[0].id);
@@ -166,8 +166,8 @@ const Events = () => {
       });
   }
 
-  const callApiGetUserEmailSearch = async (email) => {
-    const url = `${REACT_APP_API_ENDPOINT}/userEmailSearch`;
+  const callApiGetuserSearchByEmail = async (email) => {
+    const url = `${REACT_APP_API_ENDPOINT}/userSearchByEmail`;
     console.log(url);
 
     const response = await fetch(url, {
