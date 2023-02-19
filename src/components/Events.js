@@ -62,11 +62,6 @@ const Events = () => {
   };
 
   React.useEffect(() => {
-
-    if (currentUser == null) {
-      history.push("/login");
-    }
-
     setEmail(currentUser.email);
     loadUserEmailSearch(currentUser.email);
   }, []);

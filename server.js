@@ -80,19 +80,46 @@ app.post('/api/createEvent', (req, res) => {
 app.get('/api/getEvents', (req, res) => {
 
 	let connection = mysql.createConnection(config);
-	//will prob need to edit sql statement to account for search features later
-	//may need to modify later so that won't load them all as an array 
-	//need to make more efficient 
-	let sql = 
-	`SELECT firstName, lastName, 
+
+	let sql =
+		`SELECT firstName, lastName, 
 	events.id, events.name, events.description, events.location, events.date, events.participants, events.totalParticipants, events.status
 	FROM shchowdh.users, shchowdh.events
 	WHERE events.creatorID = users.id
-	ORDER BY date`; 
-	
+	ORDER BY date`;
+
 	//console.log(sql);
 
 	connection.query(sql, (error, results, fields) => {
+		if (error) {
+			return console.error(error.message);
+		}
+
+		let string = JSON.stringify(results);
+		//let obj = JSON.parse(string);
+		res.send({ express: string });
+
+	});
+	connection.end();
+});
+
+app.post('/api/getMyEvents', (req, res) => {
+
+	let connection = mysql.createConnection(config);
+
+	let sql =
+		`SELECT firstName, lastName, 
+	events.id, events.name, events.description, events.location, events.date, events.participants, events.totalParticipants, events.status
+	FROM shchowdh.users, shchowdh.events
+	WHERE events.creatorID = users.id
+	AND users.id = ?
+	ORDER BY date`;
+	let data = [req.body.userID];
+
+	// console.log(sql);
+	// console.log(data);
+
+	connection.query(sql, data, (error, results, fields) => {
 		if (error) {
 			return console.error(error.message);
 		}
@@ -148,7 +175,7 @@ app.post('/api/joinEvent', (req, res) => {
 
 			// Next, check if the user has already joined the event
 			if (results.length > 0) {
-				res.status(403).send({ message: "The user has already joined the event."});
+				res.status(403).send({ message: "The user has already joined the event." });
 				console.error("The user has already joined the event.");
 				connection.end();
 				return; // exit out of the function
