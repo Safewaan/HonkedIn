@@ -10,6 +10,7 @@ import ForgotPassword from "./ForgotPassword"
 import UpdateProfile from "./UpdateProfile"
 import Events from "./Events"
 import CreateEvent from "./CreateEvent"
+import MyEvents from "./MyEvents"
 
 function App() {
   return (
@@ -26,8 +27,11 @@ function App() {
               <Route path="/signup" component={Signup} />
               <Route path="/login" component={Login} />
               <Route path="/forgot-password" component={ForgotPassword} />
-              <Route path="/events" component={Events} />
-              <Route path="/create-event" component={CreateEvent} />
+
+              {/* Event Pages */}
+              <PrivateRoute path="/events" component={Events} />
+              <PrivateRoute path="/create-event" component={CreateEvent} />
+              <PrivateRoute path="/my-events" component={MyEvents} />
             </Switch>
           </AuthProvider>
         </Router>
