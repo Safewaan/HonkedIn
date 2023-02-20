@@ -14,6 +14,7 @@ import { styled } from '@material-ui/core/styles';
 import { makeStyles } from '@material-ui/core/styles';
 import TextField from '@material-ui/core/TextField';
 import MuiAlert from '@mui/material/Alert';
+import NavigationBar from './NavigationBar';
 
 const { REACT_APP_API_ENDPOINT } = process.env;
 
@@ -299,7 +300,7 @@ const CreateEvent = () => {
 
   return (
     <div>
-
+      <NavigationBar></NavigationBar>
       <Typography variant="h4" color="inherit" component="div" noWrap>
         Create Event
       </Typography>
