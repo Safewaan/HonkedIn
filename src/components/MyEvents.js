@@ -66,6 +66,8 @@ const MyEvents = () => {
 
     const [selectedEvent, setSelectedEvent] = React.useState(null);
     const [isDialogOpen, setIsDialogOpen] = React.useState(false);
+    const [isCancelDialogOpen, setIsCancelDialogOpen] = React.useState(false);
+    const [showCancelAlertMessage, setShowCancelAlertMessage] = React.useState(false);
 
     const [alertMessage, setAlertMessage] = useState('');
     const [alertSeverity, setAlertSeverity] = useState('');
@@ -160,34 +162,51 @@ const MyEvents = () => {
         setIsDialogOpen(false);
     };
 
+    const handleOpenCancelDialog = (event) => {
+        setSelectedEvent(event);
+        setIsCancelDialogOpen(true);
+    };
+
+    const handleCloseCancelDialog = () => {
+        setSelectedEvent(null);
+        setIsCancelDialogOpen(false);
+    };
+
     React.useEffect(() => {
         setEmail(currentUser.email);
-        loadUserEmailSearch(currentUser.email);
+        loaduserSearchByEmail(currentUser.email);
     }, []);
 
-    const loadGetEvents = async () => {
-        try {
-<<<<<<< HEAD
-            const res = await CallApiGetEventsByUser();
-=======
-            const res = await callApiGetEvents();
->>>>>>> 3a5bfd24bb74c06d274acf976114d44e058937ab
-            const parsed = JSON.parse(res.express);
-            setEvents(parsed);
-        } catch (error) {
-            console.error(error);
-        }
+    const callApiGetuserSearchByEmail = async (email) => {
+        const url = `${REACT_APP_API_ENDPOINT}/userSearchByEmail`;
+        console.log(url);
+
+        const response = await fetch(url, {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+            },
+            body: JSON.stringify({
+                email: email
+            })
+        });
+        const body = await response.json();
+        if (response.status !== 200) throw Error(body.message);
+        return body;
     }
 
-<<<<<<< HEAD
+    const loaduserSearchByEmail = (email) => {
+        callApiGetuserSearchByEmail(email)
+            .then(res => {
+                var parsed = JSON.parse(res.express);
+                //console.log(parsed[0].id);
+                setUserID(parsed[0].id);
+            });
+    }
+
     const CallApiGetEventsByUser = async () => {
 
         const url = `${REACT_APP_API_ENDPOINT}/getEventsByUser`;
-=======
-    const callApiGetEvents = async () => {
-
-        const url = `${REACT_APP_API_ENDPOINT}/getMyEvents`;
->>>>>>> 3a5bfd24bb74c06d274acf976114d44e058937ab
         console.log(url);
 
         const response = await fetch(url, {
@@ -204,45 +223,19 @@ const MyEvents = () => {
         return body;
     }
 
-    const handleJoinEvent = () => {
-        console.log("test");
-        callApiJoinEvent()
-            .then(res => {
-                console.log(res.message);
-
-                // Success
-                if (res.message === "The user joined the event successfully.") {
-                    setAlertMessage('You joined the event successfully.');
-                    setAlertSeverity('success');
-                    setTimeout(() => {
-                        window.location.reload();
-                    }, 3000);
-                }
-
-                // Already Joined
-                if (res.message === "The user has already joined the event.") {
-                    setAlertMessage('You have already joined this event.');
-                    setAlertSeverity('error');
-                    setTimeout(() => {
-                        setAlertMessage('');
-                        setAlertSeverity('');
-                    }, 3000);
-                }
-
-                // Event is Full
-                if (res.message === "The event is full.") {
-                    setAlertMessage('You cannot join this event as it is full.');
-                    setAlertSeverity('error');
-                    setTimeout(() => {
-                        setAlertMessage('');
-                        setAlertSeverity('');
-                    }, 3000);
-                }
-            });
+    const loadGetEventsByUser = async () => {
+        try {
+            const res = await CallApiGetEventsByUser();
+            const parsed = JSON.parse(res.express);
+            setEvents(parsed);
+        } catch (error) {
+            console.error(error);
+        }
     }
 
-    const callApiJoinEvent = async () => {
-        const url = `${REACT_APP_API_ENDPOINT}/joinEvent`;
+    const CallApiCancelEvents = async () => {
+
+        const url = `${REACT_APP_API_ENDPOINT}/cancelEvent`;
         console.log(url);
 
         const response = await fetch(url, {
@@ -251,49 +244,26 @@ const MyEvents = () => {
                 "Content-Type": "application/json",
             },
             body: JSON.stringify({
-                eventID: selectedEvent.id,
-                participantID: userID
-            })
-        });
-        const body = await response.json();
-        if (response.status === 400) throw Error(body.message);
-        return body;
-    }
-
-    useEffect(() => {
-        loadGetEvents();
-    }, [userID]);
-
-    const loadUserEmailSearch = (email) => {
-        callApiGetUserEmailSearch(email)
-            .then(res => {
-                var parsed = JSON.parse(res.express);
-                //console.log(parsed[0].id);
-                setUserID(parsed[0].id);
-            });
-    }
-
-    const callApiGetUserEmailSearch = async (email) => {
-<<<<<<< HEAD
-        const url = `${REACT_APP_API_ENDPOINT}/userSearchByEmail`;
-=======
-        const url = `${REACT_APP_API_ENDPOINT}/userEmailSearch`;
->>>>>>> 3a5bfd24bb74c06d274acf976114d44e058937ab
-        console.log(url);
-
-        const response = await fetch(url, {
-            method: "POST",
-            headers: {
-                "Content-Type": "application/json",
-            },
-            body: JSON.stringify({
-                email: email
+                eventID: selectedEvent.id
             })
         });
         const body = await response.json();
         if (response.status !== 200) throw Error(body.message);
         return body;
     }
+
+    const handleCancelEvent = () => {
+        CallApiCancelEvents();
+        setShowCancelAlertMessage(true);
+        setTimeout(() => {
+            window.location.reload();
+        }, 3000);
+
+    };
+
+    useEffect(() => {
+        loadGetEventsByUser();
+    }, [userID]);
 
     const classes = useStyles();
 
@@ -326,65 +296,83 @@ const MyEvents = () => {
 
                     <CardActions>
                         <Button onClick={() => handleOpenDialog(event)}>Edit Event</Button>
+                        {event.status === "Active" && <Button onClick={() => handleOpenCancelDialog(event)}>Cancel Event</Button>}
                     </CardActions>
                 </Card>
             ))}
 
             {selectedEvent && (
-                <Dialog open={isDialogOpen} onClose={handleCloseDialog}>
-                    <DialogTitle>{selectedEvent.name}</DialogTitle>
-                    <DialogContent>
-                        <EventName
-                            classes={classes}
-                            eventName={eventName}
-                            onEnterEventName={handleEventName}
-                            eventNameError={eventNameError}
-                            eventNameErrorText={eventNameErrorText}
-                        />
+                <div>
+                    {/* Cancel event dialog */}
+                    < Dialog open={isCancelDialogOpen} onClose={handleCloseCancelDialog}>
+                        <DialogTitle>Confirm cancellation</DialogTitle>
+                        <DialogContent>
+                            <Typography variant="body1">
+                                Are you sure you want to cancel this event? This action is irreversible.
+                            </Typography>
+                        </DialogContent>
+                        <DialogActions>
+                            <Button onClick={handleCloseCancelDialog}>No</Button>
+                            <Button variant="contained" onClick={handleCancelEvent}>Yes</Button>
+                        </DialogActions>
+                    </Dialog>
 
-                        <EventDesc
-                            classes={classes}
-                            eventDesc={eventDesc}
-                            onEnterEventDesc={handleEventDesc}
-                            eventDescError={eventDescError}
-                            eventDescErrorText={eventDescErrorText}
-                        />
+                    {/* Edit event diaglog */}
+                    < Dialog open={isDialogOpen} onClose={handleCloseDialog} >
+                        <DialogTitle>{selectedEvent.name}</DialogTitle>
+                        <DialogContent>
+                            <EventName
+                                classes={classes}
+                                eventName={eventName}
+                                onEnterEventName={handleEventName}
+                                eventNameError={eventNameError}
+                                eventNameErrorText={eventNameErrorText}
+                            />
 
-                        <EventLocation
-                            classes={classes}
-                            eventLocation={eventLocation}
-                            onEnterEventLocation={handleEventLocation}
-                            eventLocationError={eventLocationError}
-                            eventLocationErrorText={eventLocationErrorText}
-                        />
+                            <EventDesc
+                                classes={classes}
+                                eventDesc={eventDesc}
+                                onEnterEventDesc={handleEventDesc}
+                                eventDescError={eventDescError}
+                                eventDescErrorText={eventDescErrorText}
+                            />
 
-                        <EventParticipants
-                            classes={classes}
-                            eventParticipants={eventParticipants}
-                            onEnterEventParticipants={handleEventParticipants}
-                            eventParticipantsError={eventParticipantsError}
-                            eventParticipantsErrorText={eventParticipantsErrorText}
-                        />
+                            <EventLocation
+                                classes={classes}
+                                eventLocation={eventLocation}
+                                onEnterEventLocation={handleEventLocation}
+                                eventLocationError={eventLocationError}
+                                eventLocationErrorText={eventLocationErrorText}
+                            />
 
-                        <DatePicker
-                            selected={eventDateOG}
-                            onChange={(eventDateOG) => setEventDateOG(eventDateOG)}
-                            dateFormat="yyyy-MM-dd"
-                        />
-                    </DialogContent>
-                    <DialogActions>
-                        <Button onClick={handleCloseDialog}>Close</Button>
-                        {selectedEvent.status === "Active" && <Button onClick={handleJoinEvent}>Join Event</Button>}
-                    </DialogActions>
-                </Dialog>
+                            <EventParticipants
+                                classes={classes}
+                                eventParticipants={eventParticipants}
+                                onEnterEventParticipants={handleEventParticipants}
+                                eventParticipantsError={eventParticipantsError}
+                                eventParticipantsErrorText={eventParticipantsErrorText}
+                            />
+
+                            <DatePicker
+                                selected={eventDateOG}
+                                onChange={(eventDateOG) => setEventDateOG(eventDateOG)}
+                                dateFormat="yyyy-MM-dd"
+                            />
+                        </DialogContent>
+                        <DialogActions>
+                            <Button onClick={handleCloseDialog}>Close</Button>
+                            {selectedEvent.status === "Active" && <Button>Join Event</Button>}
+                        </DialogActions>
+                    </Dialog>
+                </div>
             )}
 
-            {alertMessage && (
-                <Alert severity={alertSeverity}>
-                    {alertMessage}
+            {showCancelAlertMessage && (
+                <Alert severity="success">
+                    Event cancelled.
                 </Alert>
             )}
-        </div>
+        </div >
     )
 }
 
@@ -405,7 +393,7 @@ const EventName = ({ eventName, onEnterEventName, eventNameError, eventNameError
     )
 }
 
-const EventDesc = ({ eventDesc, onEnterEventDesc, eventDescError, eventDescErrorText, defaultValue}) => {
+const EventDesc = ({ eventDesc, onEnterEventDesc, eventDescError, eventDescErrorText, defaultValue }) => {
     return (
         <Grid item>
             <TextField

@@ -93,7 +93,6 @@ const Events = () => {
   }
 
   const handleJoinEvent = () => {
-    console.log("test");
     callApiJoinEvent()
       .then(res => {
         console.log(res.message);
