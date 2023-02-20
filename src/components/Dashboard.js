@@ -22,16 +22,11 @@ import NavigationBar from './NavigationBar';
 const pages = ['Events'];
 const settings = ['Update Credentials', 'Logout'];
 
-
 export default function Dashboard() {
-
-  
-
   return (
     <>
       <Paper>
       <NavigationBar></NavigationBar>
-       
       </Paper>
     </>
   )
