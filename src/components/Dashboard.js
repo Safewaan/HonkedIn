@@ -19,9 +19,6 @@ import MenuItem from '@material-ui/core/MenuItem';
 import Paper from '@material-ui/core/Paper';
 import NavigationBar from './NavigationBar';
 
-const pages = ['Events'];
-const settings = ['Update Credentials', 'Logout'];
-
 export default function Dashboard() {
   return (
     <>
