@@ -3,20 +3,23 @@ const router = express.Router();
 const mysql = require('mysql');
 const config = require('../../config.js');
 
-router.get('/api/getEvents', (req, res) => {
+router.post('/api/getEventsByUser', (req, res) => {
 
 	let connection = mysql.createConnection(config);
 
-	let sql = 
-	`SELECT firstName, lastName, 
+	let sql =
+		`SELECT firstName, lastName, 
 	events.id, events.name, events.description, events.location, events.date, events.participants, events.totalParticipants, events.status
 	FROM shchowdh.users, shchowdh.events
 	WHERE events.creatorID = users.id
-	ORDER BY date`; 
-	
-	//console.log(sql);
+	AND users.id = ?
+	ORDER BY date`;
+	let data = [req.body.userID];
 
-	connection.query(sql, (error, results, fields) => {
+	// console.log(sql);
+	// console.log(data);
+
+	connection.query(sql, data, (error, results, fields) => {
 		if (error) {
 			return console.error(error.message);
 		}

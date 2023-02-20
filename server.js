@@ -27,10 +27,12 @@ app.use(userSearchByEmail);
 // Event APIs
 const createEvent = require('./routes/events/createEvent');
 const getEvents = require('./routes/events/getEvents');
+const getEventsByUser = require ('./routes/events/getEventsByUser');
 const joinEvent = require('./routes/events/joinEvent');
 
 app.use(createEvent);
 app.use(getEvents);
+app.use(getEventsByUser);
 app.use(joinEvent);
 
 

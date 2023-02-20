@@ -167,7 +167,7 @@ const MyEvents = () => {
 
     const loadGetEvents = async () => {
         try {
-            const res = await callApiGetEvents();
+            const res = await CallApiGetEventsByUser();
             const parsed = JSON.parse(res.express);
             setEvents(parsed);
         } catch (error) {
@@ -175,9 +175,9 @@ const MyEvents = () => {
         }
     }
 
-    const callApiGetEvents = async () => {
+    const CallApiGetEventsByUser = async () => {
 
-        const url = `${REACT_APP_API_ENDPOINT}/getMyEvents`;
+        const url = `${REACT_APP_API_ENDPOINT}/getEventsByUser`;
         console.log(url);
 
         const response = await fetch(url, {
@@ -264,7 +264,7 @@ const MyEvents = () => {
     }
 
     const callApiGetUserEmailSearch = async (email) => {
-        const url = `${REACT_APP_API_ENDPOINT}/userEmailSearch`;
+        const url = `${REACT_APP_API_ENDPOINT}/userSearchByEmail`;
         console.log(url);
 
         const response = await fetch(url, {
