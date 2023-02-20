@@ -19,7 +19,6 @@ import MenuItem from '@material-ui/core/MenuItem';
 
 
 
-
 export default function Dashboard() {
   const [error, setError] = useState("")
   const { currentUser, logout } = useAuth()
