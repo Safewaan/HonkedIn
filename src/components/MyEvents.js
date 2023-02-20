@@ -69,8 +69,7 @@ const MyEvents = () => {
     const [isCancelDialogOpen, setIsCancelDialogOpen] = React.useState(false);
     const [showCancelAlertMessage, setShowCancelAlertMessage] = React.useState(false);
 
-    const [alertMessage, setAlertMessage] = useState('');
-    const [alertSeverity, setAlertSeverity] = useState('');
+    const [showEditAlertMessage, setShowEditAlertMessage] = React.useState(false);
 
     //const email = currentUser.email;
     const [email, setEmail] = React.useState('');
@@ -258,8 +257,57 @@ const MyEvents = () => {
         setTimeout(() => {
             window.location.reload();
         }, 3000);
-
     };
+
+    const CallApiEditEvent = async () => {
+
+        const url = `${REACT_APP_API_ENDPOINT}/editEvent`;
+        console.log(url);
+
+        const response = await fetch(url, {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+            },
+            body: JSON.stringify({
+                eventName: eventName,
+                eventDesc: eventDesc,
+                eventLocation: eventLocation,
+                eventDate: new Date(eventDateOG).toISOString().slice(0, 19).replace('T', ' '),
+                eventParticipants: eventParticipants,
+                eventID: selectedEvent.id
+            })
+        });
+        const body = await response.json();
+        if (response.status !== 200) throw Error(body.message);
+        return body;
+    }
+
+    const handleEditEvent = () => {
+        if (eventName === '') {
+            setEventNameError(true);
+            setEventNameErrorText('Please enter your event name');
+            return false;
+        } else if (eventDesc === '') {
+            setEventDescError(true);
+            setEventDescErrorText('Please enter a description of your event');
+            return false;
+        } else if (eventLocation === '') {
+            setEventLocationError(true);
+            setEventLocationErrorText('Please enter the location of your event');
+            return false;
+        } else if (eventParticipants === '') {
+            setEventParticipantsError(true);
+            setEventParticipantsErrorText('Please enter a valid number of maximum participants.');
+            return false
+        } else {
+            CallApiEditEvent();
+            setShowEditAlertMessage(true);
+            setTimeout(() => {
+                window.location.reload();
+            }, 3000);
+        }
+    }
 
     useEffect(() => {
         loadGetEventsByUser();
@@ -295,7 +343,7 @@ const MyEvents = () => {
                     </CardContent>
 
                     <CardActions>
-                        <Button onClick={() => handleOpenDialog(event)}>Edit Event</Button>
+                        {event.status === "Active" && <Button onClick={() => handleOpenDialog(event)}>Edit Event</Button>}
                         {event.status === "Active" && <Button onClick={() => handleOpenCancelDialog(event)}>Cancel Event</Button>}
                     </CardActions>
                 </Card>
@@ -361,7 +409,7 @@ const MyEvents = () => {
                         </DialogContent>
                         <DialogActions>
                             <Button onClick={handleCloseDialog}>Close</Button>
-                            {selectedEvent.status === "Active" && <Button>Join Event</Button>}
+                            {selectedEvent.status === "Active" && <Button onClick={handleEditEvent}>Edit Event</Button>}
                         </DialogActions>
                     </Dialog>
                 </div>
@@ -370,6 +418,12 @@ const MyEvents = () => {
             {showCancelAlertMessage && (
                 <Alert severity="success">
                     Event cancelled.
+                </Alert>
+            )}
+
+            {showEditAlertMessage && (
+                <Alert severity="success">
+                    Event successfully edited.
                 </Alert>
             )}
         </div >
