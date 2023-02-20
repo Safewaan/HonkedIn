@@ -62,11 +62,6 @@ const Events = () => {
   };
 
   React.useEffect(() => {
-
-    if (currentUser == null) {
-      history.push("/login");
-    }
-
     setEmail(currentUser.email);
     loaduserSearchByEmail(currentUser.email);
   }, []);
@@ -98,7 +93,6 @@ const Events = () => {
   }
 
   const handleJoinEvent = () => {
-    console.log("test");
     callApiJoinEvent()
       .then(res => {
         console.log(res.message);
