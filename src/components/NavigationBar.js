@@ -58,21 +58,15 @@ export default function NavigationBar() {
     }
 
     async function handleSettings() {
-
         history.push("/user-settings")
-
     }
 
     async function handleEvents() {
-
         history.push("/events")
-
     }
 
     async function handleCreateEvent() {
-
         history.push("/create-event")
-
     }
 
     return (
@@ -166,10 +160,7 @@ export default function NavigationBar() {
                                         <Typography textAlign="center">Log Out</Typography>
                                     </MenuItem>
                                 </Menu>
-                            </Box>
-
-
-                            
+                            </Box>       
                         </Toolbar>
                     </Container>
                 </AppBar>
