@@ -18,9 +18,6 @@ import Tooltip from '@material-ui/core/Tooltip';
 import MenuItem from '@material-ui/core/MenuItem';
 import Paper from '@material-ui/core/Paper';
 
-
-
-
 export default function NavigationBar() {
 
     const [anchorElUser, setAnchorElUser] = React.useState(null);
