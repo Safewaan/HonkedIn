@@ -34,8 +34,11 @@ app.use(getEvents);
 app.use(joinEvent);
 
 //Profile APIs
-const getYearSemesterList = require('./routes/profile/getYearSemesterList');
-app.use(getYearSemesterList);
+const addUserProfile = require('./routes/profile/addUserProfile');
+const getUserProfile = require('./routes/profile/getUserProfile');
+app.use(addUserProfile);
+app.use(getUserProfile);
+
 
 
 app.listen(port, () => console.log(`Listening on port ${port}`)); //for the dev version

@@ -3,22 +3,25 @@ const router = express.Router();
 const mysql = require('mysql');
 const config = require('../../config.js');
 
-router.get('/api/getYearSemesterList', (req, res) => {
+router.get('/api/getUserProfile', (req, res) => {
 
 	let connection = mysql.createConnection(config);
+	let sql = "SELECT * FROM shchowdh.userProfiles WHERE userID = ? AND submissionDate IN (SELECT max(submissionDate) FROM shchowdh.userProfiles)"; 
 
-	let sql = `SELECT * FROM shchowdh.yearSemesters;`;
-	console.log(sql);
+    let data = [req.body.userID];
+	console.log(data);
+	
+	//console.log(sql);
 
-	connection.query(sql, (error, results, fields) => {
+	connection.query(sql, data, (error, results, fields) => {
 		if (error) {
 			return console.error(error.message);
 		}
 
 		let string = JSON.stringify(results);
 		//let obj = JSON.parse(string);
-
 		res.send({ express: string });
+
 	});
 	connection.end();
 });
