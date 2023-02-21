@@ -20,9 +20,13 @@ app.use(function (req, res, next) {
 // User APIs
 const createUser = require('./routes/user/createUser');
 const userSearchByEmail = require('./routes/user/userSearchByEmail');
+const activateUser = require('./routes/user/activateUser');
+const archiveUser = require('./routes/user/archiveUser');
 
 app.use(createUser);
 app.use(userSearchByEmail);
+app.use(activateUser);
+app.use(archiveUser);
 
 // Event APIs
 const createEvent = require('./routes/events/createEvent');
