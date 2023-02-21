@@ -57,9 +57,9 @@ export default function NavigationBar() {
         }
     }
 
-    async function handleUpdateProfile() {
+    async function handleSettings() {
 
-        history.push("/update-profile")
+        history.push("/user-settings")
 
     }
 
@@ -158,8 +158,8 @@ export default function NavigationBar() {
                                     open={Boolean(anchorElUser)}
                                     onClose={handleCloseUserMenu}
                                 >
-                                    <MenuItem key="Update Profile" onClick={handleUpdateProfile}>
-                                        <Typography textAlign="center">Update Profile</Typography>
+                                    <MenuItem key="Settings" onClick={handleSettings}>
+                                        <Typography textAlign="center">Settings</Typography>
                                     </MenuItem>
 
                                     <MenuItem key="Logout" onClick={handleLogout}>

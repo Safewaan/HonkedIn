@@ -4,11 +4,11 @@ const mysql = require('mysql');
 const config = require('../../config.js');
 
 // Sets a user's status to "Active"
-router.post('/activateUser', (req, res) => {
+router.post('/api/activateUser', (req, res) => {
     let connection = mysql.createConnection(config);
 
     let sql = `UPDATE users SET status = "Active" WHERE id = ?;`;
-    let data = [req.userID];
+    let data = [req.body.userID];
 
     connection.query(sql, data, (error, results, fields) => {
         if (error) {
