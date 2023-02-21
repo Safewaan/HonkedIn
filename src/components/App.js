@@ -26,8 +26,6 @@ import UpdateProfile from "./UpdateProfile"
 import Events from "./Events"
 import CreateEvent from "./CreateEvent"
 import CreateForum from "./CreateForum"
-import MyEvents from "./MyEvents"
-
 
 function App() {
   return (
@@ -51,10 +49,6 @@ function App() {
               <Route path="/forgot-password" component={ForgotPassword} />
 
               <Route path="/create-forum" component={CreateForum} />
-              {/* Event Pages */}
-              <PrivateRoute path="/events" component={Events} />
-              <PrivateRoute path="/create-event" component={CreateEvent} />
-              <PrivateRoute path="/my-events" component={MyEvents} />
             </Switch>
           </AuthProvider>
         </Router>
