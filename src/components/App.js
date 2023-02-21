@@ -30,7 +30,7 @@ function App() {
               <Route path="/forgot-password" component={ForgotPassword} />
               <Route path="/events" component={Events} />
               <Route path="/create-event" component={CreateEvent} />
-              <Route path="/profile/:userID" component={ProfileMain} /> 
+              <Route path="/myprofile" component={ProfileMain} /> 
             </Switch>
           </AuthProvider>
         </Router>

@@ -56,6 +56,7 @@ const ProfileMain = () => {
     const [firstName, setFirstName] = React.useState('');
     const [lastName, setLastName] = React.useState('');
     const [userID, setUserID] = React.useState('');
+    const [newUserID, setNewUserID] = React.useState('');
 
     // Get the current user's email. 
     React.useEffect(() => {
@@ -199,7 +200,7 @@ const ProfileMain = () => {
 
         const url = `${REACT_APP_API_ENDPOINT}/addUserProfile`;
         console.log(url);
-
+        
         const response = await fetch(url, {
             method: "POST",
             headers: {
@@ -256,7 +257,7 @@ const ProfileMain = () => {
 
         const url = `${REACT_APP_API_ENDPOINT}/getUserProfile`;
         console.log(url);
-
+        
         const response = await fetch(url, {
             method: "POST",
             headers: {
@@ -269,7 +270,7 @@ const ProfileMain = () => {
         });
         const body = await response.json();
         if (response.status !== 200) throw Error(body.message);
-        console.log("New Search:", body);
+        console.log("Profile:", body);
         return body;
     }
 
@@ -277,15 +278,16 @@ const ProfileMain = () => {
         callAPIProfile()
             .then(res => {
                 var parsed = JSON.parse(res.express);
+
+                if (parsed.length !== 0) {
                 setExistingAboutMe(parsed[0].aboutMe);
                 setExistingYear(parsed[0].yearSemester);
                 setExistingProgram(parsed[0].program);
                 setExistingInterest(parsed[0].interest);
                 setExistingCoop(parsed[0].coop);
+                }
             })
     }
-
-
 
 
     return (
