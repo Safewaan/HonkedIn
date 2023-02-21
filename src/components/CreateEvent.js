@@ -44,6 +44,10 @@ const CreateEvent = () => {
   //const email = currentUser.email;
   const [email, setEmail] = React.useState('');
   const [userID, setUserID] = React.useState('');
+  const [userStatus, setUserStatus] = React.useState('');
+
+  const [showUserStatusError, setShowUserStatusError] = React.useState(false);
+
   const [open, setOpen] = React.useState(false);
 
   const [createdEventsList, setCreatedEventsList] = React.useState([]);
@@ -135,6 +139,8 @@ const CreateEvent = () => {
         var parsed = JSON.parse(res.express);
         //console.log(parsed[0].id);
         setUserID(parsed[0].id);
+        setUserStatus(parsed[0].status);
+        setShowUserStatusError(parsed[0].status === "Archived");
       });
   }
 
@@ -184,6 +190,11 @@ const CreateEvent = () => {
   const validateEvent = () => {
 
     // console.log(" enableError is currently: " + enableError)
+
+    // Do nothing if the user's status is archived
+    if (userStatus === "Archived") {
+      return false;
+    };
 
     if (eventName === '') {
       setEventNameError(true);
@@ -355,6 +366,13 @@ const CreateEvent = () => {
           Event Successfully created.
         </Alert>
       )}
+
+      {showUserStatusError && (
+        <Alert severity="error">
+          You cannot create an event if your account is archived.
+        </Alert>
+      )}
+
     </div>
   )
 }
