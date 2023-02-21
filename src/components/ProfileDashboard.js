@@ -19,16 +19,20 @@ import InputLabel from "@material-ui/core/InputLabel";
 import Select from "@material-ui/core/Select";
 import MenuItem from "@material-ui/core/MenuItem";
 
+//Define the width of the drawer on the myProfile page
 const drawerWidth = 240;
+
+// Server URL
 const { REACT_APP_API_ENDPOINT } = process.env;
 
+// Set the style of the appBar and drawer
 const useStyles = makeStyles((theme) => ({
     root: {
         display: "flex",
     },
     appBar: {
-        zIndex: theme.zIndex.drawer + 1, // Set the appbar above the drawer
-        backgroundColor: "seagreen", // Change the background color of the appbar
+        zIndex: theme.zIndex.drawer + 1,
+        backgroundColor: "seagreen",
     },
     drawer: {
         width: drawerWidth,
@@ -36,16 +40,18 @@ const useStyles = makeStyles((theme) => ({
     },
     drawerPaper: {
         width: drawerWidth,
-        marginTop: "20px", // Add margin to space the drawer away from the appbar
+        marginTop: "20px",
     },
     drawerContainer: {
         overflow: "auto",
     },
 }));
 
-const ProfileMain = () => {
+// Main page of Profile, i
+const ProfileDashboard = () => {
     const classes = useStyles();
 
+    // Store the user's history and currentUser
     const [error, setError] = useState("")
     const { currentUser } = useAuth()
     const history = useHistory()
@@ -78,6 +84,13 @@ const ProfileMain = () => {
                 setUserID(parsed[0].id);
                 setFirstName(parsed[0].firstName)
                 setLastName(parsed[0].lastName)
+
+                handleAPIUserProfile(parsed[0].id);
+                if (existingAboutMe === "") {
+                    setLoadProfile(false);
+                } else {
+                    setLoadProfile(true);
+                }
             });
     }
 
@@ -100,8 +113,7 @@ const ProfileMain = () => {
         return body;
     }
 
-    //Create a link for the profile page 
-
+    // States and Variables to store user's information
     // For About Me
     const [aboutMe, setAboutMe] = React.useState('');
     const [missingAboutMe, setMissingAboutMe] = React.useState('');
@@ -153,7 +165,7 @@ const ProfileMain = () => {
         setMissingCoop(event.target.value === "");
         setSubmission(event.target.value = false);
     }
-    // Handle Save
+    // Handle Save, and create an array to insert into the SQL database
     const [submission, setSubmission] = React.useState();
     const [submissionList, setSubmissionList] = React.useState([])
 
@@ -165,7 +177,7 @@ const ProfileMain = () => {
         coop: coop,
     })
 
-    // Add Reviews
+    // Add Profile Info into the database
     const addProfileInfo = () => {
         setSubmissionList(newSubmission);
         handleApiAddSubmission();
@@ -177,7 +189,7 @@ const ProfileMain = () => {
         setCoop("");
     }
 
-    // Only submit if all of the fields have been filled out. 
+    // Ensures that the fields have been filled out before inserting into the SQL database. 
     const validationCheck = () => {
         setMissingAboutMe(aboutMe === "");
         setMissingYearSemester(yearSemester === "");
@@ -188,19 +200,22 @@ const ProfileMain = () => {
         if (!(aboutMe === "") && !(yearSemester === "") && !(program === "") && !(interest === "") && !(coop === "")) {
             addProfileInfo();
             setSubmission(true);
+            setLoadProfile(true);
+            handleAPIUserProfile(userID);
         } else {
             setSubmission(false);
+            setLoadProfile(false);
         }
     }
 
 
-    // Other APIs 
-    // Save the Profile 
+    // Other APIs - getUserProfile and addUserProfile 
+    // Add the user's profile information into the database
     const callApiAddSubmission = async () => {
 
         const url = `${REACT_APP_API_ENDPOINT}/addUserProfile`;
         console.log(url);
-        
+
         const response = await fetch(url, {
             method: "POST",
             headers: {
@@ -231,7 +246,7 @@ const ProfileMain = () => {
             })
     }
 
-    // Load existing if any! 
+    // Create states to store any existing profile information about the User
     const [existingAboutMe, setExistingAboutMe] = React.useState();
     const [existingYear, setExistingYear] = React.useState();
     const [existingProgram, setExistingProgram] = React.useState();
@@ -240,24 +255,15 @@ const ProfileMain = () => {
 
     // Display the user's profile 
     // Obtain the appropriate fields 
-
     // Load the profile if it is not empty
     const [loadProfile, setLoadProfile] = React.useState();
-    React.useEffect(() => {
-        handleAPIProfile();
-        if (existingAboutMe === "") {
-            setLoadProfile(false);
-        } else {
-            setLoadProfile(true);
-        }
-    }, []);
 
-
-    const callAPIProfile = async () => {
+    // Inserts the User ID to retrieve their most recent profile 
+    const callAPIUserProfile = async (userID) => {
 
         const url = `${REACT_APP_API_ENDPOINT}/getUserProfile`;
         console.log(url);
-        
+
         const response = await fetch(url, {
             method: "POST",
             headers: {
@@ -274,25 +280,24 @@ const ProfileMain = () => {
         return body;
     }
 
-    const handleAPIProfile = () => {
-        callAPIProfile()
+    // Parses through the data for the user if there is existing data
+    const handleAPIUserProfile = (userID) => {
+        callAPIUserProfile(userID)
             .then(res => {
                 var parsed = JSON.parse(res.express);
 
                 if (parsed.length !== 0) {
-                setExistingAboutMe(parsed[0].aboutMe);
-                setExistingYear(parsed[0].yearSemester);
-                setExistingProgram(parsed[0].program);
-                setExistingInterest(parsed[0].interest);
-                setExistingCoop(parsed[0].coop);
+                    setExistingAboutMe(parsed[0].aboutMe);
+                    setExistingYear(parsed[0].yearSemester);
+                    setExistingProgram(parsed[0].program);
+                    setExistingInterest(parsed[0].interest);
+                    setExistingCoop(parsed[0].coop);
                 }
             })
     }
-
-
+    
     return (
-
-        // To create into own component later
+        // Displays the AppBar, Drawer, the Title, the fields and conditionals for the SAVE/EDIT button. 
         <div className={classes.root}>
             <AppBar position="fixed" className={classes.appBar}>
                 <Toolbar>
@@ -337,7 +342,6 @@ const ProfileMain = () => {
                 </Card>
             </Box>
 
-
             <Box sx={{ position: 'absolute', top: 240, left: "35%" }} >
                 <h5>About Me: </h5>
             </Box>
@@ -354,7 +358,6 @@ const ProfileMain = () => {
                             value={aboutMe}
                             onChange={handleAboutMe}
                             inputProps={{ maxLength: 200 }} />
-
                     </form>}
                     {!loadProfile && <FormHelperText> Tell us about you! [Max 200 Char.] </FormHelperText>}
                     {missingAboutMe && <FormHelperText> <strong><p style={{ color: 'red' }}>Please fill this out!</p></strong> </FormHelperText>}
@@ -377,9 +380,7 @@ const ProfileMain = () => {
                         {yearList.map((year) => (
                             <MenuItem value={year}> {year} </MenuItem>
                         ))}
-
                     </Select>
-
                     <FormHelperText> Select a year and semester from the list! </FormHelperText>
                     {missingYearSemester && <FormHelperText> <strong><p style={{ color: 'red' }}>Please fill this out!</p></strong> </FormHelperText>}
                 </FormControl>}
@@ -401,7 +402,6 @@ const ProfileMain = () => {
                             value={program}
                             onChange={handleProgram}
                             inputProps={{ maxLength: 200 }} />
-
                     </form>}
                     {!loadProfile && <FormHelperText> Ex. Computer Science </FormHelperText>}
                     {missingProgram && <FormHelperText> <strong><p style={{ color: 'red' }}>Please fill this out!</p></strong> </FormHelperText>}
@@ -424,13 +424,11 @@ const ProfileMain = () => {
                             value={interest}
                             onChange={handleInterest}
                             inputProps={{ maxLength: 200 }} />
-
                     </form>}
                     {!loadProfile && <FormHelperText> Ex. Coding </FormHelperText>}
                     {missingInterest && <FormHelperText> <strong><p style={{ color: 'red' }}>Please fill this out!</p></strong> </FormHelperText>}
                 </div>
             </Box>
-
 
             <Box sx={{ position: 'absolute', top: 660, left: "35%" }} >
                 <h5>Co-op: </h5>
@@ -458,11 +456,11 @@ const ProfileMain = () => {
             <Box sx={{ position: 'absolute', top: 760, left: "67%" }} >
                 {loadProfile ? <Button variant="outlined" style={{ color: "white", backgroundColor: "red" }} onClick={() => { setLoadProfile(false) }} >Edit</Button> : <Button variant="outlined" style={{ color: "white", backgroundColor: "seagreen" }} onClick={() => { validationCheck() }} >Save</Button>}
 
-                {submission && <FormHelperText> <strong><p style={{ color: 'darkgreen' }}>Your profile has been saved!</p></strong> </FormHelperText>}
+                {submission && <FormHelperText> <strong><p style={{ color: 'darkgreen' }}>Your profile has been saved! Please refresh the pages for your changes!</p></strong> </FormHelperText>}
             </Box>
 
         </div>
     );
 };
 
-export default ProfileMain;
+export default ProfileDashboard;

@@ -10,8 +10,8 @@ import ForgotPassword from "./ForgotPassword"
 import UpdateProfile from "./UpdateProfile"
 import Events from "./Events"
 import CreateEvent from "./CreateEvent"
-import ProfileMain from "./ProfileMain"
-// Note: :userID will be replaced with the current user's ID obtained from the ProfileMain. 
+import ProfileDashboard from "./ProfileDashboard"
+// Note: :userID will be replaced with the current user's ID obtained from the ProfileDashboard. 
 
 function App() {
   return (
@@ -30,7 +30,7 @@ function App() {
               <Route path="/forgot-password" component={ForgotPassword} />
               <Route path="/events" component={Events} />
               <Route path="/create-event" component={CreateEvent} />
-              <Route path="/myprofile" component={ProfileMain} /> 
+              <Route path="/myprofile" component={ProfileDashboard} /> 
             </Switch>
           </AuthProvider>
         </Router>
