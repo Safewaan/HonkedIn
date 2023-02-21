@@ -3,7 +3,8 @@ const router = express.Router();
 const mysql = require('mysql');
 const config = require('../../config.js');
 
-router.get('/api/getParticipants', (req, res) => {
+//retrieves list of all participant names for all events
+router.post('/api/getParticipants', (req, res) => {
 
     let connection = mysql.createConnection(config);
 
@@ -12,14 +13,14 @@ router.get('/api/getParticipants', (req, res) => {
     FROM eventParticipants, events, users
     WHERE participantID = users.id
     AND eventID = events.id 
-    ORDER BY events.id`
+    AND events.id = ?;`
+    
+    //ORDER BY events.id;
+    //console.log("eventID getting to API is: " + req.body.eventID);
 
-    //AND events.id = ?`;
-    //let data = [req.body.eventID]; 
-
+    let data = [req.body.eventID]; 
     //console.log(sql);
-
-    connection.query(sql,/* data,*/ (error, results, fields) => {
+    connection.query(sql, data, (error, results, fields) => {
         if (error) {
             return console.error(error.message);
         }

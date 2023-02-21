@@ -176,17 +176,25 @@ const MyEvents = () => {
     };
 
     const [selectedEventParticipants, setSelectedEventParticipants] = React.useState([]);
+    //const [currentEventID, setCurrentEventID] = React.useState(''); 
+    var currentEventID = ''; 
 
     const handleOpenParticipantsDialog = (event) => {
         setSelectedEvent(event);
-        //console.log("current event is: " + event.id + " " + event.name);
+        //setCurrentEventID(event.id); 
+        currentEventID = event.id; 
         setIsParticipantsListOpen(true);
-        setSelectedEventParticipants(participantsList.filter(x => x.id === event.id));
+        handleGetParticipants();
+        //old code if want to switch to one api call that pulls the list of all participants
+        //setSelectedEventParticipants(participantsList.filter(x => x.id === event.id));
     };
 
     const handleCloseParticipantsDialog = () => {
         setSelectedEvent(null);
         setIsParticipantsListOpen(false);
+        //resets the array so in the split second the api call is rendering the new list, the list appears empty
+        //and doesn't show the list of the previous list
+        setSelectedEventParticipants([]); 
     };
 
     React.useEffect(() => {
@@ -327,46 +335,39 @@ const MyEvents = () => {
         }
     }
 
-    React.useEffect(() => {
-        handleGetParticipants();
-    }, []);
-
     const handleGetParticipants = () => {
         CallApiGetParticipants()
             .then(res => {
                 var parsed = JSON.parse(res.express);
                 //console.log(parsed[0]);
-                setParticipantsList(parsed);
+                //setParticipantsList(parsed);
+                setSelectedEventParticipants(parsed); 
             });
-    }
+    };
 
     const CallApiGetParticipants = async () => {
 
         const url = `${REACT_APP_API_ENDPOINT}/getParticipants`;
-        console.log(url);
-        console.log("selectedEvent = " + selectedEvent)
+        //console.log(url);
+        //console.log("selectedEvent = " + selectedEvent)
 
         const response = await fetch(url, {
-            method: "GET",
+            method: "POST",
             headers: {
                 "Content-Type": "application/json",
             },
-            //  body: JSON.stringify({
-            //   eventID: selectedEvent.id
-            // })
+              body: JSON.stringify({
+               eventID: currentEventID
+             })
         });
         const body = await response.json();
         if (response.status !== 200) throw Error(body.message);
         return body;
-    }
-
-
+    };
 
     useEffect(() => {
         loadGetEventsByUser();
     }, [userID]);
-
-
 
     const classes = useStyles();
 
@@ -400,7 +401,7 @@ const MyEvents = () => {
                     <CardActions>
                         {event.status === "Active" && <Button onClick={() => handleOpenDialog(event)}>Edit Event</Button>}
                         {event.status === "Active" && <Button onClick={() => handleOpenCancelDialog(event)}>Cancel Event</Button>}
-                        {event.status === "Active" && <Button onClick={() => handleOpenParticipantsDialog(event)}>See Participants</Button>}
+                        {<Button onClick={() => handleOpenParticipantsDialog(event)}>See Participants</Button>}
                     </CardActions>
                 </Card>
             ))}
@@ -486,24 +487,19 @@ const MyEvents = () => {
                         </DialogActions>
                     </Dialog>
                 </div>
-            )
-            }
+            )}
 
-            {
-                showCancelAlertMessage && (
-                    <Alert severity="success">
-                        Event cancelled.
-                    </Alert>
-                )
-            }
+            {showCancelAlertMessage && (
+                <Alert severity="success">
+                    Event cancelled.
+                </Alert>
+            )}
 
-            {
-                showEditAlertMessage && (
-                    <Alert severity="success">
-                        Event successfully edited.
-                    </Alert>
-                )
-            }
+            {showEditAlertMessage && (
+                <Alert severity="success">
+                    Event successfully edited.
+                </Alert>
+            )}
         </div >
     )
 }
