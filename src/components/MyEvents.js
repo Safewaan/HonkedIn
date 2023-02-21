@@ -104,6 +104,9 @@ const MyEvents = () => {
         setEventLocationErrorText('');
     }
 
+    const [eventCurrentParticipants, setEventCurrentParticipants] = React.useState('');
+    const [eventCurrentParticipantsError, setEventCurrentParticipantsError] = React.useState(false);
+
     const [eventParticipants, setEventParticipants] = React.useState('');
     const [eventParticipantsError, setEventParticipantsError] = React.useState('');
     const [eventParticipantsErrorText, setEventParticipantsErrorText] = React.useState(''); //ERROR EDITING IN RETURN BRACKETS
@@ -146,6 +149,9 @@ const MyEvents = () => {
         setEventLocation(event.location);
         setEventLocationError(false);
         setEventLocationErrorText('');
+
+        // Update event current participants
+        setEventCurrentParticipants(event.participants);
 
         // Update event participants
         setEventParticipants(parseInt(event.totalParticipants));
@@ -299,9 +305,15 @@ const MyEvents = () => {
         } else if (eventParticipants === '') {
             setEventParticipantsError(true);
             setEventParticipantsErrorText('Please enter a valid number of maximum participants.');
-            return false
+            return false;
+        } else if (eventParticipants < eventCurrentParticipants) {
+            setEventCurrentParticipantsError(true);
+            setTimeout(() => {
+                setEventCurrentParticipantsError(false);
+            }, 10000);
         } else {
             CallApiEditEvent();
+            setEventCurrentParticipantsError(false);
             setShowEditAlertMessage(true);
             setTimeout(() => {
                 window.location.reload();
@@ -424,6 +436,14 @@ const MyEvents = () => {
             {showEditAlertMessage && (
                 <Alert severity="success">
                     Event successfully edited.
+                </Alert>
+            )}
+
+            {eventCurrentParticipantsError && (
+                <Alert severity="error">
+                    You cannot set the maximum number of participants lower than your
+                    current number of participants. This event currently has {eventCurrentParticipants}
+                    &nbsp;participants.
                 </Alert>
             )}
         </div >
