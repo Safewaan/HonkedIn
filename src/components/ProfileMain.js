@@ -239,14 +239,18 @@ const ProfileMain = () => {
 
     // Display the user's profile 
     // Obtain the appropriate fields 
+
+    // Load the profile if it is not empty
+    const [loadProfile, setLoadProfile] = React.useState();
     React.useEffect(() => {
         handleAPIProfile();
         if (existingAboutMe === "") {
-            setLoadProfile(false); 
+            setLoadProfile(false);
         } else {
-            setLoadProfile(true); 
+            setLoadProfile(true);
         }
     }, []);
+
 
     const callAPIProfile = async () => {
 
@@ -265,14 +269,13 @@ const ProfileMain = () => {
         });
         const body = await response.json();
         if (response.status !== 200) throw Error(body.message);
-        console.log("New Search", body);
+        console.log("New Search:", body);
         return body;
     }
 
     const handleAPIProfile = () => {
         callAPIProfile()
             .then(res => {
-                console.log("callApiProfile returned: ", res)
                 var parsed = JSON.parse(res.express);
                 setExistingAboutMe(parsed[0].aboutMe);
                 setExistingYear(parsed[0].yearSemester);
@@ -282,10 +285,9 @@ const ProfileMain = () => {
             })
     }
 
-    // Load the profile if it is not empty
-    const [loadProfile, setLoadProfile] = React.useState();
 
-    
+
+
     return (
 
         // To create into own component later
@@ -340,7 +342,7 @@ const ProfileMain = () => {
 
             <Box sx={{ position: 'absolute', top: 225, left: "45%" }} >
                 <div>
-                   {loadProfile ? <h6> {existingAboutMe} </h6> : <form className={classes.root} noValidate autoComplete="off">
+                    {loadProfile ? <h6> {existingAboutMe} </h6> : <form className={classes.root} noValidate autoComplete="off">
                         <TextField
                             id="AboutMe"
                             label="About Me"
@@ -351,9 +353,9 @@ const ProfileMain = () => {
                             onChange={handleAboutMe}
                             inputProps={{ maxLength: 200 }} />
 
-                    </form>} 
+                    </form>}
                     {!loadProfile && <FormHelperText> Tell us about you! [Max 200 Char.] </FormHelperText>}
-                    {missingAboutMe && <FormHelperText> <strong><p style={{ color: 'red' }}>Please fill this out!</p></strong> </FormHelperText>} 
+                    {missingAboutMe && <FormHelperText> <strong><p style={{ color: 'red' }}>Please fill this out!</p></strong> </FormHelperText>}
                 </div>
             </Box>
 
@@ -362,7 +364,7 @@ const ProfileMain = () => {
             </Box>
 
             <Box sx={{ position: 'absolute', top: 320, left: "45%" }} >
-            {loadProfile ? <h6> {existingYear} </h6> : <FormControl className={classes.formControl}>
+                {loadProfile ? <h6> {existingYear} </h6> : <FormControl className={classes.formControl}>
                     <InputLabel id="Year and Semester">Year and Semester</InputLabel>
                     <Select
                         labelId="YearSemesterSelect"
@@ -387,7 +389,7 @@ const ProfileMain = () => {
 
             <Box sx={{ position: 'absolute', top: 430, left: "45%" }} >
                 <div>
-                {loadProfile ? <h6> {existingProgram} </h6> : <form className={classes.root} noValidate autoComplete="off">
+                    {loadProfile ? <h6> {existingProgram} </h6> : <form className={classes.root} noValidate autoComplete="off">
                         <TextField
                             id="Program"
                             label="Program"
@@ -398,7 +400,7 @@ const ProfileMain = () => {
                             onChange={handleProgram}
                             inputProps={{ maxLength: 200 }} />
 
-                    </form> }
+                    </form>}
                     {!loadProfile && <FormHelperText> Ex. Computer Science </FormHelperText>}
                     {missingProgram && <FormHelperText> <strong><p style={{ color: 'red' }}>Please fill this out!</p></strong> </FormHelperText>}
                 </div>
@@ -410,7 +412,7 @@ const ProfileMain = () => {
 
             <Box sx={{ position: 'absolute', top: 540, left: "45%" }} >
                 <div>
-                {loadProfile ? <h6> {existingInterest} </h6> : <form className={classes.root} noValidate autoComplete="off">
+                    {loadProfile ? <h6> {existingInterest} </h6> : <form className={classes.root} noValidate autoComplete="off">
                         <TextField
                             id="Interest"
                             label="Interest"
@@ -422,7 +424,7 @@ const ProfileMain = () => {
                             inputProps={{ maxLength: 200 }} />
 
                     </form>}
-                   {!loadProfile && <FormHelperText> Ex. Coding </FormHelperText>} 
+                    {!loadProfile && <FormHelperText> Ex. Coding </FormHelperText>}
                     {missingInterest && <FormHelperText> <strong><p style={{ color: 'red' }}>Please fill this out!</p></strong> </FormHelperText>}
                 </div>
             </Box>
@@ -434,7 +436,7 @@ const ProfileMain = () => {
 
             <Box sx={{ position: 'absolute', top: 650, left: "45%" }} >
                 <div>
-                {loadProfile ? <h6> {existingCoop} </h6> : <form className={classes.root} noValidate autoComplete="off">
+                    {loadProfile ? <h6> {existingCoop} </h6> : <form className={classes.root} noValidate autoComplete="off">
                         <TextField
                             id="Coop"
                             label="Coop"
