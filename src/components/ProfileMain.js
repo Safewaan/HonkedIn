@@ -122,7 +122,7 @@ const ProfileMain = () => {
 
     const callApiGetYearList = async () => {
 
-        const url = `${REACT_APP_API_ENDPOINT}/userSearchByEmail`;
+        const url = `${REACT_APP_API_ENDPOINT}/getYearSemesterList`;
         console.log(url);
 
         const response = await fetch(url, {
@@ -225,15 +225,15 @@ const ProfileMain = () => {
 
             <Box sx={{ position: 'absolute', top: 320, left: "45%" }} >
                 <FormControl className={classes.formControl}>
-                    <InputLabel id="MovieSelect">Movie Titles</InputLabel>
+                    <InputLabel id="Year and Semester">Year and Semester</InputLabel>
                     <Select
-                        labelId="MovieSelect"
-                        id="MovieSelect"
+                        labelId="YearSemesterSelect"
+                        id="YearSemester"
                         value={yearSemester}
                         onChange={handleYearSemester}
                     >
-                        {yearList.map((movie) => (
-                            <MenuItem value={yearList.year}> {yearList.year} </MenuItem>
+                        {yearList.map((year) => (
+                            <MenuItem value={year.yearList}> {year.yearList} </MenuItem>
                         ))}
 
                     </Select>
