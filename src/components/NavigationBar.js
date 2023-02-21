@@ -168,6 +168,3 @@ export default function NavigationBar() {
         </>
     )
 }
-
-
-
