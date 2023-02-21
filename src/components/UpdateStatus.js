@@ -133,14 +133,14 @@ export default function UpdateStatus() {
               <Form.Label className="d-flex justify-content-center mb-4">Status: {userStatus}</Form.Label>
 
               {userStatus === "Active" && (
-                <Form.Label className="text-center mb-4">Archiving your account will remove you from search results and remove
-                  references to you however, you will no longer be able to create events, forums and resources.
+                <Form.Label className="text-center mb-4">Archiving your account will remove you from search results 
+                however, you will no longer be able to create events, forums and resources.
                 </Form.Label>
               )}
 
               {userStatus === "Archived" && (
                 <Form.Label className="text-center mb-4">Activating your account will allow you to create events, forums, and
-                  resources. You will also appear in search results and references.
+                  resources. You will also appear in search results.
                 </Form.Label>
               )}
             </Form.Group>
