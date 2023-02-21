@@ -64,9 +64,6 @@ const CreateForum = () => {
         return body;
     }
 
-
-
-
     const [createdForumsList, setCreatedForumsList] = React.useState([]);
 
     const [forumName, setForumName] = React.useState('');
@@ -203,7 +200,6 @@ const CreateForum = () => {
         } catch (error) {
             console.error(error);
         }
-
     }
 
     return (
@@ -247,9 +243,7 @@ const CreateForum = () => {
                 </Alert>
             )}
         </div>
-
     )
-
 }
 
 const ForumName = ({ forumName, onEnterForumName, forumNameError, forumNameErrorText }) => {
