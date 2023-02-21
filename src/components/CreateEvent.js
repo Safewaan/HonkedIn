@@ -1,10 +1,11 @@
 import React, { useRef, useState, useEffect } from "react"
 import { Form, Button, Card, Alert } from "react-bootstrap"
 import { Link, useHistory } from "react-router-dom"
-import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import { format } from 'date-fns'
 import { useAuth } from "../contexts/AuthContext"
+
+import DatePicker from "react-datepicker";
 
 import Paper from "@material-ui/core/Paper";
 import Grid from '@material-ui/core/Grid';
@@ -14,6 +15,7 @@ import { styled } from '@material-ui/core/styles';
 import { makeStyles } from '@material-ui/core/styles';
 import TextField from '@material-ui/core/TextField';
 import MuiAlert from '@mui/material/Alert';
+import NavigationBar from './NavigationBar';
 
 const { REACT_APP_API_ENDPOINT } = process.env;
 
@@ -35,11 +37,6 @@ const CreateEvent = () => {
   const history = useHistory()
 
   React.useEffect(() => {
-
-    if (currentUser == null) {
-      history.push("/login");
-    }
-
     setEmail(currentUser.email);
     loaduserSearchByEmail(currentUser.email);
   }, []);
@@ -299,7 +296,7 @@ const CreateEvent = () => {
 
   return (
     <div>
-
+      <NavigationBar></NavigationBar>
       <Typography variant="h4" color="inherit" component="div" noWrap>
         Create Event
       </Typography>

@@ -27,18 +27,23 @@ app.use(userSearchByEmail);
 // Event APIs
 const createEvent = require('./routes/events/createEvent');
 const getEvents = require('./routes/events/getEvents');
+const getEventsByUser = require ('./routes/events/getEventsByUser');
 const joinEvent = require('./routes/events/joinEvent');
+const editEvent = require('./routes/events/editEvent');
+const cancelEvent = require('./routes/events/cancelEvent');
 
 app.use(createEvent);
 app.use(getEvents);
+app.use(getEventsByUser);
 app.use(joinEvent);
+app.use(editEvent);
+app.use(cancelEvent);
 
 //Profile APIs
 const addUserProfile = require('./routes/profile/addUserProfile');
 const getUserProfile = require('./routes/profile/getUserProfile');
 app.use(addUserProfile);
 app.use(getUserProfile);
-
 
 
 app.listen(port, () => console.log(`Listening on port ${port}`)); //for the dev version

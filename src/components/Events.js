@@ -14,6 +14,7 @@ import DialogContent from '@material-ui/core/DialogContent';
 import DialogContentText from '@material-ui/core/DialogContentText';
 import DialogTitle from '@material-ui/core/DialogTitle';
 import MuiAlert from '@mui/material/Alert';
+import NavigationBar from './NavigationBar';
 
 const { REACT_APP_API_ENDPOINT } = process.env;
 
@@ -62,11 +63,6 @@ const Events = () => {
   };
 
   React.useEffect(() => {
-
-    if (currentUser == null) {
-      history.push("/login");
-    }
-
     setEmail(currentUser.email);
     loaduserSearchByEmail(currentUser.email);
   }, []);
@@ -98,7 +94,6 @@ const Events = () => {
   }
 
   const handleJoinEvent = () => {
-    console.log("test");
     callApiJoinEvent()
       .then(res => {
         console.log(res.message);
@@ -186,6 +181,8 @@ const Events = () => {
 
   return (
     <div id="body">
+
+      <NavigationBar></NavigationBar>
 
       <Typography
         variant="h4"
