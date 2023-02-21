@@ -18,6 +18,9 @@ import Tooltip from '@material-ui/core/Tooltip';
 import MenuItem from '@material-ui/core/MenuItem';
 import Paper from '@material-ui/core/Paper';
 
+
+
+
 export default function NavigationBar() {
 
     const [anchorElUser, setAnchorElUser] = React.useState(null);
@@ -63,16 +66,22 @@ export default function NavigationBar() {
         }
     }
 
-    async function handleSettings() {
-        history.push("/user-settings")
+    async function handleUpdateProfile() {
+
+        history.push("/update-profile")
+
     }
 
     async function handleEvents() {
+
         history.push("/events")
+
     }
 
     async function handleCreateEvent() {
+
         history.push("/create-event")
+
     }
 
     async function handleCreateForum() {
