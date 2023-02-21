@@ -67,6 +67,7 @@ const MyEvents = () => {
     const [selectedEvent, setSelectedEvent] = React.useState(null);
     const [isDialogOpen, setIsDialogOpen] = React.useState(false);
     const [isCancelDialogOpen, setIsCancelDialogOpen] = React.useState(false);
+    const [isParticipantsListOpen, setIsParticipantsListOpen] = React.useState(false);
     const [showCancelAlertMessage, setShowCancelAlertMessage] = React.useState(false);
 
     const [showEditAlertMessage, setShowEditAlertMessage] = React.useState(false);
@@ -128,6 +129,9 @@ const MyEvents = () => {
     var holderDate = new Date();
     const [eventDateOG, setEventDateOG] = React.useState(new Date());
 
+    const [participantsList, setParticipantsList] = React.useState([]);
+
+
     const handleOpenDialog = (event) => {
         setSelectedEvent(event);
         setIsDialogOpen(true);
@@ -169,6 +173,20 @@ const MyEvents = () => {
     const handleCloseCancelDialog = () => {
         setSelectedEvent(null);
         setIsCancelDialogOpen(false);
+    };
+
+    const [selectedEventParticipants, setSelectedEventParticipants] = React.useState([]);
+
+    const handleOpenParticipantsDialog = (event) => {
+        setSelectedEvent(event);
+        //console.log("current event is: " + event.id + " " + event.name);
+        setIsParticipantsListOpen(true);
+        setSelectedEventParticipants(participantsList.filter(x => x.id === event.id));
+    };
+
+    const handleCloseParticipantsDialog = () => {
+        setSelectedEvent(null);
+        setIsParticipantsListOpen(false);
     };
 
     React.useEffect(() => {
@@ -309,9 +327,46 @@ const MyEvents = () => {
         }
     }
 
+    React.useEffect(() => {
+        handleGetParticipants();
+    }, []);
+
+    const handleGetParticipants = () => {
+        CallApiGetParticipants()
+            .then(res => {
+                var parsed = JSON.parse(res.express);
+                //console.log(parsed[0]);
+                setParticipantsList(parsed);
+            });
+    }
+
+    const CallApiGetParticipants = async () => {
+
+        const url = `${REACT_APP_API_ENDPOINT}/getParticipants`;
+        console.log(url);
+        console.log("selectedEvent = " + selectedEvent)
+
+        const response = await fetch(url, {
+            method: "GET",
+            headers: {
+                "Content-Type": "application/json",
+            },
+            //  body: JSON.stringify({
+            //   eventID: selectedEvent.id
+            // })
+        });
+        const body = await response.json();
+        if (response.status !== 200) throw Error(body.message);
+        return body;
+    }
+
+
+
     useEffect(() => {
         loadGetEventsByUser();
     }, [userID]);
+
+
 
     const classes = useStyles();
 
@@ -345,6 +400,7 @@ const MyEvents = () => {
                     <CardActions>
                         {event.status === "Active" && <Button onClick={() => handleOpenDialog(event)}>Edit Event</Button>}
                         {event.status === "Active" && <Button onClick={() => handleOpenCancelDialog(event)}>Cancel Event</Button>}
+                        {event.status === "Active" && <Button onClick={() => handleOpenParticipantsDialog(event)}>See Participants</Button>}
                     </CardActions>
                 </Card>
             ))}
@@ -412,20 +468,42 @@ const MyEvents = () => {
                             {selectedEvent.status === "Active" && <Button onClick={handleEditEvent}>Edit Event</Button>}
                         </DialogActions>
                     </Dialog>
+
+                    {/* Get event partipants dialog*/}
+                    < Dialog open={isParticipantsListOpen} onClose={handleCloseParticipantsDialog}>
+                        <DialogTitle>Participants</DialogTitle>
+                        <DialogContent>
+                            <div class="container">
+                                {selectedEventParticipants.map((event) => (
+                                    <ul>
+                                        {event.participantName} <br />
+                                    </ul>
+                                ))}
+                            </div>
+                        </DialogContent>
+                        <DialogActions>
+                            <Button onClick={handleCloseParticipantsDialog}>Close</Button>
+                        </DialogActions>
+                    </Dialog>
                 </div>
-            )}
+            )
+            }
 
-            {showCancelAlertMessage && (
-                <Alert severity="success">
-                    Event cancelled.
-                </Alert>
-            )}
+            {
+                showCancelAlertMessage && (
+                    <Alert severity="success">
+                        Event cancelled.
+                    </Alert>
+                )
+            }
 
-            {showEditAlertMessage && (
-                <Alert severity="success">
-                    Event successfully edited.
-                </Alert>
-            )}
+            {
+                showEditAlertMessage && (
+                    <Alert severity="success">
+                        Event successfully edited.
+                    </Alert>
+                )
+            }
         </div >
     )
 }

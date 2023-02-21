@@ -31,6 +31,7 @@ const getEventsByUser = require ('./routes/events/getEventsByUser');
 const joinEvent = require('./routes/events/joinEvent');
 const editEvent = require('./routes/events/editEvent');
 const cancelEvent = require('./routes/events/cancelEvent');
+const getParticipants = require('./routes/events/getParticipants');
 
 app.use(createEvent);
 app.use(getEvents);
@@ -38,6 +39,7 @@ app.use(getEventsByUser);
 app.use(joinEvent);
 app.use(editEvent);
 app.use(cancelEvent);
+app.use(getParticipants);
 
 app.listen(port, () => console.log(`Listening on port ${port}`)); //for the dev version
 //app.listen(port, '172.31.31.77'); //for the deployed version, specify the IP address of the server
