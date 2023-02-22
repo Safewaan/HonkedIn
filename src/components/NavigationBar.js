@@ -18,9 +18,6 @@ import Tooltip from '@material-ui/core/Tooltip';
 import MenuItem from '@material-ui/core/MenuItem';
 import Paper from '@material-ui/core/Paper';
 
-
-
-
 export default function NavigationBar() {
 
     const [anchorElUser, setAnchorElUser] = React.useState(null);
@@ -72,6 +69,12 @@ export default function NavigationBar() {
     async function handleCreateEvent() {
 
         history.push("/create-event")
+
+    }
+
+    async function handleMyProfile() {
+
+        history.push("/my-profile")
 
     }
 
@@ -158,6 +161,10 @@ export default function NavigationBar() {
                                     open={Boolean(anchorElUser)}
                                     onClose={handleCloseUserMenu}
                                 >
+                                    <MenuItem key="My Profile" onClick={handleMyProfile}>
+                                        <Typography textAlign="center">My Profile</Typography>
+                                    </MenuItem>
+
                                     <MenuItem key="Update Profile" onClick={handleUpdateProfile}>
                                         <Typography textAlign="center">Update Profile</Typography>
                                     </MenuItem>
@@ -169,7 +176,7 @@ export default function NavigationBar() {
                             </Box>
 
 
-                            
+
                         </Toolbar>
                     </Container>
                 </AppBar>

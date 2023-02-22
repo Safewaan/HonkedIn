@@ -11,7 +11,6 @@ import UpdateProfile from "./UpdateProfile"
 import Events from "./Events"
 import CreateEvent from "./CreateEvent"
 import ProfileDashboard from "./ProfileDashboard"
-// Note: :userID will be replaced with the current user's ID obtained from the ProfileDashboard. 
 import MyEvents from "./MyEvents"
 
 function App() {
@@ -31,7 +30,7 @@ function App() {
               <Route path="/forgot-password" component={ForgotPassword} />
               <Route path="/events" component={Events} />
               <Route path="/create-event" component={CreateEvent} />
-              <Route path="/myprofile" component={ProfileDashboard} /> 
+              <PrivateRoute path="/my-profile" component={ProfileDashboard} /> 
               {/* Event Pages */}
               <PrivateRoute path="/events" component={Events} />
               <PrivateRoute path="/create-event" component={CreateEvent} />

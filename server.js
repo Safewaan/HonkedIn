@@ -40,9 +40,9 @@ app.use(editEvent);
 app.use(cancelEvent);
 
 //Profile APIs
-const addUserProfile = require('./routes/profile/addUserProfile');
+const createUserProfile = require('./routes/profile/createUserProfile');
 const getUserProfile = require('./routes/profile/getUserProfile');
-app.use(addUserProfile);
+app.use(createUserProfile);
 app.use(getUserProfile);
 
 

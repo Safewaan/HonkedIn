@@ -9,7 +9,7 @@ import ListItem from "@material-ui/core/ListItem";
 import ListItemText from "@material-ui/core/ListItemText";
 import { Link, useHistory } from "react-router-dom"
 import { useParams } from "react-router-dom";
-import { Card, Button, Alert } from "react-bootstrap"
+import { Card, Button } from "react-bootstrap"
 import { useAuth } from "../contexts/AuthContext"
 import Box from "@material-ui/core/Box";
 import TextField from "@material-ui/core/TextField";
@@ -18,6 +18,8 @@ import FormControl from "@material-ui/core/FormControl";
 import InputLabel from "@material-ui/core/InputLabel";
 import Select from "@material-ui/core/Select";
 import MenuItem from "@material-ui/core/MenuItem";
+import NavigationBar from './NavigationBar';
+import MuiAlert from '@mui/material/Alert';
 
 //Define the width of the drawer on the myProfile page
 const drawerWidth = 240;
@@ -47,12 +49,28 @@ const useStyles = makeStyles((theme) => ({
     },
 }));
 
+const Alert = React.forwardRef(function Alert(props, ref) {
+    return (
+        <MuiAlert
+            elevation={6}
+            ref={ref}
+            variant="filled"
+            {...props}
+            style={{
+                position: 'fixed',
+                bottom: '20px',
+                right: '20px',
+                zIndex: 9999
+            }}
+        />
+    );
+});
+
 // Main page of Profile, i
 const ProfileDashboard = () => {
     const classes = useStyles();
 
     // Store the user's history and currentUser
-    const [error, setError] = useState("")
     const { currentUser } = useAuth()
     const history = useHistory()
 
@@ -62,14 +80,9 @@ const ProfileDashboard = () => {
     const [firstName, setFirstName] = React.useState('');
     const [lastName, setLastName] = React.useState('');
     const [userID, setUserID] = React.useState('');
-    const [newUserID, setNewUserID] = React.useState('');
 
     // Get the current user's email. 
     React.useEffect(() => {
-
-        if (currentUser == null) {
-            history.push("/login");
-        }
 
         setEmail(currentUser.email);
         handleUserSearchByEmail(currentUser.email);
@@ -202,18 +215,20 @@ const ProfileDashboard = () => {
             setSubmission(true);
             setLoadProfile(true);
             handleAPIUserProfile(userID);
+            setTimeout(() => {
+                window.location.reload();
+            }, 3000);
         } else {
             setSubmission(false);
             setLoadProfile(false);
         }
     }
 
-
-    // Other APIs - getUserProfile and addUserProfile 
+    // Other APIs - getUserProfile and createUserProfile 
     // Add the user's profile information into the database
     const callApiAddSubmission = async () => {
 
-        const url = `${REACT_APP_API_ENDPOINT}/addUserProfile`;
+        const url = `${REACT_APP_API_ENDPOINT}/createUserProfile`;
         console.log(url);
 
         const response = await fetch(url, {
@@ -235,6 +250,7 @@ const ProfileDashboard = () => {
         });
         const body = await response.json();
         if (response.status !== 200) throw Error(body.message);
+
         console.log("Profile:", body);
         return body;
     }
@@ -292,49 +308,21 @@ const ProfileDashboard = () => {
                     setExistingProgram(parsed[0].program);
                     setExistingInterest(parsed[0].interest);
                     setExistingCoop(parsed[0].coop);
+
+                    setAboutMe(parsed[0].aboutMe);
+                    setYearSemester(parsed[0].yearSemester);
+                    setProgram(parsed[0].program);
+                    setInterest(parsed[0].interest);
+                    setCoop(parsed[0].coop);
                 }
             })
     }
-    
+
     return (
         // Displays the AppBar, Drawer, the Title, the fields and conditionals for the SAVE/EDIT button. 
         <div className={classes.root}>
-            <AppBar position="fixed" className={classes.appBar}>
-                <Toolbar>
-                    <Typography variant="h3" noWrap>
-                        Profile
-                    </Typography>
-                </Toolbar>
-            </AppBar>
-            <Drawer
-                className={classes.drawer}
-                variant="permanent"
-                classes={{
-                    paper: classes.drawerPaper,
-                }}
-            >
-                <Toolbar />
-                <div className={classes.drawerContainer}>
-                    <List>
-                        <ListItem button component={Link} to="/profile">
-                            <ListItemText>
-                                <Typography variant="h6" fontWeight="bold" textAlign="center">
-                                    My Profile
-                                </Typography>
-                            </ListItemText>
-                        </ListItem>
-                        <ListItem button component={Link} to="/">
-                            <ListItemText>
-                                <Typography variant="h6" fontWeight="bold" textAlign="center">
-                                    Search Profiles
-                                </Typography>
-                            </ListItemText>
-                        </ListItem>
-                    </List>
-                </div>
-            </Drawer>
-            <Toolbar />
-            <Box sx={{ position: 'absolute', top: 100, left: "42%" }} >
+            <NavigationBar></NavigationBar>
+            <Box sx={{ position: 'absolute', top: 100, left: "35%" }} >
                 <Card>
                     <Card.Body>
                         <h2> {firstName} {lastName}'s HonkedIn Profile</h2>
@@ -343,11 +331,7 @@ const ProfileDashboard = () => {
             </Box>
 
             <Box sx={{ position: 'absolute', top: 240, left: "35%" }} >
-                <h5>About Me: </h5>
-            </Box>
-
-            <Box sx={{ position: 'absolute', top: 225, left: "45%" }} >
-                <div>
+                <div>  <h5><strong>About Me:</strong>  </h5>
                     {loadProfile ? <h6> {existingAboutMe} </h6> : <form className={classes.root} noValidate autoComplete="off">
                         <TextField
                             id="AboutMe"
@@ -360,38 +344,30 @@ const ProfileDashboard = () => {
                             inputProps={{ maxLength: 200 }} />
                     </form>}
                     {!loadProfile && <FormHelperText> Tell us about you! [Max 200 Char.] </FormHelperText>}
-                    {missingAboutMe && <FormHelperText> <strong><p style={{ color: 'red' }}>Please fill this out!</p></strong> </FormHelperText>}
-                </div>
+                    {missingAboutMe && <FormHelperText> <strong><p style={{ color: 'red' }}>Please fill this out!</p></strong> </FormHelperText>} </div>
             </Box>
 
-            <Box sx={{ position: 'absolute', top: 340, left: "35%" }} >
-                <h5>Year of Study: </h5>
+            <Box sx={{ position: 'absolute', top: 360, left: "35%" }} >
+                <div> <h5><strong>Year of Study:</strong> </h5>
+                    {loadProfile ? <h6> {existingYear} </h6> : <FormControl className={classes.formControl}>
+                        <InputLabel id="Year and Semester">Year and Semester</InputLabel>
+                        <Select
+                            labelId="YearSemesterSelect"
+                            id="YearSemester"
+                            value={yearSemester}
+                            onChange={handleYearSemester}
+                        >
+                            {yearList.map((year) => (
+                                <MenuItem value={year}> {year} </MenuItem>
+                            ))}
+                        </Select>
+                        <FormHelperText> Select a year and semester from the list! </FormHelperText>
+                        {missingYearSemester && <FormHelperText> <strong><p style={{ color: 'red' }}>Please fill this out!</p></strong> </FormHelperText>}
+                    </FormControl>} </div>
             </Box>
 
-            <Box sx={{ position: 'absolute', top: 320, left: "45%" }} >
-                {loadProfile ? <h6> {existingYear} </h6> : <FormControl className={classes.formControl}>
-                    <InputLabel id="Year and Semester">Year and Semester</InputLabel>
-                    <Select
-                        labelId="YearSemesterSelect"
-                        id="YearSemester"
-                        value={yearSemester}
-                        onChange={handleYearSemester}
-                    >
-                        {yearList.map((year) => (
-                            <MenuItem value={year}> {year} </MenuItem>
-                        ))}
-                    </Select>
-                    <FormHelperText> Select a year and semester from the list! </FormHelperText>
-                    {missingYearSemester && <FormHelperText> <strong><p style={{ color: 'red' }}>Please fill this out!</p></strong> </FormHelperText>}
-                </FormControl>}
-            </Box>
-
-            <Box sx={{ position: 'absolute', top: 450, left: "35%" }} >
-                <h5>Program: </h5>
-            </Box>
-
-            <Box sx={{ position: 'absolute', top: 430, left: "45%" }} >
-                <div>
+            <Box sx={{ position: 'absolute', top: 480, left: "35%" }} >
+                <div>  <h5><strong> Program: </strong></h5>
                     {loadProfile ? <h6> {existingProgram} </h6> : <form className={classes.root} noValidate autoComplete="off">
                         <TextField
                             id="Program"
@@ -404,16 +380,11 @@ const ProfileDashboard = () => {
                             inputProps={{ maxLength: 200 }} />
                     </form>}
                     {!loadProfile && <FormHelperText> Ex. Computer Science </FormHelperText>}
-                    {missingProgram && <FormHelperText> <strong><p style={{ color: 'red' }}>Please fill this out!</p></strong> </FormHelperText>}
-                </div>
+                    {missingProgram && <FormHelperText> <strong><p style={{ color: 'red' }}>Please fill this out!</p></strong> </FormHelperText>}</div>
             </Box>
 
-            <Box sx={{ position: 'absolute', top: 550, left: "35%" }} >
-                <h5>Interest: </h5>
-            </Box>
-
-            <Box sx={{ position: 'absolute', top: 540, left: "45%" }} >
-                <div>
+            <Box sx={{ position: 'absolute', top: 600, left: "35%" }} >
+                <div> <h5> <strong>Interest: </strong>  </h5>
                     {loadProfile ? <h6> {existingInterest} </h6> : <form className={classes.root} noValidate autoComplete="off">
                         <TextField
                             id="Interest"
@@ -426,37 +397,31 @@ const ProfileDashboard = () => {
                             inputProps={{ maxLength: 200 }} />
                     </form>}
                     {!loadProfile && <FormHelperText> Ex. Coding </FormHelperText>}
-                    {missingInterest && <FormHelperText> <strong><p style={{ color: 'red' }}>Please fill this out!</p></strong> </FormHelperText>}
-                </div>
+                    {missingInterest && <FormHelperText> <strong><p style={{ color: 'red' }}>Please fill this out!</p></strong> </FormHelperText>}</div>
             </Box>
 
-            <Box sx={{ position: 'absolute', top: 660, left: "35%" }} >
-                <h5>Co-op: </h5>
-            </Box>
+            <Box sx={{ position: 'absolute', top: 720, left: "35%" }} >
+                <div> <h5><strong> Co-op:</strong> </h5> {loadProfile ? <h6>
+                    {existingCoop} </h6> : <form className={classes.root} noValidate autoComplete="off">
+                    <TextField
+                        id="Co-op"
+                        label="Co-op"
+                        defaultValue="Co-op"
+                        variant="outlined"
+                        style={{ width: "300px" }}
+                        value={coop}
+                        onChange={handleCoop}
+                        inputProps={{ maxLength: 200 }} />
 
-            <Box sx={{ position: 'absolute', top: 650, left: "45%" }} >
-                <div>
-                    {loadProfile ? <h6> {existingCoop} </h6> : <form className={classes.root} noValidate autoComplete="off">
-                        <TextField
-                            id="Coop"
-                            label="Coop"
-                            defaultValue="Coop"
-                            variant="outlined"
-                            style={{ width: "300px" }}
-                            value={coop}
-                            onChange={handleCoop}
-                            inputProps={{ maxLength: 200 }} />
-
-                    </form>}
+                </form>}
                     {!loadProfile && <FormHelperText> Role, Company (Ex. None, None) </FormHelperText>}
-                    {missingCoop && <FormHelperText> <strong><p style={{ color: 'red' }}>Please fill this out!</p></strong> </FormHelperText>}
-                </div>
+                    {missingCoop && <FormHelperText> <strong><p style={{ color: 'red' }}>Please fill this out!</p></strong> </FormHelperText>}</div>
             </Box>
 
-            <Box sx={{ position: 'absolute', top: 760, left: "67%" }} >
-                {loadProfile ? <Button variant="outlined" style={{ color: "white", backgroundColor: "red" }} onClick={() => { setLoadProfile(false) }} >Edit</Button> : <Button variant="outlined" style={{ color: "white", backgroundColor: "seagreen" }} onClick={() => { validationCheck() }} >Save</Button>}
+            <Box sx={{ position: 'absolute', top: 810, left: "60%" }} >
+                {loadProfile ? <Button variant="outlined" style={{ color: "white", backgroundColor: "red" }} onClick={() => { setLoadProfile(false) }} >Edit Profile</Button> : <Button variant="outlined" style={{ color: "white", backgroundColor: "seagreen" }} onClick={() => { validationCheck() }} >Save Profile</Button>}
 
-                {submission && <FormHelperText> <strong><p style={{ color: 'darkgreen' }}>Your profile has been saved! Please refresh the pages for your changes!</p></strong> </FormHelperText>}
+                {submission && <Alert severity="success"> Profile successfully edited. </Alert>}
             </Box>
 
         </div>
