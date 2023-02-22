@@ -60,6 +60,12 @@ export default function NavigationBar() {
 
     }
 
+    async function handleUpdateProfile() {
+
+        history.push("/update-credentials")
+
+    }
+
     async function handleEvents() {
 
         history.push("/events")
@@ -167,6 +173,7 @@ export default function NavigationBar() {
 
                                     <MenuItem key="Update Profile" onClick={handleUpdateProfile}>
                                         <Typography textAlign="center">Update Profile</Typography>
+                                    </MenuItem>
 
                                     <MenuItem key="Settings" onClick={handleSettings}>
                                         <Typography textAlign="center">Settings</Typography>
