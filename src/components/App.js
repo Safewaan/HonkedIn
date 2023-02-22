@@ -14,6 +14,7 @@ import Events from "./Events";
 import CreateEvent from "./CreateEvent";
 import ProfileDashboard from "./ProfileDashboard"
 import MyEvents from "./MyEvents";
+import CreateForum from "./CreateForum";
 
 function App() {
   return (
@@ -42,6 +43,9 @@ function App() {
               <PrivateRoute path="/events" component={Events} />
               <PrivateRoute path="/create-event" component={CreateEvent} />
               <PrivateRoute path="/my-events" component={MyEvents} />
+
+              {/* Forum Pages */}
+              <Route path="/create-forum" component={CreateForum} />
             </Switch>
           </AuthProvider>
         </Router>

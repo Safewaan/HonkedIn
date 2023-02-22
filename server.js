@@ -49,10 +49,15 @@ app.use(getParticipants);
 const createUserProfile = require('./routes/profile/createUserProfile');
 const getUserProfile = require('./routes/profile/getUserProfile');
 const editUserProfile = require('./routes/profile/editUserProfile');
+
 app.use(createUserProfile);
 app.use(getUserProfile);
 app.use(editUserProfile);
 
+// Forum APIs
+const createForum = require('./routes/forums/createForum');
+
+app.use(createForum);
 
 app.listen(port, () => console.log(`Listening on port ${port}`)); //for the dev version
 //app.listen(port, '172.31.31.77'); //for the deployed version, specify the IP address of the server
