@@ -14,6 +14,7 @@ import Events from "./Events";
 import CreateEvent from "./CreateEvent";
 import MyEvents from "./MyEvents";
 import CreateForum from "./CreateForum";
+import Forums from "./Forums"; 
 
 function App() {
   return (
@@ -43,6 +44,8 @@ function App() {
 
               {/* Forum Pages */}
               <Route path="/create-forum" component={CreateForum} />
+              <Route path="/forums" component={Forums} />
+
             </Switch>
           </AuthProvider>
         </Router>

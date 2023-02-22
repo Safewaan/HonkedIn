@@ -90,6 +90,12 @@ export default function NavigationBar() {
 
     }
 
+    async function handleForums() { 
+
+        history.push("/forums")
+
+    }
+
     return (
         <>
             <Paper>
@@ -172,6 +178,10 @@ export default function NavigationBar() {
                                     open={Boolean(anchorElUserForums)}
                                     onClose={handleCloseUserMenuForums}
                                 >
+
+                                    <MenuItem key="Forums" onClick={handleForums}>
+                                        <Typography textAlign="center">Forums</Typography>
+                                    </MenuItem>
 
                                     <MenuItem key="Create Forums" onClick={handleCreateForum}>
                                         <Typography textAlign="center">Create Forums</Typography>
