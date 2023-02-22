@@ -42,8 +42,10 @@ app.use(cancelEvent);
 //Profile APIs
 const createUserProfile = require('./routes/profile/createUserProfile');
 const getUserProfile = require('./routes/profile/getUserProfile');
+const editUserProfile = require('./routes/profile/editUserProfile');
 app.use(createUserProfile);
 app.use(getUserProfile);
+app.use(editUserProfile);
 
 
 app.listen(port, () => console.log(`Listening on port ${port}`)); //for the dev version

@@ -391,7 +391,7 @@ const ProfileDashboard = () => {
                     {missingAboutMe && <FormHelperText> <strong><p style={{ color: 'red' }}>Please fill this out!</p></strong> </FormHelperText>} </div>
             </Box>
 
-            <Box sx={{ position: 'absolute', top: 360, left: "35%" }} >
+            <Box sx={{ position: 'absolute', top: 380, left: "35%" }} >
                 <div> <h5><strong>Year of Study:</strong> </h5>
                     {loadProfile ? <h6> {existingYear} </h6> : <FormControl className={classes.formControl}>
                         <InputLabel id="Year and Semester">Year and Semester</InputLabel>
@@ -410,7 +410,7 @@ const ProfileDashboard = () => {
                     </FormControl>} </div>
             </Box>
 
-            <Box sx={{ position: 'absolute', top: 480, left: "35%" }} >
+            <Box sx={{ position: 'absolute', top: 500, left: "35%" }} >
                 <div>  <h5><strong> Program: </strong></h5>
                     {loadProfile ? <h6> {existingProgram} </h6> : <form className={classes.root} noValidate autoComplete="off">
                         <TextField
@@ -427,7 +427,7 @@ const ProfileDashboard = () => {
                     {missingProgram && <FormHelperText> <strong><p style={{ color: 'red' }}>Please fill this out!</p></strong> </FormHelperText>}</div>
             </Box>
 
-            <Box sx={{ position: 'absolute', top: 600, left: "35%" }} >
+            <Box sx={{ position: 'absolute', top: 640, left: "35%" }} >
                 <div> <h5> <strong>Interest: </strong>  </h5>
                     {loadProfile ? <h6> {existingInterest} </h6> : <form className={classes.root} noValidate autoComplete="off">
                         <TextField
@@ -444,7 +444,7 @@ const ProfileDashboard = () => {
                     {missingInterest && <FormHelperText> <strong><p style={{ color: 'red' }}>Please fill this out!</p></strong> </FormHelperText>}</div>
             </Box>
 
-            <Box sx={{ position: 'absolute', top: 720, left: "35%" }} >
+            <Box sx={{ position: 'absolute', top: 790, left: "35%" }} >
                 <div> <h5><strong> Co-op:</strong> </h5> {loadProfile ? <h6>
                     {existingCoop} </h6> : <form className={classes.root} noValidate autoComplete="off">
                     <TextField
@@ -462,7 +462,7 @@ const ProfileDashboard = () => {
                     {missingCoop && <FormHelperText> <strong><p style={{ color: 'red' }}>Please fill this out!</p></strong> </FormHelperText>}</div>
             </Box>
 
-            <Box sx={{ position: 'absolute', top: 810, left: "60%" }} >
+            <Box sx={{ position: 'absolute', top: 830, left: "60%" }} >
                 {loadProfile ? <Button variant="outlined" style={{ color: "white", backgroundColor: "red" }} onClick={() => { setLoadProfile(false) }} >Edit Profile</Button> : <Button variant="outlined" style={{ color: "white", backgroundColor: "seagreen" }} onClick={() => { validationCheck() }} >Save Profile</Button>}
 
                 {submission && <Alert severity="success"> Profile successfully edited. </Alert>}
