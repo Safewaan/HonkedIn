@@ -4,7 +4,6 @@ const mysql = require('mysql');
 const config = require('../../config.js');
 
 //Purpose of API: This API will update the user's profile, and save their changes in the SQL database. 
-
 router.post('/api/editUserProfile', (req, res) => {
 
 	let connection = mysql.createConnection(config);
