@@ -11,9 +11,9 @@ router.post('/api/createUserProfile', (req, res) => {
 
 	let connection = mysql.createConnection(config);
 
-	let sql = "INSERT INTO shchowdh.userProfiles (firstName, lastName, aboutMe, yearSemester, program, interest, coop, userID) VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
+	let sql = "INSERT INTO shchowdh.userProfiles (aboutMe, yearSemester, program, interest, coop, userID) VALUES (?, ?, ?, ?, ?, ?)";
 	//console.log(sql);
-	let data = [req.body.firstName, req.body.lastName, req.body.aboutMe, req.body.yearSemester, req.body.program, req.body.interest,req.body.coop, req.body.userID];
+	let data = [req.body.aboutMe, req.body.yearSemester, req.body.program, req.body.interest,req.body.coop, req.body.userID];
 	//console.log(data);
 
 	connection.query(sql, data, (error, results, fields) => {

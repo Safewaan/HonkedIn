@@ -13,9 +13,6 @@ import MenuItem from "@material-ui/core/MenuItem";
 import NavigationBar from './NavigationBar';
 import MuiAlert from '@mui/material/Alert';
 
-//Define the width of the drawer on the myProfile page
-const drawerWidth = 240;
-
 // Server URL
 const { REACT_APP_API_ENDPOINT } = process.env;
 
@@ -23,21 +20,6 @@ const { REACT_APP_API_ENDPOINT } = process.env;
 const useStyles = makeStyles((theme) => ({
     root: {
         display: "flex",
-    },
-    appBar: {
-        zIndex: theme.zIndex.drawer + 1,
-        backgroundColor: "seagreen",
-    },
-    drawer: {
-        width: drawerWidth,
-        flexShrink: 0,
-    },
-    drawerPaper: {
-        width: drawerWidth,
-        marginTop: "20px",
-    },
-    drawerContainer: {
-        overflow: "auto",
     },
 }));
 
@@ -64,7 +46,6 @@ const ProfileDashboard = () => {
 
     // Store the user's history and currentUser
     const { currentUser } = useAuth()
-    const history = useHistory()
 
     // API: Get the user's fullname for the title. 
     //Get the user's email and then get their full name
@@ -91,13 +72,6 @@ const ProfileDashboard = () => {
                 setLastName(parsed[0].lastName)
 
                 handleAPIUserProfile(parsed[0].id);
-                if (existingAboutMe === "") {
-                    setLoadProfile(false);
-                    setEditProfile(false); 
-                } else {
-                    setLoadProfile(true);
-                    setEditProfile(true); 
-                }
             });
     }
 
@@ -174,24 +148,13 @@ const ProfileDashboard = () => {
     }
     // Handle Save, and create an array to insert into the SQL database
     const [submission, setSubmission] = React.useState();
-    const [submissionList, setSubmissionList] = React.useState([])
-
-    const newSubmission = submissionList.concat({
-        aboutMe: aboutMe,
-        yearSemester: yearSemester,
-        program: program,
-        interest: interest,
-        coop: coop,
-    })
 
     // Add or edit profile info into the database
     const addProfileInfo = () => {
 
         if (!editProfile) {
-            setSubmissionList(newSubmission);
             handleApiAddSubmission();
         } else {
-            setSubmissionList(newSubmission);
             handleApiEditUserProfile();
         }
 
@@ -238,14 +201,12 @@ const ProfileDashboard = () => {
                 //authorization: `Bearer ${this.state.token}`
             },
             body: JSON.stringify({
-                firstName: firstName,
-                lastName: lastName,
                 aboutMe: aboutMe,
                 yearSemester: yearSemester,
                 program: program,
                 interest: interest,
                 coop: coop,
-                userID: userID,
+                userID: userID
             })
         });
         const body = await response.json();
@@ -275,14 +236,12 @@ const ProfileDashboard = () => {
                 //authorization: `Bearer ${this.state.token}`
             },
             body: JSON.stringify({
-                firstName: firstName,
-                lastName: lastName,
                 aboutMe: aboutMe,
                 yearSemester: yearSemester,
                 program: program,
                 interest: interest,
                 coop: coop,
-                userID: userID,
+                userID: userID
             })
         });
         const body = await response.json();
@@ -299,16 +258,9 @@ const ProfileDashboard = () => {
             })
     }
 
-    // Create states to store any existing profile information about the User
-    const [existingAboutMe, setExistingAboutMe] = React.useState();
-    const [existingYear, setExistingYear] = React.useState();
-    const [existingProgram, setExistingProgram] = React.useState();
-    const [existingInterest, setExistingInterest] = React.useState();
-    const [existingCoop, setExistingCoop] = React.useState();
-
     // Display the user's profile 
     // Obtain the appropriate fields 
-    // Load the profile if it is not empty
+    // Load the profile if it is not empty and ensure that they can edit/update the rows
     const [loadProfile, setLoadProfile] = React.useState();
     const [editProfile, setEditProfile] = React.useState();
 
@@ -341,17 +293,20 @@ const ProfileDashboard = () => {
                 var parsed = JSON.parse(res.express);
 
                 if (parsed.length !== 0) {
-                    setExistingAboutMe(parsed[0].aboutMe);
-                    setExistingYear(parsed[0].yearSemester);
-                    setExistingProgram(parsed[0].program);
-                    setExistingInterest(parsed[0].interest);
-                    setExistingCoop(parsed[0].coop);
 
                     setAboutMe(parsed[0].aboutMe);
                     setYearSemester(parsed[0].yearSemester);
                     setProgram(parsed[0].program);
                     setInterest(parsed[0].interest);
                     setCoop(parsed[0].coop);
+
+                    if (parsed[0].aboutMe === "") {
+                        setLoadProfile(false);
+                        setEditProfile(false);
+                    } else {
+                        setLoadProfile(true);
+                        setEditProfile(true);
+                    }
                 }
             })
     }
@@ -370,7 +325,7 @@ const ProfileDashboard = () => {
 
             <Box sx={{ position: 'absolute', top: 240, left: "35%" }} >
                 <div>  <h5><strong>About Me:</strong>  </h5>
-                    {loadProfile ? <h6> {existingAboutMe} </h6> : <form className={classes.root} noValidate autoComplete="off">
+                    {loadProfile ? <h6> {aboutMe} </h6> : <form className={classes.root} noValidate autoComplete="off">
                         <TextField
                             id="AboutMe"
                             label="About Me"
@@ -387,7 +342,7 @@ const ProfileDashboard = () => {
 
             <Box sx={{ position: 'absolute', top: 380, left: "35%" }} >
                 <div> <h5><strong>Year of Study:</strong> </h5>
-                    {loadProfile ? <h6> {existingYear} </h6> : <FormControl className={classes.formControl}>
+                    {loadProfile ? <h6> {yearSemester} </h6> : <FormControl className={classes.formControl}>
                         <InputLabel id="Year and Semester">Year and Semester</InputLabel>
                         <Select
                             labelId="YearSemesterSelect"
@@ -406,7 +361,7 @@ const ProfileDashboard = () => {
 
             <Box sx={{ position: 'absolute', top: 500, left: "35%" }} >
                 <div>  <h5><strong> Program: </strong></h5>
-                    {loadProfile ? <h6> {existingProgram} </h6> : <form className={classes.root} noValidate autoComplete="off">
+                    {loadProfile ? <h6> {program} </h6> : <form className={classes.root} noValidate autoComplete="off">
                         <TextField
                             id="Program"
                             label="Program"
@@ -423,7 +378,7 @@ const ProfileDashboard = () => {
 
             <Box sx={{ position: 'absolute', top: 640, left: "35%" }} >
                 <div> <h5> <strong>Interest: </strong>  </h5>
-                    {loadProfile ? <h6> {existingInterest} </h6> : <form className={classes.root} noValidate autoComplete="off">
+                    {loadProfile ? <h6> {interest} </h6> : <form className={classes.root} noValidate autoComplete="off">
                         <TextField
                             id="Interest"
                             label="Interest"
@@ -440,7 +395,7 @@ const ProfileDashboard = () => {
 
             <Box sx={{ position: 'absolute', top: 790, left: "35%" }} >
                 <div> <h5><strong> Co-op:</strong> </h5> {loadProfile ? <h6>
-                    {existingCoop} </h6> : <form className={classes.root} noValidate autoComplete="off">
+                    {coop} </h6> : <form className={classes.root} noValidate autoComplete="off">
                     <TextField
                         id="Co-op"
                         label="Co-op"
@@ -456,7 +411,7 @@ const ProfileDashboard = () => {
                     {missingCoop && <FormHelperText> <strong><p style={{ color: 'red' }}>Please fill this out!</p></strong> </FormHelperText>}</div>
             </Box>
 
-            <Box sx={{ position: 'absolute', top: 830, left: "60%" }} >
+            <Box sx={{ position: 'absolute', top: 850, left: "60%" }} >
                 {loadProfile ? <Button variant="outlined" style={{ color: "white", backgroundColor: "red" }} onClick={() => { setLoadProfile(false) }} >Edit Profile</Button> : <Button variant="outlined" style={{ color: "white", backgroundColor: "seagreen" }} onClick={() => { validationCheck() }} >Save Profile</Button>}
 
                 {submission && <Alert severity="success"> Profile successfully edited. </Alert>}
