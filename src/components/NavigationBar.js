@@ -66,9 +66,9 @@ export default function NavigationBar() {
         }
     }
 
-    async function handleUpdateProfile() {
+    async function handleSettings() {
 
-        history.push("/update-profile")
+        history.push("/user-settings")
 
     }
 

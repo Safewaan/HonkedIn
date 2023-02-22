@@ -13,19 +13,7 @@ import UpdateStatus from "./UpdateStatus";
 import Events from "./Events";
 import CreateEvent from "./CreateEvent";
 import MyEvents from "./MyEvents";
-import React from "react"
-import Signup from "./Signup"
-import { Container } from "react-bootstrap"
-import { AuthProvider } from "../contexts/AuthContext"
-import { BrowserRouter as Router, Switch, Route } from "react-router-dom"
-import Dashboard from "./Dashboard"
-import Login from "./Login"
-import PrivateRoute from "./PrivateRoute"
-import ForgotPassword from "./ForgotPassword"
-import UpdateProfile from "./UpdateProfile"
-import Events from "./Events"
-import CreateEvent from "./CreateEvent"
-import CreateForum from "./CreateForum"
+import CreateForum from "./CreateForum";
 
 function App() {
   return (
@@ -48,6 +36,12 @@ function App() {
               <Route path="/login" component={Login} />
               <Route path="/forgot-password" component={ForgotPassword} />
 
+              {/* Event Pages */}
+              <PrivateRoute path="/events" component={Events} />
+              <PrivateRoute path="/create-event" component={CreateEvent} />
+              <PrivateRoute path="/my-events" component={MyEvents} />
+
+              {/* Forum Pages */}
               <Route path="/create-forum" component={CreateForum} />
             </Switch>
           </AuthProvider>
