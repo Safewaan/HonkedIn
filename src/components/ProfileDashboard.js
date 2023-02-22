@@ -193,7 +193,7 @@ const ProfileDashboard = () => {
     // Add or edit profile info into the database
     const addProfileInfo = () => {
 
-        if (setLoadProfile) {
+        if (loadProfile) {
             setSubmissionList(newSubmission);
             handleApiEditUserProfile();
 
