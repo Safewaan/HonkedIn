@@ -20,9 +20,13 @@ app.use(function (req, res, next) {
 // User APIs
 const createUser = require('./routes/user/createUser');
 const userSearchByEmail = require('./routes/user/userSearchByEmail');
+const activateUser = require('./routes/user/activateUser');
+const archiveUser = require('./routes/user/archiveUser');
 
 app.use(createUser);
 app.use(userSearchByEmail);
+app.use(activateUser);
+app.use(archiveUser);
 
 // Event APIs
 const createEvent = require('./routes/events/createEvent');
@@ -31,6 +35,7 @@ const getEventsByUser = require ('./routes/events/getEventsByUser');
 const joinEvent = require('./routes/events/joinEvent');
 const editEvent = require('./routes/events/editEvent');
 const cancelEvent = require('./routes/events/cancelEvent');
+const getParticipants = require('./routes/events/getParticipants');
 
 app.use(createEvent);
 app.use(getEvents);
@@ -38,6 +43,7 @@ app.use(getEventsByUser);
 app.use(joinEvent);
 app.use(editEvent);
 app.use(cancelEvent);
+app.use(getParticipants);
 
 //Profile APIs
 const createUserProfile = require('./routes/profile/createUserProfile');
