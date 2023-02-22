@@ -25,6 +25,7 @@ export default function NavigationBar() {
 
     const [anchorElUser, setAnchorElUser] = React.useState(null);
     const [anchorElUserEvents, setAnchorElUserEvents] = React.useState(null);
+    const [anchorElUserForums, setAnchorElUserForums] = React.useState(null);
 
     const handleOpenUserMenu = (event) => {
         setAnchorElUser(event.currentTarget);
@@ -40,6 +41,14 @@ export default function NavigationBar() {
 
     const handleCloseUserMenuEvents = () => {
         setAnchorElUserEvents(null);
+    };
+
+    const handleOpenUserMenuForums = (event) => {
+        setAnchorElUserForums(event.currentTarget);
+    };
+
+    const handleCloseUserMenuForums = () => {
+        setAnchorElUserForums(null);
     };
 
     const [error, setError] = useState("")
@@ -72,6 +81,12 @@ export default function NavigationBar() {
     async function handleCreateEvent() {
 
         history.push("/create-event")
+
+    }
+
+    async function handleCreateForum() {
+
+        history.push("/create-forum")
 
     }
 
@@ -135,6 +150,36 @@ export default function NavigationBar() {
                                 </Menu>
                             </Box>
 
+                            <Box sx={{ flexGrow: 1, display: { xs: 'none', md: 'flex' } }}>
+                                <Tooltip title="Forums">
+                                    <Button onClick={handleOpenUserMenuForums} sx={{ p: 0 }}>
+                                        Forums
+                                    </Button>
+                                </Tooltip>
+                                <Menu
+                                    sx={{ mt: '45px' }}
+                                    id="menu-appbar"
+                                    anchorEl={anchorElUserForums}
+                                    anchorOrigin={{
+                                        vertical: 'top',
+                                        horizontal: 'right',
+                                    }}
+                                    keepMounted
+                                    transformOrigin={{
+                                        vertical: 'top',
+                                        horizontal: 'right',
+                                    }}
+                                    open={Boolean(anchorElUserForums)}
+                                    onClose={handleCloseUserMenuForums}
+                                >
+
+                                    <MenuItem key="Create Forums" onClick={handleCreateForum}>
+                                        <Typography textAlign="center">Create Forums</Typography>
+                                    </MenuItem>
+
+                                </Menu>
+                            </Box>
+
 
                             <Box sx={{ flexGrow: 0 }}>
                                 <Tooltip title="Open settings">
@@ -166,10 +211,7 @@ export default function NavigationBar() {
                                         <Typography textAlign="center">Log Out</Typography>
                                     </MenuItem>
                                 </Menu>
-                            </Box>
-
-
-                            
+                            </Box>       
                         </Toolbar>
                     </Container>
                 </AppBar>
