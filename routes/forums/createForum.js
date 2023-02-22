@@ -3,14 +3,15 @@ const router = express.Router();
 const mysql = require('mysql');
 const config = require('../../config.js');
 
+// Creates a forum by inserting values into the DB
 router.post('/api/createForum', (req, res) => {
 
     let connection = mysql.createConnection(config);
 
     let sql = "INSERT INTO shchowdh.forums (forumTitle, description, creatorID) VALUES (?, ?, ?)";
-    console.log(sql);
+    //console.log(sql);
     let data = [req.body.forumTitle, req.body.forumDesc, req.body.creatorID];
-    console.log(data);
+    //console.log(data);
 
     connection.query(sql, data, (error, results, fields) => {
 

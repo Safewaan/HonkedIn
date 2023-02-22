@@ -64,8 +64,6 @@ const CreateForum = () => {
         return body;
     }
 
-    const [createdForumsList, setCreatedForumsList] = React.useState([]);
-
     const [forumName, setForumName] = React.useState('');
     const [forumNameError, setForumNameError] = React.useState('');
     const [forumNameErrorText, setForumNameErrorText] = React.useState(''); //ERROR EDITING IN RETURN BRACKETS
@@ -129,10 +127,6 @@ const CreateForum = () => {
                 forumDesc: forumDesc
             }
 
-            var localList = [...createdForumsList];
-            localList.push(newForum);
-            console.log("this is localList " + localList[0].forumName);
-            setCreatedForumsList(localList);
             // console.log(format(eventDate))
             loadCreateForum();
             resetForm();
@@ -190,7 +184,7 @@ const CreateForum = () => {
                 })
             });
 
-            console.log("got past the const response thing");
+            //console.log("got past the const response thing");
             if (!response.ok) {
                 throw new Error(`${response.status}: ${response.statusText}`);
             }
