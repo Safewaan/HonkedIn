@@ -18,9 +18,6 @@ import Tooltip from '@material-ui/core/Tooltip';
 import MenuItem from '@material-ui/core/MenuItem';
 import Paper from '@material-ui/core/Paper';
 
-
-
-
 export default function NavigationBar() {
 
     const [anchorElUser, setAnchorElUser] = React.useState(null);
@@ -84,6 +81,12 @@ export default function NavigationBar() {
 
     }
 
+    async function handleMyProfile() {
+
+        history.push("/my-profile")
+        
+    }
+
     async function handleCreateForum() {
 
         history.push("/create-forum")
@@ -116,7 +119,6 @@ export default function NavigationBar() {
                                 </Typography>
                             </Box>
 
-
                             <Box sx={{ flexGrow: 1, display: { xs: 'none', md: 'flex' } }}>
                                 <Tooltip title="Events">
                                     <Button onClick={handleOpenUserMenuEvents} sx={{ p: 0 }}>
@@ -146,7 +148,6 @@ export default function NavigationBar() {
                                     <MenuItem key="Create Events" onClick={handleCreateEvent}>
                                         <Typography textAlign="center">Create Events</Typography>
                                     </MenuItem>
-
                                 </Menu>
                             </Box>
 
@@ -176,7 +177,6 @@ export default function NavigationBar() {
                                     <MenuItem key="Create Forums" onClick={handleCreateForum}>
                                         <Typography textAlign="center">Create Forums</Typography>
                                     </MenuItem>
-
                                 </Menu>
                             </Box>
 
@@ -203,6 +203,10 @@ export default function NavigationBar() {
                                     open={Boolean(anchorElUser)}
                                     onClose={handleCloseUserMenu}
                                 >
+                                    <MenuItem key="My Profile" onClick={handleMyProfile}>
+                                        <Typography textAlign="center">My Profile</Typography>
+                                    </MenuItem>
+
                                     <MenuItem key="Settings" onClick={handleSettings}>
                                         <Typography textAlign="center">Settings</Typography>
                                     </MenuItem>

@@ -12,6 +12,7 @@ import UpdateCredentials from "./UpdateCredentials";
 import UpdateStatus from "./UpdateStatus";
 import Events from "./Events";
 import CreateEvent from "./CreateEvent";
+import ProfileDashboard from "./ProfileDashboard"
 import MyEvents from "./MyEvents";
 import CreateForum from "./CreateForum";
 
@@ -35,7 +36,9 @@ function App() {
               <Route path="/signup" component={Signup} />
               <Route path="/login" component={Login} />
               <Route path="/forgot-password" component={ForgotPassword} />
-
+              <Route path="/events" component={Events} />
+              <Route path="/create-event" component={CreateEvent} />
+              <PrivateRoute path="/my-profile" component={ProfileDashboard} /> 
               {/* Event Pages */}
               <PrivateRoute path="/events" component={Events} />
               <PrivateRoute path="/create-event" component={CreateEvent} />
