@@ -101,8 +101,10 @@ const ProfileDashboard = () => {
                 handleAPIUserProfile(parsed[0].id);
                 if (existingAboutMe === "") {
                     setLoadProfile(false);
+                    setEditProfile(false); 
                 } else {
                     setLoadProfile(true);
+                    setEditProfile(true); 
                 }
             });
     }
@@ -193,13 +195,12 @@ const ProfileDashboard = () => {
     // Add or edit profile info into the database
     const addProfileInfo = () => {
 
-        if (loadProfile) {
-            setSubmissionList(newSubmission);
-            handleApiEditUserProfile();
-
-        } else {
+        if (!editProfile) {
             setSubmissionList(newSubmission);
             handleApiAddSubmission();
+        } else {
+            setSubmissionList(newSubmission);
+            handleApiEditUserProfile();
         }
 
         setAboutMe("");
@@ -317,6 +318,7 @@ const ProfileDashboard = () => {
     // Obtain the appropriate fields 
     // Load the profile if it is not empty
     const [loadProfile, setLoadProfile] = React.useState();
+    const [editProfile, setEditProfile] = React.useState();
 
     // Inserts the User ID to retrieve their most recent profile 
     const callAPIUserProfile = async (userID) => {
