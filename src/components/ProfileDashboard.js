@@ -190,10 +190,17 @@ const ProfileDashboard = () => {
         coop: coop,
     })
 
-    // Add Profile Info into the database
+    // Add or edit profile info into the database
     const addProfileInfo = () => {
-        setSubmissionList(newSubmission);
-        handleApiAddSubmission();
+
+        if (setLoadProfile) {
+            setSubmissionList(newSubmission);
+            handleApiEditUserProfile();
+
+        } else {
+            setSubmissionList(newSubmission);
+            handleApiAddSubmission();
+        }
 
         setAboutMe("");
         setYearSemester("");
@@ -224,7 +231,7 @@ const ProfileDashboard = () => {
         }
     }
 
-    // Other APIs - getUserProfile and createUserProfile 
+    // Other APIs - getUserProfile, editUserProfile and createUserProfile 
     // Add the user's profile information into the database
     const callApiAddSubmission = async () => {
 
@@ -257,6 +264,43 @@ const ProfileDashboard = () => {
 
     const handleApiAddSubmission = () => {
         callApiAddSubmission()
+            .then(res => {
+                console.log("callApiAddSubmission returned: ", res)
+            })
+    }
+
+    //Edit the user's profile if there is already existing information. 
+    const callApiEditUserProfile = async () => {
+
+        const url = `${REACT_APP_API_ENDPOINT}/editUserProfile`;
+        console.log(url);
+
+        const response = await fetch(url, {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+                //authorization: `Bearer ${this.state.token}`
+            },
+            body: JSON.stringify({
+                firstName: firstName,
+                lastName: lastName,
+                aboutMe: aboutMe,
+                yearSemester: yearSemester,
+                program: program,
+                interest: interest,
+                coop: coop,
+                userID: userID,
+            })
+        });
+        const body = await response.json();
+        if (response.status !== 200) throw Error(body.message);
+
+        console.log("Profile Update:", body);
+        return body;
+    }
+
+    const handleApiEditUserProfile = () => {
+        callApiEditUserProfile()
             .then(res => {
                 console.log("callApiAddSubmission returned: ", res)
             })
