@@ -1,14 +1,6 @@
 import React, { useState } from "react"
 import { makeStyles } from "@material-ui/core/styles";
-import AppBar from "@material-ui/core/AppBar";
-import Toolbar from "@material-ui/core/Toolbar";
-import Typography from "@material-ui/core/Typography";
-import Drawer from "@material-ui/core/Drawer";
-import List from "@material-ui/core/List";
-import ListItem from "@material-ui/core/ListItem";
-import ListItemText from "@material-ui/core/ListItemText";
 import { Link, useHistory } from "react-router-dom"
-import { useParams } from "react-router-dom";
 import { Card, Button } from "react-bootstrap"
 import { useAuth } from "../contexts/AuthContext"
 import Box from "@material-ui/core/Box";
