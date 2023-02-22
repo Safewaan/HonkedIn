@@ -69,12 +69,6 @@ export default function NavigationBar() {
 
     }
 
-    async function handleUpdateProfile() {
-
-        history.push("/update-credentials")
-
-    }
-
     async function handleEvents() {
 
         history.push("/events")
@@ -125,7 +119,6 @@ export default function NavigationBar() {
                                 </Typography>
                             </Box>
 
-
                             <Box sx={{ flexGrow: 1, display: { xs: 'none', md: 'flex' } }}>
                                 <Tooltip title="Events">
                                     <Button onClick={handleOpenUserMenuEvents} sx={{ p: 0 }}>
@@ -155,7 +148,6 @@ export default function NavigationBar() {
                                     <MenuItem key="Create Events" onClick={handleCreateEvent}>
                                         <Typography textAlign="center">Create Events</Typography>
                                     </MenuItem>
-
                                 </Menu>
                             </Box>
 
@@ -185,7 +177,6 @@ export default function NavigationBar() {
                                     <MenuItem key="Create Forums" onClick={handleCreateForum}>
                                         <Typography textAlign="center">Create Forums</Typography>
                                     </MenuItem>
-
                                 </Menu>
                             </Box>
 
@@ -214,10 +205,6 @@ export default function NavigationBar() {
                                 >
                                     <MenuItem key="My Profile" onClick={handleMyProfile}>
                                         <Typography textAlign="center">My Profile</Typography>
-                                    </MenuItem>
-
-                                    <MenuItem key="Update Profile" onClick={handleUpdateProfile}>
-                                        <Typography textAlign="center">Update Profile</Typography>
                                     </MenuItem>
 
                                     <MenuItem key="Settings" onClick={handleSettings}>

@@ -3,9 +3,7 @@ const router = express.Router();
 const mysql = require('mysql');
 const config = require('../../config.js');
 
-/*
-Purpose of API: This API will retrieve the user's existing profile, if there is one and display it on their myProfile page.  
-*/
+//Purpose of API: This API will retrieve the user's existing profile, if there is one and display it on their myProfile page.  
 
 router.post('/api/getUserProfile', (req, res) => {
 
