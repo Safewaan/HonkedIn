@@ -105,7 +105,7 @@ const Forum = ({loadGetForumCommentsByForumID}) => {
         return body;
     }
 
-    /*
+    
     //API - Insert new comments 
     const handleApiAddComment = () => {
         callApiAddComment()
@@ -113,9 +113,9 @@ const Forum = ({loadGetForumCommentsByForumID}) => {
                 console.log("callApiAddSubmission returned: ", res)
             })
     } 
-    */
+    
 
-    /* const callApiAddComment = async () => {
+    const callApiAddComment = async () => {
         const url = `${REACT_APP_API_ENDPOINT}/createForumComment`;
         console.log(url);
 
@@ -133,7 +133,7 @@ const Forum = ({loadGetForumCommentsByForumID}) => {
         const body = await response.json();
         if (response.status !== 200) throw Error(body.message);
         return body;
-    } */
+    } 
 
     //API - Load comments for the forum
     const handleApiLoadComments = async () => {
@@ -166,7 +166,7 @@ const Forum = ({loadGetForumCommentsByForumID}) => {
         return body;
     }
 
-   /* //API - Delete your own comments 
+    //API - Delete your own comments 
     const handleApiDeleteComment = (commentID) => {
         callApiDeleteComment(commentID)
             .then(res => {
@@ -193,7 +193,7 @@ const Forum = ({loadGetForumCommentsByForumID}) => {
         const body = await response.json();
         if (response.status !== 200) throw Error(body.message);
         return body;
-    } */ 
+    } 
 
     return (
         <div id="body">
