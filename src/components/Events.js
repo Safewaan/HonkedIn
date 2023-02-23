@@ -198,11 +198,9 @@ const Events = () => {
         {events.map((event) => (
           <Card style={{ width: '500px', marginBottom: '20px' }} key={event.id}>
             <CardContent>
-              <Link to={`/card/${event.id}`} target="_blank">
-                <Typography variant="h5" component="div">
-                  {event.name}<br />
-                </Typography>
-              </Link>
+              <Typography variant="h5" component="div">
+                {event.name}<br />
+              </Typography>
               <Typography sx={{ mb: 1.5 }} color="text.secondary">
                 Date: {new Date(event.date).toLocaleDateString()}<br />
               </Typography>
@@ -213,7 +211,6 @@ const Events = () => {
                 Status: {event.status}<br />
               </Typography>
             </CardContent>
-
             <CardActions>
               <Button onClick={() => handleOpenDialog(event)}>View Event</Button>
             </CardActions>
