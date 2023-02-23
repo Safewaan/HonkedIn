@@ -6,6 +6,7 @@ import CardActions from '@material-ui/core/CardActions';
 import CardContent from '@material-ui/core/CardContent';
 import Typography from '@material-ui/core/Typography';
 import NavigationBar from './NavigationBar';
+import Box from "@material-ui/core/Box";
 
 const { REACT_APP_API_ENDPOINT } = process.env;
 
@@ -87,28 +88,32 @@ const Forums = () => {
 
             <NavigationBar></NavigationBar>
 
-            <Typography
-                variant="h4"
-                gutterBottom
-                component="div">
-                Forums
-            </Typography>
+            <Box sx={{ position: 'absolute', top: 100, left: "35%" }}>
+                <Typography
+                    variant="h4"
+                    gutterBottom
+                    component="div">
+                    Forums
+                </Typography>
+            </Box>
 
+            <Box sx={{ position: 'absolute', top: 150, left: "35%" }}>
             {forums.map((event) => (
-                <Card style={{ width: '500px' }} key={event.id}>
+                <Card style={{ width: '500px', marginBottom: '20px' }} key={event.id}>
                     <CardContent>
                         <Typography variant="h5" component="div">
                             {event.forumTitle}<br />
                         </Typography>
-                        <Typography sx={{ mb: 2 }} color="text.secondary">
-                            {event.creatorName}<br />
+                        <Typography sx={{ mb: 1.5 }} color="text.secondary">
+                            Posted on {new Date(event.dateTime).toLocaleDateString()} by {event.creatorName}<br />
                         </Typography>
                         <Typography sx={{ mb: 1.5 }} color="text.secondary">
-                            {event.description}<br />
+                            <br />{event.description}<br />
                         </Typography>
                     </CardContent>
                 </Card>
             ))}
+            </Box>
         </div>
     )
 }

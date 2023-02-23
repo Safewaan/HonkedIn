@@ -9,7 +9,7 @@ router.get('/api/getForums', (req, res) => {
 	let connection = mysql.createConnection(config);
 
 	let sql = 
-	`SELECT CONCAT(firstName, " ", lastName) AS creatorName, forumTitle, forums.description
+	`SELECT CONCAT(firstName, " ", lastName) AS creatorName, forumTitle, forums.description, forums.dateTime
     FROM forums, users
     WHERE creatorID = users.id;`; 
 	
