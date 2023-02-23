@@ -74,7 +74,6 @@ const Forums = () => {
         try {
             const res = await callApiGetSelectedForum();
             const parsed = JSON.parse(res.express);
-            //console.log(parsed[0].forumTitle);
             setForums(parsed);
 
         } catch (error) {
@@ -133,9 +132,9 @@ const Forums = () => {
     const handleApiLoadComments = async () => {
         try {
             const res = await callApiLoadComments();
-            const parsed = JSON.parse(res.express);
-            //console.log(parsed[0].forumTitle);
+            const parsed = JSON.parse(JSON.stringify(res.express));
             setComments(parsed);
+            
 
         } catch (error) {
             console.error(error);
@@ -208,7 +207,10 @@ const Forums = () => {
                                             {comment.comment}<br />
                                         </Typography>
                                         <Typography style={{ mb: 1.5, fontSize: "12px" }} color="text.secondary">
-                                        By: {comment.firstName} {comment.lastName}<br />
+                                        <strong> By: </strong> {comment.firstName} {comment.lastName}<br />
+                                    </Typography>
+                                    <Typography style={{ mb: 1.5, fontSize: "12px" }} color="text.secondary">
+                                        <strong> Comment Created: </strong> {new Date(new Date(comment.commentDateTime).getTime() - (5 * 60 * 60 * 1000)).toLocaleString()} <br />
                                     </Typography>
                                     </CardContent>
                                 </Card>
