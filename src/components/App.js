@@ -17,10 +17,14 @@ import MyEvents from "./MyEvents";
 import CreateForum from "./CreateForum";
 import Forums from "./Forums"; 
 <<<<<<< HEAD
+<<<<<<< HEAD
 import MyForums from "./MyForums"
 =======
 import ForumCard from "./ForumCard"; 
 >>>>>>> f56b537e (Open the forum in a new page)
+=======
+import Forum from "./Forum"; 
+>>>>>>> d93144dd (Renamed)
 
 function App() {
   return (
@@ -55,10 +59,14 @@ function App() {
               <Route path="/create-forum" component={CreateForum} />
               <Route path="/forums" component={Forums} />
 <<<<<<< HEAD
+<<<<<<< HEAD
               <Route path="/my-forums" component={MyForums} /> 
 =======
               <Route path="/forum/:forumID" component={ForumCard} />
 >>>>>>> f56b537e (Open the forum in a new page)
+=======
+              <Route path="/forum/:forumID" component={Forum} />
+>>>>>>> d93144dd (Renamed)
 
             </Switch>
           </AuthProvider>

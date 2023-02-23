@@ -4,7 +4,7 @@ const mysql = require('mysql');
 const config = require('../../config.js');
 
 //gets the selected forum onto the new rendered page
-router.post('/api/getSelectedForum', (req, res) => {
+router.post('/api/getForumsByForumID', (req, res) => {
 
 	let connection = mysql.createConnection(config);
 
@@ -21,7 +21,7 @@ router.post('/api/getSelectedForum', (req, res) => {
 
         if (!req.body.forumID) {
 			res.status(400).send("ForumID cannot be null.");
-			return console.error("ForumIDcannot be null.");
+			return console.error("ForumID cannot be null.");
 		};
 		if (error) {
 			return console.error(error.message);

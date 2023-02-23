@@ -58,6 +58,7 @@ app.use(editUserProfile);
 const createForum = require('./routes/forums/createForum');
 const getForums = require('./routes/forums/getForums');
 <<<<<<< HEAD
+<<<<<<< HEAD
 const getForumsByUser = require('./routes/forums/getForumsByUser'); 
 
 app.use(createForum);
@@ -67,10 +68,16 @@ app.use(getForumsByUser);
 const getSelectedForum = require('./routes/forums/getSelectedForum');
 const addForumComment = require('./routes/forums/addForumComment');
 const loadForumComments = require('./routes/forums/loadForumComments');
+=======
+const getForumsByForumID = require('./routes/forums/getForumsByForumID');
+const createForumComment = require('./routes/forums/createForumComment');
+const getForumCommentsByForumID = require('./routes/forums/getForumCommentsByForumID');
+>>>>>>> d93144dd (Renamed)
 const deleteForumComment = require('./routes/forums/deleteForumComment');
 
 app.use(createForum);
 app.use(getForums);
+<<<<<<< HEAD
 app.use(getSelectedForum);
 <<<<<<< HEAD
 >>>>>>> f56b537e (Open the forum in a new page)
@@ -80,6 +87,11 @@ app.use(loadForumComments);
 <<<<<<< HEAD
 >>>>>>> e7b87fbc (Comments)
 =======
+=======
+app.use(getForumsByForumID);
+app.use(createForumComment);
+app.use(getForumCommentsByForumID);
+>>>>>>> d93144dd (Renamed)
 app.use(deleteForumComment);
 >>>>>>> a4651970 (Delete feature)
 
