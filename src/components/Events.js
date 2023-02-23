@@ -198,9 +198,11 @@ const Events = () => {
         {events.map((event) => (
           <Card style={{ width: '500px', marginBottom: '20px' }} key={event.id}>
             <CardContent>
-              <Typography variant="h5" component="div">
-                {event.name}<br />
-              </Typography>
+              <Link to={`/card/${event.id}`} target="_blank">
+                <Typography variant="h5" component="div">
+                  {event.name}<br />
+                </Typography>
+              </Link>
               <Typography sx={{ mb: 1.5 }} color="text.secondary">
                 Date: {new Date(event.date).toLocaleDateString()}<br />
               </Typography>

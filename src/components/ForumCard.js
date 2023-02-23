@@ -7,6 +7,9 @@ import CardContent from '@material-ui/core/CardContent';
 import Typography from '@material-ui/core/Typography';
 import NavigationBar from './NavigationBar';
 import Box from "@material-ui/core/Box";
+import { useParams } from 'react-router-dom';
+import TextField from "@material-ui/core/TextField";
+import Button from "@material-ui/core/Button";
 
 const { REACT_APP_API_ENDPOINT } = process.env;
 
@@ -16,6 +19,7 @@ const Forums = () => {
     const history = useHistory();
     const [email, setEmail] = React.useState('');
     const [userID, setUserID] = React.useState('');
+    const { forumID } = useParams();
 
     const [forums, setForums] = React.useState([]);
 
@@ -53,12 +57,12 @@ const Forums = () => {
     }
 
     useEffect(() => {
-        loadGetForums();
+        handleApiGetSelectedForum();
     }, []);
 
-    const loadGetForums = async () => {
+    const handleApiGetSelectedForum = async () => {
         try {
-            const res = await callApiGetForums();
+            const res = await callApiGetSelectedForum();
             const parsed = JSON.parse(res.express);
             //console.log(parsed[0].forumTitle);
             setForums(parsed);
@@ -68,16 +72,18 @@ const Forums = () => {
         }
     }
 
-    const callApiGetForums = async () => {
-
-        const url = `${REACT_APP_API_ENDPOINT}/getForums`;
+    const callApiGetSelectedForum = async () => {
+        const url = `${REACT_APP_API_ENDPOINT}/getSelectedForum`;
         console.log(url);
 
         const response = await fetch(url, {
-            method: "GET",
+            method: "POST",
             headers: {
                 "Content-Type": "application/json",
-            }
+            },
+            body: JSON.stringify({
+                forumID: forumID
+            })
         });
         const body = await response.json();
         if (response.status !== 200) throw Error(body.message);
@@ -102,7 +108,7 @@ const Forums = () => {
                 {forums.map((event) => (
                     <Card style={{ width: '500px', marginBottom: '20px' }} key={event.id}>
                         <CardContent>
-                            <Link to={`/forum/${event.id}`} target="_blank">
+                            <Link to={`/card/${event.id}`} target="_blank">
                                 <Typography variant="h5" component="div">
                                     {event.forumTitle}<br />
                                 </Typography>
