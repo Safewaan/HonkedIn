@@ -45,6 +45,15 @@ app.use(editEvent);
 app.use(cancelEvent);
 app.use(getParticipants);
 
+//Profile APIs
+const createUserProfile = require('./routes/profile/createUserProfile');
+const getUserProfile = require('./routes/profile/getUserProfile');
+const editUserProfile = require('./routes/profile/editUserProfile');
+
+app.use(createUserProfile);
+app.use(getUserProfile);
+app.use(editUserProfile);
+
 // Forum APIs
 const createForum = require('./routes/forums/createForum');
 const getForums = require('./routes/forums/getForums');
