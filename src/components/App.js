@@ -49,7 +49,7 @@ function App() {
               {/* Forum Pages */}
               <Route path="/create-forum" component={CreateForum} />
               <Route path="/forums" component={Forums} />
-              <Route path="/forum/:forumID" component={Forum} />
+              <PrivateRoute path="/forum/:forumID" component={Forum} />
 
             </Switch>
           </AuthProvider>
