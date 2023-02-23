@@ -57,11 +57,19 @@ app.use(editUserProfile);
 // Forum APIs
 const createForum = require('./routes/forums/createForum');
 const getForums = require('./routes/forums/getForums');
+<<<<<<< HEAD
 const getForumsByUser = require('./routes/forums/getForumsByUser'); 
 
 app.use(createForum);
 app.use(getForums);
 app.use(getForumsByUser);
+=======
+const getSelectedForum = require('./routes/forums/getSelectedForum');
+
+app.use(createForum);
+app.use(getForums);
+app.use(getSelectedForum);
+>>>>>>> f56b537e (Open the forum in a new page)
 
 app.listen(port, () => console.log(`Listening on port ${port}`)); //for the dev version
 //app.listen(port, '172.31.31.77'); //for the deployed version, specify the IP address of the server
