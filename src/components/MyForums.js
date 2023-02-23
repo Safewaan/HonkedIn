@@ -236,9 +236,11 @@ const MyForums = () => {
                 {forums.map((event) => (
                     <Card style={{ width: '800px', marginBottom: '20px' }} key={event.id}>
                         <CardContent>
-                            <Typography variant="h5" component="div">
-                                {event.forumTitle}<br />
-                            </Typography>
+                            <Link to={`/forum/${event.id}`} target="_blank">
+                                <Typography variant="h5" component="div">
+                                    {event.forumTitle}<br />
+                                </Typography>
+                            </Link>
                             <Typography sx={{ mb: 1.5 }} color="text.secondary">
                                 Posted on {new Date(event.dateTime).toLocaleDateString()}<br />
                             </Typography>
