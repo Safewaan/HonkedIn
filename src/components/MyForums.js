@@ -75,6 +75,7 @@ const MyForums = () => {
             })
         });
         const body = await response.json();
+        console.log("got here"); 
         if (response.status !== 200) throw Error(body.message);
         return body;
     }
@@ -83,6 +84,7 @@ const MyForums = () => {
         loadGetForumsByUser();
     }, [userID]);
 
+    //WILL IMPLEMENT THIS IN OTHER PR
     /*const CallApiEditEvent = async () => {
 
         const url = `${REACT_APP_API_ENDPOINT}/editEvent`;
@@ -153,24 +155,24 @@ const MyForums = () => {
 
             <NavigationBar></NavigationBar>
 
-            <Box sx={{ position: 'absolute', top: 100, left: "35%" }}>
+            <Box sx={{ position: 'absolute', top: 110, left: '50%', transform: 'translate(-50%, -50%)' }}>
                 <Typography
                     variant="h4"
                     gutterBottom
                     component="div">
-                    Forums
+                    My Forums
                 </Typography>
             </Box>
 
-            <Box sx={{ position: 'absolute', top: 150, left: "35%" }}>
+            <Box sx={{ position: 'absolute', top: 150, left: '50%', transform: 'translateX(-50%)' }}>
             {forums.map((event) => (
-                <Card style={{ width: '500px', marginBottom: '20px' }} key={event.id}>
+                <Card style={{ width: '800px', marginBottom: '20px' }} key={event.id}>
                     <CardContent>
                         <Typography variant="h5" component="div">
                             {event.forumTitle}<br />
                         </Typography>
                         <Typography sx={{ mb: 1.5 }} color="text.secondary">
-                            Posted on {new Date(event.dateTime).toLocaleDateString()} by {event.creatorName}<br />
+                            Posted on {new Date(event.dateTime).toLocaleDateString()}<br />
                         </Typography>
                         <Typography sx={{ mb: 1.5 }} color="text.secondary">
                             <br />{event.description}<br />

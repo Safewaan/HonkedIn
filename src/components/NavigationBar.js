@@ -99,6 +99,12 @@ export default function NavigationBar() {
 
     }
 
+    async function handleMyForums() {
+
+        history.push("/my-forums")
+
+    }
+
     return (
         <>
             <Paper>
@@ -182,6 +188,10 @@ export default function NavigationBar() {
 
                                     <MenuItem key="Forums" onClick={handleForums}>
                                         <Typography textAlign="center">Forums</Typography>
+                                    </MenuItem>
+
+                                    <MenuItem key="Create Forums" onClick={handleMyForums}>
+                                        <Typography textAlign="center">My Forums</Typography>
                                     </MenuItem>
 
                                     <MenuItem key="Create Forums" onClick={handleCreateForum}>

@@ -9,8 +9,7 @@ router.post('/api/getForumsByUser', (req, res) => {
     let connection = mysql.createConnection(config);
 
     let sql =
-        `use shchowdh;
-        SELECT firstName, lastName, 
+        `SELECT CONCAT(firstName, " ", lastName) AS creatorName,
             forums.id, forumTitle, forums.description, dateTime
             FROM users, forums
             WHERE forums.creatorID = users.id
@@ -18,8 +17,8 @@ router.post('/api/getForumsByUser', (req, res) => {
             ORDER BY dateTime`;
     let data = [req.body.userID];
 
-    // console.log(sql);
-    // console.log(data);
+     console.log(sql);
+     console.log(data);
 
     connection.query(sql, data, (error, results, fields) => {
         if (error) {

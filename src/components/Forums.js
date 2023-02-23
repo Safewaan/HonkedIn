@@ -99,13 +99,13 @@ const Forums = () => {
 
             <Box sx={{ position: 'absolute', top: 150, left: '50%', transform: 'translateX(-50%)' }}>
             {forums.map((event) => (
-                <Card style={{ width: '1000px', marginBottom: '20px' }} key={event.id}>
+                <Card style={{ width: '800px', marginBottom: '20px' }} key={event.id}>
                     <CardContent>
                         <Typography variant="h5" component="div">
                             {event.forumTitle}<br />
                         </Typography>
                         <Typography sx={{ mb: 1.5 }} color="text.secondary">
-                            Posted on {new Date(event.dateTime).toLocaleDateString()}<br/>
+                            Posted on {new Date(new Date(event.dateTime).getTime() - (5 * 60 * 60 * 1000)).toLocaleDateString()}<br/>
                             &nbsp; by {event.creatorName}<br />
                         </Typography>
                         <Typography sx={{ mb: 1.5 }} color="text.secondary">
