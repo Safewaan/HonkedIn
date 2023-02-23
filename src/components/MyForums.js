@@ -71,9 +71,6 @@ const MyForums = () => {
     const [showEditAlertMessage, setShowEditAlertMessage] = React.useState(false);
     const classes = useStyles();
 
-    const [forumStatus, setForumStatus] = React.useState('');
-    const [showSuccessfulArchiveMsg, setshowSuccessfulArchiveMsg] = React.useState(false);
-
     React.useEffect(() => {
         setEmail(currentUser.email);
         loaduserSearchByEmail(currentUser.email);
@@ -140,7 +137,7 @@ const MyForums = () => {
         loadgetForumsByUserID();
     }, [userID]);
 
-    const callApiArchiveForum = async () => {
+    const callApiArchiveForum = async (forumID) => {
         const url = `${REACT_APP_API_ENDPOINT}/archiveForum`;
         console.log(url);
 
@@ -150,7 +147,7 @@ const MyForums = () => {
                 "Content-Type": "application/json",
             },
             body: JSON.stringify({
-                creatorID: userID
+                id: forumID
             })
         });
 
@@ -159,10 +156,9 @@ const MyForums = () => {
         return body;
     }
 
-    async function handleArchiveForum() {
+    async function handleArchiveForum(forumID) {
         await loaduserSearchByEmail(currentUser.email);
-        callApiArchiveForum();
-        setshowSuccessfulArchiveMsg(true);
+        callApiArchiveForum(forumID);
         setTimeout(() => {
             window.location.reload();
         }, 3000);
