@@ -13,7 +13,7 @@ import Button from "@material-ui/core/Button";
 
 const { REACT_APP_API_ENDPOINT } = process.env;
 
-const Forums = () => {
+const ForumCard = () => {
 
     const { currentUser } = useAuth();
     const history = useHistory();
@@ -259,4 +259,4 @@ const Forums = () => {
     )
 }
 
-export default Forums; 
+export default ForumCard; 
