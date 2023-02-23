@@ -37,7 +37,7 @@ const Alert = React.forwardRef(function Alert(props, ref) {
 });
 
 
-const Events = ({ loadGetEvents }) => {
+const Events = ({ loadGetEvents, events }) => {
   // const { currentUser } = useAuth();
   const history = useHistory()
 
@@ -47,11 +47,11 @@ const Events = ({ loadGetEvents }) => {
   const [alertMessage, setAlertMessage] = useState('');
   const [alertSeverity, setAlertSeverity] = useState('');
 
-  //const email = currentUser.email;
+  // const email = currentUser.email;
   const [email, setEmail] = React.useState('');
   const [userID, setUserID] = React.useState('');
 
-  const [events, setEvents] = useState([]);
+  // const [events, setEvents] = useState([]);
 
   const handleOpenDialog = (event) => {
     setSelectedEvent(event);
