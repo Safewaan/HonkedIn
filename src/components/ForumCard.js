@@ -23,6 +23,14 @@ const Forums = () => {
 
     const [forums, setForums] = React.useState([]);
 
+    // Comment states
+    const [comments, setComments] = React.useState([]);
+
+    const [newComment, setNewComment] = React.useState("");
+    const handleNewComment = (event) => {
+        setNewComment(event.target.value);
+    }
+
     React.useEffect(() => {
         setEmail(currentUser.email);
         loaduserSearchByEmail(currentUser.email);
@@ -58,8 +66,10 @@ const Forums = () => {
 
     useEffect(() => {
         handleApiGetSelectedForum();
+        handleApiLoadComments();
     }, []);
 
+    //API - Display the retrieved forum 
     const handleApiGetSelectedForum = async () => {
         try {
             const res = await callApiGetSelectedForum();
@@ -90,12 +100,72 @@ const Forums = () => {
         return body;
     }
 
+    //API - Insert new comments 
+    const handleApiAddComment = () => {
+        callApiAddComment()
+            .then(res => {
+                console.log("callApiAddSubmission returned: ", res)
+            })
+    }
+
+    const callApiAddComment = async () => {
+        const url = `${REACT_APP_API_ENDPOINT}/addForumComment`;
+        console.log(url);
+
+        const response = await fetch(url, {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+            },
+            body: JSON.stringify({
+                forumID: forumID,
+                userID: userID,
+                newComment: newComment
+            })
+        });
+        const body = await response.json();
+        if (response.status !== 200) throw Error(body.message);
+        return body;
+    }
+
+    //API - Load comments for the forum
+    //API - Insert new comments 
+    const handleApiLoadComments = async () => {
+        try {
+            const res = await callApiLoadComments();
+            const parsed = JSON.parse(res.express);
+            //console.log(parsed[0].forumTitle);
+            setComments(parsed);
+
+        } catch (error) {
+            console.error(error);
+        }
+    }
+
+    const callApiLoadComments = async () => {
+        const url = `${REACT_APP_API_ENDPOINT}/loadForumComments`;
+        console.log(url);
+
+        const response = await fetch(url, {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+            },
+            body: JSON.stringify({
+                forumID: forumID
+            })
+        });
+        const body = await response.json();
+        if (response.status !== 200) throw Error(body.message);
+        return body;
+    }
+
     return (
         <div id="body">
 
             <NavigationBar></NavigationBar>
 
-            <Box sx={{ position: 'absolute', top: 100, left: "35%" }}>
+            <Box sx={{ position: 'absolute', top: 110, left: '50%', transform: 'translate(-50%, -50%)' }}>
                 <Typography
                     variant="h4"
                     gutterBottom
@@ -104,11 +174,11 @@ const Forums = () => {
                 </Typography>
             </Box>
 
-            <Box sx={{ position: 'absolute', top: 150, left: "35%" }}>
+            <Box sx={{ position: 'absolute', top: 150, left: '50%', transform: 'translateX(-50%)' }}>
                 {forums.map((event) => (
-                    <Card style={{ width: '500px', marginBottom: '20px' }} key={event.id}>
+                    <Card style={{ width: '1000px', marginBottom: '20px' }} key={event.id}>
                         <CardContent>
-                            <Link to={`/card/${event.id}`} target="_blank">
+                            <Link to={`/forum/${event.id}`} target="_blank">
                                 <Typography variant="h5" component="div">
                                     {event.forumTitle}<br />
                                 </Typography>
@@ -119,6 +189,30 @@ const Forums = () => {
                             <Typography sx={{ mb: 1.5 }} color="text.secondary">
                                 <br />{event.description}<br />
                             </Typography>
+                            <form onSubmit={handleApiAddComment}>
+                                <TextField
+                                    style={{ mb: 1.5, width: '350px' }}
+                                    label="Add a comment"
+                                    value={newComment}
+                                    onChange={handleNewComment}
+                                />
+                                <Button type="submit" style={{ color: "white", backgroundColor: "seagreen", mb: 1.5 }}>Submit</Button>
+                            </form>
+                            <Typography sx={{ mb: 1.5 }} variant="h6" color="text.secondary">
+                                <br />Comments:<br />
+                            </Typography>
+                            {comments.map((comment) => (
+                                <Card style={{ width: '500px', marginBottom: '20px' }} key={comment.id}>
+                                    <CardContent>
+                                        <Typography sx={{ mb: 1.5 }} color="text.secondary">
+                                            {comment.comment}<br />
+                                        </Typography>
+                                        <Typography style={{ mb: 1.5, fontSize: "12px" }} color="text.secondary">
+                                        By: {comment.firstName} {comment.lastName}<br />
+                                    </Typography>
+                                    </CardContent>
+                                </Card>
+                            ))}
                         </CardContent>
                     </Card>
                 ))}
