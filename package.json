@@ -36,7 +36,8 @@
   "jest": {
     "transform": {
       "^.+\\.[t|j]sx?$": "babel-jest"
-    }
+    }, 
+    "testEnvironment": "jsdom"
   },
   "eslintConfig": {
     "extends": "react-app"

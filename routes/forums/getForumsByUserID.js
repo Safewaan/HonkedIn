@@ -17,8 +17,8 @@ router.post('/api/getForumsByUserID', (req, res) => {
             ORDER BY dateTime`;
     let data = [req.body.userID];
 
-     console.log(sql);
-     console.log(data);
+     //console.log(sql);
+     //console.log(data);
 
     connection.query(sql, data, (error, results, fields) => {
         if (error) {
