@@ -60,6 +60,7 @@ function App() {
               <Route path="/forums" component={Forums} />
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
               <Route path="/my-forums" component={MyForums} /> 
 =======
               <Route path="/forum/:forumID" component={ForumCard} />
@@ -67,6 +68,9 @@ function App() {
 =======
               <Route path="/forum/:forumID" component={Forum} />
 >>>>>>> d93144dd (Renamed)
+=======
+              <PrivateRoute path="/forum/:forumID" component={Forum} />
+>>>>>>> 8e586ceb (PrivateRoute)
 
             </Switch>
           </AuthProvider>
