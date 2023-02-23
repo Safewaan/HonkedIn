@@ -15,7 +15,6 @@ import DialogContentText from '@material-ui/core/DialogContentText';
 import DialogTitle from '@material-ui/core/DialogTitle';
 import MuiAlert from '@mui/material/Alert';
 import NavigationBar from './NavigationBar';
-import Box from "@material-ui/core/Box";
 
 const { REACT_APP_API_ENDPOINT } = process.env;
 
@@ -185,39 +184,35 @@ const Events = () => {
 
       <NavigationBar></NavigationBar>
 
-      <Box sx={{ position: 'absolute', top: 100, left: "35%" }}>
-        <Typography
-          variant="h4"
-          gutterBottom
-          component="div">
-          Events
-        </Typography>
-      </Box>
+      <Typography
+        variant="h4"
+        gutterBottom
+        component="div">
+        Events
+      </Typography>
 
-      <Box sx={{ position: 'absolute', top: 150, left: "35%" }}>
-        {events.map((event) => (
-          <Card style={{ width: '500px', marginBottom: '20px' }} key={event.id}>
-            <CardContent>
-              <Typography variant="h5" component="div">
-                {event.name}<br />
-              </Typography>
-              <Typography sx={{ mb: 1.5 }} color="text.secondary">
-                Date: {new Date(event.date).toLocaleDateString()}<br />
-              </Typography>
-              <Typography sx={{ mb: 1.5 }} color="text.secondary">
-                Participants: {event.participants} / {event.totalParticipants}<br />
-              </Typography>
-              <Typography sx={{ mb: 1.5 }} color="text.secondary">
-                Status: {event.status}<br />
-              </Typography>
-            </CardContent>
+      {events.map((event) => (
+        <Card style={{ width: '500px' }} key={event.id}>
+          <CardContent>
+            <Typography variant="h5" component="div">
+              {event.name}<br />
+            </Typography>
+            <Typography sx={{ mb: 1.5 }} color="text.secondary">
+              Date: {new Date(event.date).toLocaleDateString()}<br />
+            </Typography>
+            <Typography sx={{ mb: 1.5 }} color="text.secondary">
+              Participants: {event.participants} / {event.totalParticipants}<br />
+            </Typography>
+            <Typography sx={{ mb: 1.5 }} color="text.secondary">
+              Status: {event.status}<br />
+            </Typography>
+          </CardContent>
 
-            <CardActions>
-              <Button onClick={() => handleOpenDialog(event)}>View Event</Button>
-            </CardActions>
-          </Card>
-        ))}
-      </Box>
+          <CardActions>
+            <Button onClick={() => handleOpenDialog(event)}>View Event</Button>
+          </CardActions>
+        </Card>
+      ))}
 
       {selectedEvent && (
         <Dialog open={isDialogOpen} onClose={handleCloseDialog}>
