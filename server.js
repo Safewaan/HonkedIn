@@ -35,6 +35,7 @@ const getEventsByUser = require ('./routes/events/getEventsByUser');
 const joinEvent = require('./routes/events/joinEvent');
 const editEvent = require('./routes/events/editEvent');
 const cancelEvent = require('./routes/events/cancelEvent');
+const getParticipants = require('./routes/events/getParticipants');
 
 app.use(createEvent);
 app.use(getEvents);
@@ -42,6 +43,33 @@ app.use(getEventsByUser);
 app.use(joinEvent);
 app.use(editEvent);
 app.use(cancelEvent);
+app.use(getParticipants);
+
+//Profile APIs
+const createUserProfile = require('./routes/profile/createUserProfile');
+const getUserProfile = require('./routes/profile/getUserProfile');
+const editUserProfile = require('./routes/profile/editUserProfile');
+
+app.use(createUserProfile);
+app.use(getUserProfile);
+app.use(editUserProfile);
+
+// Forum APIs
+const createForum = require('./routes/forums/createForum');
+const getForums = require('./routes/forums/getForums');
+const getForumsByUserID = require('./routes/forums/getForumsByUserID'); 
+const getForumsByForumID = require('./routes/forums/getForumsByForumID');
+const createForumComment = require('./routes/forums/createForumComment');
+const getForumCommentsByForumID = require('./routes/forums/getForumCommentsByForumID');
+const deleteForumComment = require('./routes/forums/deleteForumComment');
+
+app.use(createForum);
+app.use(getForums);
+app.use(getForumsByUserID);
+app.use(getForumsByForumID);
+app.use(createForumComment);
+app.use(getForumCommentsByForumID);
+app.use(deleteForumComment);
 
 app.listen(port, () => console.log(`Listening on port ${port}`)); //for the dev version
 //app.listen(port, '172.31.31.77'); //for the deployed version, specify the IP address of the server
