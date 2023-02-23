@@ -15,6 +15,10 @@ import CreateEvent from "./CreateEvent";
 import ProfileDashboard from "./ProfileDashboard"
 import MyEvents from "./MyEvents";
 import CreateForum from "./CreateForum";
+import Forums from "./Forums";
+import MyForums from "./MyForums"
+import Forum from "./Forum";
+
 
 function App() {
   return (
@@ -30,7 +34,7 @@ function App() {
               <PrivateRoute exact path="/" component={Dashboard} />
 
               {/* Settings Page */}
-              <PrivateRoute path="/user-settings" component={UserSettings}/>
+              <PrivateRoute path="/user-settings" component={UserSettings} />
               <PrivateRoute path="/update-credentials" component={UpdateCredentials} />
               <PrivateRoute path="/update-status" component={UpdateStatus} />
               <Route path="/signup" component={Signup} />
@@ -38,7 +42,8 @@ function App() {
               <Route path="/forgot-password" component={ForgotPassword} />
               <Route path="/events" component={Events} />
               <Route path="/create-event" component={CreateEvent} />
-              <PrivateRoute path="/my-profile" component={ProfileDashboard} /> 
+              <PrivateRoute path="/my-profile" component={ProfileDashboard} />
+
               {/* Event Pages */}
               <PrivateRoute path="/events" component={Events} />
               <PrivateRoute path="/create-event" component={CreateEvent} />
@@ -46,6 +51,9 @@ function App() {
 
               {/* Forum Pages */}
               <Route path="/create-forum" component={CreateForum} />
+              <Route path="/forums" component={Forums} />
+              <Route path="/my-forums" component={MyForums} />
+              <PrivateRoute path="/forum/:forumID" component={Forum} />
             </Switch>
           </AuthProvider>
         </Router>
