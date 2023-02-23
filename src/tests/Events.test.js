@@ -1,7 +1,6 @@
 import React from 'react';
 import Events from '../componentsTest/Events';
 import { render, screen } from '@testing-library/react';
-import fetchMock from 'jest-fetch-mock';
 
 import '@testing-library/jest-dom/extend-expect';
 
@@ -14,16 +13,16 @@ describe('<Events />', () => {
     expect(loadGetEvents).toHaveBeenCalled();
   });
 
-  it('displays the events', () => {
+  it('displays the events titles', () => {
     const noop = () => { };
     const events = [
       {
         "id": 1, "creatorID": 1, "name": "Test Event 1", "description": "Test Description 1", "location": "Test Location 1",
-        "date": "2023-02-23", "participants": 0, "totalParticipants": 100, "status": "Active"
+        "date": "2023-02-23T05:00:00.000Z", "participants": 0, "totalParticipants": 100, "status": "Active"
       },
       {
         "id": 2, "creatorID": 1, "name": "Test Event 2", "description": "Test Description 2", "location": "Test Location 2",
-        "date": "2023-02-23", "participants": 0, "totalParticipants": 100, "status": "Active"
+        "date": "2023-02-23T05:00:00.000Z", "participants": 0, "totalParticipants": 100, "status": "Active"
       }
     ];
 
@@ -32,16 +31,55 @@ describe('<Events />', () => {
     expect(screen.getByText('Test Event 2')).toBeInTheDocument();
   });
 
+  it('displays the date of the event', () => {
+    const noop = () => { };
+    const events = [
+      {
+        "id": 1, "creatorID": 1, "name": "Test Event 1", "description": "Test Description 1", "location": "Test Location 1",
+        "date": "2023-02-23T05:00:00.000Z", "participants": 0, "totalParticipants": 100, "status": "Active"
+      }
+    ]
+
+    render(<Events loadGetEvents={noop} events={events} />);
+    expect(screen.getByText('Date: 2/23/2023')).toBeInTheDocument();
+  });
+
+  it('displays the number of participants', () => {
+    const noop = () => { };
+    const events = [
+      {
+        "id": 1, "creatorID": 1, "name": "Test Event 1", "description": "Test Description 1", "location": "Test Location 1",
+        "date": "2023-02-23T05:00:00.000Z", "participants": 0, "totalParticipants": 100, "status": "Active"
+      }
+    ]
+
+    render(<Events loadGetEvents={noop} events={events} />);
+    expect(screen.getByText('Participants: 0 / 100')).toBeInTheDocument();
+  });
+
+  it('displays "Active" if the event is active', () => {
+    const noop = () => { };
+    const events = [
+      {
+        "id": 1, "creatorID": 1, "name": "Test Event 1", "description": "Test Description 1", "location": "Test Location 1",
+        "date": "2023-02-23T05:00:00.000Z", "participants": 0, "totalParticipants": 100, "status": "Active"
+      }
+    ];
+
+    render(<Events loadGetEvents={noop} events={events} />);
+    expect(screen.getByText('Status: Active')).toBeInTheDocument();
+  });
+
   it('displays "Cancelled" if the event is cancelled', () => {
     const noop = () => { };
     const events = [
       {
         "id": 1, "creatorID": 1, "name": "Test Event 1", "description": "Test Description 1", "location": "Test Location 1",
-        "date": "2023-02-23", "participants": 0, "totalParticipants": 100, "status": "Cancelled"
+        "date": "2023-02-23T05:00:00.000Z", "participants": 0, "totalParticipants": 100, "status": "Cancelled"
       }
     ];
 
     render(<Events loadGetEvents={noop} events={events} />);
     expect(screen.getByText('Status: Cancelled')).toBeInTheDocument();
-  })
+  });
 });
