@@ -128,13 +128,12 @@ const Forums = () => {
     }
 
     //API - Load comments for the forum
-    //API - Insert new comments 
     const handleApiLoadComments = async () => {
         try {
             const res = await callApiLoadComments();
             const parsed = JSON.parse(JSON.stringify(res.express));
             setComments(parsed);
-            
+
 
         } catch (error) {
             console.error(error);
@@ -152,6 +151,35 @@ const Forums = () => {
             },
             body: JSON.stringify({
                 forumID: forumID
+            })
+        });
+        const body = await response.json();
+        if (response.status !== 200) throw Error(body.message);
+        return body;
+    }
+
+    //API - Delete your own comments 
+    const handleApiDeleteComment = (commentID) => {
+        callApiDeleteComment(commentID)
+            .then(res => {
+                console.log("callApiDeleteComment returned: ", res)
+            })
+            setTimeout(() => {
+                window.location.reload();
+            }, 100);
+    }
+
+    const callApiDeleteComment = async (commentID) => {
+        const url = `${REACT_APP_API_ENDPOINT}/deleteForumComment`;
+        console.log(url);
+
+        const response = await fetch(url, {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+            },
+            body: JSON.stringify({
+                commentID: commentID
             })
         });
         const body = await response.json();
@@ -207,11 +235,19 @@ const Forums = () => {
                                             {comment.comment}<br />
                                         </Typography>
                                         <Typography style={{ mb: 1.5, fontSize: "12px" }} color="text.secondary">
-                                        <strong> By: </strong> {comment.firstName} {comment.lastName}<br />
-                                    </Typography>
-                                    <Typography style={{ mb: 1.5, fontSize: "12px" }} color="text.secondary">
-                                        <strong> Comment Created: </strong> {new Date(new Date(comment.commentDateTime).getTime() - (5 * 60 * 60 * 1000)).toLocaleString()} <br />
-                                    </Typography>
+                                            <strong> By: </strong> {comment.firstName} {comment.lastName}<br />
+                                        </Typography>
+                                        <Typography style={{ mb: 1.5, fontSize: "12px" }} color="text.secondary">
+                                            <strong> Comment Created: </strong> {new Date(new Date(comment.commentDateTime).getTime() - (5 * 60 * 60 * 1000)).toLocaleString()} <br />
+                                        </Typography>
+                                        {comment.userID === userID && (
+                                            <Typography
+                                                onClick={() => handleApiDeleteComment(comment.id)}
+                                                style={{ color: "red", mb: 1.5, cursor: 'pointer', fontSize: 12 }}
+                                            >
+                                                Delete
+                                            </Typography>
+                                        )}
                                     </CardContent>
                                 </Card>
                             ))}

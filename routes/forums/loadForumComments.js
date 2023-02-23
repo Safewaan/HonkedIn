@@ -3,7 +3,7 @@ const router = express.Router();
 const mysql = require('mysql');
 const config = require('../../config.js');
 
-// Creates a forum by inserting values into the DB
+// Loads the existing comments for a forum
 router.post('/api/loadForumComments', (req, res) => {
 
     let connection = mysql.createConnection(config);
