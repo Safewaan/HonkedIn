@@ -98,46 +98,27 @@ const Forums = () => {
                 </Typography>
             </Box>
 
-<<<<<<< HEAD
-            <Box sx={{ position: 'absolute', top: 150, left: '50%', transform: 'translateX(-50%)' }}>
-            {forums.map((event) => (
-                <Card style={{ width: '800px', marginBottom: '20px' }} key={event.id}>
-                    <CardContent>
+    <Box sx={{ position: 'absolute', top: 150, left: '50%', transform: 'translateX(-50%)' }}>
+        {forums.map((event) => (
+            <Card style={{ width: '800px', marginBottom: '20px' }} key={event.id}>
+                <CardContent>
+                    <Link to={`/forum/${event.id}`} target="_blank">
                         <Typography variant="h5" component="div">
                             {event.forumTitle}<br />
                         </Typography>
-                        <Typography sx={{ mb: 1.5 }} color="text.secondary">
-                            Posted on {new Date(new Date(event.dateTime).getTime() - (5 * 60 * 60 * 1000)).toLocaleDateString()}<br/>
-                            &nbsp; by {event.creatorName}<br />
-                        </Typography>
-                        <Typography sx={{ mb: 1.5 }} color="text.secondary">
-                            <br />{event.description}<br />
-                        </Typography>
-                    </CardContent>
-                </Card>
-            ))}
-=======
-            <Box sx={{ position: 'absolute', top: 150, left: "35%" }}>
-                {forums.map((event) => (
-                    <Card style={{ width: '500px', marginBottom: '20px' }} key={event.id}>
-                        <CardContent>
-                            <Link to={`/forum/${event.id}`} target="_blank">
-                                <Typography variant="h5" component="div">
-                                    {event.forumTitle}<br />
-                                </Typography>
-                            </Link>
-                            <Typography sx={{ mb: 1.5 }} color="text.secondary">
-                                Posted on {new Date(event.dateTime).toLocaleDateString()} by {event.creatorName}<br />
-                            </Typography>
-                            <Typography sx={{ mb: 1.5 }} color="text.secondary">
-                                <br />{event.description}<br />
-                            </Typography>
-                        </CardContent>
-                    </Card>
-                ))}
->>>>>>> f56b537e (Open the forum in a new page)
-            </Box>
-        </div>
+                    </Link>
+                    <Typography sx={{ mb: 1.5 }} color="text.secondary">
+                        Posted on {new Date(new Date(event.dateTime).getTime() - (5 * 60 * 60 * 1000)).toLocaleDateString()}<br />
+                        &nbsp; by {event.creatorName}<br />
+                    </Typography>
+                    <Typography sx={{ mb: 1.5 }} color="text.secondary">
+                        <br />{event.description}<br />
+                    </Typography>
+                </CardContent>
+            </Card>
+        ))}
+        </Box>
+    </div>
     )
 }
 

@@ -15,16 +15,10 @@ import CreateEvent from "./CreateEvent";
 import ProfileDashboard from "./ProfileDashboard"
 import MyEvents from "./MyEvents";
 import CreateForum from "./CreateForum";
-import Forums from "./Forums"; 
-<<<<<<< HEAD
-<<<<<<< HEAD
+import Forums from "./Forums";
 import MyForums from "./MyForums"
-=======
-import ForumCard from "./ForumCard"; 
->>>>>>> f56b537e (Open the forum in a new page)
-=======
-import Forum from "./Forum"; 
->>>>>>> d93144dd (Renamed)
+import Forum from "./Forum";
+
 
 function App() {
   return (
@@ -40,7 +34,7 @@ function App() {
               <PrivateRoute exact path="/" component={Dashboard} />
 
               {/* Settings Page */}
-              <PrivateRoute path="/user-settings" component={UserSettings}/>
+              <PrivateRoute path="/user-settings" component={UserSettings} />
               <PrivateRoute path="/update-credentials" component={UpdateCredentials} />
               <PrivateRoute path="/update-status" component={UpdateStatus} />
               <Route path="/signup" component={Signup} />
@@ -48,7 +42,7 @@ function App() {
               <Route path="/forgot-password" component={ForgotPassword} />
               <Route path="/events" component={Events} />
               <Route path="/create-event" component={CreateEvent} />
-              <PrivateRoute path="/my-profile" component={ProfileDashboard} /> 
+              <PrivateRoute path="/my-profile" component={ProfileDashboard} />
 
               {/* Event Pages */}
               <PrivateRoute path="/events" component={Events} />
@@ -58,20 +52,8 @@ function App() {
               {/* Forum Pages */}
               <Route path="/create-forum" component={CreateForum} />
               <Route path="/forums" component={Forums} />
-<<<<<<< HEAD
-<<<<<<< HEAD
-<<<<<<< HEAD
-              <Route path="/my-forums" component={MyForums} /> 
-=======
-              <Route path="/forum/:forumID" component={ForumCard} />
->>>>>>> f56b537e (Open the forum in a new page)
-=======
-              <Route path="/forum/:forumID" component={Forum} />
->>>>>>> d93144dd (Renamed)
-=======
+              <Route path="/my-forums" component={MyForums} />
               <PrivateRoute path="/forum/:forumID" component={Forum} />
->>>>>>> 8e586ceb (PrivateRoute)
-
             </Switch>
           </AuthProvider>
         </Router>

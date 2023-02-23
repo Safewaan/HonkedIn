@@ -4,11 +4,7 @@ const mysql = require('mysql');
 const config = require('../../config.js');
 
 //retrives all forum data created by the given user id
-<<<<<<< HEAD
-router.post('/api/getForumsByUser', (req, res) => {
-=======
 router.post('/api/getForumsByUserID', (req, res) => {
->>>>>>> 00535379 (Not sure)
 
     let connection = mysql.createConnection(config);
 
