@@ -13,7 +13,7 @@ import Link from "@material-ui/core/Link";
 
 const { REACT_APP_API_ENDPOINT } = process.env;
 
-const Forum = ({loadGetForumCommentsByForumID}) => {
+const Forum = ({loadGetForumCommentsByForumID, comments}) => {
 
     //const { currentUser } = useAuth();
     //const history = useHistory();
@@ -24,7 +24,7 @@ const Forum = ({loadGetForumCommentsByForumID}) => {
     const [forums, setForums] = React.useState([]);
 
     // Comment states
-    const [comments, setComments] = React.useState([]);
+    //const [comments, setComments] = React.useState([]);
 
     const [newComment, setNewComment] = React.useState("");
     const handleNewComment = (event) => {
@@ -140,7 +140,7 @@ const Forum = ({loadGetForumCommentsByForumID}) => {
         try {
             const res = await callApiLoadComments();
             const parsed = JSON.parse(JSON.stringify(res.express));
-            setComments(parsed);
+            //setComments(parsed);
 
 
         } catch (error) {
