@@ -31,4 +31,17 @@ describe('<Events />', () => {
     expect(screen.getByText('Test Event 1')).toBeInTheDocument();
     expect(screen.getByText('Test Event 2')).toBeInTheDocument();
   });
+
+  it('displays "Cancelled" if the event is cancelled', () => {
+    const noop = () => { };
+    const events = [
+      {
+        "id": 1, "creatorID": 1, "name": "Test Event 1", "description": "Test Description 1", "location": "Test Location 1",
+        "date": "2023-02-23", "participants": 0, "totalParticipants": 100, "status": "Cancelled"
+      }
+    ];
+
+    render(<Events loadGetEvents={noop} events={events} />);
+    expect(screen.getByText('Status: Cancelled')).toBeInTheDocument();
+  })
 });
