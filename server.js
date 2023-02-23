@@ -57,16 +57,16 @@ app.use(editUserProfile);
 // Forum APIs
 const createForum = require('./routes/forums/createForum');
 const getForums = require('./routes/forums/getForums');
-const getSelectedForum = require('./routes/forums/getSelectedForum');
-const addForumComment = require('./routes/forums/addForumComment');
-const loadForumComments = require('./routes/forums/loadForumComments');
+const getForumsByForumID = require('./routes/forums/getForumsByForumID');
+const createForumComment = require('./routes/forums/createForumComment');
+const getForumCommentsByForumID = require('./routes/forums/getForumCommentsByForumID');
 const deleteForumComment = require('./routes/forums/deleteForumComment');
 
 app.use(createForum);
 app.use(getForums);
-app.use(getSelectedForum);
-app.use(addForumComment);
-app.use(loadForumComments);
+app.use(getForumsByForumID);
+app.use(createForumComment);
+app.use(getForumCommentsByForumID);
 app.use(deleteForumComment);
 
 app.listen(port, () => console.log(`Listening on port ${port}`)); //for the dev version

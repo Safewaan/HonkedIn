@@ -13,7 +13,7 @@ import Button from "@material-ui/core/Button";
 
 const { REACT_APP_API_ENDPOINT } = process.env;
 
-const ForumCard = () => {
+const Forum = () => {
 
     const { currentUser } = useAuth();
     const history = useHistory();
@@ -82,7 +82,7 @@ const ForumCard = () => {
     }
 
     const callApiGetSelectedForum = async () => {
-        const url = `${REACT_APP_API_ENDPOINT}/getSelectedForum`;
+        const url = `${REACT_APP_API_ENDPOINT}/getForumsByForumID`;
         console.log(url);
 
         const response = await fetch(url, {
@@ -108,7 +108,7 @@ const ForumCard = () => {
     }
 
     const callApiAddComment = async () => {
-        const url = `${REACT_APP_API_ENDPOINT}/addForumComment`;
+        const url = `${REACT_APP_API_ENDPOINT}/createForumComment`;
         console.log(url);
 
         const response = await fetch(url, {
@@ -141,7 +141,7 @@ const ForumCard = () => {
     }
 
     const callApiLoadComments = async () => {
-        const url = `${REACT_APP_API_ENDPOINT}/loadForumComments`;
+        const url = `${REACT_APP_API_ENDPOINT}/getForumCommentsByForumID`;
         console.log(url);
 
         const response = await fetch(url, {
@@ -164,9 +164,9 @@ const ForumCard = () => {
             .then(res => {
                 console.log("callApiDeleteComment returned: ", res)
             })
-            setTimeout(() => {
-                window.location.reload();
-            }, 100);
+        setTimeout(() => {
+            window.location.reload();
+        }, 100);
     }
 
     const callApiDeleteComment = async (commentID) => {
@@ -231,11 +231,11 @@ const ForumCard = () => {
                             {comments.map((comment) => (
                                 <Card style={{ width: '500px', marginBottom: '20px' }} key={comment.id}>
                                     <CardContent>
+                                        <Typography style={{ mb: 1.5, fontSize: "12px" }} color="text.secondary">
+                                            <strong> User: </strong> {comment.firstName} {comment.lastName}<br />
+                                        </Typography>
                                         <Typography sx={{ mb: 1.5 }} color="text.secondary">
                                             {comment.comment}<br />
-                                        </Typography>
-                                        <Typography style={{ mb: 1.5, fontSize: "12px" }} color="text.secondary">
-                                            <strong> By: </strong> {comment.firstName} {comment.lastName}<br />
                                         </Typography>
                                         <Typography style={{ mb: 1.5, fontSize: "12px" }} color="text.secondary">
                                             <strong> Comment Created: </strong> {new Date(new Date(comment.commentDateTime).getTime() - (5 * 60 * 60 * 1000)).toLocaleString()} <br />
@@ -259,4 +259,4 @@ const ForumCard = () => {
     )
 }
 
-export default ForumCard; 
+export default Forum; 

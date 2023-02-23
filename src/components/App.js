@@ -16,7 +16,7 @@ import ProfileDashboard from "./ProfileDashboard"
 import MyEvents from "./MyEvents";
 import CreateForum from "./CreateForum";
 import Forums from "./Forums"; 
-import ForumCard from "./ForumCard"; 
+import Forum from "./Forum"; 
 
 function App() {
   return (
@@ -49,7 +49,7 @@ function App() {
               {/* Forum Pages */}
               <Route path="/create-forum" component={CreateForum} />
               <Route path="/forums" component={Forums} />
-              <Route path="/forum/:forumID" component={ForumCard} />
+              <Route path="/forum/:forumID" component={Forum} />
 
             </Switch>
           </AuthProvider>

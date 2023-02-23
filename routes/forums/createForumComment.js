@@ -3,19 +3,15 @@ const router = express.Router();
 const mysql = require('mysql');
 const config = require('../../config.js');
 
-// Loads the existing comments for a forum
-router.post('/api/loadForumComments', (req, res) => {
+// Adds a comment on the selected Forum
+router.post('/api/createForumComment', (req, res) => {
 
     let connection = mysql.createConnection(config);
 
-    let sql = 
-    `SELECT forumComments.id, forumComments.forumID, forumComments.userID, forumComments.commentDateTime, forumComments.comment, users.firstName, users.lastName
-    FROM shchowdh.forumComments
-    LEFT JOIN users ON forumComments.userID = users.id
-    WHERE forumID = ?;`;
-    console.log(sql);
-    let data = [req.body.forumID];
-    console.log(data);
+    let sql = "INSERT INTO shchowdh.forumComments (forumID, userID, comment) VALUES (?, ?, ?)";
+    //console.log(sql);
+    let data = [req.body.forumID, req.body.userID, req.body.newComment];
+    //console.log(data);
 
     connection.query(sql, data, (error, results, fields) => {
 
