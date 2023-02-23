@@ -17,7 +17,7 @@ import DialogActions from '@material-ui/core/DialogActions';
 import DialogContent from '@material-ui/core/DialogContent';
 import DialogTitle from '@material-ui/core/DialogTitle';
 import MuiAlert from '@mui/material/Alert';
-
+import { Form } from "react-bootstrap"
 
 const { REACT_APP_API_ENDPOINT } = process.env;
 
@@ -70,6 +70,9 @@ const MyForums = () => {
     const [isDialogOpen, setIsDialogOpen] = React.useState(false);
     const [showEditAlertMessage, setShowEditAlertMessage] = React.useState(false);
     const classes = useStyles();
+
+    const [forumStatus, setForumStatus] = React.useState('');
+    const [showSuccessfulArchiveMsg, setshowSuccessfulArchiveMsg] = React.useState(false);
 
     React.useEffect(() => {
         setEmail(currentUser.email);
@@ -128,7 +131,7 @@ const MyForums = () => {
             })
         });
         const body = await response.json();
-        //console.log("got here");
+        console.log("got here");
         if (response.status !== 200) throw Error(body.message);
         return body;
     }
@@ -136,6 +139,34 @@ const MyForums = () => {
     useEffect(() => {
         loadgetForumsByUserID();
     }, [userID]);
+
+    const callApiArchiveForum = async () => {
+        const url = `${REACT_APP_API_ENDPOINT}/archiveForum`;
+        console.log(url);
+
+        const response = await fetch(url, {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+            },
+            body: JSON.stringify({
+                creatorID: userID
+            })
+        });
+
+        const body = await response.json();
+        if (response.status !== 200) throw Error(body.message);
+        return body;
+    }
+
+    async function handleArchiveForum() {
+        await loaduserSearchByEmail(currentUser.email);
+        callApiArchiveForum();
+        setshowSuccessfulArchiveMsg(true);
+        setTimeout(() => {
+            window.location.reload();
+        }, 3000);
+    }
 
     const CallApiEditForum = async () => {
 
@@ -163,8 +194,8 @@ const MyForums = () => {
     const [forumTitle, setForumTitle] = React.useState('');
     const [forumTitleError, setForumTitleError] = React.useState('');
     const [forumTitleErrorText, setForumTitleErrorText] = React.useState(''); //ERROR EDITING IN RETURN BRACKETS
-    const handleForumTitle = (event) => {
-        setForumTitle(event.target.value);
+    const handleForumTitle = (forum) => {
+        setForumTitle(forum.target.value);
         setForumTitleError(false);
         setForumTitleErrorText('');
     }
@@ -233,27 +264,30 @@ const MyForums = () => {
             </Box>
 
             <Box sx={{ position: 'absolute', top: 150, left: '50%', transform: 'translateX(-50%)' }}>
-                {forums.map((event) => (
-                    <Card style={{ width: '800px', marginBottom: '20px' }} key={event.id}>
+                {forums.map((forum) => (
+                    <Card style={{ width: '800px', marginBottom: '20px' }} key={forum.id}>
                         <CardContent>
-                            <Link to={`/forum/${event.id}`} target="_blank">
+                            <Link to={`/forum/${forum.id}`} target="_blank">
                                 <Typography variant="h5" component="div">
-                                    {event.forumTitle}<br />
+                                    {forum.forumTitle}<br />
                                 </Typography>
                             </Link>
                             <Typography sx={{ mb: 1.5 }} color="text.secondary">
-                                Posted on {new Date(event.dateTime).toLocaleDateString()}<br />
+                                Posted on {new Date(forum.dateTime).toLocaleDateString()}<br />
                             </Typography>
-
-                            {event.status === "Archived" && <Typography variant="subtitle2" color="text.secondary"> ARCHIVED </Typography>}
-
                             <Typography sx={{ mb: 1.5 }} color="text.secondary">
-                                <br />{event.description}<br />
+                                <br />{forum.description}<br />
+                            </Typography>
+                            <Typography sx={{ mb: 1.5 }} color="text.secondary">
+                                <br />{forum.status}<br />
                             </Typography>
                         </CardContent>
                         <CardActions>
-                            {event.status === "Active" && <Button onClick={() => handleOpenDialog(event)}>Edit Forum</Button>}
+                            {forum.status === "Active" && <Button onClick={() => handleOpenDialog(forum)}>Edit Forum</Button>}
                         </CardActions>
+                        <Button variant="outlined" onClick={handleArchiveForum} className="w-100">
+                            Archive My Forum
+                        </Button>
                     </Card>
                 ))}
             </Box>
@@ -294,9 +328,14 @@ const MyForums = () => {
                     Event successfully edited.
                 </Alert>
             )}
-
-        </div>
+            {showSuccessfulArchiveMsg && (
+                <Alert severity="success">
+                    Forum archived.
+                </Alert>
+            )}
+        </div >
     )
+
 
 }
 

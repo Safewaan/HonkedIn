@@ -99,20 +99,20 @@ const Forums = () => {
             </Box>
 
     <Box sx={{ position: 'absolute', top: 150, left: '50%', transform: 'translateX(-50%)' }}>
-        {forums.map((event) => (
-            <Card style={{ width: '800px', marginBottom: '20px' }} key={event.id}>
+        {forums.map((forum) => (
+            <Card style={{ width: '800px', marginBottom: '20px' }} key={forum.id}>
                 <CardContent>
-                    <Link to={`/forum/${event.id}`} target="_blank">
+                    <Link to={`/forum/${forum.id}`} target="_blank">
                         <Typography variant="h5" component="div">
-                            {event.forumTitle}<br />
+                            {forum.forumTitle}<br />
                         </Typography>
                     </Link>
                     <Typography sx={{ mb: 1.5 }} color="text.secondary">
-                        Posted on {new Date(new Date(event.dateTime).getTime() - (5 * 60 * 60 * 1000)).toLocaleDateString()}<br />
-                        &nbsp; by {event.creatorName}<br />
+                        Posted on {new Date(new Date(forum.dateTime).getTime() - (5 * 60 * 60 * 1000)).toLocaleDateString()}<br />
+                        &nbsp; by {forum.creatorName}<br />
                     </Typography>
                     <Typography sx={{ mb: 1.5 }} color="text.secondary">
-                        <br />{event.description}<br />
+                        <br />{forum.description}<br />
                     </Typography>
                 </CardContent>
             </Card>
