@@ -50,9 +50,9 @@ const MyForums = () => {
         return body;
     }
 
-    const loadGetForumsByUser = async () => {
+    const loadgetForumsByUserID = async () => {
         try {
-            const res = await CallApiGetForumsByUser();
+            const res = await CallApigetForumsByUserID();
             const parsed = JSON.parse(res.express);
             setForums(parsed);
         } catch (error) {
@@ -60,9 +60,9 @@ const MyForums = () => {
         }
     }
 
-    const CallApiGetForumsByUser = async () => {
+    const CallApigetForumsByUserID = async () => {
 
-        const url = `${REACT_APP_API_ENDPOINT}/getForumsByUser`;
+        const url = `${REACT_APP_API_ENDPOINT}/getForumsByUserID`;
         console.log(url);
 
         const response = await fetch(url, {
@@ -81,7 +81,7 @@ const MyForums = () => {
     }
 
     useEffect(() => {
-        loadGetForumsByUser();
+        loadgetForumsByUserID();
     }, [userID]);
 
     //WILL IMPLEMENT THIS IN OTHER PR

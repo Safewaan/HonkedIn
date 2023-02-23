@@ -211,7 +211,6 @@ const Events = () => {
                 Status: {event.status}<br />
               </Typography>
             </CardContent>
-
             <CardActions>
               <Button onClick={() => handleOpenDialog(event)}>View Event</Button>
             </CardActions>
