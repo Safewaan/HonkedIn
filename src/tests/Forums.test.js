@@ -40,7 +40,8 @@ describe('<Forums />', () => {
         ];
 
         render(<Forums loadGetForums={noop} forums={forums} />);
-        expect(screen.getByText("Posted on 2023-02-23 by Gabrielle Tang")).toBeInTheDocument();
+        //expect(screen.getByText("Posted on 2023-02-23 by Gabrielle Tang")).toBeInTheDocument();
+        expect(screen.getByText("Posted on 2/23/2023 by Gabrielle Tang")).toBeInTheDocument();
     }); 
 
     it('displays the forum descriptions', () => {

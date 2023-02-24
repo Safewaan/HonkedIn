@@ -293,16 +293,17 @@ const MyForums = () => {
                             <Typography sx={{ mb: 1.5 }} color="text.secondary">
                                 Posted on {new Date(forum.dateTime).toLocaleDateString()}<br />
                             </Typography>
+                            <Typography variant="subtitle2" sx={{ mb: 1.5 }} color="text.secondary">
+                                Status: {forum.status}<br />
+                            </Typography>
                             <Typography sx={{ mb: 1.5 }} color="text.secondary">
                                 <br />{forum.description}<br />
                             </Typography>
-                            <Typography sx={{ mb: 1.5 }} color="text.secondary">
-                                <br />{forum.status}<br />
-                            </Typography>
+
                         </CardContent>
                         <CardActions>
                             {forum.status === "Active" && <Button onClick={() => handleOpenDialog(forum)}>Edit Forum</Button>}
-                            {forum.status === 'Active' && (<Button onClick={() => handleArchiveForum(forum.id)}>Archive My Forum</Button>)}
+                            {forum.status === 'Active' && (<Button onClick={() => handleArchiveForum(forum.id)}>Archive Forum</Button>)}
                         </CardActions>
                     </Card>
                 ))}
