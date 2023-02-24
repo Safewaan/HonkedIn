@@ -302,12 +302,8 @@ const MyForums = () => {
                         </CardContent>
                         <CardActions>
                             {forum.status === "Active" && <Button onClick={() => handleOpenDialog(forum)}>Edit Forum</Button>}
+                            {forum.status === 'Active' && (<Button onClick={() => handleArchiveForum(forum.id)}>Archive My Forum</Button>)}
                         </CardActions>
-                        {forum.status === 'Active' && (
-                            <Button variant="outlined" onClick={() => handleArchiveForum(forum.id)} className="w-100">
-                                Archive My Forum
-                            </Button>
-                        )}
                     </Card>
                 ))}
             </Box>
