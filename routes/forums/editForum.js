@@ -9,9 +9,9 @@ router.post('/api/editForum', (req, res) => {
 	let connection = mysql.createConnection(config);
 
 	let sql = "UPDATE forums SET forumTitle = ?, description =? WHERE id = ?;";
-	console.log(sql);
+	//console.log(sql);
 	let data = [req.body.forumTitle, req.body.forumDesc, req.body.forumID];
-	console.log(data);
+	//console.log(data);
 
 	connection.query(sql, data, (error, results, fields) => {
 

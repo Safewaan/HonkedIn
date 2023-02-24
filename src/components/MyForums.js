@@ -244,12 +244,15 @@ const MyForums = () => {
                             <Typography sx={{ mb: 1.5 }} color="text.secondary">
                                 Posted on {new Date(event.dateTime).toLocaleDateString()}<br />
                             </Typography>
+
+                            {event.status === "Archived" && <Typography variant="subtitle2" color="text.secondary"> ARCHIVED </Typography>}
+
                             <Typography sx={{ mb: 1.5 }} color="text.secondary">
                                 <br />{event.description}<br />
                             </Typography>
                         </CardContent>
                         <CardActions>
-                            {<Button onClick={() => handleOpenDialog(event)}>Edit Forum</Button>}
+                            {event.status === "Active" && <Button onClick={() => handleOpenDialog(event)}>Edit Forum</Button>}
                         </CardActions>
                     </Card>
                 ))}
