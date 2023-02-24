@@ -10,15 +10,15 @@ router.post('/api/getForumsByUserID', (req, res) => {
 
     let sql =
         `SELECT CONCAT(firstName, " ", lastName) AS creatorName,
-            forums.id, forumTitle, forums.description, dateTime
+            forums.id, forumTitle, forums.description, dateTime, forums.status
             FROM users, forums
             WHERE forums.creatorID = users.id
             AND users.id = ?
             ORDER BY dateTime`;
     let data = [req.body.userID];
 
-     console.log(sql);
-     console.log(data);
+     //console.log(sql);
+     //console.log(data);
 
     connection.query(sql, data, (error, results, fields) => {
         if (error) {
