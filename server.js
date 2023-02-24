@@ -63,6 +63,7 @@ const getForumsByForumID = require('./routes/forums/getForumsByForumID');
 const createForumComment = require('./routes/forums/createForumComment');
 const getForumCommentsByForumID = require('./routes/forums/getForumCommentsByForumID');
 const deleteForumComment = require('./routes/forums/deleteForumComment');
+const archiveForum = require('./routes/forums/archiveForum')
 
 app.use(createForum);
 app.use(getForums);
@@ -72,6 +73,7 @@ app.use(getForumsByForumID);
 app.use(createForumComment);
 app.use(getForumCommentsByForumID);
 app.use(deleteForumComment);
+app.use(archiveForum);
 
 app.listen(port, () => console.log(`Listening on port ${port}`)); //for the dev version
 //app.listen(port, '172.31.31.77'); //for the deployed version, specify the IP address of the server
