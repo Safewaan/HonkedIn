@@ -71,6 +71,26 @@ const MyForums = () => {
     const [showEditAlertMessage, setShowEditAlertMessage] = React.useState(false);
     const classes = useStyles();
 
+    const [forumStatus, setForumStatus] = React.useState('');
+    const [showSuccessfulArchiveMsg, setshowSuccessfulArchiveMsg] = React.useState(false);
+
+    const Alert = React.forwardRef(function Alert(props, ref) {
+        return (
+            <MuiAlert
+                elevation={6}
+                ref={ref}
+                variant="filled"
+                {...props}
+                style={{
+                    position: 'fixed',
+                    bottom: '20px',
+                    right: '20px',
+                    zIndex: 9999
+                }}
+            />
+        );
+    });
+
     React.useEffect(() => {
         setEmail(currentUser.email);
         loaduserSearchByEmail(currentUser.email);
@@ -108,6 +128,7 @@ const MyForums = () => {
             const res = await CallApigetForumsByUserID();
             const parsed = JSON.parse(res.express);
             setForums(parsed);
+            setForumStatus(parsed.status);
         } catch (error) {
             console.error(error);
         }
@@ -158,6 +179,7 @@ const MyForums = () => {
 
     async function handleArchiveForum(forumID) {
         await loaduserSearchByEmail(currentUser.email);
+        setshowSuccessfulArchiveMsg(true);
         callApiArchiveForum(forumID);
         setTimeout(() => {
             window.location.reload();
@@ -281,9 +303,11 @@ const MyForums = () => {
                         <CardActions>
                             {forum.status === "Active" && <Button onClick={() => handleOpenDialog(forum)}>Edit Forum</Button>}
                         </CardActions>
-                        <Button variant="outlined" onClick={handleArchiveForum} className="w-100">
-                            Archive My Forum
-                        </Button>
+                        {forum.status === 'Active' && (
+                            <Button variant="outlined" onClick={() => handleArchiveForum(forum.id)} className="w-100">
+                                Archive My Forum
+                            </Button>
+                        )}
                     </Card>
                 ))}
             </Box>
@@ -371,5 +395,6 @@ const ForumDesc = ({ forumDesc, onEnterForumDesc, forumDescError, forumDescError
         </Grid>
     )
 }
+
 
 export default MyForums;
