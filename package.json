@@ -34,6 +34,7 @@
     "eject": "react-scripts eject"
   },
   "jest": {
+    "testEnvironment": "jsdom",
     "transform": {
       "^.+\\.[t|j]sx?$": "babel-jest"
     }
