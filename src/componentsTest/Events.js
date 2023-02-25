@@ -1,5 +1,5 @@
 import React, { useRef, useState, useEffect } from "react"
-import { useAuth } from "../contexts/AuthContext"
+// import { useAuth } from "../contexts/AuthContext"
 import { Link, useHistory } from "react-router-dom"
 
 import Card from '@material-ui/core/Card';
@@ -14,7 +14,7 @@ import DialogContent from '@material-ui/core/DialogContent';
 import DialogContentText from '@material-ui/core/DialogContentText';
 import DialogTitle from '@material-ui/core/DialogTitle';
 import MuiAlert from '@mui/material/Alert';
-import NavigationBar from './NavigationBar';
+// import NavigationBar from './NavigationBar';
 import Box from "@material-ui/core/Box";
 
 const { REACT_APP_API_ENDPOINT } = process.env;
@@ -36,9 +36,9 @@ const Alert = React.forwardRef(function Alert(props, ref) {
   );
 });
 
-const Events = () => {
 
-  const { currentUser } = useAuth();
+const Events = ({ loadGetEvents, events }) => {
+  // const { currentUser } = useAuth();
   const history = useHistory()
 
   const [selectedEvent, setSelectedEvent] = React.useState(null);
@@ -47,11 +47,11 @@ const Events = () => {
   const [alertMessage, setAlertMessage] = useState('');
   const [alertSeverity, setAlertSeverity] = useState('');
 
-  //const email = currentUser.email;
+  // const email = currentUser.email;
   const [email, setEmail] = React.useState('');
   const [userID, setUserID] = React.useState('');
 
-  const [events, setEvents] = useState([]);
+  // const [events, setEvents] = useState([]);
 
   const handleOpenDialog = (event) => {
     setSelectedEvent(event);
@@ -63,20 +63,20 @@ const Events = () => {
     setIsDialogOpen(false);
   };
 
-  React.useEffect(() => {
-    setEmail(currentUser.email);
-    loaduserSearchByEmail(currentUser.email);
-  }, []);
+  // React.useEffect(() => {
+  //   setEmail(currentUser.email);
+  //   loaduserSearchByEmail(currentUser.email);
+  // }, []);
 
-  const loadGetEvents = async () => {
-    try {
-      const res = await callApiGetEvents();
-      const parsed = JSON.parse(res.express);
-      setEvents(parsed);
-    } catch (error) {
-      console.error(error);
-    }
-  }
+  // const loadGetEvents = async () => {
+  //   try {
+  //     const res = await callApiGetEvents();
+  //     const parsed = JSON.parse(res.express);
+  //     setEvents(parsed);
+  //   } catch (error) {
+  //     console.error(error);
+  //   }
+  // }
 
   const callApiGetEvents = async () => {
 
@@ -149,10 +149,6 @@ const Events = () => {
     return body;
   }
 
-  useEffect(() => {
-    loadGetEvents();
-  }, []);
-
   const loaduserSearchByEmail = (email) => {
     callApiGetuserSearchByEmail(email)
       .then(res => {
@@ -180,10 +176,14 @@ const Events = () => {
     return body;
   }
 
+  useEffect(() => {
+    loadGetEvents();
+  }, [loadGetEvents]);
+
   return (
     <div id="body">
 
-      <NavigationBar></NavigationBar>
+      {/* <NavigationBar></NavigationBar> */}
 
       <Box sx={{ position: 'absolute', top: 100, left: "35%" }}>
         <Typography
@@ -201,13 +201,13 @@ const Events = () => {
               <Typography variant="h5" component="div">
                 {event.name}<br />
               </Typography>
-              <Typography sx={{ mb: 1.5 }} color="text.secondary">
+              <Typography sx={{ mb: 1.5 }} /*color="text.secondary"*/>
                 Date: {new Date(new Date(event.date).getTime() - (5 * 60 * 60 * 1000)).toLocaleString()}<br />
               </Typography>
-              <Typography sx={{ mb: 1.5 }} color="text.secondary">
+              <Typography sx={{ mb: 1.5 }} /*color="text.secondary"*/>
                 Participants: {event.participants} / {event.totalParticipants}<br />
               </Typography>
-              <Typography sx={{ mb: 1.5 }} color="text.secondary">
+              <Typography sx={{ mb: 1.5 }} /*color="text.secondary"*/>
                 Status: {event.status}<br />
               </Typography>
             </CardContent>
