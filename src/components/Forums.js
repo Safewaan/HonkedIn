@@ -109,8 +109,11 @@ const Forums = () => {
                     </Link>
                     <Typography sx={{ mb: 1.5 }} color="text.secondary">
                         Posted on {new Date(new Date(forum.dateTime).getTime() - (5 * 60 * 60 * 1000)).toLocaleDateString()}<br />
-                        &nbsp; by {forum.creatorName}<br />
+                        by {forum.creatorName}<br />
                     </Typography>
+                    <Typography variant="subtitle2" sx={{ mb: 1.5 }} color="text.secondary">
+                                Status: {forum.status}<br />
+                            </Typography>
                     <Typography sx={{ mb: 1.5 }} color="text.secondary">
                         <br />{forum.description}<br />
                     </Typography>
