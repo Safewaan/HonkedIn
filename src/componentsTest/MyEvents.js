@@ -39,7 +39,7 @@ const Alert = React.forwardRef(function Alert(props, ref) {
     );
 });
 
-const MyEvents = ({ loadGetMyEvents, myEvents }) => {
+const MyEvents = ({ loadGetMyEvents, events }) => {
 
     const useStyles = makeStyles((theme) => ({
         formControl: {
@@ -76,7 +76,7 @@ const MyEvents = ({ loadGetMyEvents, myEvents }) => {
     const [email, setEmail] = React.useState('');
     const [userID, setUserID] = React.useState('');
 
-    const [events, setEvents] = useState([]);
+    // const [events, setEvents] = useState([]);
 
     const [eventName, setEventName] = React.useState('');
     const [eventNameError, setEventNameError] = React.useState('');
