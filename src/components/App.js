@@ -30,7 +30,7 @@ function App() {
         <Router>
           <AuthProvider>
             <Switch>
-              {/* Landing Pags */}
+              {/* Landing Page */}
               <PrivateRoute exact path="/" component={Dashboard} />
 
               {/* Authentication Pages */}
