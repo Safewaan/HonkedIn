@@ -28,7 +28,7 @@ export default function Dashboard() {
       <Paper>
         <NavigationBar></NavigationBar>
         <div style={{ textAlign: 'center' }}>
-          <Typography variant="h2" component="div">Welcome to HonkedIn!</Typography>
+          <Typography variant="h3" component="div">Welcome to HonkedIn!</Typography>
         </div>
       </Paper>
     </>
