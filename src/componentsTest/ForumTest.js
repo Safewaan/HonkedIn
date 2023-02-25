@@ -13,7 +13,7 @@ import Link from "@material-ui/core/Link";
 
 const { REACT_APP_API_ENDPOINT } = process.env;
 
-const Forum = ({ loadGetForumCommentsByForumID, comments }) => {
+const Forum = ({ loadGetForumCommentsByForumID, comments, forums }) => {
 
     //const { currentUser } = useAuth();
     //const history = useHistory();
@@ -21,7 +21,7 @@ const Forum = ({ loadGetForumCommentsByForumID, comments }) => {
     // const [userID, setUserID] = React.useState('');
     const { forumID } = 1;
 
-    const [forums, setForums] = React.useState([]);
+    //const [forums, setForums] = React.useState([]);
 
     // Comment states
     //const [comments, setComments] = React.useState([]);
@@ -67,16 +67,20 @@ const Forum = ({ loadGetForumCommentsByForumID, comments }) => {
      */
 
     useEffect(() => {
-        handleApiGetSelectedForum();
-        handleApiLoadComments();
+       // handleApiGetSelectedForum();
+       // handleApiLoadComments();
     }, []);
 
     useEffect(() => {
         loadGetForumCommentsByForumID();
     }, [loadGetForumCommentsByForumID]);
 
+    useEffect(() => {
+        loadGetForumCommentsByForumID();
+    }, [loadGetForumCommentsByForumID]);
+
     //API - Display the retrieved forum 
-    const handleApiGetSelectedForum = async () => {
+    /*const handleApiGetSelectedForum = async () => {
         try {
             const res = await callApiGetSelectedForum();
             const parsed = JSON.parse(res.express);
@@ -85,9 +89,9 @@ const Forum = ({ loadGetForumCommentsByForumID, comments }) => {
         } catch (error) {
             // console.error(error);
         }
-    }
+    }*/
 
-    const callApiGetSelectedForum = async () => {
+    /*const callApiGetSelectedForum = async () => {
         const url = `${REACT_APP_API_ENDPOINT}/getForumsByForumID`;
         console.log(url);
 
@@ -103,7 +107,7 @@ const Forum = ({ loadGetForumCommentsByForumID, comments }) => {
         const body = await response.json();
         if (response.status !== 200) throw Error(body.message);
         return body;
-    }
+    }*/
 
 
     //API - Insert new comments 
