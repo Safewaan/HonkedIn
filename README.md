@@ -1,49 +1,76 @@
 # HonkedIn
-Welcome to the HonkedIn repository! HonkedIn is a web application built with React and Node.js to provide students with a platform for networking and building communities. 
+Welcome to the HonkedIn repository! HonkedIn is a web application built with React and Node.js to provide students with a platform to connect with each other, create and join groups, and share content.
 
 ## Table of Contents
+* [Configuration](#Configuration)
+* [Installation](#Installation)
 * [Getting Started](#getting-started)
 * [Version Control Guide](#version-control-guide)
   * [Branching](#branching)
   * [Commits](#commits)
 
+## Configuration
+
+This application requires certain environment variables to be set in order to connect to Firebase and the database.
+
+To set these variables, do the following:
+1. Create a `env.local` file in the root directory of the project with the following contents:
+    ```
+    REACT_APP_API_ENDPOINT=http://localhost:5000/api
+    REACT_APP_FIREBASE_API_KEY=<your-firebase-api-key>
+    REACT_APP_FIREBASE_AUTH_DOMAIN=<your-firebase-auth-domain>
+    REACT_APP_FIREBASE_PROJECT_ID=<your-firebase-project-id>
+    REACT_APP_FIREBASE_STORAGE_BUCKET=<your-firebase-storage-bucket>
+    REACT_APP_FIREBASE_MESSAGING_SENDER_ID=<your-firebase-messaging-sender-id>
+    REACT_APP_FIREBASE_APP_ID=<your-firebase-app-id>
+    ```
+
+2. Create a `config.js` file in the root directory of the project with the following contents:
+    ```
+    let config = {
+      host: '<your-mysql-host>',
+      user: '<your-mysql-user>',
+      password: '<your-mysql-password>',
+      database: '<your-mysql-database>'
+    };
+
+    module.exports = config;
+    ```
+
+Note that these values should be kept confidential and not shared publicly.
+
+To configure the database, follow the steps below:
+1. In MySQL Workbench or another MySQL client, connect to the MySQL server that will host the database. 
+2. Open the SQL files containing the schema. The files can be found in the `/schema/` directory. 
+3. Execute the SQL commands in the file to create the necessary tables and relationships.
+4. Verify that the schema was created correctly by checking the table structure and data.
+
+## Installation
+To install HonkedIn, first clone the repository:
+
+### `git clone https://github.com/Safewaan/HonkedIn.git`
+
+Then install dependencies:
+
+### `npm install`
+
 ## Getting Started
 
-In the project directory, you can run:
+To start the application in development mode, run:
 
 ### `npm start`
 
-Runs the app in the development mode.<br />
-Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
-
-The page will reload if you make edits.<br />
-You will also see any lint errors in the console.
-
-### `npm test`
-
-Launches the test runner in the interactive watch mode.<br />
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+To build the application for production, run:
 
 ### `npm run build`
 
-Builds the app for production to the `build` folder.<br />
-It correctly bundles React in production mode and optimizes the build for the best performance.
+To run the test suite, run:
 
-The build is minified and the filenames include the hashes.<br />
-Your app is ready to be deployed!
+### `npm test`
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+To open Cypress for end-to-end testing, run:
 
-### `npm run eject`
-
-**Note: this is a one-way operation. Once you `eject`, you can’t go back!**
-
-If you aren’t satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
-
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you’re on your own.
-
-You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
-
+### `npm run cypress`
 
 ## Version Control Guide
 
