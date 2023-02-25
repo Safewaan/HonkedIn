@@ -3,13 +3,13 @@ import { Form, Button, Card, Alert } from "react-bootstrap"
 //import { useAuth } from "../contexts/AuthContext"
 import { Link, useHistory } from "react-router-dom"
 
-export default function UpdateCredentials(loading) {
-    //const [loading, setLoading] = useState(false)
+export default function UpdateCredentials(redirectUpdateCredentials) {
+    const [loading, setLoading] = useState(false)
     const history = useHistory()
 
-    async function redirectUpdateCredentials() {
+    /*async function redirectUpdateCredentials() {
         history.push("./update-credentials");
-    }
+    }*/
     
 
     async function redirectUpdateStatus() {
@@ -17,8 +17,8 @@ export default function UpdateCredentials(loading) {
     }
 
     React.useEffect(() => {
-        loading();
-    }, [loading]);
+        redirectUpdateCredentials();
+    }, [redirectUpdateCredentials]);
 
     return (
         <>
