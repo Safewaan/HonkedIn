@@ -27,8 +27,8 @@ const Forum = ({ loadGetForumCommentsByForumID, comments, forums }) => {
     //const [comments, setComments] = React.useState([]);
 
     const [newComment, setNewComment] = React.useState("");
-    const handleNewComment = (event) => {
-        setNewComment(event.target.value);
+    const handleNewComment = (forum) => {
+        setNewComment(forum.target.value);
     }
 
     React.useEffect(() => {
@@ -212,19 +212,19 @@ const Forum = ({ loadGetForumCommentsByForumID, comments, forums }) => {
             </Box>
 
             <Box sx={{ position: 'absolute', top: 150, left: '50%', transform: 'translateX(-50%)' }}>
-                {forums.map((event) => (
-                    <Card style={{ width: '1000px', marginBottom: '20px' }} key={event.id}>
+                {forums.map((forum) => (
+                    <Card style={{ width: '1000px', marginBottom: '20px' }} key={forum.id}>
                         <CardContent>
-                            {/*<Link to={`/forum/${event.id}`} target="_blank">*/}
+                            {/*<Link to={`/forum/${forum.id}`} target="_blank">*/}
                             <Typography variant="h5" component="div">
-                                {event.forumTitle}<br />
+                                {forum.forumTitle}<br />
                             </Typography>
                             {/*</Link>*/}
-                            <Typography sx={{ mb: 1.5 }} color="text.secondary">
-                                Posted on {new Date(event.dateTime).toLocaleDateString()}<br />
+                            <Typography sx={{ mb: 1.5 }}>
+                                Posted on {new Date(forum.dateTime).toLocaleDateString()}<br />
                             </Typography>
-                            <Typography sx={{ mb: 1.5 }} color="text.secondary">
-                                <br />{event.description}<br />
+                            <Typography sx={{ mb: 1.5 }}>
+                                <br />{forum.description}<br />
                             </Typography>
                             <form>
                                 <TextField
@@ -235,13 +235,13 @@ const Forum = ({ loadGetForumCommentsByForumID, comments, forums }) => {
                                 />
                                 <Button type="submit" style={{ color: "white", backgroundColor: "seagreen", mb: 1.5 }}>Submit</Button>
                             </form>
-                            <Typography sx={{ mb: 1.5 }} variant="h6" color="text.secondary">
+                            <Typography sx={{ mb: 1.5 }} variant="h6">
                                 <br />Comments:<br />
                             </Typography>
                             {comments.map((comment) => (
                                 <Card style={{ width: '500px', marginBottom: '20px' }} key={comment.id}>
                                     <CardContent>
-                                        <Typography sx={{ mb: 1.5 }} color="text.secondary">
+                                        <Typography sx={{ mb: 1.5 }}>
                                             {comment.comment}<br />
                                         </Typography>
                                         <Typography style={{ mb: 1.5, fontSize: "12px" }}>
