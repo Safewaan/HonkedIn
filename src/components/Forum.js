@@ -213,10 +213,13 @@ const Forum = () => {
                             <Typography sx={{ mb: 1.5 }} color="text.secondary">
                                 Posted on {new Date(event.dateTime).toLocaleDateString()} by {event.creatorName}<br />
                             </Typography>
+                            <Typography variant="subtitle2" sx={{ mb: 1.5 }} color="text.secondary">
+                                Status: {event.status}<br />
+                            </Typography>
                             <Typography sx={{ mb: 1.5 }} color="text.secondary">
                                 <br />{event.description}<br />
                             </Typography>
-                            <form onSubmit={handleApiAddComment}>
+                            {event.status === "Active" && <form onSubmit={handleApiAddComment}>
                                 <TextField
                                     style={{ mb: 1.5, width: '350px' }}
                                     label="Add a comment"
@@ -224,7 +227,7 @@ const Forum = () => {
                                     onChange={handleNewComment}
                                 />
                                 <Button type="submit" style={{ color: "white", backgroundColor: "seagreen", mb: 1.5 }}>Submit</Button>
-                            </form>
+                            </form>}
                             <Typography sx={{ mb: 1.5 }} variant="h6" color="text.secondary">
                                 <br />Comments:<br />
                             </Typography>
