@@ -1,11 +1,11 @@
 import React from 'react';
 import { render, screen } from '@testing-library/react';
-import Forum from '../componentsTest/ForumTest'
+import Forum from '../componentsTest/Forum'
 
 import '@testing-library/jest-dom/extend-expect';
 
 
-describe('<ForumTest />', () => {
+describe('<Forum />', () => {
 
   const forums = [
       {

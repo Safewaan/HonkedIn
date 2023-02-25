@@ -244,7 +244,7 @@ const Forum = ({ loadGetForumCommentsByForumID, comments, forums }) => {
                                         <Typography sx={{ mb: 1.5 }} color="text.secondary">
                                             {comment.comment}<br />
                                         </Typography>
-                                        <Typography style={{ mb: 1.5, fontSize: "12px" }} color="text.secondary">
+                                        <Typography style={{ mb: 1.5, fontSize: "12px" }}>
                                             Comment Created:{new Date(new Date(comment.commentDateTime).getTime() - (5 * 60 * 60 * 1000)).toLocaleString()}<br />
                                         </Typography>
                                     </CardContent>
