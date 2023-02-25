@@ -1,8 +1,8 @@
 import React, { useRef, useState } from "react"
 import { Form, Button, Card } from "react-bootstrap"
-import { useAuth } from "../contexts/AuthContext"
+import { useAuth } from "../../contexts/AuthContext"
 import { Link, useHistory } from "react-router-dom"
-import NavigationBar from './NavigationBar';
+import NavigationBar from '../common/NavigationBar';
 
 import MuiAlert from '@mui/material/Alert';
 

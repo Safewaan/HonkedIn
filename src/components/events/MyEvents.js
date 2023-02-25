@@ -1,5 +1,5 @@
 import React, { useRef, useState, useEffect } from "react"
-import { useAuth } from "../contexts/AuthContext"
+import { useAuth } from "../../contexts/AuthContext"
 import { Link, useHistory } from "react-router-dom"
 import NavigationBar from './NavigationBar';
 import DatePicker from "react-datepicker";

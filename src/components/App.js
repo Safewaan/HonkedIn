@@ -1,23 +1,26 @@
 import React from "react";
-import Signup from "./Signup";
 import { Container } from "react-bootstrap";
 import { AuthProvider } from "../contexts/AuthContext";
 import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
+
+import * as Routes from "./constants/Routes";
+
+import Signup from "./auth/Signup";
 import Dashboard from "./Dashboard";
-import Login from "./Login";
-import PrivateRoute from "./PrivateRoute";
-import ForgotPassword from "./ForgotPassword";
-import UserSettings from "./UserSettings";
-import UpdateCredentials from "./UpdateCredentials";
-import UpdateStatus from "./UpdateStatus";
-import Events from "./Events";
-import CreateEvent from "./CreateEvent";
-import ProfileDashboard from "./ProfileDashboard"
-import MyEvents from "./MyEvents";
-import CreateForum from "./CreateForum";
-import Forums from "./Forums";
-import MyForums from "./MyForums"
-import Forum from "./Forum";
+import Login from "./auth/Login";
+import PrivateRoute from "./auth/PrivateRoute";
+import ForgotPassword from "./auth/ForgotPassword";
+import UserSettings from "./auth/UserSettings";
+import UpdateCredentials from "./auth/UpdateCredentials";
+import UpdateStatus from "./auth/UpdateStatus";
+import Events from "./events/Events";
+import CreateEvent from "./events/CreateEvent";
+import ProfileDashboard from "./users/ProfileDashboard"
+import MyEvents from "./events/MyEvents";
+import CreateForum from "./forums/CreateForum";
+import Forums from "./forums/Forums";
+import MyForums from "./forums/MyForums"
+import Forum from "./forums/Forum";
 
 
 function App() {

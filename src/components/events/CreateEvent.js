@@ -3,7 +3,7 @@ import { Form, Button, Card, Alert } from "react-bootstrap"
 import { Link, useHistory } from "react-router-dom"
 import "react-datepicker/dist/react-datepicker.css";
 import { format } from 'date-fns'
-import { useAuth } from "../contexts/AuthContext"
+import { useAuth } from "../../contexts/AuthContext"
 
 import DatePicker from "react-datepicker";
 
@@ -15,7 +15,7 @@ import { styled } from '@material-ui/core/styles';
 import { makeStyles } from '@material-ui/core/styles';
 import TextField from '@material-ui/core/TextField';
 import MuiAlert from '@mui/material/Alert';
-import NavigationBar from './NavigationBar';
+import NavigationBar from '../common/NavigationBar';
 
 const { REACT_APP_API_ENDPOINT } = process.env;
 
