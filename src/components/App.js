@@ -30,18 +30,18 @@ function App() {
         <Router>
           <AuthProvider>
             <Switch>
-              {/* Landing Page */}
+              {/* Landing Pags */}
               <PrivateRoute exact path="/" component={Dashboard} />
+
+              {/* Authentication Pages */}
+              <Route path="/signup" component={Signup} />
+              <Route path="/login" component={Login} />
+              <Route path="/forgot-password" component={ForgotPassword} />
 
               {/* Settings Page */}
               <PrivateRoute path="/user-settings" component={UserSettings} />
               <PrivateRoute path="/update-credentials" component={UpdateCredentials} />
               <PrivateRoute path="/update-status" component={UpdateStatus} />
-              <Route path="/signup" component={Signup} />
-              <Route path="/login" component={Login} />
-              <Route path="/forgot-password" component={ForgotPassword} />
-              <Route path="/events" component={Events} />
-              <Route path="/create-event" component={CreateEvent} />
               <PrivateRoute path="/my-profile" component={ProfileDashboard} />
 
               {/* Event Pages */}
@@ -50,9 +50,9 @@ function App() {
               <PrivateRoute path="/my-events" component={MyEvents} />
 
               {/* Forum Pages */}
-              <Route path="/create-forum" component={CreateForum} />
-              <Route path="/forums" component={Forums} />
-              <Route path="/my-forums" component={MyForums} />
+              <PrivateRoute path="/create-forum" component={CreateForum} />
+              <PrivateRoute path="/forums" component={Forums} />
+              <PrivateRoute path="/my-forums" component={MyForums} />
               <PrivateRoute path="/forum/:forumID" component={Forum} />
             </Switch>
           </AuthProvider>
