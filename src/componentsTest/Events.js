@@ -202,7 +202,7 @@ const Events = ({ loadGetEvents, events }) => {
                 {event.name}<br />
               </Typography>
               <Typography sx={{ mb: 1.5 }} /*color="text.secondary"*/>
-                Date: {new Date(event.date).toLocaleDateString()}<br />
+                Date: {new Date(new Date(event.date).getTime() - (5 * 60 * 60 * 1000)).toLocaleString()}<br />
               </Typography>
               <Typography sx={{ mb: 1.5 }} /*color="text.secondary"*/>
                 Participants: {event.participants} / {event.totalParticipants}<br />
@@ -224,7 +224,7 @@ const Events = ({ loadGetEvents, events }) => {
           <DialogContent>
             <DialogContentText>{selectedEvent.description}</DialogContentText>
             <DialogContentText>Hosted By: {selectedEvent.firstName}&nbsp;{selectedEvent.lastName}</DialogContentText>
-            <DialogContentText>Date: {new Date(selectedEvent.date).toLocaleDateString()}</DialogContentText>
+            <DialogContentText>Date: {new Date(new Date(selectedEvent.date).getTime() - (5 * 60 * 60 * 1000)).toLocaleString()}</DialogContentText>
             <DialogContentText>Location: {selectedEvent.location}</DialogContentText>
             <DialogContentText>Participants: {selectedEvent.participants}/{selectedEvent.totalParticipants}</DialogContentText>
             <DialogContentText>Status: {selectedEvent.status}</DialogContentText>

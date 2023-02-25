@@ -41,7 +41,8 @@ describe('<Events />', () => {
     ]
 
     render(<Events loadGetEvents={noop} events={events} />);
-    expect(screen.getByText('Date: 2/23/2023')).toBeInTheDocument();
+    const string = new Date(new Date('2023-02-23T05:00:00.000Z').getTime() - (5 * 60 * 60 * 1000)).toLocaleString();
+    expect(screen.getByText(`Date: ${string}`)).toBeInTheDocument();
   });
 
   it('displays the number of participants', () => {
