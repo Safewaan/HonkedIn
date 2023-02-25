@@ -1,7 +1,6 @@
 import React, { useRef, useState, useEffect } from "react"
 import { useAuth } from "../contexts/AuthContext"
 import { Link, useHistory } from "react-router-dom"
-
 import Card from '@material-ui/core/Card';
 import CardActions from '@material-ui/core/CardActions';
 import CardContent from '@material-ui/core/CardContent';
@@ -185,7 +184,7 @@ const Events = () => {
 
       <NavigationBar></NavigationBar>
 
-      <Box sx={{ position: 'absolute', top: 100, left: "35%" }}>
+      <Box sx={{ position: 'absolute', top: 110, left: '50%', transform: 'translate(-50%, -50%)' }}>
         <Typography
           variant="h4"
           gutterBottom
@@ -194,9 +193,9 @@ const Events = () => {
         </Typography>
       </Box>
 
-      <Box sx={{ position: 'absolute', top: 150, left: "35%" }}>
+      <Box sx={{ position: 'absolute', top: 150, left: '50%', transform: 'translateX(-50%)' }}>
         {events.map((event) => (
-          <Card style={{ width: '500px', marginBottom: '20px' }} key={event.id}>
+          <Card style={{ width: '600px', marginBottom: '20px' }} key={event.id}>
             <CardContent>
               <Typography variant="h5" component="div">
                 {event.name}<br />
