@@ -12,7 +12,6 @@
     "@testing-library/user-event": "^7.2.1",
     "babel-jest": "^27.0.0",
     "bootstrap": "^4.6.2",
-    "fetch-mock": "^9.11.0",
     "firebase": "^7.24.0",
     "jest": "^27.0.0",
     "moment": "^2.29.4",
@@ -38,8 +37,7 @@
     "testEnvironment": "jsdom",
     "transform": {
       "^.+\\.[t|j]sx?$": "babel-jest"
-    }, 
-    "testEnvironment": "jsdom"
+    }
   },
   "eslintConfig": {
     "extends": "react-app"

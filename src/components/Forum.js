@@ -27,8 +27,8 @@ const Forum = () => {
     const [comments, setComments] = React.useState([]);
 
     const [newComment, setNewComment] = React.useState("");
-    const handleNewComment = (event) => {
-        setNewComment(event.target.value);
+    const handleNewComment = (forum) => {
+        setNewComment(forum.target.value);
     }
 
     React.useEffect(() => {
@@ -202,24 +202,24 @@ const Forum = () => {
             </Box>
 
             <Box sx={{ position: 'absolute', top: 150, left: '50%', transform: 'translateX(-50%)' }}>
-                {forums.map((event) => (
-                    <Card style={{ width: '1000px', marginBottom: '20px' }} key={event.id}>
+                {forums.map((forum) => (
+                    <Card style={{ width: '1000px', marginBottom: '20px' }} key={forum.id}>
                         <CardContent>
-                            <Link to={`/forum/${event.id}`} target="_blank">
+                            <Link to={`/forum/${forum.id}`} target="_blank">
                                 <Typography variant="h5" component="div">
-                                    {event.forumTitle}<br />
+                                    {forum.forumTitle}<br />
                                 </Typography>
                             </Link>
                             <Typography sx={{ mb: 1.5 }} color="text.secondary">
-                                Posted on {new Date(event.dateTime).toLocaleDateString()} by {event.creatorName}<br />
+                                Posted on {new Date(forum.dateTime).toLocaleDateString()} by {forum.creatorName}<br />
                             </Typography>
                             <Typography variant="subtitle2" sx={{ mb: 1.5 }} color="text.secondary">
-                                Status: {event.status}<br />
+                                Status: {forum.status}<br />
                             </Typography>
                             <Typography sx={{ mb: 1.5 }} color="text.secondary">
-                                <br />{event.description}<br />
+                                <br />{forum.description}<br />
                             </Typography>
-                            {event.status === "Active" && <form onSubmit={handleApiAddComment}>
+                            {forum.status === "Active" && <form onSubmit={handleApiAddComment}>
                                 <TextField
                                     style={{ mb: 1.5, width: '350px' }}
                                     label="Add a comment"

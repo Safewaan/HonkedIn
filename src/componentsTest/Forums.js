@@ -107,11 +107,11 @@ const Forums = ({ loadGetForums, forums }) => {
                             {event.forumTitle}<br />
                         </Typography>
                     {/*</Link>*/}
-                    <Typography sx={{ mb: 1.5 }} color="text.secondary">
+                    <Typography sx={{ mb: 1.5 }}>
                         Posted on {new Date(new Date(event.dateTime).getTime() - (5 * 60 * 60 * 1000)).toLocaleDateString()}<br />
                         &nbsp; by {event.creatorName}<br />
                     </Typography>
-                    <Typography sx={{ mb: 1.5 }} color="text.secondary">
+                    <Typography sx={{ mb: 1.5 }}>
                         <br />{event.description}<br />
                     </Typography>
                 </CardContent>

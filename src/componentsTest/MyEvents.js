@@ -402,10 +402,10 @@ const MyEvents = ({ loadGetMyEvents, events }) => {
                         <Typography variant="h5" component="div">
                             {event.name}<br />
                         </Typography>
-                        <Typography sx={{ mb: 1.5 }} color="text.secondary">
+                        <Typography sx={{ mb: 1.5 }}>
                             Date: {new Date(event.date).toLocaleDateString()}<br />
                         </Typography>
-                        <Typography sx={{ mb: 1.5 }} color="text.secondary">
+                        <Typography sx={{ mb: 1.5 }}>
                             Participants: {event.participants} / {event.totalParticipants}<br />
                         </Typography>
                         <Typography sx={{ mb: 1.5 }} >

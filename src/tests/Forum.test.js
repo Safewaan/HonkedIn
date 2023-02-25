@@ -9,7 +9,7 @@ describe('<Forum />', () => {
 
   const forums = [
       {
-        "forumID": 1, "creatorID": 1, "forumTitle": "First Forum Title Test", "description": "First Test Forum Description",
+        "id": 1, "creatorID": 1, "forumTitle": "First Forum Title Test", "description": "First Test Forum Description",
         "dateTime": "2023-02-24T05:00:00.000Z", "status": "Active"
       }
     ];
