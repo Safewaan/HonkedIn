@@ -15,16 +15,17 @@ describe('<ForumTest />', () => {
 
   });
 
-  it('displays the date of a comment ', () => {
-    const date = () => { };
+  it('displays the time and date of the comment', () => {
+    const noop = () => { };
     const comments = [
       {
-        "id": 1, "forumID": 1, "userID": "1", "commentDateTime": "2023-02-23T05:00:00.000Z", "comment": "Test 1"
+        "id": 1, "forumID": 1, "userID": 2, "commentDateTime": "2023-02-23T05:00:00.000Z", "comment": "Test 2"
       }
     ]
 
-    render(<Forum loadGetForumCommentsByForumID={date} comments={comments} />);
-    expect(screen.getByText('2/23/2023')).toBeInTheDocument();
+    render(<Forum loadGetForumCommentsByForumID={noop} comments={comments} />);
+    const string = new Date(new Date('2023-02-23T05:00:00.000Z').getTime() - (5 * 60 * 60 * 1000)).toLocaleString();
+    expect(screen.getByText(`Comment Created:${string}`)).toBeInTheDocument();
   });
 });
 

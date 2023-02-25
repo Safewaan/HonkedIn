@@ -13,7 +13,7 @@ import Link from "@material-ui/core/Link";
 
 const { REACT_APP_API_ENDPOINT } = process.env;
 
-const Forum = ({loadGetForumCommentsByForumID, comments}) => {
+const Forum = ({ loadGetForumCommentsByForumID, comments }) => {
 
     //const { currentUser } = useAuth();
     //const history = useHistory();
@@ -37,43 +37,44 @@ const Forum = ({loadGetForumCommentsByForumID, comments}) => {
         //loadGetForums(); 
     }, []);
 
-   /* const loaduserSearchByEmail = (email) => {
-        callApiGetuserSearchByEmail(email)
-            .then(res => {
-                var parsed = JSON.parse(res.express);
-                //console.log(parsed[0].id);
-               // setUserID(parsed[0].id);
-            });
-    }
-    */
+    /* const loaduserSearchByEmail = (email) => {
+         callApiGetuserSearchByEmail(email)
+             .then(res => {
+                 var parsed = JSON.parse(res.express);
+                 //console.log(parsed[0].id);
+                // setUserID(parsed[0].id);
+             });
+     }
+     */
 
-   /* const callApiGetuserSearchByEmail = async (email) => {
-        const url = `${REACT_APP_API_ENDPOINT}/userSearchByEmail`;
-        //console.log(url);
+    /* const callApiGetuserSearchByEmail = async (email) => {
+         const url = `${REACT_APP_API_ENDPOINT}/userSearchByEmail`;
+         //console.log(url);
+ 
+         const response = await fetch(url, {
+             method: "POST",
+             headers: {
+                 "Content-Type": "application/json",
+             },
+             body: JSON.stringify({
+                 email: email
+             })
+         });
+         const body = await response.json();
+         if (response.status !== 200) throw Error(body.message);
+         return body;
+     }
+     */
 
-        const response = await fetch(url, {
-            method: "POST",
-            headers: {
-                "Content-Type": "application/json",
-            },
-            body: JSON.stringify({
-                email: email
-            })
-        });
-        const body = await response.json();
-        if (response.status !== 200) throw Error(body.message);
-        return body;
-    }
-    */
-
-    useEffect(() => {
+    /*useEffect(() => {
         handleApiGetSelectedForum();
         handleApiLoadComments();
     }, []);
+    */
 
     useEffect(() => {
         loadGetForumCommentsByForumID();
-      }, [loadGetForumCommentsByForumID]);
+    }, [loadGetForumCommentsByForumID]);
 
     //API - Display the retrieved forum 
     const handleApiGetSelectedForum = async () => {
@@ -105,15 +106,15 @@ const Forum = ({loadGetForumCommentsByForumID, comments}) => {
         return body;
     }
 
-    
+
     //API - Insert new comments 
     const handleApiAddComment = () => {
         callApiAddComment()
             .then(res => {
                 console.log("callApiAddSubmission returned: ", res)
             })
-    } 
-    
+    }
+
 
     const callApiAddComment = async () => {
         const url = `${REACT_APP_API_ENDPOINT}/createForumComment`;
@@ -133,7 +134,7 @@ const Forum = ({loadGetForumCommentsByForumID, comments}) => {
         const body = await response.json();
         if (response.status !== 200) throw Error(body.message);
         return body;
-    } 
+    }
 
     //API - Load comments for the forum
     const handleApiLoadComments = async () => {
@@ -193,7 +194,7 @@ const Forum = ({loadGetForumCommentsByForumID, comments}) => {
         const body = await response.json();
         if (response.status !== 200) throw Error(body.message);
         return body;
-    } 
+    }
 
     return (
         <div id="body">
@@ -211,11 +212,11 @@ const Forum = ({loadGetForumCommentsByForumID, comments}) => {
                 {forums.map((event) => (
                     <Card style={{ width: '1000px', marginBottom: '20px' }} key={event.id}>
                         <CardContent>
-                            <Link to={`/forum/${event.id}`} target="_blank">
-                                <Typography variant="h5" component="div">
-                                    {event.forumTitle}<br />
-                                </Typography>
-                            </Link>
+                            {/*<Link to={`/forum/${event.id}`} target="_blank">*/}
+                            <Typography variant="h5" component="div">
+                                {event.forumTitle}<br />
+                            </Typography>
+                            {/*</Link>*/}
                             <Typography sx={{ mb: 1.5 }} color="text.secondary">
                                 Posted on {new Date(event.dateTime).toLocaleDateString()}<br />
                             </Typography>
@@ -241,7 +242,7 @@ const Forum = ({loadGetForumCommentsByForumID, comments}) => {
                                             {comment.comment}<br />
                                         </Typography>
                                         <Typography style={{ mb: 1.5, fontSize: "12px" }} color="text.secondary">
-                                            <strong> Comment Created: </strong> {new Date(new Date(comment.commentDateTime).getTime() - (5 * 60 * 60 * 1000)).toLocaleString()} <br />
+                                            Comment Created:{new Date(new Date(comment.commentDateTime).getTime() - (5 * 60 * 60 * 1000)).toLocaleString()}<br />
                                         </Typography>
                                     </CardContent>
                                 </Card>
