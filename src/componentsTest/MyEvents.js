@@ -408,7 +408,7 @@ const MyEvents = ({ loadGetMyEvents, events }) => {
                         <Typography sx={{ mb: 1.5 }} color="text.secondary">
                             Participants: {event.participants} / {event.totalParticipants}<br />
                         </Typography>
-                        <Typography sx={{ mb: 1.5 }} color="text.secondary">
+                        <Typography sx={{ mb: 1.5 }} >
                             Status: {event.status}<br />
                         </Typography>
                     </CardContent>
