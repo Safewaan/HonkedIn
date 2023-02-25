@@ -1,7 +1,7 @@
 import React, { useRef, useState, useEffect } from "react"
 import { useAuth } from "../../contexts/AuthContext"
 import { Link, useHistory } from "react-router-dom"
-import NavigationBar from './NavigationBar';
+import NavigationBar from '../common/NavigationBar';
 import DatePicker from "react-datepicker";
 import Box from "@material-ui/core/Box";
 import Card from '@material-ui/core/Card';
