@@ -2,7 +2,7 @@ import React, { useState } from "react"
 import { makeStyles } from "@material-ui/core/styles";
 import { Link, useHistory } from "react-router-dom"
 import { Card, Button } from "react-bootstrap"
-import { useAuth } from "../contexts/AuthContext"
+import { useAuth } from "../../contexts/AuthContext"
 import Box from "@material-ui/core/Box";
 import TextField from "@material-ui/core/TextField";
 import FormHelperText from "@material-ui/core/FormHelperText";
@@ -10,7 +10,7 @@ import FormControl from "@material-ui/core/FormControl";
 import InputLabel from "@material-ui/core/InputLabel";
 import Select from "@material-ui/core/Select";
 import MenuItem from "@material-ui/core/MenuItem";
-import NavigationBar from './NavigationBar';
+import NavigationBar from '../common/NavigationBar';
 import MuiAlert from '@mui/material/Alert';
 
 // Server URL

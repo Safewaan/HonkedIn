@@ -1,11 +1,11 @@
 import React, { useRef, useState, useEffect } from "react"
-import { useAuth } from "../contexts/AuthContext"
+import { useAuth } from "../../contexts/AuthContext"
 import { Link, useHistory } from "react-router-dom"
 import Card from '@material-ui/core/Card';
 import CardActions from '@material-ui/core/CardActions';
 import CardContent from '@material-ui/core/CardContent';
 import Typography from '@material-ui/core/Typography';
-import NavigationBar from './NavigationBar';
+import NavigationBar from '../common/NavigationBar';
 import Box from "@material-ui/core/Box";
 import { useParams } from 'react-router-dom';
 import TextField from "@material-ui/core/TextField";

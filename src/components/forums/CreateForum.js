@@ -4,10 +4,10 @@ import { Link, useHistory } from "react-router-dom"
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import { format } from 'date-fns'
-import { useAuth } from "../contexts/AuthContext"
+import { useAuth } from "../../contexts/AuthContext"
 import Paper from "@material-ui/core/Paper";
 import Typography from "@material-ui/core/Typography";
-import NavigationBar from './NavigationBar';
+import NavigationBar from '../common/NavigationBar';
 import MuiAlert from '@mui/material/Alert';
 import Grid from '@material-ui/core/Grid';
 import FormHelperText from '@material-ui/core/FormHelperText';
