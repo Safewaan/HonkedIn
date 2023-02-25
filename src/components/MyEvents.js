@@ -1,9 +1,9 @@
 import React, { useRef, useState, useEffect } from "react"
 import { useAuth } from "../contexts/AuthContext"
 import { Link, useHistory } from "react-router-dom"
-
+import NavigationBar from './NavigationBar';
 import DatePicker from "react-datepicker";
-
+import Box from "@material-ui/core/Box";
 import Card from '@material-ui/core/Card';
 import CardActions from '@material-ui/core/CardActions';
 import CardContent from '@material-ui/core/CardContent';
@@ -183,12 +183,12 @@ const MyEvents = () => {
 
     const [selectedEventParticipants, setSelectedEventParticipants] = React.useState([]);
     //const [currentEventID, setCurrentEventID] = React.useState(''); 
-    var currentEventID = ''; 
+    var currentEventID = '';
 
     const handleOpenParticipantsDialog = (event) => {
         setSelectedEvent(event);
         //setCurrentEventID(event.id); 
-        currentEventID = event.id; 
+        currentEventID = event.id;
         setIsParticipantsListOpen(true);
         handleGetParticipants();
         //old code if want to switch to one api call that pulls the list of all participants
@@ -200,7 +200,7 @@ const MyEvents = () => {
         setIsParticipantsListOpen(false);
         //resets the array so in the split second the api call is rendering the new list, the list appears empty
         //and doesn't show the list of the previous list
-        setSelectedEventParticipants([]); 
+        setSelectedEventParticipants([]);
     };
 
     React.useEffect(() => {
@@ -353,7 +353,7 @@ const MyEvents = () => {
                 var parsed = JSON.parse(res.express);
                 //console.log(parsed[0]);
                 //setParticipantsList(parsed);
-                setSelectedEventParticipants(parsed); 
+                setSelectedEventParticipants(parsed);
             });
     };
 
@@ -368,9 +368,9 @@ const MyEvents = () => {
             headers: {
                 "Content-Type": "application/json",
             },
-              body: JSON.stringify({
-               eventID: currentEventID
-             })
+            body: JSON.stringify({
+                eventID: currentEventID
+            })
         });
         const body = await response.json();
         if (response.status !== 200) throw Error(body.message);
@@ -386,37 +386,43 @@ const MyEvents = () => {
     return (
         <div id="body">
 
-            <Typography
-                variant="h4"
-                gutterBottom
-                component="div">
-                My Events
-            </Typography>
+            <NavigationBar></NavigationBar>
 
-            {events.map((event) => (
-                <Card style={{ width: '500px' }} key={event.id}>
-                    <CardContent>
-                        <Typography variant="h5" component="div">
-                            {event.name}<br />
-                        </Typography>
-                        <Typography sx={{ mb: 1.5 }} color="text.secondary">
-                            Date: {new Date(event.date).toLocaleDateString()}<br />
-                        </Typography>
-                        <Typography sx={{ mb: 1.5 }} color="text.secondary">
-                            Participants: {event.participants} / {event.totalParticipants}<br />
-                        </Typography>
-                        <Typography sx={{ mb: 1.5 }} color="text.secondary">
-                            Status: {event.status}<br />
-                        </Typography>
-                    </CardContent>
+            <Box sx={{ position: 'absolute', top: 110, left: '50%', transform: 'translate(-50%, -50%)' }}>
+                <Typography
+                    variant="h4"
+                    gutterBottom
+                    component="div">
+                    My Events
+                </Typography>
+            </Box>
 
-                    <CardActions>
-                        {event.status === "Active" && <Button onClick={() => handleOpenDialog(event)}>Edit Event</Button>}
-                        {event.status === "Active" && <Button onClick={() => handleOpenCancelDialog(event)}>Cancel Event</Button>}
-                        {<Button onClick={() => handleOpenParticipantsDialog(event)}>See Participants</Button>}
-                    </CardActions>
-                </Card>
-            ))}
+            <Box sx={{ position: 'absolute', top: 150, left: '50%', transform: 'translateX(-50%)' }}>
+                {events.map((event) => (
+                    <Card style={{ width: '600px', marginBottom: '20px' }} key={event.id}>
+                        <CardContent>
+                            <Typography variant="h5" component="div">
+                                {event.name}<br />
+                            </Typography>
+                            <Typography sx={{ mb: 1.5 }} color="text.secondary">
+                                Date: {new Date(event.date).toLocaleDateString()}<br />
+                            </Typography>
+                            <Typography sx={{ mb: 1.5 }} color="text.secondary">
+                                Participants: {event.participants} / {event.totalParticipants}<br />
+                            </Typography>
+                            <Typography sx={{ mb: 1.5 }} color="text.secondary">
+                                Status: {event.status}<br />
+                            </Typography>
+                        </CardContent>
+
+                        <CardActions>
+                            {event.status === "Active" && <Button onClick={() => handleOpenDialog(event)}>Edit Event</Button>}
+                            {event.status === "Active" && <Button onClick={() => handleOpenCancelDialog(event)}>Cancel Event</Button>}
+                            {<Button onClick={() => handleOpenParticipantsDialog(event)}>See Participants</Button>}
+                        </CardActions>
+                    </Card>
+                ))}
+            </Box>
 
             {selectedEvent && (
                 <div>

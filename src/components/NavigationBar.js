@@ -71,6 +71,10 @@ export default function NavigationBar() {
         history.push("/events")
     }
 
+    async function handleMyEvents() { 
+        history.push("/my-events")
+    }
+
     async function handleCreateEvent() {
         history.push("/create-event")
     }
@@ -149,6 +153,10 @@ export default function NavigationBar() {
                                 >
                                     <MenuItem key="Events" onClick={handleEvents}>
                                         <Typography textAlign="center">Events</Typography>
+                                    </MenuItem>
+
+                                    <MenuItem key="Events" onClick={handleMyEvents}>
+                                        <Typography textAlign="center">My Events</Typography>
                                     </MenuItem>
 
                                     <MenuItem key="Create Events" onClick={handleCreateEvent}>
