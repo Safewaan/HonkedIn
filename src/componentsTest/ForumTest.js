@@ -66,11 +66,10 @@ const Forum = ({ loadGetForumCommentsByForumID, comments }) => {
      }
      */
 
-    /*useEffect(() => {
+    useEffect(() => {
         handleApiGetSelectedForum();
         handleApiLoadComments();
     }, []);
-    */
 
     useEffect(() => {
         loadGetForumCommentsByForumID();
