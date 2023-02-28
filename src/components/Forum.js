@@ -105,6 +105,9 @@ const Forum = () => {
             .then(res => {
                 console.log("callApiAddSubmission returned: ", res)
             })
+        setTimeout(() => {
+            window.location.reload();
+        }, 100);
     }
 
     const callApiAddComment = async () => {
@@ -219,15 +222,16 @@ const Forum = () => {
                             <Typography sx={{ mb: 1.5 }} color="text.secondary">
                                 <br />{forum.description}<br />
                             </Typography>
-                            {forum.status === "Active" && <form onSubmit={handleApiAddComment}>
-                                <TextField
-                                    style={{ mb: 1.5, width: '350px' }}
-                                    label="Add a comment"
-                                    value={newComment}
-                                    onChange={handleNewComment}
-                                />
-                                <Button type="submit" style={{ color: "white", backgroundColor: "seagreen", mb: 1.5 }}>Submit</Button>
-                            </form>}
+                            {forum.status === "Active" &&
+                                <div>
+                                    <TextField
+                                        style={{ mb: 1.5, width: '350px' }}
+                                        label="Add a comment"
+                                        value={newComment}
+                                        onChange={handleNewComment}
+                                    />
+                                    <Button type="submit" style={{ color: "white", backgroundColor: "seagreen", mb: 1.5 }} onClick={handleApiAddComment}>Submit</Button>
+                                </div>}
                             <Typography sx={{ mb: 1.5 }} variant="h6" color="text.secondary">
                                 <br />Comments:<br />
                             </Typography>
