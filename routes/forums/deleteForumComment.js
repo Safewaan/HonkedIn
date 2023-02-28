@@ -17,7 +17,7 @@ router.post('/api/deleteForumComment', (req, res) => {
 
 	connection.query(sql, data, (error, results, fields) => {
 
-        if (!req.body.forumID) {
+        if (!req.body.commentID) {
 			res.status(400).send("CommentID cannot be null.");
 			return console.error("CommentID cannot be null.");
 		};
