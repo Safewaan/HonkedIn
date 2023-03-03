@@ -1,6 +1,6 @@
 ## Trello ticket link
 <!-- Please replace with your ticket's URL -->
-[Ticket Name](https://trello.com/b/RCwqUZD8/msci-342-scrum-board )
+[Ticket Name](https://trello.com/b/RCwqUZD8/msci-342-scrum-board)
 
 
 <!-- Give a quick summary of the implementation details, provide design justifications if necessary -->

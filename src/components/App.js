@@ -3,25 +3,25 @@ import { Container } from "react-bootstrap";
 import { AuthProvider } from "../contexts/AuthContext";
 import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
 
-import * as Routes from "./constants/Routes";
-
-import Signup from "./auth/Signup";
-import Dashboard from "./Dashboard";
-import Login from "./auth/Login";
-import PrivateRoute from "./auth/PrivateRoute";
-import ForgotPassword from "./auth/ForgotPassword";
-import UserSettings from "./auth/UserSettings";
-import UpdateCredentials from "./auth/UpdateCredentials";
-import UpdateStatus from "./auth/UpdateStatus";
-import Events from "./events/Events";
 import CreateEvent from "./events/CreateEvent";
-import ProfileDashboard from "./users/ProfileDashboard"
+import Events from "./events/Events";
 import MyEvents from "./events/MyEvents";
-import CreateForum from "./forums/CreateForum";
-import Forums from "./forums/Forums";
-import MyForums from "./forums/MyForums"
-import Forum from "./forums/Forum";
 
+import CreateForum from "./forums/CreateForum";
+import Forum from "./forums/Forum";
+import Forums from "./forums/Forums";
+import MyForums from "./forums/MyForums";
+
+import Login from "./auth/Login";
+import Signup from "./auth/Signup";
+import UpdateCredentials from "./auth/UpdateCredentials";
+import ForgotPassword from "./auth/ForgotPassword";
+import PrivateRoute from "./auth/PrivateRoute";
+
+import Dashboard from "./Dashboard";
+import ProfileDashboard from "./users/ProfileDashboard";
+import UpdateStatus from "./users/UpdateStatus";
+import UserSettings from "./users/UserSettings";
 
 function App() {
   return (
