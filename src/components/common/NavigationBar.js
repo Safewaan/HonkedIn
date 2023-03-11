@@ -18,6 +18,10 @@ import Tooltip from '@material-ui/core/Tooltip';
 import MenuItem from '@material-ui/core/MenuItem';
 import Paper from '@material-ui/core/Paper';
 
+import {
+    LOGIN_PAGE
+} from "../constants/Routes";
+
 export default function NavigationBar() {
 
     const [anchorElUser, setAnchorElUser] = React.useState(null);
@@ -57,7 +61,7 @@ export default function NavigationBar() {
 
         try {
             await logout()
-            history.push("/login")
+            history.push(LOGIN_PAGE)
         } catch {
             setError("Failed to log out")
         }
@@ -71,7 +75,7 @@ export default function NavigationBar() {
         history.push("/events")
     }
 
-    async function handleMyEvents() { 
+    async function handleMyEvents() {
         history.push("/my-events")
     }
 
@@ -82,7 +86,7 @@ export default function NavigationBar() {
     async function handleMyProfile() {
 
         history.push("/my-profile")
-        
+
     }
 
     async function handleCreateForum() {
@@ -91,7 +95,7 @@ export default function NavigationBar() {
 
     }
 
-    async function handleForums() { 
+    async function handleForums() {
 
         history.push("/forums")
 

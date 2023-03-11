@@ -4,6 +4,10 @@ import { useAuth } from "../../contexts/AuthContext"
 import { Link, useHistory } from "react-router-dom"
 import NavigationBar from '../common/NavigationBar';
 
+import {
+  HOME_PAGE
+} from "../constants/Routes";
+
 export default function UpdateCredentials() {
   const emailRef = useRef()
   const passwordRef = useRef()
@@ -32,7 +36,7 @@ export default function UpdateCredentials() {
 
     Promise.all(promises)
       .then(() => {
-        history.push("/")
+        history.push(HOME_PAGE)
       })
       .catch(() => {
         setError("Failed to update account")
@@ -44,7 +48,7 @@ export default function UpdateCredentials() {
 
   return (
     <>
-    <NavigationBar></NavigationBar>
+      <NavigationBar></NavigationBar>
       <Card>
         <Card.Body>
           <h2 className="text-center mb-4">Update Credentials</h2>

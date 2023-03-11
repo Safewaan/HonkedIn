@@ -3,6 +3,11 @@ import { Form, Button, Card, Alert } from "react-bootstrap"
 import { useAuth } from "../../contexts/AuthContext"
 import { Link } from "react-router-dom"
 
+import {
+  LOGIN_PAGE,
+  SIGNUP_PAGE
+} from "../constants/Routes";
+
 export default function ForgotPassword() {
   const emailRef = useRef()
   const { resetPassword } = useAuth()
@@ -43,12 +48,12 @@ export default function ForgotPassword() {
             </Button>
           </Form>
           <div className="w-100 text-center mt-3">
-            <Link to="/login">Login</Link>
+            <Link to={LOGIN_PAGE}>Login</Link>
           </div>
         </Card.Body>
       </Card>
       <div className="w-100 text-center mt-2">
-        Need an account? <Link to="/signup">Sign Up</Link>
+        Need an account? <Link to={SIGNUP_PAGE}>Sign Up</Link>
       </div>
     </>
   )

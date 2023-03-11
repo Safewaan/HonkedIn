@@ -3,6 +3,12 @@ import { Form, Button, Card, Alert } from "react-bootstrap"
 import { useAuth } from "../../contexts/AuthContext"
 import { Link, useHistory } from "react-router-dom"
 
+import {
+  HOME_PAGE,
+  FORGOT_PASSWORD_PAGE,
+  SIGNUP_PAGE
+} from "../constants/Routes";
+
 export default function Login() {
   const emailRef = useRef()
   const passwordRef = useRef()
@@ -18,7 +24,7 @@ export default function Login() {
       setError("")
       setLoading(true)
       await login(emailRef.current.value, passwordRef.current.value)
-      history.push("/")
+      history.push(HOME_PAGE)
     } catch {
       setError("Failed to log in")
     }
@@ -46,12 +52,12 @@ export default function Login() {
             </Button>
           </Form>
           <div className="w-100 text-center mt-3">
-            <Link to="/forgot-password">Forgot Password?</Link>
+            <Link to={FORGOT_PASSWORD_PAGE}>Forgot Password?</Link>
           </div>
         </Card.Body>
       </Card>
       <div className="w-100 text-center mt-2">
-        Need an account? <Link to="/signup">Sign Up</Link>
+        Need an account? <Link to={SIGNUP_PAGE}>Sign Up</Link>
       </div>
     </>
   )

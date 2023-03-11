@@ -3,6 +3,11 @@ import { Form, Button, Card, Alert } from "react-bootstrap"
 import { useAuth } from "../../contexts/AuthContext"
 import { Link, useHistory } from "react-router-dom"
 
+import {
+  HOME_PAGE,
+  LOGIN_PAGE
+} from "../constants/Routes";
+
 const { REACT_APP_API_ENDPOINT } = process.env;
 
 export default function Signup() {
@@ -19,7 +24,7 @@ export default function Signup() {
   const callApiCreateUser = async () => {
     const url = `${REACT_APP_API_ENDPOINT}/createUser`;
     console.log(url);
-  
+
     try {
       const response = await fetch(url, {
         method: 'POST',
@@ -32,11 +37,11 @@ export default function Signup() {
           email: emailRef.current.value
         })
       });
-  
+
       if (!response.ok) {
         throw new Error(`${response.status}: ${response.statusText}`);
       }
-  
+
       const data = await response.json();
       console.log(data);
     } catch (error) {
@@ -56,7 +61,7 @@ export default function Signup() {
       setLoading(true)
       await signup(emailRef.current.value, passwordRef.current.value)
       callApiCreateUser()
-      history.push("/")
+      history.push(HOME_PAGE)
     } catch {
       setError("Failed to create an account")
     }
@@ -98,7 +103,7 @@ export default function Signup() {
         </Card.Body>
       </Card>
       <div className="w-100 text-center mt-2">
-        Already have an account? <Link to="/login">Log In</Link>
+        Already have an account? <Link to={LOGIN_PAGE}>Log In</Link>
       </div>
     </>
   )
