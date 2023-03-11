@@ -23,6 +23,24 @@ import ProfileDashboard from "./users/ProfileDashboard";
 import UpdateStatus from "./users/UpdateStatus";
 import UserSettings from "./users/UserSettings";
 
+import {
+  HOME_PAGE,
+  FORGOT_PASSWORD_PAGE,
+  LOGIN_PAGE,
+  SIGNUP_PAGE,
+  UPDATE_CREDENTIALS_PAGE,
+  EVENTS_PAGE,
+  CREATE_EVENT_PAGE,
+  MY_EVENTS_PAGE,
+  CREATE_FORUM_PAGE,
+  FORUMS_PAGE,
+  MY_FORUMS_PAGE,
+  FORUM_PAGE,
+  MY_PROFILE_PAGE,
+  UPDATE_STATUS_PAGE,
+  USER_SETTINGS_PAGE
+} from "./constants/Routes";
+
 function App() {
   return (
     <Container
@@ -34,29 +52,29 @@ function App() {
           <AuthProvider>
             <Switch>
               {/* Landing Page */}
-              <PrivateRoute exact path="/" component={Dashboard} />
+              <PrivateRoute exact path={HOME_PAGE} component={Dashboard} />
 
               {/* Authentication Pages */}
-              <Route path="/signup" component={Signup} />
-              <Route path="/login" component={Login} />
-              <Route path="/forgot-password" component={ForgotPassword} />
+              <Route path={SIGNUP_PAGE} component={Signup} />
+              <Route path={LOGIN_PAGE} component={Login} />
+              <Route path={FORGOT_PASSWORD_PAGE} component={ForgotPassword} />
 
               {/* Settings Page */}
-              <PrivateRoute path="/user-settings" component={UserSettings} />
-              <PrivateRoute path="/update-credentials" component={UpdateCredentials} />
-              <PrivateRoute path="/update-status" component={UpdateStatus} />
-              <PrivateRoute path="/my-profile" component={ProfileDashboard} />
+              <PrivateRoute path={USER_SETTINGS_PAGE} component={UserSettings} />
+              <PrivateRoute path={UPDATE_CREDENTIALS_PAGE} component={UpdateCredentials} />
+              <PrivateRoute path={UPDATE_STATUS_PAGE} component={UpdateStatus} />
+              <PrivateRoute path={MY_PROFILE_PAGE} component={ProfileDashboard} />
 
               {/* Event Pages */}
-              <PrivateRoute path="/events" component={Events} />
-              <PrivateRoute path="/create-event" component={CreateEvent} />
-              <PrivateRoute path="/my-events" component={MyEvents} />
+              <PrivateRoute path={EVENTS_PAGE} component={Events} />
+              <PrivateRoute path={CREATE_EVENT_PAGE} component={CreateEvent} />
+              <PrivateRoute path={MY_EVENTS_PAGE} component={MyEvents} />
 
               {/* Forum Pages */}
-              <PrivateRoute path="/create-forum" component={CreateForum} />
-              <PrivateRoute path="/forums" component={Forums} />
-              <PrivateRoute path="/my-forums" component={MyForums} />
-              <PrivateRoute path="/forum/:forumID" component={Forum} />
+              <PrivateRoute path={CREATE_FORUM_PAGE} component={CreateForum} />
+              <PrivateRoute path={FORUMS_PAGE} component={Forums} />
+              <PrivateRoute path={MY_FORUMS_PAGE} component={MyForums} />
+              <PrivateRoute path={FORUM_PAGE} component={Forum} />
             </Switch>
           </AuthProvider>
         </Router>
@@ -65,4 +83,4 @@ function App() {
   )
 }
 
-export default App
+export default App;
