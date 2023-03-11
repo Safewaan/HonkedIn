@@ -5,7 +5,8 @@ import { Link, useHistory } from "react-router-dom"
 import NavigationBar from '../common/NavigationBar';
 
 import {
-  HOME_PAGE
+  HOME_PAGE,
+  USER_SETTINGS_PAGE
 } from "../constants/Routes";
 
 export default function UpdateCredentials() {
@@ -86,7 +87,7 @@ export default function UpdateCredentials() {
         </Card.Body>
       </Card>
       <div className="w-100 text-center mt-2">
-        <Link to="/user-settings">Cancel</Link>
+        <Link to={USER_SETTINGS_PAGE}>Cancel</Link>
       </div>
     </>
   )

@@ -6,6 +6,10 @@ import NavigationBar from '../common/NavigationBar';
 
 import MuiAlert from '@mui/material/Alert';
 
+import {
+  USER_SETTINGS_PAGE
+} from "../constants/Routes";
+
 const { REACT_APP_API_ENDPOINT } = process.env;
 
 const Alert = React.forwardRef(function Alert(props, ref) {
@@ -159,7 +163,7 @@ export default function UpdateStatus() {
       </Card>
 
       <div className="w-100 text-center mt-2">
-        <Link to="/user-settings">Cancel</Link>
+        <Link to={USER_SETTINGS_PAGE}>Cancel</Link>
       </div>
 
       {showSuccessfulActivateMsg && (

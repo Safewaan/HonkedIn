@@ -51,9 +51,9 @@ const getParticipants = require(`${routesDir}participants/getParticipants`);
 app.use(getParticipants);
 
 //Profile APIs
-const createUserProfile = require(`${routesDir}profile/createUserProfile`);
-const getUserProfile = require(`${routesDir}profile/getUserProfile`);
-const editUserProfile = require(`${routesDir}profile/editUserProfile`);
+const createUserProfile = require(`${routesDir}userProfile/createUserProfile`);
+const getUserProfile = require(`${routesDir}userProfile/getUserProfile`);
+const editUserProfile = require(`${routesDir}userProfile/editUserProfile`);
 
 app.use(createUserProfile);
 app.use(getUserProfile);

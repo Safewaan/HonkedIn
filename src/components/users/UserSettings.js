@@ -4,16 +4,21 @@ import { useAuth } from "../../contexts/AuthContext"
 import { Link, useHistory } from "react-router-dom"
 import NavigationBar from '../common/NavigationBar';
 
+import {
+    UPDATE_CREDENTIALS_PAGE,
+    UPDATE_STATUS_PAGE
+  } from "../constants/Routes";
+
 export default function UpdateCredentials() {
     const [loading, setLoading] = useState(false)
     const history = useHistory()
 
     async function redirectUpdateCredentials() {
-        history.push("./update-credentials");
+        history.push(UPDATE_CREDENTIALS_PAGE);
     }
 
     async function redirectUpdateStatus() {
-        history.push("./update-status");
+        history.push(UPDATE_STATUS_PAGE);
     }
 
     return (

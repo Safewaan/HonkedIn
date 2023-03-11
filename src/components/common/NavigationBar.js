@@ -19,8 +19,16 @@ import MenuItem from '@material-ui/core/MenuItem';
 import Paper from '@material-ui/core/Paper';
 
 import {
-    LOGIN_PAGE
-} from "../constants/Routes";
+    LOGIN_PAGE,
+    EVENTS_PAGE,
+    CREATE_EVENT_PAGE,
+    MY_EVENTS_PAGE,
+    CREATE_FORUM_PAGE,
+    FORUMS_PAGE,
+    MY_FORUMS_PAGE,
+    MY_PROFILE_PAGE,
+    USER_SETTINGS_PAGE
+  } from "../constants/Routes";
 
 export default function NavigationBar() {
 
@@ -68,42 +76,42 @@ export default function NavigationBar() {
     }
 
     async function handleSettings() {
-        history.push("/user-settings")
+        history.push(USER_SETTINGS_PAGE)
     }
 
     async function handleEvents() {
-        history.push("/events")
+        history.push(EVENTS_PAGE)
     }
 
     async function handleMyEvents() {
-        history.push("/my-events")
+        history.push(MY_EVENTS_PAGE)
     }
 
     async function handleCreateEvent() {
-        history.push("/create-event")
+        history.push(CREATE_EVENT_PAGE)
     }
 
     async function handleMyProfile() {
 
-        history.push("/my-profile")
+        history.push(MY_PROFILE_PAGE)
 
     }
 
     async function handleCreateForum() {
 
-        history.push("/create-forum")
+        history.push(CREATE_FORUM_PAGE)
 
     }
 
     async function handleForums() {
 
-        history.push("/forums")
+        history.push(FORUMS_PAGE)
 
     }
 
     async function handleMyForums() {
 
-        history.push("/my-forums")
+        history.push(MY_FORUMS_PAGE)
 
     }
 
