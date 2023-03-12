@@ -196,7 +196,7 @@ const CreateResources = () => {
             <NavigationBar></NavigationBar>
 
             <Typography variant="h4" color="inherit" component="div" noWrap>
-                Create Resources
+                Submit a Resource
             </Typography>
 
             <form className={classes.root} noValidate autoComplete="off">
