@@ -16,7 +16,7 @@ const Forums = () => {
     const history = useHistory();
     const [email, setEmail] = React.useState('');
     const [userID, setUserID] = React.useState('');
-
+    const [comments, setComments] = React.useState([]);
     const [forums, setForums] = React.useState([]);
 
     React.useEffect(() => {
@@ -84,6 +84,39 @@ const Forums = () => {
         return body;
     }
 
+
+    //API - Load comments for the forum
+    const handleApiLoadComments = async (forumID) => {
+        try {
+            const res = await callApiLoadComments(forumID);
+            const parsed = JSON.parse(JSON.stringify(res.express));
+            setComments(parsed);
+
+
+        } catch (error) {
+            console.error(error);
+        }
+    }
+
+    const callApiLoadComments = async (forumID) => {
+        const url = `${REACT_APP_API_ENDPOINT}/getForumCommentsByUserAndForumID`;
+        console.log(url);
+
+        const response = await fetch(url, {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+            },
+            body: JSON.stringify({
+                userID: userID,
+                forumID: forumID
+            })
+        });
+        const body = await response.json();
+        if (response.status !== 200) throw Error(body.message);
+        return body;
+    }
+
     return (
         <div id="body">
 
@@ -98,30 +131,52 @@ const Forums = () => {
                 </Typography>
             </Box>
 
-    <Box sx={{ position: 'absolute', top: 150, left: '50%', transform: 'translateX(-50%)' }}>
-        {forums.map((forum) => (
-            <Card style={{ width: '800px', marginBottom: '20px' }} key={forum.id}>
-                <CardContent>
-                    <Link to={`/forum/${forum.id}`} target="_blank">
-                        <Typography variant="h5" component="div">
-                            {forum.forumTitle}<br />
-                        </Typography>
-                    </Link>
-                    <Typography sx={{ mb: 1.5 }} color="text.secondary">
-                        Posted on {new Date(new Date(forum.dateTime).getTime() - (5 * 60 * 60 * 1000)).toLocaleDateString()}<br />
-                        by {forum.creatorName}<br />
-                    </Typography>
-                    <Typography variant="subtitle2" sx={{ mb: 1.5 }} color="text.secondary">
+            <Box sx={{ position: 'absolute', top: 150, left: '50%', transform: 'translateX(-50%)' }}>
+                {forums.map((forum) => (
+                    <Card style={{ width: '800px', marginBottom: '20px' }} key={forum.id}>
+                        <CardContent>
+                            <Link to={`/forum/${forum.id}`} target="_blank">
+                                <Typography variant="h5" component="div">
+                                    {forum.forumTitle}<br />
+                                </Typography>
+                            </Link>
+                            <Typography sx={{ mb: 1.5 }} color="text.secondary">
+                                Posted on {new Date(new Date(forum.dateTime).getTime() - (5 * 60 * 60 * 1000)).toLocaleDateString()}<br />
+                                by {forum.creatorName}<br />
+                            </Typography>
+                            <Typography variant="subtitle2" sx={{ mb: 1.5 }} color="text.secondary">
                                 Status: {forum.status}<br />
                             </Typography>
-                    <Typography sx={{ mb: 1.5 }} color="text.secondary">
-                        <br />{forum.description}<br />
-                    </Typography>
-                </CardContent>
-            </Card>
-        ))}
-        </Box>
-    </div>
+                            <Typography sx={{ mb: 1.5 }} color="text.secondary">
+                                <br />{forum.description}<br />
+                            </Typography>
+                            <Typography
+                                onClick={() => handleApiLoadComments(forum.id)}
+                                style={{ color: "blue", mb: 1.5, cursor: 'pointer', fontSize: 12 }}
+                            >
+                                <br /> View My Comments <br />
+                            </Typography>
+                            {comments.map((comment) => (
+                                comment.forumID === forum.id &&
+                                <Card style={{ width: '500px', marginBottom: '20px' }} key={comment.id}>
+                                    <CardContent>
+                                        <Typography style={{ mb: 1.5, fontSize: "12px" }} color="text.secondary">
+                                            <strong> User: </strong> {comment.firstName} {comment.lastName}<br />
+                                        </Typography>
+                                        <Typography sx={{ mb: 1.5 }} color="text.secondary">
+                                            {comment.comment}<br />
+                                        </Typography>
+                                        <Typography style={{ mb: 1.5, fontSize: "12px" }} color="text.secondary">
+                                            <strong> Comment Created: </strong> {new Date(new Date(comment.commentDateTime).getTime() - (5 * 60 * 60 * 1000)).toLocaleString()} <br />
+                                        </Typography>
+                                    </CardContent>
+                                </Card>
+                            ))}
+                        </CardContent>
+                    </Card>
+                ))}
+            </Box>
+        </div>
     )
 }
 
