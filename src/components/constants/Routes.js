@@ -31,3 +31,6 @@ export const MY_PROFILE_PAGE = "/my-profile";
 export const UPDATE_STATUS_PAGE = "/update-status";
 
 export const USER_SETTINGS_PAGE = "/user-settings";
+
+// Network Routes
+export const NETWORK_PAGE = "/network";
