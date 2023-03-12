@@ -3,8 +3,8 @@ const router = express.Router();
 const mysql = require('mysql');
 const config = require('../../../config.js');
 
-// Creates a forum by inserting values into the DB
-router.post('/api/createResources', (req, res) => {
+// Creates a resource by inserting values into the DB
+router.post('/api/createResource', (req, res) => {
 
     let connection = mysql.createConnection(config);
 

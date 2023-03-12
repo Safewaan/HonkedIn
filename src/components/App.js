@@ -23,7 +23,7 @@ import ProfileDashboard from "./users/ProfileDashboard";
 import UpdateStatus from "./users/UpdateStatus";
 import UserSettings from "./users/UserSettings";
 
-import CreateResources from "./resources/CreateResources";
+import CreateResource from "./resources/CreateResource";
 
 import {
   HOME_PAGE,
@@ -80,7 +80,7 @@ function App() {
               <PrivateRoute path={FORUM_PAGE} component={Forum} />
 
               {/* Resources Pages */}
-              <PrivateRoute path={CREATE_RESOURCES} component={CreateResources} />
+              <PrivateRoute path={CREATE_RESOURCES} component={CreateResource} />
 
             </Switch>
           </AuthProvider>

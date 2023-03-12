@@ -33,4 +33,4 @@ export const UPDATE_STATUS_PAGE = "/update-status";
 export const USER_SETTINGS_PAGE = "/user-settings";
 
 // Resources Routes
-export const CREATE_RESOURCES = "/create-resources";
+export const CREATE_RESOURCES = "/create-resource";

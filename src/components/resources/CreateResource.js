@@ -16,7 +16,7 @@ import { makeStyles } from '@material-ui/core/styles';
 
 const { REACT_APP_API_ENDPOINT } = process.env;
 
-const CreateResources = () => {
+const CreateResource = () => {
 
     const { currentUser } = useAuth();
     const history = useHistory()
@@ -162,7 +162,7 @@ const CreateResources = () => {
 
     const callApiCreateResources = async () => {
 
-        const url = `${REACT_APP_API_ENDPOINT}/createResources`;
+        const url = `${REACT_APP_API_ENDPOINT}/createResource`;
         console.log(url);
         //console.log(eventDate);
 
@@ -282,4 +282,4 @@ const SubmitButton = ({ label, onButtonClick }) => (
     </Button>
 )
 
-export default CreateResources;
+export default CreateResource;
