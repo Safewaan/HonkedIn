@@ -30,7 +30,7 @@
     "start": "concurrently --kill-others-on-fail \"react-scripts start\" \"nodemon server.js\"",
     "build": "react-scripts build",
     "test": "jest",
-    "cypress": "cypress open",
+    "cypress": "cypress open --config-file tests/cypress.config.js",
     "eject": "react-scripts eject"
   },
   "jest": {
