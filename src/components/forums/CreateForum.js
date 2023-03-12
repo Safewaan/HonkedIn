@@ -42,7 +42,7 @@ const CreateForum = () => {
     }
 
     const callApiGetUserEmailSearch = async (email) => {
-        const url = `${REACT_APP_API_ENDPOINT}/userSearchByEmail`;
+        const url = `${REACT_APP_API_ENDPOINT}/getUserByEmail`;
         console.log(url);
 
         const response = await fetch(url, {

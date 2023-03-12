@@ -3,6 +3,7 @@ const router = express.Router();
 const mysql = require('mysql');
 const config = require('../../../config.js');
 
+// Gets all events from the events table.
 router.get('/api/getEvents', (req, res) => {
 
 	let connection = mysql.createConnection(config);

@@ -33,11 +33,11 @@ const Forum = ({ loadGetForumCommentsByForumID, comments, forums }) => {
 
     React.useEffect(() => {
         //setEmail(currentUser.email);
-        //loaduserSearchByEmail(currentUser.email);
+        //loadGetUserByEmail(currentUser.email);
         //loadGetForums(); 
     }, []);
 
-    /* const loaduserSearchByEmail = (email) => {
+    /* const loadGetUserByEmail = (email) => {
          callApiGetuserSearchByEmail(email)
              .then(res => {
                  var parsed = JSON.parse(res.express);
@@ -47,8 +47,8 @@ const Forum = ({ loadGetForumCommentsByForumID, comments, forums }) => {
      }
      */
 
-    /* const callApiGetuserSearchByEmail = async (email) => {
-         const url = `${REACT_APP_API_ENDPOINT}/userSearchByEmail`;
+    /* const callApiGetUserByEmail = async (email) => {
+         const url = `${REACT_APP_API_ENDPOINT}/getUserByEmail`;
          //console.log(url);
  
          const response = await fetch(url, {

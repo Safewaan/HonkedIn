@@ -3,6 +3,10 @@ const router = express.Router();
 const mysql = require('mysql');
 const config = require('../../../config.js');
 
+// Creates an entry in the eventParticipants table. Users can join if and only if:
+// 1. There's room to join the event
+// 2. User has not joined the event
+// 3. The event is not cancelled (handled on the front-end)
 router.post('/api/joinEvent', (req, res) => {
 
 	let connection = mysql.createConnection(config);

@@ -21,34 +21,34 @@ const routesDir = './src/routes/';
 
 // User APIs
 const createUser = require(`${routesDir}user/createUser`);
-const userSearchByEmail = require(`${routesDir}user/userSearchByEmail`);
+const getUserByEmail = require(`${routesDir}user/getUserByEmail`);
 const activateUser = require(`${routesDir}user/activateUser`);
 const archiveUser = require(`${routesDir}user/archiveUser`);
 
 app.use(createUser);
-app.use(userSearchByEmail);
+app.use(getUserByEmail);
 app.use(activateUser);
 app.use(archiveUser);
 
 // Event APIs
 const createEvent = require(`${routesDir}events/createEvent`);
 const getEvents = require(`${routesDir}events/getEvents`);
-const getEventsByUser = require (`${routesDir}events/getEventsByUser`);
+const getEventsByUserID = require (`${routesDir}events/getEventsByUserID`);
 const joinEvent = require(`${routesDir}events/joinEvent`);
 const editEvent = require(`${routesDir}events/editEvent`);
 const cancelEvent = require(`${routesDir}events/cancelEvent`);
 
 app.use(createEvent);
 app.use(getEvents);
-app.use(getEventsByUser);
+app.use(getEventsByUserID);
 app.use(joinEvent);
 app.use(editEvent);
 app.use(cancelEvent);
 
 // Event Participants APIs
-const getParticipants = require(`${routesDir}participants/getParticipants`);
+const getParticipantsByUserID = require(`${routesDir}participants/getParticipantsByUserID`);
 
-app.use(getParticipants);
+app.use(getParticipantsByUserID);
 
 //Profile APIs
 const createUserProfile = require(`${routesDir}userProfile/createUserProfile`);
