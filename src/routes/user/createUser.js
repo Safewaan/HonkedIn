@@ -3,6 +3,7 @@ const router = express.Router();
 const mysql = require('mysql');
 const config = require('../../../config.js');
 
+// Creates a user in the users table. 
 router.post('/api/createUser', (req, res) => {
     let connection = mysql.createConnection(config);
 

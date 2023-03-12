@@ -3,7 +3,7 @@ const router = express.Router();
 const mysql = require('mysql');
 const config = require('../../../config.js');
 
-// Sets a user's status to "Archived"
+// Sets a user's status to "Archived".
 router.post('/api/archiveUser', (req, res) => {
     let connection = mysql.createConnection(config);
 

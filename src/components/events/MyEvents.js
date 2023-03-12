@@ -190,7 +190,7 @@ const MyEvents = () => {
         //setCurrentEventID(event.id); 
         currentEventID = event.id;
         setIsParticipantsListOpen(true);
-        handleGetParticipants();
+        handleGetEventParticipantsByUserID();
         //old code if want to switch to one api call that pulls the list of all participants
         //setSelectedEventParticipants(participantsList.filter(x => x.id === event.id));
     };
@@ -205,11 +205,11 @@ const MyEvents = () => {
 
     React.useEffect(() => {
         setEmail(currentUser.email);
-        loaduserSearchByEmail(currentUser.email);
+        loadGetUserByEmail(currentUser.email);
     }, []);
 
-    const callApiGetuserSearchByEmail = async (email) => {
-        const url = `${REACT_APP_API_ENDPOINT}/userSearchByEmail`;
+    const callApiGetUserByEmail = async (email) => {
+        const url = `${REACT_APP_API_ENDPOINT}/getUserByEmail`;
         console.log(url);
 
         const response = await fetch(url, {
@@ -226,7 +226,7 @@ const MyEvents = () => {
         return body;
     }
 
-    const loaduserSearchByEmail = (email) => {
+    const loadGetUserByEmail = (email) => {
         callApiGetuserSearchByEmail(email)
             .then(res => {
                 var parsed = JSON.parse(res.express);
@@ -235,9 +235,9 @@ const MyEvents = () => {
             });
     }
 
-    const CallApiGetEventsByUser = async () => {
+    const CallApiGetEventsByUserID = async () => {
 
-        const url = `${REACT_APP_API_ENDPOINT}/getEventsByUser`;
+        const url = `${REACT_APP_API_ENDPOINT}/getEventsByUserID`;
         console.log(url);
 
         const response = await fetch(url, {
@@ -254,9 +254,9 @@ const MyEvents = () => {
         return body;
     }
 
-    const loadGetEventsByUser = async () => {
+    const loadGetEventsByUserID = async () => {
         try {
-            const res = await CallApiGetEventsByUser();
+            const res = await CallApiGetEventsByUserID();
             const parsed = JSON.parse(res.express);
             setEvents(parsed);
         } catch (error) {
@@ -347,8 +347,8 @@ const MyEvents = () => {
         }
     }
 
-    const handleGetParticipants = () => {
-        CallApiGetParticipants()
+    const handleGetEventParticipantsByUserID = () => {
+        CallApigetEventParticipantsByUserID()
             .then(res => {
                 var parsed = JSON.parse(res.express);
                 //console.log(parsed[0]);
@@ -357,9 +357,9 @@ const MyEvents = () => {
             });
     };
 
-    const CallApiGetParticipants = async () => {
+    const CallApigetEventParticipantsByUserID = async () => {
 
-        const url = `${REACT_APP_API_ENDPOINT}/getParticipants`;
+        const url = `${REACT_APP_API_ENDPOINT}/getEventParticipantsByUserID`;
         //console.log(url);
         //console.log("selectedEvent = " + selectedEvent)
 
@@ -378,7 +378,7 @@ const MyEvents = () => {
     };
 
     useEffect(() => {
-        loadGetEventsByUser();
+        loadGetEventsByUserID();
     }, [userID]);
 
     const classes = useStyles();

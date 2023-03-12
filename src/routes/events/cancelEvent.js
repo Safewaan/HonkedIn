@@ -3,6 +3,7 @@ const router = express.Router();
 const mysql = require('mysql');
 const config = require('../../../config.js');
 
+// Sets an event's status as "Cancelled".
 router.post('/api/cancelEvent', (req, res) => {
 
 	let connection = mysql.createConnection(config);

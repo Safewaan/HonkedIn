@@ -3,7 +3,7 @@ const router = express.Router();
 const mysql = require('mysql');
 const config = require('../../../config.js');
 
-// Sets a user's status to "Active"
+// Sets a user's status to "Active".
 router.post('/api/activateUser', (req, res) => {
     let connection = mysql.createConnection(config);
 

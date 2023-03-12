@@ -40,8 +40,8 @@ export default function UpdateStatus() {
   const [showSuccessfulActivateMsg, setshowSuccessfulActivateMsg] = React.useState(false);
   const [showSuccessfulArchiveMsg, setshowSuccessfulArchiveMsg] = React.useState(false);
 
-  const callApiGetuserSearchByEmail = async (email) => {
-    const url = `${REACT_APP_API_ENDPOINT}/userSearchByEmail`;
+  const callApiGetUserByEmail = async (email) => {
+    const url = `${REACT_APP_API_ENDPOINT}/getUserByEmail`;
     console.log(url);
 
     const response = await fetch(url, {
@@ -58,7 +58,7 @@ export default function UpdateStatus() {
     return body;
   }
 
-  const loaduserSearchByEmail = (email) => {
+  const loadGetUserByEmail = (email) => {
     callApiGetuserSearchByEmail(email)
       .then(res => {
         var parsed = JSON.parse(res.express);
@@ -114,7 +114,7 @@ export default function UpdateStatus() {
   }
 
   async function handleArchiveAccount() {
-    await loaduserSearchByEmail(currentUser.email);
+    await loadGetUserByEmail(currentUser.email);
     callApiArchiveUser();
     setshowSuccessfulArchiveMsg(true);
     setTimeout(() => {
@@ -123,7 +123,7 @@ export default function UpdateStatus() {
   }
 
   React.useEffect(() => {
-    loaduserSearchByEmail(currentUser.email);
+    loadGetUserByEmail(currentUser.email);
   }, []);
 
   return (

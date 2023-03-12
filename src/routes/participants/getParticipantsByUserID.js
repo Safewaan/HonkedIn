@@ -3,7 +3,7 @@ const router = express.Router();
 const mysql = require('mysql');
 const config = require('../../../config.js');
 
-//retrieves list of all participant names for all events
+// Searches for event participants using an eventID as a search filter. 
 router.post('/api/getParticipants', (req, res) => {
 
     let connection = mysql.createConnection(config);

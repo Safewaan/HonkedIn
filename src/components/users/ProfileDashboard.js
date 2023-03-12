@@ -76,8 +76,8 @@ const ProfileDashboard = () => {
     }
 
     // Call the API to query with the user's email obtained from Firebase
-    const callApiGetUserSearchByEmail = async (email) => {
-        const url = `${REACT_APP_API_ENDPOINT}/userSearchByEmail`;
+    const callApiGetUserByEmail = async (email) => {
+        const url = `${REACT_APP_API_ENDPOINT}/getUserByEmail`;
         console.log(url);
 
         const response = await fetch(url, {
