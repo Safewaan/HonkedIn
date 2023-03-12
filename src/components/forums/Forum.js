@@ -248,12 +248,20 @@ const Forum = () => {
                                             <strong> Comment Created: </strong> {new Date(new Date(comment.commentDateTime).getTime() - (5 * 60 * 60 * 1000)).toLocaleString()} <br />
                                         </Typography>
                                         {comment.userID === userID && (
-                                            <Typography
-                                                onClick={() => handleApiDeleteComment(comment.id)}
-                                                style={{ color: "red", mb: 1.5, cursor: 'pointer', fontSize: 12 }}
-                                            >
-                                                Delete
-                                            </Typography>
+                                            <div style={{ display: 'flex', justifyContent: 'space-between' }}>
+                                                <Typography
+                                                    onClick={() => handleApiDeleteComment(comment.id)}
+                                                    style={{ color: "red", mb: 1.5, cursor: 'pointer', fontSize: 12 }}
+                                                >
+                                                    Delete
+                                                </Typography>
+                                                <Typography
+                                                    onClick={() => handleApiDeleteComment(comment.id)}
+                                                    style={{ color: "blue", mb: 1.5, cursor: 'pointer', fontSize: 12 }}
+                                                >
+                                                    Edit 
+                                                </Typography>
+                                            </div>
                                         )}
                                     </CardContent>
                                 </Card>
