@@ -27,7 +27,8 @@ import {
     FORUMS_PAGE,
     MY_FORUMS_PAGE,
     MY_PROFILE_PAGE,
-    USER_SETTINGS_PAGE
+    USER_SETTINGS_PAGE,
+    CREATE_RESOURCES
   } from "../constants/Routes";
 
 export default function NavigationBar() {
@@ -35,6 +36,7 @@ export default function NavigationBar() {
     const [anchorElUser, setAnchorElUser] = React.useState(null);
     const [anchorElUserEvents, setAnchorElUserEvents] = React.useState(null);
     const [anchorElUserForums, setAnchorElUserForums] = React.useState(null);
+    const [anchorElUserResources, setAnchorElUserResources] = React.useState(null);
 
     const handleOpenUserMenu = (event) => {
         setAnchorElUser(event.currentTarget);
@@ -58,6 +60,14 @@ export default function NavigationBar() {
 
     const handleCloseUserMenuForums = () => {
         setAnchorElUserForums(null);
+    };
+
+    const handleOpenUserMenuResources = (event) => {
+        setAnchorElUserResources(event.currentTarget);
+    };
+
+    const handleCloseUserMenuResources = () => {
+        setAnchorElUserResources(null);
     };
 
     const [error, setError] = useState("")
@@ -112,6 +122,12 @@ export default function NavigationBar() {
     async function handleMyForums() {
 
         history.push(MY_FORUMS_PAGE)
+
+    }
+
+    async function handleCreateResources() {
+
+        history.push(CREATE_RESOURCES)
 
     }
 
@@ -210,6 +226,35 @@ export default function NavigationBar() {
 
                                     <MenuItem key="Create Forums" onClick={handleCreateForum}>
                                         <Typography textAlign="center">Create Forums</Typography>
+                                    </MenuItem>
+                                </Menu>
+                            </Box>
+
+                            <Box sx={{ flexGrow: 1, display: { xs: 'none', md: 'flex' } }}>
+                                <Tooltip title="Resources">
+                                    <Button onClick={handleOpenUserMenuResources} sx={{ p: 0 }}>
+                                        Resources
+                                    </Button>
+                                </Tooltip>
+                                <Menu
+                                    sx={{ mt: '45px' }}
+                                    id="menu-appbar"
+                                    anchorEl={anchorElUserResources}
+                                    anchorOrigin={{
+                                        vertical: 'top',
+                                        horizontal: 'right',
+                                    }}
+                                    keepMounted
+                                    transformOrigin={{
+                                        vertical: 'top',
+                                        horizontal: 'right',
+                                    }}
+                                    open={Boolean(anchorElUserResources)}
+                                    onClose={handleCloseUserMenuResources}
+                                >
+
+                                    <MenuItem key="Resources" onClick={handleCreateResources}>
+                                        <Typography textAlign="center">Create Resources</Typography>
                                     </MenuItem>
                                 </Menu>
                             </Box>
