@@ -10,10 +10,34 @@ import Box from "@material-ui/core/Box";
 import { useParams } from 'react-router-dom';
 import TextField from "@material-ui/core/TextField";
 import Button from "@material-ui/core/Button";
+import Dialog from '@material-ui/core/Dialog';
+import DialogActions from '@material-ui/core/DialogActions';
+import DialogContent from '@material-ui/core/DialogContent';
+import DialogTitle from '@material-ui/core/DialogTitle';
+import MuiAlert from '@mui/material/Alert';
+import FormHelperText from '@material-ui/core/FormHelperText';
+import Grid from '@material-ui/core/Grid';
 
 const { REACT_APP_API_ENDPOINT } = process.env;
 
 const Forum = () => {
+
+    const Alert = React.forwardRef(function Alert(props, ref) {
+        return (
+            <MuiAlert
+                elevation={6}
+                ref={ref}
+                variant="filled"
+                {...props}
+                style={{
+                    position: 'fixed',
+                    bottom: '20px',
+                    right: '20px',
+                    zIndex: 9999
+                }}
+            />
+        );
+    });
 
     const { currentUser } = useAuth();
     const history = useHistory();
@@ -30,6 +54,8 @@ const Forum = () => {
     const handleNewComment = (forum) => {
         setNewComment(forum.target.value);
     }
+
+    const [showEditAlertMessage, setShowEditAlertMessage] = React.useState(false);
 
     React.useEffect(() => {
         setEmail(currentUser.email);
@@ -190,6 +216,70 @@ const Forum = () => {
         return body;
     }
 
+    // API - Edit your own comments
+
+    const callApiEditComment = async () => {
+        const url = `${REACT_APP_API_ENDPOINT}/editForumComment`;
+        console.log(url);
+
+        const response = await fetch(url, {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+            },
+            body: JSON.stringify({
+                comment: comment,
+                id: selectedComment.id
+            })
+        });
+        const body = await response.json();
+        if (response.status !== 200) throw Error(body.message);
+        return body;
+    }
+
+    const [comment, setComment] = React.useState('');
+    const [commentError, setCommentError] = React.useState('');
+    const [commentErrorText, setCommentErrorText] = React.useState(''); //ERROR EDITING IN RETURN BRACKETS
+    const handleEditCommentBody = (comment) => {
+        setComment(comment.target.value);
+        setCommentError(false);
+        setCommentErrorText('');
+    }
+
+    const handleEditComment= (selectedComment) => {
+        if (comment === '') {
+            setCommentError(true);
+            setCommentErrorText('Please enter your comment');
+            return false;
+        } else {
+            //console.log("about to call api edit forum");
+            callApiEditComment(selectedComment);
+            setShowEditAlertMessage(true);
+            setTimeout(() => {
+                window.location.reload();
+            }, 100);
+        }
+    }
+
+    const [isDialogOpen, setIsDialogOpen] = React.useState(false);
+    const [selectedComment, setSelectedComment] = React.useState(null);
+
+    const handleOpenDialog = (event) => {
+        setSelectedComment(event);
+        setIsDialogOpen(true);
+
+        // Update comment
+        setComment(event.comment);
+        setCommentError(false);
+        setCommentErrorText('');
+
+    };
+
+    const handleCloseDialog = () => {
+        setSelectedComment(null);
+        setIsDialogOpen(false);
+    };
+
     return (
         <div id="body">
 
@@ -245,10 +335,10 @@ const Forum = () => {
                                             {comment.comment}<br />
                                         </Typography>
                                         <Typography style={{ mb: 1.5, fontSize: "12px" }} color="text.secondary">
-                                            <strong> Comment Created: </strong> {new Date(new Date(comment.commentDateTime).getTime() - (5 * 60 * 60 * 1000)).toLocaleString()} <br />
+                                            <strong> Comment Posted: </strong> {new Date(new Date(comment.commentDateTime).getTime() - (5 * 60 * 60 * 1000)).toLocaleString()} <br />
                                         </Typography>
                                         {comment.userID === userID && (
-                                            <div style={{ display: 'flex', justifyContent: 'space-between' }}>
+                                            <div style={{ display: 'flex', gap: '10px' }}>
                                                 <Typography
                                                     onClick={() => handleApiDeleteComment(comment.id)}
                                                     style={{ color: "red", mb: 1.5, cursor: 'pointer', fontSize: 12 }}
@@ -256,10 +346,10 @@ const Forum = () => {
                                                     Delete
                                                 </Typography>
                                                 <Typography
-                                                    onClick={() => handleApiDeleteComment(comment.id)}
+                                                    onClick={() => handleOpenDialog(comment)}
                                                     style={{ color: "blue", mb: 1.5, cursor: 'pointer', fontSize: 12 }}
                                                 >
-                                                    Edit 
+                                                    Edit
                                                 </Typography>
                                             </div>
                                         )}
@@ -270,7 +360,49 @@ const Forum = () => {
                     </Card>
                 ))}
             </Box>
+            {selectedComment && (
+                <div>
+                    {/* Edit comment diaglog */}
+                    < Dialog open={isDialogOpen} onClose={handleCloseDialog} >
+                        <DialogTitle>Edit Your Comment</DialogTitle>
+                        <DialogContent>
+                            <Comment
+                                comment={comment}
+                                onEnterComment={handleEditCommentBody}
+                                commentError={commentError}
+                                fcommentErrorText={commentErrorText}
+                            />
+                        </DialogContent>
+                        <DialogActions>
+                            <Button onClick={handleCloseDialog}>Close</Button>
+                            {<Button onClick={handleEditComment}>Edit Comment</Button>}
+                        </DialogActions>
+                    </Dialog>
+                </div>
+            )}
+
+            {showEditAlertMessage && (
+                <Alert severity="success">
+                    Comment successfully edited.
+                </Alert>
+            )}
         </div>
+    )
+}
+const Comment = ({ comment, onEnterComment, commentError, commentErrorText, defaultValue }) => {
+    return (
+        <Grid item>
+            <TextField
+                id="edit-comment"
+                label="Edit Comment"
+                placeholder="Enter Comment"
+                value={comment}
+                onChange={onEnterComment}
+                error={commentError}
+                fullWidth
+            />
+            <FormHelperText>{commentErrorText}</FormHelperText>
+        </Grid>
     )
 }
 
