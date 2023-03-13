@@ -23,6 +23,8 @@ import ProfileDashboard from "./users/ProfileDashboard";
 import UpdateStatus from "./users/UpdateStatus";
 import UserSettings from "./users/UserSettings";
 
+import CreateResource from "./resources/CreateResource";
+
 import {
   HOME_PAGE,
   FORGOT_PASSWORD_PAGE,
@@ -38,7 +40,8 @@ import {
   FORUM_PAGE,
   MY_PROFILE_PAGE,
   UPDATE_STATUS_PAGE,
-  USER_SETTINGS_PAGE
+  USER_SETTINGS_PAGE,
+  CREATE_RESOURCE_PAGE
 } from "./constants/Routes";
 
 function App() {
@@ -75,6 +78,10 @@ function App() {
               <PrivateRoute path={FORUMS_PAGE} component={Forums} />
               <PrivateRoute path={MY_FORUMS_PAGE} component={MyForums} />
               <PrivateRoute path={FORUM_PAGE} component={Forum} />
+
+              {/* Resources Pages */}
+              <PrivateRoute path={CREATE_RESOURCE_PAGE} component={CreateResource} />
+
             </Switch>
           </AuthProvider>
         </Router>
