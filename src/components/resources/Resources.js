@@ -96,26 +96,27 @@ const Resources = () => {
                 </Typography>
             </Box>
 
-    <Box sx={{ position: 'absolute', top: 150, left: '50%', transform: 'translateX(-50%)' }}>
-        {resources.map((resources) => (
-            <Card style={{ width: '800px', marginBottom: '20px' }}>
-                <CardContent>
-                        <Typography variant="h5" component="div">
-                            {resources.resourcesTitle}<br />
-                        </Typography>
-                    <Typography sx={{ mb: 1.5 }} color="text.secondary">
-                        by {resources.creatorName}<br />
-                    </Typography>
-                    <a href={`${resources.resourcesLink}`}>
-                    <Typography sx={{ mb: 1.5 }} color="text.secondary">
-                        <br />{resources.resourcesLink}<br />
-                    </Typography>
-                    </a>
-                </CardContent>
-            </Card>
-        ))}
-        </Box>
-    </div>
+            <Box sx={{ position: 'absolute', top: 150, left: '50%', transform: 'translateX(-50%)' }}>
+                {resources.map((resources) => (
+                    <Card style={{ width: '800px', marginBottom: '20px' }}>
+                        <CardContent>
+                            <Typography variant="h5" component="div">
+                                {resources.resourcesTitle}<br />
+                            </Typography>
+                            <Typography sx={{ mb: 1.5 }} color="text.secondary">
+                                Posted on {new Date(new Date(resources.dateTime).getTime() - (5 * 60 * 60 * 1000)).toLocaleDateString()}<br />
+                                by {resources.creatorName}<br />
+                            </Typography>
+                            <a href={`${resources.resourcesLink}`}>
+                                <Typography sx={{ mb: 1.5 }} color="text.secondary">
+                                    <br />{resources.resourcesLink}<br />
+                                </Typography>
+                            </a>
+                        </CardContent>
+                    </Card>
+                ))}
+            </Box>
+        </div>
     )
 }
 

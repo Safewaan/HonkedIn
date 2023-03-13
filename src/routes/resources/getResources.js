@@ -9,7 +9,7 @@ router.get('/api/getResources', (req, res) => {
 	let connection = mysql.createConnection(config);
 
 	let sql = 
-	`SELECT CONCAT(firstName, " ", lastName) AS creatorName, resources.resourcesTitle, resources.resourcesLink
+	`SELECT CONCAT(firstName, " ", lastName) AS creatorName, resources.resourcesTitle, resources.resourcesLink, resources.dateTime
     FROM resources, users
     WHERE creatorID = users.id;`; 
 	
