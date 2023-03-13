@@ -26,6 +26,8 @@ import UserSettings from "./users/UserSettings";
 import Network from "./userNetwork/Network";
 import NetworkProfile from "./userNetwork/NetworkProfile";
 
+import CreateResource from "./resources/CreateResource";
+
 import {
   HOME_PAGE,
   FORGOT_PASSWORD_PAGE,
@@ -43,7 +45,8 @@ import {
   UPDATE_STATUS_PAGE,
   USER_SETTINGS_PAGE,
   NETWORK_PAGE,
-  NETWORK_PROFILE_PAGE
+  NETWORK_PROFILE_PAGE,
+  CREATE_RESOURCE_PAGE
 } from "./constants/Routes";
 
 function App() {
@@ -84,6 +87,9 @@ function App() {
               {/* User Network Pages */}
               <PrivateRoute path={NETWORK_PAGE} component={Network} /> 
               <PrivateRoute path={NETWORK_PROFILE_PAGE} component={NetworkProfile} /> 
+              
+              {/* Resources Pages */}
+              <PrivateRoute path={CREATE_RESOURCE_PAGE} component={CreateResource} />
 
             </Switch>
           </AuthProvider>

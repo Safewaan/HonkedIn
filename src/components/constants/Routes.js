@@ -36,3 +36,6 @@ export const USER_SETTINGS_PAGE = "/user-settings";
 export const NETWORK_PAGE = "/network";
 
 export const NETWORK_PROFILE_PAGE = "/network-profile/:selectedUserID";
+
+// Resources Routes
+export const CREATE_RESOURCE_PAGE = "/create-resource";
