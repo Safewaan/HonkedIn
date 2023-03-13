@@ -28,7 +28,9 @@ import {
     MY_FORUMS_PAGE,
     MY_PROFILE_PAGE,
     USER_SETTINGS_PAGE,
-    CREATE_RESOURCE_PAGE
+    CREATE_RESOURCE_PAGE,
+    NETWORK_PAGE, 
+    NETWORK_PROFILE_PAGE
   } from "../constants/Routes";
 
 export default function NavigationBar() {
@@ -128,6 +130,12 @@ export default function NavigationBar() {
     async function handleCreateResources() {
 
         history.push(CREATE_RESOURCE_PAGE)
+
+    }
+
+    async function handleNetwork() {
+
+        history.push(NETWORK_PAGE)
 
     }
 
@@ -257,6 +265,14 @@ export default function NavigationBar() {
                                         <Typography textAlign="center">Create Resources</Typography>
                                     </MenuItem>
                                 </Menu>
+                            </Box>
+
+                            <Box sx={{ flexGrow: 1, display: { xs: 'none', md: 'flex' } }}>
+                                <Tooltip title="Network">
+                                    <Button onClick={handleNetwork} sx={{ p: 0 }}>
+                                        Explore Network
+                                    </Button>
+                                </Tooltip>
                             </Box>
 
 
