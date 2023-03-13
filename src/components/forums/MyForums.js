@@ -69,6 +69,7 @@ const MyForums = () => {
     const [selectedForum, setSelectedForum] = React.useState(null);
     const [isDialogOpen, setIsDialogOpen] = React.useState(false);
     const [showEditAlertMessage, setShowEditAlertMessage] = React.useState(false);
+    const [comments, setComments] = React.useState([]);
     const classes = useStyles();
 
     const [forumStatus, setForumStatus] = React.useState('');
@@ -156,6 +157,7 @@ const MyForums = () => {
 
     useEffect(() => {
         loadgetForumsByUserID();
+        handleApiLoadComments();
     }, [userID]);
 
     const callApiArchiveForum = async (forumID) => {
@@ -204,6 +206,38 @@ const MyForums = () => {
         });
 
         console.log("forumDesc = " + forumDesc)
+        const body = await response.json();
+        if (response.status !== 200) throw Error(body.message);
+        return body;
+    }
+
+    //API - Load comments for the forum
+    const handleApiLoadComments = async (forumID) => {
+        try {
+            const res = await callApiLoadComments(forumID);
+            const parsed = JSON.parse(JSON.stringify(res.express));
+            setComments(parsed);
+
+
+        } catch (error) {
+            console.error(error);
+        }
+    }
+
+    const callApiLoadComments = async (forumID) => {
+        const url = `${REACT_APP_API_ENDPOINT}/getForumCommentsByUserAndForumID`;
+        console.log(url);
+
+        const response = await fetch(url, {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+            },
+            body: JSON.stringify({
+                userID: userID,
+                forumID: forumID
+            })
+        });
         const body = await response.json();
         if (response.status !== 200) throw Error(body.message);
         return body;
@@ -266,7 +300,7 @@ const MyForums = () => {
         setSelectedForum(null);
         setIsDialogOpen(false);
     };
-
+   
     return (
         <div id="body">
 
@@ -299,7 +333,28 @@ const MyForums = () => {
                             <Typography sx={{ mb: 1.5 }} color="text.secondary">
                                 <br />{forum.description}<br />
                             </Typography>
-
+                            <Typography
+                                onClick={() => handleApiLoadComments(forum.id)}
+                                style={{ color: "blue", mb: 1.5, cursor: 'pointer', fontSize: 12 }}
+                            >
+                                <br /> View My Comments <br />
+                            </Typography>
+                            {comments.map((comment) => (
+                                comment.forumID === forum.id &&
+                                <Card style={{ width: '500px', marginBottom: '20px' }} key={comment.id}>
+                                    <CardContent>
+                                        <Typography style={{ mb: 1.5, fontSize: "12px" }} color="text.secondary">
+                                            <strong> User: </strong> {comment.firstName} {comment.lastName}<br />
+                                        </Typography>
+                                        <Typography sx={{ mb: 1.5 }} color="text.secondary">
+                                            {comment.comment}<br />
+                                        </Typography>
+                                        <Typography style={{ mb: 1.5, fontSize: "12px" }} color="text.secondary">
+                                            <strong> Comment Created: </strong> {new Date(new Date(comment.commentDateTime).getTime() - (5 * 60 * 60 * 1000)).toLocaleString()} <br />
+                                        </Typography>
+                                    </CardContent>
+                                </Card>
+                            ))}
                         </CardContent>
                         <CardActions>
                             {forum.status === "Active" && <Button onClick={() => handleOpenDialog(forum)}>Edit Forum</Button>}
@@ -342,7 +397,7 @@ const MyForums = () => {
 
             {showEditAlertMessage && (
                 <Alert severity="success">
-                    Event successfully edited.
+                    Forum successfully edited.
                 </Alert>
             )}
             {showSuccessfulArchiveMsg && (
