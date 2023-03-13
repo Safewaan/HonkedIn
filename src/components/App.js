@@ -41,7 +41,7 @@ import {
   MY_PROFILE_PAGE,
   UPDATE_STATUS_PAGE,
   USER_SETTINGS_PAGE,
-  CREATE_RESOURCES
+  CREATE_RESOURCE_PAGE
 } from "./constants/Routes";
 
 function App() {
@@ -80,7 +80,7 @@ function App() {
               <PrivateRoute path={FORUM_PAGE} component={Forum} />
 
               {/* Resources Pages */}
-              <PrivateRoute path={CREATE_RESOURCES} component={CreateResource} />
+              <PrivateRoute path={CREATE_RESOURCE_PAGE} component={CreateResource} />
 
             </Switch>
           </AuthProvider>

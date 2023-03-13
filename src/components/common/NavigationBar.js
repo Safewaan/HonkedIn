@@ -28,7 +28,7 @@ import {
     MY_FORUMS_PAGE,
     MY_PROFILE_PAGE,
     USER_SETTINGS_PAGE,
-    CREATE_RESOURCES
+    CREATE_RESOURCE_PAGE
   } from "../constants/Routes";
 
 export default function NavigationBar() {
@@ -127,7 +127,7 @@ export default function NavigationBar() {
 
     async function handleCreateResources() {
 
-        history.push(CREATE_RESOURCES)
+        history.push(CREATE_RESOURCE_PAGE)
 
     }
 
