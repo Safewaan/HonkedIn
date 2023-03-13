@@ -24,6 +24,7 @@ import UpdateStatus from "./users/UpdateStatus";
 import UserSettings from "./users/UserSettings";
 
 import Network from "./userNetwork/Network";
+import NetworkProfile from "./userNetwork/NetworkProfile";
 
 import {
   HOME_PAGE,
@@ -41,7 +42,8 @@ import {
   MY_PROFILE_PAGE,
   UPDATE_STATUS_PAGE,
   USER_SETTINGS_PAGE,
-  NETWORK_PAGE
+  NETWORK_PAGE,
+  NETWORK_PROFILE_PAGE
 } from "./constants/Routes";
 
 function App() {
@@ -81,6 +83,7 @@ function App() {
 
               {/* User Network Pages */}
               <PrivateRoute path={NETWORK_PAGE} component={Network} /> 
+              <PrivateRoute path={NETWORK_PROFILE_PAGE} component={NetworkProfile} /> 
 
             </Switch>
           </AuthProvider>

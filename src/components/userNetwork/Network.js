@@ -7,12 +7,6 @@ import CardContent from '@material-ui/core/CardContent';
 import Button from '@material-ui/core/Button';
 import Typography from '@material-ui/core/Typography';
 import TextField from '@material-ui/core/TextField';
-import Dialog from '@material-ui/core/Dialog';
-import DialogActions from '@material-ui/core/DialogActions';
-import DialogContent from '@material-ui/core/DialogContent';
-import DialogContentText from '@material-ui/core/DialogContentText';
-import DialogTitle from '@material-ui/core/DialogTitle';
-import MuiAlert from '@mui/material/Alert';
 import NavigationBar from '../common/NavigationBar';
 import Box from "@material-ui/core/Box";
 
@@ -110,12 +104,14 @@ const Network = () => {
 
 
       <Box sx={{ position: 'absolute', top: 260, left: '50%', transform: 'translateX(-50%)' }}>
-        {profiles.map((event) => (
-          <Card style={{ width: '600px', marginTop: '20px' }} key={event.id}>
+        {profiles.map((profile) => (
+          <Card style={{ width: '600px', marginTop: '20px' }} key={profile.id}>
             <CardContent>
+            <Link to={`/network-profile/${profile.id}`} target="_blank">
               <Typography variant="h5" component="div">
-                {event.firstName} {event.lastName}
+                {profile.firstName} {profile.lastName}
               </Typography>
+              </Link>
             </CardContent>
             <br />
           </Card>

@@ -34,3 +34,5 @@ export const USER_SETTINGS_PAGE = "/user-settings";
 
 // Network Routes
 export const NETWORK_PAGE = "/network";
+
+export const NETWORK_PROFILE_PAGE = "/network-profile/:selectedUserID";
