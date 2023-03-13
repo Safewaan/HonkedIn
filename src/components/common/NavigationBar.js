@@ -28,8 +28,9 @@ import {
     MY_FORUMS_PAGE,
     MY_PROFILE_PAGE,
     USER_SETTINGS_PAGE,
-    CREATE_RESOURCE_PAGE
-  } from "../constants/Routes";
+    CREATE_RESOURCE_PAGE,
+    RESOURCE_PAGE
+} from "../constants/Routes";
 
 export default function NavigationBar() {
 
@@ -128,6 +129,12 @@ export default function NavigationBar() {
     async function handleCreateResources() {
 
         history.push(CREATE_RESOURCE_PAGE)
+
+    }
+
+    async function handleResources() {
+
+        history.push(RESOURCE_PAGE)
 
     }
 
@@ -252,7 +259,9 @@ export default function NavigationBar() {
                                     open={Boolean(anchorElUserResources)}
                                     onClose={handleCloseUserMenuResources}
                                 >
-
+                                    <MenuItem key="Resources" onClick={handleResources}>
+                                        <Typography textAlign="center">Resources</Typography>
+                                    </MenuItem>
                                     <MenuItem key="Resources" onClick={handleCreateResources}>
                                         <Typography textAlign="center">Create Resources</Typography>
                                     </MenuItem>

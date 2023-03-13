@@ -34,3 +34,4 @@ export const USER_SETTINGS_PAGE = "/user-settings";
 
 // Resources Routes
 export const CREATE_RESOURCE_PAGE = "/create-resource";
+export const RESOURCE_PAGE = "/resources";

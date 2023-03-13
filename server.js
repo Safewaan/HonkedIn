@@ -85,8 +85,10 @@ app.use(deleteForumComment);
 
 // Resources APIs
 const createResource = require(`${routesDir}resources/createResource`);
+const getResource = require(`${routesDir}resources/getResources`);
 
 app.use(createResource);
+app.use(getResource);
 
 app.listen(port, () => console.log(`Listening on port ${port}`)); //for the dev version
 //app.listen(port, '172.31.31.77'); //for the deployed version, specify the IP address of the server

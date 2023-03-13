@@ -24,6 +24,7 @@ import UpdateStatus from "./users/UpdateStatus";
 import UserSettings from "./users/UserSettings";
 
 import CreateResource from "./resources/CreateResource";
+import Resources from "./resources/Resources";
 
 import {
   HOME_PAGE,
@@ -41,7 +42,8 @@ import {
   MY_PROFILE_PAGE,
   UPDATE_STATUS_PAGE,
   USER_SETTINGS_PAGE,
-  CREATE_RESOURCE_PAGE
+  CREATE_RESOURCE_PAGE,
+  RESOURCE_PAGE
 } from "./constants/Routes";
 
 function App() {
@@ -81,6 +83,8 @@ function App() {
 
               {/* Resources Pages */}
               <PrivateRoute path={CREATE_RESOURCE_PAGE} component={CreateResource} />
+              <PrivateRoute path={RESOURCE_PAGE} component={Resources} />
+
 
             </Switch>
           </AuthProvider>
