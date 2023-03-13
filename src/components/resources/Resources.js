@@ -106,11 +106,11 @@ const Resources = () => {
                     <Typography sx={{ mb: 1.5 }} color="text.secondary">
                         by {resources.creatorName}<br />
                     </Typography>
-                    <Link to={`${resources.resourcesLink}`}>
+                    <a href={`${resources.resourcesLink}`}>
                     <Typography sx={{ mb: 1.5 }} color="text.secondary">
                         <br />{resources.resourcesLink}<br />
                     </Typography>
-                    </Link>
+                    </a>
                 </CardContent>
             </Card>
         ))}
