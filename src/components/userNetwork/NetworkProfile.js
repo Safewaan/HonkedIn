@@ -116,7 +116,7 @@ const NetworkProfile = () => {
                 //authorization: `Bearer ${this.state.token}`
             },
             body: JSON.stringify({
-                selectedUserID: selectedUserID,
+                userID: selectedUserID,
             })
         });
         const body = await response.json();
