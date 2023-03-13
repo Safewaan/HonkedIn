@@ -44,18 +44,25 @@ const Forum = () => {
     const [email, setEmail] = React.useState('');
     const [userID, setUserID] = React.useState('');
     const { forumID } = useParams();
-
     const [forums, setForums] = React.useState([]);
 
     // Comment states
     const [comments, setComments] = React.useState([]);
-
     const [newComment, setNewComment] = React.useState("");
     const handleNewComment = (forum) => {
         setNewComment(forum.target.value);
     }
 
+    // Edit states 
     const [showEditAlertMessage, setShowEditAlertMessage] = React.useState(false);
+    const [comment, setComment] = React.useState('');
+    const [commentError, setCommentError] = React.useState('');
+    const [commentErrorText, setCommentErrorText] = React.useState(''); 
+    const handleEditCommentBody = (comment) => {
+        setComment(comment.target.value);
+        setCommentError(false);
+        setCommentErrorText('');
+    }
 
     React.useEffect(() => {
         setEmail(currentUser.email);
@@ -217,7 +224,20 @@ const Forum = () => {
     }
 
     // API - Edit your own comments
-
+        const handleEditComment= (selectedComment) => {
+        if (comment === '') {
+            setCommentError(true);
+            setCommentErrorText('Please enter your comment');
+            return false;
+        } else {
+            //console.log("about to call api edit forum");
+            callApiEditComment(selectedComment);
+            setShowEditAlertMessage(true);
+            setTimeout(() => {
+                window.location.reload();
+            }, 100);
+        }
+    }
     const callApiEditComment = async () => {
         const url = `${REACT_APP_API_ENDPOINT}/editForumComment`;
         console.log(url);
@@ -237,30 +257,7 @@ const Forum = () => {
         return body;
     }
 
-    const [comment, setComment] = React.useState('');
-    const [commentError, setCommentError] = React.useState('');
-    const [commentErrorText, setCommentErrorText] = React.useState(''); //ERROR EDITING IN RETURN BRACKETS
-    const handleEditCommentBody = (comment) => {
-        setComment(comment.target.value);
-        setCommentError(false);
-        setCommentErrorText('');
-    }
-
-    const handleEditComment= (selectedComment) => {
-        if (comment === '') {
-            setCommentError(true);
-            setCommentErrorText('Please enter your comment');
-            return false;
-        } else {
-            //console.log("about to call api edit forum");
-            callApiEditComment(selectedComment);
-            setShowEditAlertMessage(true);
-            setTimeout(() => {
-                window.location.reload();
-            }, 100);
-        }
-    }
-
+    // Dialog states
     const [isDialogOpen, setIsDialogOpen] = React.useState(false);
     const [selectedComment, setSelectedComment] = React.useState(null);
 
