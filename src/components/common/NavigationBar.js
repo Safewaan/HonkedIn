@@ -29,7 +29,7 @@ import {
     MY_PROFILE_PAGE,
     USER_SETTINGS_PAGE,
     CREATE_RESOURCE_PAGE,
-    RESOURCE_PAGE,
+    RESOURCES_PAGE,
     NETWORK_PAGE, 
     NETWORK_PROFILE_PAGE
   } from "../constants/Routes";
@@ -136,7 +136,7 @@ export default function NavigationBar() {
 
     async function handleResources() {
 
-        history.push(RESOURCE_PAGE)
+        history.push(RESOURCES_PAGE)
     }
 
     async function handleNetwork() {

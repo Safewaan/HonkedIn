@@ -46,7 +46,7 @@ import {
   UPDATE_STATUS_PAGE,
   USER_SETTINGS_PAGE,
   CREATE_RESOURCE_PAGE,
-  RESOURCE_PAGE,
+  RESOURCES_PAGE,
   NETWORK_PAGE,
   NETWORK_PROFILE_PAGE
 } from "./constants/Routes";
@@ -92,7 +92,7 @@ function App() {
               
               {/* Resources Pages */}
               <PrivateRoute path={CREATE_RESOURCE_PAGE} component={CreateResource} />
-              <PrivateRoute path={RESOURCE_PAGE} component={Resources} />
+              <PrivateRoute path={RESOURCES_PAGE} component={Resources} />
 
 
             </Switch>

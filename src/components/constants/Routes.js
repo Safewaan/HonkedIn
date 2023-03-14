@@ -40,5 +40,5 @@ export const NETWORK_PROFILE_PAGE = "/network-profile/:selectedUserID";
 // Resources Routes
 export const CREATE_RESOURCE_PAGE = "/create-resource";
 
-export const RESOURCE_PAGE = "/resources";
+export const RESOURCES_PAGE = "/resources";
 

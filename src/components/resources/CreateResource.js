@@ -113,6 +113,10 @@ const CreateResource = () => {
             setResourcesLinkError(true);
             setResourcesLinkErrorText('Please enter the link to your resource');
             return false;
+        } else if (!resourcesLink.includes('https://')) {
+            setResourcesLinkError(true);
+            setResourcesLinkErrorText('Please ensure the link to your resource link starts with https://');
+            return false;
         } else {
 
             setOpen(true);
