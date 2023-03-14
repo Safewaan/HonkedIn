@@ -21,16 +21,6 @@ const Network = () => {
     setUserSearchTerm(event.target.value);
   }
 
-  const loadGetUsers = async () => {
-    try {
-      const res = await callApiGetUsers(userSearchTerm);
-      const parsed = JSON.parse(res.express);
-      setProfiles(parsed);
-    } catch (error) {
-      console.error(error);
-    }
-  }
-
   React.useEffect(() => {
     handleFindUser();
   }, []);

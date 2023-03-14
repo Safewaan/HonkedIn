@@ -24,17 +24,15 @@ const useStyles = makeStyles((theme) => ({
 const NetworkProfile = () => {
 
     const classes = useStyles();
-    const { currentUser } = useAuth()
-    const [email, setEmail] = React.useState('');
-    const [firstName, setFirstName] = React.useState('');
-    const [lastName, setLastName] = React.useState('');
-    const [userID, setUserID] = React.useState('');
+    //const { currentUser } = useAuth()
+    //leaving this one for now, if have time at end, want to implement
+    //logic to redirect to own editable profile page 
+    //const [email, setEmail] = React.useState('');
     const { selectedUserID } = useParams();
     const [openDialog, setOpenDialog] = React.useState(false);
 
-    // Get the current user's email. 
     useEffect(() => {
-        setEmail(currentUser.email);
+        //setEmail(currentUser.email);
         //console.log('selected user id is: ' + selectedUserID);
         handleAPIUserProfile(selectedUserID);
     }, []);
