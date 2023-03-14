@@ -11,6 +11,7 @@ import CreateForum from "./forums/CreateForum";
 import Forum from "./forums/Forum";
 import Forums from "./forums/Forums";
 import MyForums from "./forums/MyForums";
+import MyComments from "./forums/MyComments";
 
 import Login from "./auth/Login";
 import Signup from "./auth/Signup";
@@ -41,7 +42,8 @@ import {
   MY_PROFILE_PAGE,
   UPDATE_STATUS_PAGE,
   USER_SETTINGS_PAGE,
-  CREATE_RESOURCE_PAGE
+  CREATE_RESOURCE_PAGE, 
+  MY_COMMENTS_PAGE
 } from "./constants/Routes";
 
 function App() {
@@ -77,6 +79,7 @@ function App() {
               <PrivateRoute path={CREATE_FORUM_PAGE} component={CreateForum} />
               <PrivateRoute path={FORUMS_PAGE} component={Forums} />
               <PrivateRoute path={MY_FORUMS_PAGE} component={MyForums} />
+              <PrivateRoute path={MY_COMMENTS_PAGE} component={MyComments} />
               <PrivateRoute path={FORUM_PAGE} component={Forum} />
 
               {/* Resources Pages */}

@@ -25,6 +25,9 @@ export const MY_FORUMS_PAGE = "/my-forums";
 
 export const FORUM_PAGE = "/forum/:forumID";
 
+export const MY_COMMENTS_PAGE = "/my-comments";
+
+
 // Users Routes
 export const MY_PROFILE_PAGE = "/my-profile";
 

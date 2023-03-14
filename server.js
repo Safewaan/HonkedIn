@@ -78,10 +78,12 @@ app.use(archiveForum);
 const createForumComment = require(`${routesDir}forumComments/createForumComment`);
 const getForumCommentsByForumID = require(`${routesDir}forumComments/getForumCommentsByForumID`);
 const deleteForumComment = require(`${routesDir}forumComments/deleteForumComment`);
+const getForumCommentsByUserID = require(`${routesDir}forumComments/getForumCommentsByUserID`);
 
 app.use(createForumComment);
 app.use(getForumCommentsByForumID);
 app.use(deleteForumComment);
+app.use(getForumCommentsByUserID);
 
 // Resources APIs
 const createResource = require(`${routesDir}resources/createResource`);
