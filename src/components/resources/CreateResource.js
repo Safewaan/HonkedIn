@@ -125,7 +125,7 @@ const CreateResource = () => {
             return false;
         } else if (!isValidHttpUrl(resourcesLink)) {
             setResourcesLinkError(true);
-            setResourcesLinkErrorText('Please ensure the link to your resource link starts with https://');
+            setResourcesLinkErrorText('Please ensure the link to your resource link starts with https:');
             return false;
         } else {
 
