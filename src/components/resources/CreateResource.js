@@ -18,6 +18,16 @@ const { REACT_APP_API_ENDPOINT } = process.env;
 
 const CreateResource = () => {
 
+    function isValidHttpUrl(string) {
+        let url;
+        try {
+            url = new URL(string);
+        } catch (_) {
+            return false;
+        }
+        return url.protocol === "http:" || url.protocol === "https:";
+    }
+
     const { currentUser } = useAuth();
     const history = useHistory()
 
@@ -113,7 +123,7 @@ const CreateResource = () => {
             setResourcesLinkError(true);
             setResourcesLinkErrorText('Please enter the link to your resource');
             return false;
-        } else if (!resourcesLink.includes('https://')) {
+        } else if (!isValidHttpUrl(resourcesLink)) {
             setResourcesLinkError(true);
             setResourcesLinkErrorText('Please ensure the link to your resource link starts with https://');
             return false;
