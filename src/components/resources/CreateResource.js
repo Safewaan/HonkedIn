@@ -25,7 +25,7 @@ const CreateResource = () => {
         } catch (_) {
             return false;
         }
-        return url.protocol === "http:" || url.protocol === "https:";
+        return url.protocol === "http://" || url.protocol === "https://";
     }
 
     const { currentUser } = useAuth();
@@ -125,7 +125,7 @@ const CreateResource = () => {
             return false;
         } else if (!isValidHttpUrl(resourcesLink)) {
             setResourcesLinkError(true);
-            setResourcesLinkErrorText('Please ensure the link to your resource link starts with https:');
+            setResourcesLinkErrorText('Please ensure the link to your resource link starts with https://');
             return false;
         } else {
 
