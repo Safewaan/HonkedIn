@@ -107,7 +107,7 @@ const Resources = () => {
                                 Posted on {new Date(new Date(resources.dateTime).getTime() - (5 * 60 * 60 * 1000)).toLocaleDateString()}<br />
                                 by {resources.creatorName}<br />
                             </Typography>
-                            <a href={`${resources.resourcesLink}`}>
+                            <a href={`${resources.resourcesLink}`} target = "_blank">
                                 <Typography sx={{ mb: 1.5 }} color="text.secondary">
                                     <br />{resources.resourcesLink}<br />
                                 </Typography>
