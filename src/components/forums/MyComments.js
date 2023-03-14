@@ -59,7 +59,7 @@ const MyComments = () => {
     const loadGetCommentsByUserID = async () => {
         try {
             const res = await CallApiGetCommentsByUserID();
-            const parsed = JSON.parse(res.express);
+            const parsed = res.express;
             setMyComments(parsed);
         } catch (error) {
             console.error(error);
@@ -106,11 +106,11 @@ const MyComments = () => {
                 <CardContent>
                     <Link to={`/forum/${comment.forumID}`} target="_blank">
                         <Typography variant="h5" component="div">
-                            Forum Title: {comment.forumTitle}<br />
+                            {comment.forumTitle}<br />
                         </Typography>
                     </Link>
                     <Typography sx={{ mb: 1.5 }} color="text.secondary">
-                        Commented on {new Date(new Date(comment.dateTime).getTime() - (5 * 60 * 60 * 1000)).toLocaleDateString()}<br />
+                        Commented on {new Date(new Date(comment.commentDateTime).getTime() - (5 * 60 * 60 * 1000)).toLocaleString()}<br />
                     </Typography>
                     <Typography sx={{ mb: 1.5 }} color="text.secondary">
                         <br />{comment.comment}<br />
