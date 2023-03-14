@@ -83,6 +83,10 @@ app.use(createForumComment);
 app.use(getForumCommentsByForumID);
 app.use(deleteForumComment);
 
+//User Network APIs
+const getUsers = require(`${routesDir}user/getUsers`);
+
+app.use(getUsers); 
 // Resources APIs
 const createResource = require(`${routesDir}resources/createResource`);
 
