@@ -35,8 +35,7 @@ const NetworkProfile = () => {
     // Get the current user's email. 
     useEffect(() => {
         setEmail(currentUser.email);
-        console.log('selected user id is: ' + selectedUserID);
-        //handleUserSearchByEmail(currentUser.email);
+        //console.log('selected user id is: ' + selectedUserID);
         handleAPIUserProfile(selectedUserID);
     }, []);
 
@@ -47,45 +46,9 @@ const NetworkProfile = () => {
     const [interest, setInterest] = React.useState('');
     const [coop, setCoop] = React.useState('');
 
-    // Obtain the user ID, firstName and lastName from the query
-    //WILL NEED TO EDIT TO ACCOUNT FOR SOMEONE ELSE'S PROFILE
-    const handleUserSearchByEmail = (email) => {
-        callApiGetUserSearchByEmail(email)
-            .then(res => {
-                var parsed = JSON.parse(res.express);
-                //console.log(parsed[0].id);
-                setUserID(parsed[0].id);
-                setFirstName(parsed[0].firstName)
-                setLastName(parsed[0].lastName)
-
-                handleAPIUserProfile(selectedUserID);
-            });
-    }
-
-
-
-    const callApiGetUserSearchByEmail = async (email) => {
-        const url = `${REACT_APP_API_ENDPOINT}/userSearchByEmail`;
-        console.log(url);
-
-        const response = await fetch(url, {
-            method: "POST",
-            headers: {
-                "Content-Type": "application/json",
-            },
-            body: JSON.stringify({
-                email: email
-            })
-        });
-        const body = await response.json();
-        if (response.status !== 200) throw Error(body.message);
-        return body;
-    }
-
-
     const handleAPIUserProfile = async () => {
         try {
-            const res = await callAPIUserProfile();
+            const res = await callAPIUserProfile(selectedUserID);
             const parsed = JSON.parse(res.express);
             if (parsed.length !== 0) {
 
@@ -104,24 +67,24 @@ const NetworkProfile = () => {
         }
     }
 
-    const callAPIUserProfile = async () => {
+    const callAPIUserProfile = async (selectedUserID) => {
 
-        const url = `${REACT_APP_API_ENDPOINT}/getUserProfile`;
+        const url = `${REACT_APP_API_ENDPOINT}/getUserProfile?userID=${selectedUserID}`;
         console.log(url);
 
         const response = await fetch(url, {
-            method: "POST",
+            method: "GET",
             headers: {
                 "Content-Type": "application/json",
                 //authorization: `Bearer ${this.state.token}`
-            },
+            }/*,
             body: JSON.stringify({
                 userID: selectedUserID,
-            })
+            })*/
         });
         const body = await response.json();
         if (response.status !== 200) throw Error(body.message);
-        console.log("Profile:", body);
+        //console.log("Profile:", body);
         return body;
     }
 
