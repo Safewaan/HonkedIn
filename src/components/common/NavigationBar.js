@@ -29,6 +29,7 @@ import {
     MY_PROFILE_PAGE,
     USER_SETTINGS_PAGE,
     CREATE_RESOURCE_PAGE,
+    RESOURCES_PAGE,
     NETWORK_PAGE, 
     NETWORK_PROFILE_PAGE
   } from "../constants/Routes";
@@ -131,6 +132,11 @@ export default function NavigationBar() {
 
         history.push(CREATE_RESOURCE_PAGE)
 
+    }
+
+    async function handleResources() {
+
+        history.push(RESOURCES_PAGE)
     }
 
     async function handleNetwork() {
@@ -260,7 +266,9 @@ export default function NavigationBar() {
                                     open={Boolean(anchorElUserResources)}
                                     onClose={handleCloseUserMenuResources}
                                 >
-
+                                    <MenuItem key="Resources" onClick={handleResources}>
+                                        <Typography textAlign="center">Resources</Typography>
+                                    </MenuItem>
                                     <MenuItem key="Resources" onClick={handleCreateResources}>
                                         <Typography textAlign="center">Create Resources</Typography>
                                     </MenuItem>
