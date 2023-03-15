@@ -33,7 +33,7 @@ app.use(archiveUser);
 // Event APIs
 const createEvent = require(`${routesDir}events/createEvent`);
 const getEvents = require(`${routesDir}events/getEvents`);
-const getEventsByUser = require (`${routesDir}events/getEventsByUser`);
+const getEventsByUser = require(`${routesDir}events/getEventsByUser`);
 const joinEvent = require(`${routesDir}events/joinEvent`);
 const editEvent = require(`${routesDir}events/editEvent`);
 const cancelEvent = require(`${routesDir}events/cancelEvent`);
@@ -62,7 +62,7 @@ app.use(editUserProfile);
 // Forum APIs
 const createForum = require(`${routesDir}forums/createForum`);
 const getForums = require(`${routesDir}forums/getForums`);
-const getForumsByUserID = require(`${routesDir}forums/getForumsByUserID`); 
+const getForumsByUserID = require(`${routesDir}forums/getForumsByUserID`);
 const editForum = require(`${routesDir}forums/editForum`);
 const getForumsByForumID = require(`${routesDir}forums/getForumsByForumID`);
 const archiveForum = require(`${routesDir}forums/archiveForum`)
@@ -70,7 +70,7 @@ const archiveForum = require(`${routesDir}forums/archiveForum`)
 app.use(createForum);
 app.use(getForums);
 app.use(getForumsByUserID);
-app.use(editForum); 
+app.use(editForum);
 app.use(getForumsByForumID);
 app.use(archiveForum);
 
@@ -86,7 +86,7 @@ app.use(deleteForumComment);
 //User Network APIs
 const getUsers = require(`${routesDir}user/getUsers`);
 
-app.use(getUsers); 
+app.use(getUsers);
 
 // Resources APIs
 const createResource = require(`${routesDir}resources/createResource`);
@@ -96,9 +96,11 @@ app.use(createResource);
 app.use(getResources);
 
 // Dashboard APIs
-const getRecentEvents= require(`${routesDir}dashboard/getRecentEvents`);
+const getRecentEvents = require(`${routesDir}dashboard/getRecentEvents`);
+const getPopularForums = require(`${routesDir}dashboard/getPopularForums`)
 
 app.use(getRecentEvents);
+app.use(getPopularForums);
 
 app.listen(port, () => console.log(`Listening on port ${port}`)); //for the dev version
 //app.listen(port, '172.31.31.77'); //for the deployed version, specify the IP address of the server

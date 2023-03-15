@@ -39,6 +39,7 @@ export default function Dashboard() {
   const [open, setOpen] = React.useState(false);
 
   const [events, setEvents] = useState([]);
+  const [forums, setForums] = useState([]);
 
   React.useEffect(() => {
     setEmail(currentUser.email);
@@ -102,32 +103,41 @@ export default function Dashboard() {
     loadGetRecentEvents();
   }, []);
 
-  const useStyles = makeStyles((theme) => ({
-    formControl: {
-      margin: theme.spacing(1),
-      minWidth: 120,
-    },
-    selectEmpty: {
-      marginTop: theme.spacing(2),
-    },
-    root: {
-      '& > *': {
-        margin: theme.spacing(1),
-        width: '50ch',
-      },
-    },
-    paper: {
-      padding: theme.spacing(2),
-      textAlign: 'center',
-    },
-  }));
+  const callApiGetPopularForums = async () => {
 
-  const classes = useStyles();
+    const url = `${REACT_APP_API_ENDPOINT}/getPopularForums`;
+    console.log(url);
+
+    const response = await fetch(url, {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+      }
+    });
+    const body = await response.json();
+    if (response.status !== 200) throw Error(body.message);
+    return body;
+  }
+
+  const loadGetPopularForums = async () => {
+    try {
+      const res = await callApiGetPopularForums();
+      const parsed = JSON.parse(res.express);
+      setForums(parsed);
+    } catch (error) {
+      console.error(error);
+    }
+  }
+
+  useEffect(() => {
+    loadGetPopularForums();
+  }, []);
+
 
   return (
     <>
       <NavigationBar></NavigationBar>
-      <Box sx={{ position: 'absolute', top: 200, left: '50%', transform: 'translate(-50%, -50%)' }}>
+      <Box sx={{ position: 'absolute', top: 150, left: '50%', transform: 'translateX(-50%)' }}>
         <Typography
           variant="h3"
           gutterBottom
@@ -144,39 +154,76 @@ export default function Dashboard() {
           Welcome to HonkedIn!
         </Typography>
       </Box>
-      <Box sx={{ position: 'absolute', top: 300, left: '25%', transform: 'translateX(-50%)' }}>
-        <Typography
-          variant="h4"
-          align="center"
-          gutterBottom
-          component="div">
-          Recent Events
-        </Typography>
-        {events.map((event) => (
-          <Card style={{ width: '500 px', marginBottom: '20px' }} key={event.id}>
-            <CardContent>
-              <Typography variant="h5" component="div">
-                {event.name}<br />
+
+      <Box sx={{ width: 1200, height: 1000, position: 'absolute', top: 250, left: '50%', transform: 'translateX(-50%)', display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
+        <Grid container spacing={10}>
+          <Grid item xs={8} md={4}>
+            <Typography
+              variant="h4"
+              align="center"
+              gutterBottom
+              component="div">
+              Recent Events
+            </Typography>
+            {events.map((event) => (
+              <Card style={{ width: '200 px', marginBottom: '20px' }} key={event.id}>
+                <CardContent>
+                  <Typography variant="h5" component="div">
+                    {event.name}<br />
+                  </Typography>
+                  <Typography sx={{ mb: 1.5 }} color="text.secondary">
+                    Date of Event: {new Date(new Date(event.date).getTime() - (5 * 60 * 60 * 1000)).toLocaleDateString()}<br />
+                  </Typography>
+                  <Typography sx={{ mb: 1.5 }} color="text.secondary">
+                    Location of Event: {event.location}<br />
+                  </Typography>
+                </CardContent>
+              </Card>
+            ))}
+            <Link to={`/events`}>
+              <Typography
+                variant="h6"
+                align="left"
+                gutterBottom
+                component="div">
+                View all events
               </Typography>
-              <Typography sx={{ mb: 1.5 }} color="text.secondary">
-                Date of Event: {new Date(new Date(event.date).getTime() - (5 * 60 * 60 * 1000)).toLocaleDateString()}<br />
+            </Link>
+          </Grid>
+          <Grid item xs={8} md={4}>
+            <Typography
+              variant="h4"
+              align="center"
+              gutterBottom
+              component="div">
+              Popular Forums
+            </Typography>
+            {forums.map((forum) => (
+              <Card style={{ width: '200 px', marginBottom: '20px' }} key={forum.id}>
+                <CardContent>
+                  <Link to={`/forum/${forum.id}`} target="_blank">
+                    <Typography variant="h5" component="div">
+                      {forum.forumTitle}<br />
+                    </Typography>
+                  </Link>
+                  <Typography sx={{ mb: 1.5 }} color="text.secondary">
+                    {forum.description}<br />
+                  </Typography>
+                </CardContent>
+              </Card>
+            ))}
+            <Link to={`/forums`}>
+              <Typography
+                variant="h6"
+                align="left"
+                gutterBottom
+                component="div">
+                View all forums
               </Typography>
-              <Typography sx={{ mb: 1.5 }} color="text.secondary">
-                Location of Event: {event.location}<br />
-              </Typography>
-            </CardContent>
-          </Card>
-        ))}
-        <Link to={`/events`}>
-          <Typography
-            variant="h5"
-            align="center"
-            gutterBottom
-            component="div">
-            View all events
-          </Typography>
-        </Link>
+            </Link>
+          </Grid>
+        </Grid>
       </Box>
     </>
-  )
+  );
 }
