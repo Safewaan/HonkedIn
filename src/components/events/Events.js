@@ -38,19 +38,24 @@ const Alert = React.forwardRef(function Alert(props, ref) {
 const Events = () => {
 
   const { currentUser } = useAuth();
-  const history = useHistory()
+  //const history = useHistory()
 
   const [selectedEvent, setSelectedEvent] = React.useState(null);
   const [isDialogOpen, setIsDialogOpen] = React.useState(false);
 
-  const [alertMessage, setAlertMessage] = useState('');
-  const [alertSeverity, setAlertSeverity] = useState('');
+  const [alertMessage, setAlertMessage] = React.useState('');
+  const [alertSeverity, setAlertSeverity] = React.useState('');
 
-  //const email = currentUser.email;
-  const [email, setEmail] = React.useState('');
+  //const [email, setEmail] = React.useState('');
   const [userID, setUserID] = React.useState('');
 
-  const [events, setEvents] = useState([]);
+  const [events, setEvents] = React.useState([]);
+
+  const [searchTerm, setSearchTerm] = React.useState(""); 
+
+  const handleSearch = (event) => {
+    setSearchTerm(event.target.value);
+  }
 
   const handleOpenDialog = (event) => {
     setSelectedEvent(event);
@@ -63,13 +68,14 @@ const Events = () => {
   };
 
   React.useEffect(() => {
-    setEmail(currentUser.email);
+    //setEmail(currentUser.email);
     loaduserSearchByEmail(currentUser.email);
+    loadGetEvents(searchTerm);
   }, []);
 
   const loadGetEvents = async () => {
     try {
-      const res = await callApiGetEvents();
+      const res = await callApiGetEvents(searchTerm);
       const parsed = JSON.parse(res.express);
       setEvents(parsed);
     } catch (error) {
@@ -77,9 +83,9 @@ const Events = () => {
     }
   }
 
-  const callApiGetEvents = async () => {
+  const callApiGetEvents = async (searchTerm) => {
 
-    const url = `${REACT_APP_API_ENDPOINT}/getEvents`;
+    const url = `${REACT_APP_API_ENDPOINT}/getEvents?searchTerm=${searchTerm}`;
     console.log(url);
 
     const response = await fetch(url, {
@@ -148,9 +154,9 @@ const Events = () => {
     return body;
   }
 
-  useEffect(() => {
+  /*useEffect(() => {
     loadGetEvents();
-  }, []);
+  }, []); */
 
   const loaduserSearchByEmail = (email) => {
     callApiGetuserSearchByEmail(email)
@@ -193,7 +199,28 @@ const Events = () => {
         </Typography>
       </Box>
 
-      <Box sx={{ position: 'absolute', top: 150, left: '50%', transform: 'translateX(-50%)' }}>
+      <Box sx={{ width: '30%', position: 'absolute', top: 150, left: '50%', transform: 'translateX(-50%)', marginBottom: '20px' }}>
+        <Search
+          label="Search for events"
+          searchTerm={searchTerm}
+          onSetSearch={handleSearch}
+          fullWidth
+          loadGetEvents={loadGetEvents}
+        />
+      </Box>
+        <br/>
+        <br/>
+
+        <Box sx={{ display: 'flex', justifyContent: 'flex-end', width: '30%', position: 'absolute', top: 210, left: '50%', transform: 'translateX(-50%)', marginBottom: '20px' }}>
+        <SubmitButton
+          label={"SEARCH"}
+          onButtonClick={loadGetEvents}
+          position='absolute'
+        />
+
+      </Box>
+
+      <Box sx={{ position: 'absolute', top: 260, left: '50%', transform: 'translateX(-50%)' }}>
         {events.map((event) => (
           <Card style={{ width: '600px', marginBottom: '20px' }} key={event.id}>
             <CardContent>
@@ -222,7 +249,7 @@ const Events = () => {
           <DialogTitle>{selectedEvent.name}</DialogTitle>
           <DialogContent>
             <DialogContentText>{selectedEvent.description}</DialogContentText>
-            <DialogContentText>Hosted By: {selectedEvent.firstName}&nbsp;{selectedEvent.lastName}</DialogContentText>
+            <DialogContentText>Hosted By: {selectedEvent.creatorName}</DialogContentText>
             <DialogContentText>Date: {new Date(new Date(selectedEvent.date).getTime() - (5 * 60 * 60 * 1000)).toLocaleString()}</DialogContentText>
             <DialogContentText>Location: {selectedEvent.location}</DialogContentText>
             <DialogContentText>Participants: {selectedEvent.participants}/{selectedEvent.totalParticipants}</DialogContentText>
@@ -243,5 +270,31 @@ const Events = () => {
     </div>
   )
 }
+
+const Search = ({ label, onSetSearch, searchTerm, loadGetEvents }) => {
+  return (
+    <TextField
+      id="search"
+      label={label}
+      value={searchTerm}
+      onChange={onSetSearch}
+      variant="standard"
+      autoComplete="off"
+      color="secondary"
+      fullWidth
+    />
+  )
+};
+const SubmitButton = ({ label, onButtonClick }) => (
+  <Button
+    variant="contained"
+    color="secondary"
+    onClick={(event) => onButtonClick(event)}
+    position='absolute'
+
+  >
+    {label}
+  </Button>
+)
 
 export default Events;
