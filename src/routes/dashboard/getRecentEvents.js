@@ -8,10 +8,11 @@ router.get('/api/getRecentEvents', (req, res) => {
 
 	let connection = mysql.createConnection(config);
 
-	let sql =
-		`SELECT events.name, events.description, events.location, events.date
+	let sql = `SELECT events.name, events.description, events.location, events.date
 	FROM shchowdh.events
-	ORDER BY date desc
+    WHERE events.status = "Active"
+    AND events.date > now()
+	ORDER BY events.date ASC
     LIMIT 5`;
 	let data = [req.body.userID];
 
