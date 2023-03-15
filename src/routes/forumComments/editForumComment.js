@@ -7,7 +7,6 @@ const config = require('../../../config.js');
 router.post('/api/editForumComment', (req, res) => {
 
 	let connection = mysql.createConnection(config);
-
 	let sql = `UPDATE forumComments SET 
     comment = ?, commentDateTime = now() 
     WHERE id = ?`;

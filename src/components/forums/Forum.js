@@ -140,7 +140,7 @@ const Forum = () => {
             })
         setTimeout(() => {
             window.location.reload();
-        }, 100);
+        }, 3000);
     }
 
     const callApiAddComment = async () => {
@@ -235,9 +235,10 @@ const Forum = () => {
             setShowEditAlertMessage(true);
             setTimeout(() => {
                 window.location.reload();
-            }, 100);
+            }, 3000);
         }
     }
+
     const callApiEditComment = async () => {
         const url = `${REACT_APP_API_ENDPOINT}/editForumComment`;
         console.log(url);
@@ -367,7 +368,7 @@ const Forum = () => {
                                 comment={comment}
                                 onEnterComment={handleEditCommentBody}
                                 commentError={commentError}
-                                fcommentErrorText={commentErrorText}
+                                commentErrorText={commentErrorText}
                             />
                         </DialogContent>
                         <DialogActions>
