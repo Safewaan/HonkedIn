@@ -159,7 +159,10 @@ export default function Dashboard() {
                 {event.name}<br />
               </Typography>
               <Typography sx={{ mb: 1.5 }} color="text.secondary">
-                Date: {new Date(new Date(event.date).getTime() - (5 * 60 * 60 * 1000)).toLocaleString()}<br />
+                Date of Event: {new Date(new Date(event.date).getTime() - (5 * 60 * 60 * 1000)).toLocaleDateString()}<br />
+              </Typography>
+              <Typography sx={{ mb: 1.5 }} color="text.secondary">
+                Location of Event: {event.location}<br />
               </Typography>
             </CardContent>
           </Card>
