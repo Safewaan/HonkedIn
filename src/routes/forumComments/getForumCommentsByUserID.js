@@ -4,7 +4,7 @@ const mysql = require('mysql');
 const config = require('../../../config.js');
 
 // Loads the existing comments for a forum
-router.post('/api/getForumCommentsByUserID', (req, res) => {
+router.get('/api/getForumCommentsByUserID', (req, res) => {
 
     let connection = mysql.createConnection(config);
 
@@ -12,10 +12,11 @@ router.post('/api/getForumCommentsByUserID', (req, res) => {
     `SELECT forumComments.id, forumComments.forumID, forumComments.userID, forumComments.commentDateTime, forumComments.comment, forums.forumTitle
     FROM shchowdh.forumComments
     LEFT JOIN forums ON forumComments.forumID = forums.id
-    WHERE userID = ?;`;
-    console.log(sql);
-    let data = [req.body.userID];
-    console.log(data);
+    WHERE userID = ?
+    ORDER BY forumComments.commentDateTime DESC;`;
+    //console.log(sql);
+    let data = [req.query.userID];
+    //console.log(data);
 
     connection.query(sql, data, (error, results, fields) => {
 

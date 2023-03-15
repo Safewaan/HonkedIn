@@ -29,7 +29,7 @@ import {
     MY_PROFILE_PAGE,
     USER_SETTINGS_PAGE,
     CREATE_RESOURCE_PAGE, 
-    MY_COMMENTS_PAGE
+    MY_COMMENTS_PAGE,
   } from "../constants/Routes";
 
 export default function NavigationBar() {

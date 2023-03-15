@@ -58,7 +58,7 @@ const MyComments = () => {
 
     const loadGetCommentsByUserID = async () => {
         try {
-            const res = await CallApiGetCommentsByUserID();
+            const res = await CallApiGetCommentsByUserID(userID);
             const parsed = res.express;
             setMyComments(parsed);
         } catch (error) {
@@ -66,19 +66,19 @@ const MyComments = () => {
         }
     }
 
-    const CallApiGetCommentsByUserID = async () => {
+    const CallApiGetCommentsByUserID = async (userID) => {
 
-        const url = `${REACT_APP_API_ENDPOINT}/getForumCommentsByUserID`;
+        const url = `${REACT_APP_API_ENDPOINT}/getForumCommentsByUserID?userID=${userID}`;
         console.log(url);
 
         const response = await fetch(url, {
-            method: "POST",
+            method: "GET",
             headers: {
                 "Content-Type": "application/json",
             },
-            body: JSON.stringify({
+            /*body: JSON.stringify({
                 userID: userID
-            })
+            })*/
         });
         const body = await response.json();
         console.log("got here");
