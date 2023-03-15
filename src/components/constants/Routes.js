@@ -34,5 +34,13 @@ export const UPDATE_STATUS_PAGE = "/update-status";
 
 export const USER_SETTINGS_PAGE = "/user-settings";
 
+// Network Routes
+export const NETWORK_PAGE = "/network";
+
+export const NETWORK_PROFILE_PAGE = "/network-profile/:selectedUserID";
+
 // Resources Routes
 export const CREATE_RESOURCE_PAGE = "/create-resource";
+
+export const RESOURCES_PAGE = "/resources";
+

@@ -267,22 +267,22 @@ const ProfileDashboard = () => {
     // Inserts the User ID to retrieve their most recent profile 
     const callAPIUserProfile = async (userID) => {
 
-        const url = `${REACT_APP_API_ENDPOINT}/getUserProfile`;
+        const url = `${REACT_APP_API_ENDPOINT}/getUserProfile?userID=${userID}`;
         console.log(url);
 
         const response = await fetch(url, {
-            method: "POST",
+            method: "GET",
             headers: {
                 "Content-Type": "application/json",
                 //authorization: `Bearer ${this.state.token}`
-            },
+            }/*,
             body: JSON.stringify({
                 userID: userID,
-            })
+            })*/
         });
         const body = await response.json();
         if (response.status !== 200) throw Error(body.message);
-        console.log("Profile:", body);
+        //console.log("Profile:", body);
         return body;
     }
 
