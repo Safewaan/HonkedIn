@@ -16,6 +16,7 @@ router.post('/api/getMyEvents', (req, res) => {
     AND users.id = eventParticipants.participantID
     AND users.id = ?
     AND events.date > now()
+    AND events.status = "Active"
 	ORDER BY events.date
     LIMIT 5;`;
 	let data = [req.body.userID];
