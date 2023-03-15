@@ -24,7 +24,11 @@ import ProfileDashboard from "./users/ProfileDashboard";
 import UpdateStatus from "./users/UpdateStatus";
 import UserSettings from "./users/UserSettings";
 
+import Network from "./userNetwork/Network";
+import NetworkProfile from "./userNetwork/NetworkProfile";
+
 import CreateResource from "./resources/CreateResource";
+import Resources from "./resources/Resources";
 
 import {
   HOME_PAGE,
@@ -44,6 +48,10 @@ import {
   USER_SETTINGS_PAGE,
   CREATE_RESOURCE_PAGE, 
   MY_COMMENTS_PAGE
+  CREATE_RESOURCE_PAGE,
+  RESOURCES_PAGE,
+  NETWORK_PAGE,
+  NETWORK_PROFILE_PAGE
 } from "./constants/Routes";
 
 function App() {
@@ -82,8 +90,14 @@ function App() {
               <PrivateRoute path={MY_COMMENTS_PAGE} component={MyComments} />
               <PrivateRoute path={FORUM_PAGE} component={Forum} />
 
+              {/* User Network Pages */}
+              <PrivateRoute path={NETWORK_PAGE} component={Network} /> 
+              <PrivateRoute path={NETWORK_PROFILE_PAGE} component={NetworkProfile} /> 
+              
               {/* Resources Pages */}
               <PrivateRoute path={CREATE_RESOURCE_PAGE} component={CreateResource} />
+              <PrivateRoute path={RESOURCES_PAGE} component={Resources} />
+
 
             </Switch>
           </AuthProvider>
