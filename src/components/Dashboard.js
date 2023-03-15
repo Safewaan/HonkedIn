@@ -40,6 +40,7 @@ export default function Dashboard() {
 
   const [events, setEvents] = useState([]);
   const [forums, setForums] = useState([]);
+  const [myEvents, setMyEvents] = useState([]);
 
   React.useEffect(() => {
     setEmail(currentUser.email);
@@ -133,13 +134,45 @@ export default function Dashboard() {
     loadGetPopularForums();
   }, []);
 
+  const CallApiGetMyEvents = async () => {
+
+    const url = `${REACT_APP_API_ENDPOINT}/getMyEvents`;
+    console.log(url);
+
+    const response = await fetch(url, {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+            userID: userID
+        })
+    });
+    const body = await response.json();
+    if (response.status !== 200) throw Error(body.message);
+    return body;
+}
+
+  const loadGetMyEvents = async () => {
+    try {
+      const res = await CallApiGetMyEvents();
+      const parsed = JSON.parse(res.express);
+      setMyEvents(parsed);
+  } catch (error) {
+      console.error(error);
+  }
+  }
+
+  useEffect(() => {
+    loadGetMyEvents();
+  }, [userID]);
 
   return (
     <>
       <NavigationBar></NavigationBar>
       <Box sx={{ position: 'absolute', top: 150, left: '50%', transform: 'translateX(-50%)' }}>
         <Typography
-          variant="h3"
+          variant="h2"
           gutterBottom
           sx={{
             mr: 2,
@@ -159,7 +192,7 @@ export default function Dashboard() {
         <Grid container spacing={10}>
           <Grid item xs={8} md={4}>
             <Typography
-              variant="h4"
+              variant="h5"
               align="center"
               gutterBottom
               component="div">
@@ -192,7 +225,7 @@ export default function Dashboard() {
           </Grid>
           <Grid item xs={8} md={4}>
             <Typography
-              variant="h4"
+              variant="h5"
               align="center"
               gutterBottom
               component="div">
@@ -221,6 +254,30 @@ export default function Dashboard() {
                 View all forums
               </Typography>
             </Link>
+          </Grid>
+          <Grid item xs={8} md={4}>
+            <Typography
+              variant="h5"
+              align="center"
+              gutterBottom
+              component="div">
+              Your RSVPed Events
+            </Typography>
+            {myEvents.map((myEvent) => (
+              <Card style={{ width: '200 px', marginBottom: '20px' }} key={myEvent.id}>
+                <CardContent>
+                  <Typography variant="h5" component="div">
+                    {myEvent.name}<br />
+                  </Typography>
+                  <Typography sx={{ mb: 1.5 }} color="text.secondary">
+                    Date of Event: {new Date(new Date(myEvent.date).getTime() - (5 * 60 * 60 * 1000)).toLocaleDateString()}<br />
+                  </Typography>
+                  <Typography sx={{ mb: 1.5 }} color="text.secondary">
+                    Location of Event: {myEvent.location}<br />
+                  </Typography>
+                </CardContent>
+              </Card>
+            ))}
           </Grid>
         </Grid>
       </Box>
