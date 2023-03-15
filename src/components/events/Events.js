@@ -14,6 +14,8 @@ import DialogContentText from '@material-ui/core/DialogContentText';
 import DialogTitle from '@material-ui/core/DialogTitle';
 import MuiAlert from '@mui/material/Alert';
 import NavigationBar from '../common/NavigationBar';
+import Search from '../common/Search';
+import SubmitButton from '../common/SubmitButton';
 import Box from "@material-ui/core/Box";
 
 const { REACT_APP_API_ENDPOINT } = process.env;
@@ -205,7 +207,7 @@ const Events = () => {
           searchTerm={searchTerm}
           onSetSearch={handleSearch}
           fullWidth
-          loadGetEvents={loadGetEvents}
+          
         />
       </Box>
         <br/>
@@ -271,7 +273,7 @@ const Events = () => {
   )
 }
 
-const Search = ({ label, onSetSearch, searchTerm, loadGetEvents }) => {
+/*const Search = ({ label, onSetSearch, searchTerm, loadGetEvents }) => {
   return (
     <TextField
       id="search"
@@ -284,7 +286,8 @@ const Search = ({ label, onSetSearch, searchTerm, loadGetEvents }) => {
       fullWidth
     />
   )
-};
+}; 
+
 const SubmitButton = ({ label, onButtonClick }) => (
   <Button
     variant="contained"
@@ -295,6 +298,6 @@ const SubmitButton = ({ label, onButtonClick }) => (
   >
     {label}
   </Button>
-)
+)*/
 
 export default Events;
