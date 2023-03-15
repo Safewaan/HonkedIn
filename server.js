@@ -87,12 +87,18 @@ app.use(deleteForumComment);
 const getUsers = require(`${routesDir}user/getUsers`);
 
 app.use(getUsers); 
+
 // Resources APIs
 const createResource = require(`${routesDir}resources/createResource`);
 const getResources = require(`${routesDir}resources/getResources`);
 
 app.use(createResource);
 app.use(getResources);
+
+// Dashboard APIs
+const getRecentEvents= require(`${routesDir}dashboard/getRecentEvents`);
+
+app.use(getRecentEvents);
 
 app.listen(port, () => console.log(`Listening on port ${port}`)); //for the dev version
 //app.listen(port, '172.31.31.77'); //for the deployed version, specify the IP address of the server
