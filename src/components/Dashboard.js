@@ -144,7 +144,7 @@ export default function Dashboard() {
           Welcome to HonkedIn!
         </Typography>
       </Box>
-      <Box sx={{ position: 'absolute', top: 300, left: '30%', transform: 'translateX(-50%)' }}>
+      <Box sx={{ position: 'absolute', top: 300, left: '25%', transform: 'translateX(-50%)' }}>
         <Typography
           variant="h4"
           align="center"
