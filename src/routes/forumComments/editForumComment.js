@@ -4,7 +4,7 @@ const mysql = require('mysql');
 const config = require('../../../config.js');
 
 //this edits an exising forum's information given the forum ID
-router.post('/api/editForumComment', (req, res) => {
+router.put('/api/editForumComment', (req, res) => {
 
 	let connection = mysql.createConnection(config);
 	let sql = `UPDATE forumComments SET 

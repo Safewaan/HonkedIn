@@ -244,7 +244,7 @@ const Forum = () => {
         console.log(url);
 
         const response = await fetch(url, {
-            method: "POST",
+            method: "PUT",
             headers: {
                 "Content-Type": "application/json",
             },
