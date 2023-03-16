@@ -22,7 +22,6 @@ import CardContent from '@material-ui/core/CardContent';
 import Grid from '@mui/material/Grid';
 import { makeStyles } from '@material-ui/core/styles';
 
-
 const pages = ['Events'];
 const settings = ['Update Profile', 'Logout'];
 
@@ -196,7 +195,7 @@ export default function Dashboard() {
               align="center"
               gutterBottom
               component="div">
-              Recent Events
+              Upcoming Events
             </Typography>
             {events.map((event) => (
               <Card style={{ width: '200 px', marginBottom: '20px' }} key={event.id}>
@@ -205,10 +204,13 @@ export default function Dashboard() {
                     {event.name}<br />
                   </Typography>
                   <Typography sx={{ mb: 1.5 }} color="text.secondary">
-                    Date of Event: {new Date(new Date(event.date).getTime() - (5 * 60 * 60 * 1000)).toLocaleDateString()}<br />
+                    Date: {new Date(new Date(event.date).getTime() - (5 * 60 * 60 * 1000)).toLocaleDateString()}<br />
                   </Typography>
                   <Typography sx={{ mb: 1.5 }} color="text.secondary">
-                    Location of Event: {event.location}<br />
+                    Location: {event.location}<br />
+                  </Typography>
+                  <Typography sx={{ mb: 1.5 }} color="text.secondary">
+                    {event.description}<br />
                   </Typography>
                 </CardContent>
               </Card>
