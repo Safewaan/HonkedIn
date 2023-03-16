@@ -2,13 +2,12 @@ import React, { useRef, useState, useEffect } from "react"
 import { useAuth } from "../../contexts/AuthContext"
 import { Link, useHistory } from "react-router-dom"
 import Card from '@material-ui/core/Card';
-import CardActions from '@material-ui/core/CardActions';
 import CardContent from '@material-ui/core/CardContent';
-import Button from '@material-ui/core/Button';
 import Typography from '@material-ui/core/Typography';
-import TextField from '@material-ui/core/TextField';
 import NavigationBar from '../common/NavigationBar';
 import Box from "@material-ui/core/Box";
+import Search from '../common/Search';
+import SubmitButton from '../common/SubmitButton';
 
 
 const { REACT_APP_API_ENDPOINT } = process.env;
@@ -111,30 +110,5 @@ const Network = () => {
     </div>
   )
 }
-const Search = ({ label, onSetSearch, searchTerm, handleFindUser }) => {
-  return (
-    <TextField
-      id="search"
-      label={label}
-      value={searchTerm}
-      onChange={onSetSearch}
-      variant="standard"
-      autoComplete="off"
-      color="secondary"
-      fullWidth
-    />
-  )
-};
-const SubmitButton = ({ label, onButtonClick }) => (
-  <Button
-    variant="contained"
-    color="secondary"
-    onClick={(event) => onButtonClick(event)}
-    position='absolute'
-
-  >
-    {label}
-  </Button>
-)
 
 export default Network; 

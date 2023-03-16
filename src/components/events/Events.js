@@ -48,7 +48,6 @@ const Events = () => {
   const [alertMessage, setAlertMessage] = React.useState('');
   const [alertSeverity, setAlertSeverity] = React.useState('');
 
-  //const [email, setEmail] = React.useState('');
   const [userID, setUserID] = React.useState('');
 
   const [events, setEvents] = React.useState([]);
@@ -156,9 +155,7 @@ const Events = () => {
     return body;
   }
 
-  /*useEffect(() => {
-    loadGetEvents();
-  }, []); */
+
 
   const loaduserSearchByEmail = (email) => {
     callApiGetuserSearchByEmail(email)
@@ -272,32 +269,5 @@ const Events = () => {
     </div>
   )
 }
-
-/*const Search = ({ label, onSetSearch, searchTerm, loadGetEvents }) => {
-  return (
-    <TextField
-      id="search"
-      label={label}
-      value={searchTerm}
-      onChange={onSetSearch}
-      variant="standard"
-      autoComplete="off"
-      color="secondary"
-      fullWidth
-    />
-  )
-}; 
-
-const SubmitButton = ({ label, onButtonClick }) => (
-  <Button
-    variant="contained"
-    color="secondary"
-    onClick={(event) => onButtonClick(event)}
-    position='absolute'
-
-  >
-    {label}
-  </Button>
-)*/
 
 export default Events;
