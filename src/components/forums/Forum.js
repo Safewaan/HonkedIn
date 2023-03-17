@@ -5,7 +5,7 @@ import Card from '@material-ui/core/Card';
 import CardActions from '@material-ui/core/CardActions';
 import CardContent from '@material-ui/core/CardContent';
 import Typography from '@material-ui/core/Typography';
-import NavigationBar from '../common/OldNavigationBar';
+import NavigationBar from '../common/NavigationBar';
 import Box from "@material-ui/core/Box";
 import { useParams } from 'react-router-dom';
 import TextField from "@material-ui/core/TextField";
@@ -195,7 +195,7 @@ const Forum = () => {
 
             <NavigationBar></NavigationBar>
 
-            <Box sx={{ position: 'absolute', top: 110, left: '50%', transform: 'translate(-50%, -50%)' }}>
+            <Box sx={{ position: 'absolute', top: 145, left: '50%', transform: 'translate(-50%, -50%)' }}>
                 <Typography
                     variant="h4"
                     gutterBottom
@@ -204,7 +204,7 @@ const Forum = () => {
                 </Typography>
             </Box>
 
-            <Box sx={{ position: 'absolute', top: 150, left: '50%', transform: 'translateX(-50%)' }}>
+            <Box sx={{ position: 'absolute', top: 180, left: '50%', transform: 'translateX(-50%)' }}>
                 {forums.map((forum) => (
                     <Card style={{ width: '1000px', marginBottom: '20px' }} key={forum.id}>
                         <CardContent>

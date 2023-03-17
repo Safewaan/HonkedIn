@@ -272,7 +272,7 @@ const MyForums = () => {
 
             <NavigationBar></NavigationBar>
 
-            <Box sx={{ position: 'absolute', top: 110, left: '50%', transform: 'translate(-50%, -50%)' }}>
+            <Box sx={{ position: 'absolute', top: 145, left: '50%', transform: 'translate(-50%, -50%)' }}>
                 <Typography
                     variant="h4"
                     gutterBottom
@@ -281,7 +281,7 @@ const MyForums = () => {
                 </Typography>
             </Box>
 
-            <Box sx={{ position: 'absolute', top: 150, left: '50%', transform: 'translateX(-50%)' }}>
+            <Box sx={{ position: 'absolute', top: 180, left: '50%', transform: 'translateX(-50%)' }}>
                 {forums.map((forum) => (
                     <Card style={{ width: '800px', marginBottom: '20px' }} key={forum.id}>
                         <CardContent>

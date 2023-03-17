@@ -86,6 +86,7 @@ export default function NavigationBar() {
       top='0'
       left='0'
       width='100%'
+      zIndex={1}
     >
       <Box
         mx="auto"
