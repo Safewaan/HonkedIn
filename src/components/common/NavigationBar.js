@@ -1,75 +1,75 @@
 import React, { useContext, useState } from "react";
 import { useHistory } from "react-router-dom";
+import { useAuth } from "../../contexts/AuthContext"
 import {
-  Avatar,
-  Box,
-  Flex,
-  HStack,
-  Link,
-  IconButton,
   Image,
+  Box,
   Button,
-  ButtonGroup,
   Menu,
   MenuButton,
+  MenuGroup,
   MenuList,
   MenuItem,
   MenuDivider,
-  useDisclosure,
   useColorModeValue,
   Stack,
   Text,
 } from "@chakra-ui/react";
-import { ChevronDownIcon } from "@chakra-ui/icons";
 
-// import {
-//   HOME_PAGE,
-//   RESIDENT_DIRECTORY_PAGE,
-//   EMPLOYEE_DIRECTORY_PAGE
-// } from "../../constants/Routes";
+import {
+  LOGIN_PAGE,
+  EVENTS_PAGE,
+  CREATE_EVENT_PAGE,
+  MY_EVENTS_PAGE,
+  CREATE_FORUM_PAGE,
+  FORUMS_PAGE,
+  MY_FORUMS_PAGE,
+  MY_PROFILE_PAGE,
+  USER_SETTINGS_PAGE,
+  CREATE_RESOURCE_PAGE,
+  RESOURCES_PAGE,
+  NETWORK_PAGE,
+} from "../constants/Routes";
 
-import "../../styles/index.css";
+import "../../styles/navbar-style.css";
 
-import Goose from "../../images/Goose.png"
+import GOOSE_IMAGE from "../../images/Goose.png"
 
 export default function NavigationBar() {
 
-  const [anchorElUser, setAnchorElUser] = React.useState(null);
-  const [anchorElUserEvents, setAnchorElUserEvents] = React.useState(null);
-  const [anchorElUserForums, setAnchorElUserForums] = React.useState(null);
-  const [anchorElUserResources, setAnchorElUserResources] = React.useState(null);
+  const history = useHistory()
 
-  const handleOpenUserMenu = (event) => {
-    setAnchorElUser(event.currentTarget);
-  };
+  function redirectToPage(page) {
+    return async function () {
+      history.push(page);
+    }
+  }
 
-  const handleCloseUserMenu = () => {
-    setAnchorElUser(null);
-  };
+  const handleSettings = redirectToPage(USER_SETTINGS_PAGE);
+  const handleEvents = redirectToPage(EVENTS_PAGE);
+  const handleMyEvents = redirectToPage(MY_EVENTS_PAGE);
+  const handleCreateEvent = redirectToPage(CREATE_EVENT_PAGE);
+  const handleMyProfile = redirectToPage(MY_PROFILE_PAGE);
+  const handleCreateForum = redirectToPage(CREATE_FORUM_PAGE);
+  const handleForums = redirectToPage(FORUMS_PAGE);
+  const handleMyForums = redirectToPage(MY_FORUMS_PAGE);
+  const handleCreateResources = redirectToPage(CREATE_RESOURCE_PAGE);
+  const handleResources = redirectToPage(RESOURCES_PAGE);
+  const handleNetwork = redirectToPage(NETWORK_PAGE);
 
-  const handleOpenUserMenuEvents = (event) => {
-    setAnchorElUserEvents(event.currentTarget);
-  };
+  const [error, setError] = useState("")
+  const { currentUser, logout } = useAuth();
 
-  const handleCloseUserMenuEvents = () => {
-    setAnchorElUserEvents(null);
-  };
+  async function handleLogout() {
+    setError("")
 
-  const handleOpenUserMenuForums = (event) => {
-    setAnchorElUserForums(event.currentTarget);
-  };
-
-  const handleCloseUserMenuForums = () => {
-    setAnchorElUserForums(null);
-  };
-
-  const handleOpenUserMenuResources = (event) => {
-    setAnchorElUserResources(event.currentTarget);
-  };
-
-  const handleCloseUserMenuResources = () => {
-    setAnchorElUserResources(null);
-  };
+    try {
+      await logout()
+      history.push(LOGIN_PAGE)
+    } catch {
+      setError("Failed to log out")
+    }
+  }
 
   return (
     <Box
@@ -95,7 +95,7 @@ export default function NavigationBar() {
         display='flex'
 
       >
-        <Image src={Goose}
+        <Image src={GOOSE_IMAGE}
           boxSize='80px' />
         <Text
           className='navbar-title'
@@ -110,52 +110,69 @@ export default function NavigationBar() {
           spacing={6}
           alignItems="center"
         >
+          <Menu>
+            <MenuButton as={Button} variant='ghost' className="navbar-text">
+              Events
+            </MenuButton>
+            <MenuList>
+              <MenuGroup title='Events'>
+                <MenuItem onClick={handleCreateEvent}>Create an Event</MenuItem>
+                <MenuItem onClick={handleEvents}>View Events</MenuItem>
+              </MenuGroup>
+              <MenuDivider />
+              <MenuGroup title="My Events">
+                <MenuItem onClick={handleMyEvents}>View My Events</MenuItem>
+              </MenuGroup>
+            </MenuList>
+          </Menu>
 
-          <NavButton
-            onClick={handleOpenUserMenuEvents}
-            text="Network"
-          >
-          </NavButton>
+          <Menu>
+            <MenuButton as={Button} variant='ghost' className="navbar-text">
+              Forums
+            </MenuButton>
+            <MenuList>
+              <MenuGroup title='Forums'>
+                <MenuItem onClick={handleCreateForum}>Create a Forum</MenuItem>
+                <MenuItem onClick={handleForums}>View Forums</MenuItem>
+              </MenuGroup>
+              <MenuDivider />
+              <MenuGroup title="My Forums">
+                <MenuItem onClick={handleMyForums}>View My Forums</MenuItem>
+              </MenuGroup>
+            </MenuList>
+          </Menu>
 
-          <NavButton
-            onClick={handleOpenUserMenuEvents}
-            text="Events"
-          >
-          </NavButton>
+          <Menu>
+            <MenuButton as={Button} variant='ghost' className="navbar-text">
+              Resources
+            </MenuButton>
+            <MenuList>
+              <MenuGroup title='Resources'>
+                <MenuItem onClick={handleCreateResources}>Create a Resource</MenuItem>
+                <MenuItem onClick={handleResources}>View Resources </MenuItem>
+              </MenuGroup>
+            </MenuList>
+          </Menu>
 
-          <NavButton
-            onClick={handleOpenUserMenuEvents}
-            text="Forums"
-          >
-          </NavButton>
-
-          <NavButton
-            onClick={handleOpenUserMenuEvents}
-            text="Resources"
-          >
-          </NavButton>
-
-          <NavButton
-            onClick={handleOpenUserMenuEvents}
-            text="Settings"
-          >
-          </NavButton>
+          <Menu>
+            <MenuButton as={Button} variant='ghost' className="navbar-text">
+              Settings
+            </MenuButton>
+            <MenuList>
+              <MenuGroup title='Profile'>
+                <MenuItem onClick={handleMyProfile}>My Profile</MenuItem>
+                <MenuItem onClick={handleSettings}>Settings </MenuItem>
+              </MenuGroup>
+              <MenuDivider />
+              <MenuGroup>
+                <MenuItem onClick={handleLogout}>Logout</MenuItem>
+              </MenuGroup>
+            </MenuList>
+          </Menu>
 
         </Stack>
       </Box>
     </Box>
   );
 };
-
-function NavButton(props) {
-  return (
-    <Button
-      variant='link'
-      className='navbar-text'
-      onClick={props.onClick}
-    >
-      {props.text}
-    </Button>
-  );
-}
 
