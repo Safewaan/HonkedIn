@@ -24,13 +24,6 @@ const settings = ['Update Profile', 'Logout'];
 
 export default function Dashboard() {
   return (
-    <>
-      <Paper>
-        <NavigationBar></NavigationBar>
-        <div style={{ textAlign: 'center' }}>
-          <Typography variant="h3" component="div">Welcome to HonkedIn!</Typography>
-        </div>
-      </Paper>
-    </>
+    <NavigationBar></NavigationBar>
   )
 }

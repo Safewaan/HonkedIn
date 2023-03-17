@@ -3,6 +3,8 @@ import { Container } from "react-bootstrap";
 import { AuthProvider } from "../contexts/AuthContext";
 import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
 
+import { ChakraProvider } from "@chakra-ui/react";
+
 import CreateEvent from "./events/CreateEvent";
 import Events from "./events/Events";
 import MyEvents from "./events/MyEvents";
@@ -53,7 +55,7 @@ import {
 
 function App() {
   return (
-    <Container
+    <ChakraProvider
       className="d-flex align-items-center justify-content-center"
       style={{ minHeight: "100vh" }}
     >
@@ -99,7 +101,7 @@ function App() {
           </AuthProvider>
         </Router>
       </div>
-    </Container>
+    </ChakraProvider>
   )
 }
 
