@@ -15,8 +15,8 @@ import DialogTitle from '@material-ui/core/DialogTitle';
 import MuiAlert from '@mui/material/Alert';
 import NavigationBar from '../common/NavigationBar';
 import Search from '../common/Search';
-import SubmitButton from '../common/SubmitButton';
 import Box from "@material-ui/core/Box";
+import Grid from "@material-ui/core/Grid";
 
 const { REACT_APP_API_ENDPOINT } = process.env;
 
@@ -52,7 +52,9 @@ const Events = () => {
 
   const [events, setEvents] = React.useState([]);
 
-  const [searchTerm, setSearchTerm] = React.useState(""); 
+  const [searchTerm, setSearchTerm] = React.useState("");
+
+  const [refreshSearch, setRefreshSearch] = React.useState(1);
 
   const handleSearch = (event) => {
     setSearchTerm(event.target.value);
@@ -72,7 +74,7 @@ const Events = () => {
     //setEmail(currentUser.email);
     loaduserSearchByEmail(currentUser.email);
     loadGetEvents(searchTerm);
-  }, []);
+  }, [refreshSearch]);
 
   const loadGetEvents = async () => {
     try {
@@ -184,6 +186,11 @@ const Events = () => {
     return body;
   }
 
+  const handleRefreshSearch = async () => {
+    setSearchTerm("");
+    setRefreshSearch(refreshSearch + 1);
+  }
+
   return (
     <div id="body">
 
@@ -198,26 +205,34 @@ const Events = () => {
         </Typography>
       </Box>
 
-      <Box sx={{ width: '30%', position: 'absolute', top: 150, left: '50%', transform: 'translateX(-50%)', marginBottom: '20px' }}>
+      <Box sx={{ width:'600px', position: 'absolute', top: 150, left: '50%', transform: 'translateX(-50%)', marginBottom: '20px' }}>
+
         <Search
           label="Search for events"
           searchTerm={searchTerm}
           onSetSearch={handleSearch}
           fullWidth
-          
+          onButtonClick={loadGetEvents}
         />
-      </Box>
-        <br/>
-        <br/>
 
-        <Box sx={{ display: 'flex', justifyContent: 'flex-end', width: '30%', position: 'absolute', top: 210, left: '50%', transform: 'translateX(-50%)', marginBottom: '20px' }}>
+        <Typography
+          onClick={() => handleRefreshSearch()}
+          style={{ color: "gray", mb: 1.5, cursor: 'pointer', fontSize: 12, align: 'right'}}
+        >
+          Clear Search
+        </Typography>
+
+      </Box>
+      <br />
+      <br />
+
+      {/*<Box sx={{ display: 'flex', justifyContent: 'flex-end', width: '30%', position: 'absolute', top: 210, left: '50%', transform: 'translateX(-50%)', marginBottom: '20px' }}>
         <SubmitButton
           label={"SEARCH"}
           onButtonClick={loadGetEvents}
           position='absolute'
         />
-
-      </Box>
+      </Box>*/}
 
       <Box sx={{ position: 'absolute', top: 260, left: '50%', transform: 'translateX(-50%)' }}>
         {events.map((event) => (
