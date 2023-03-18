@@ -15,7 +15,7 @@ import {
   MenuDivider,
   useColorModeValue,
   Stack,
-  Text
+  Link
 } from "@chakra-ui/react";
 
 import {
@@ -109,12 +109,13 @@ export default function NavigationBar() {
           src={GOOSE_IMAGE}
           boxSize='40px'
           onClick={handleHome} />
-        <Text
+        <Link
           className='navbar-title'
           onClick={handleHome}
+          _hover={{ textDecoration: 'none' }}
         >
           HonkedIn
-        </Text>
+        </Link>
 
         <Button variant='ghost' className="navbar-text" marginLeft="32px" onClick={handleHome}>
           Dashboard
