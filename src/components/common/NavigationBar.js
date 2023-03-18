@@ -1,10 +1,12 @@
 import React, { useContext, useState } from "react";
 import { useHistory } from "react-router-dom";
 import { useAuth } from "../../contexts/AuthContext"
+
 import {
   Image,
   Box,
   Button,
+  Circle,
   Menu,
   MenuButton,
   MenuGroup,
@@ -13,10 +15,17 @@ import {
   MenuDivider,
   useColorModeValue,
   Stack,
-  Text,
+  Text
 } from "@chakra-ui/react";
 
 import {
+  AddIcon,
+  ChevronDownIcon,
+  SettingsIcon
+} from "@chakra-ui/icons";
+
+import {
+  HOME_PAGE,
   LOGIN_PAGE,
   EVENTS_PAGE,
   CREATE_EVENT_PAGE,
@@ -37,7 +46,7 @@ import GOOSE_IMAGE from "../../images/Goose.png"
 
 export default function NavigationBar() {
 
-  const history = useHistory()
+  const history = useHistory();
 
   function redirectToPage(page) {
     return async function () {
@@ -45,6 +54,7 @@ export default function NavigationBar() {
     }
   }
 
+  const handleHome = redirectToPage(HOME_PAGE);
   const handleSettings = redirectToPage(USER_SETTINGS_PAGE);
   const handleEvents = redirectToPage(EVENTS_PAGE);
   const handleMyEvents = redirectToPage(MY_EVENTS_PAGE);
@@ -73,9 +83,9 @@ export default function NavigationBar() {
 
   return (
     <Box
-      bg="#CAE7B9"
+      bg="#023679"
       color={useColorModeValue('gray', 'gray.800')}
-      h='97px'
+      h='56px'
       py={{ base: 2 }}
       px={{ base: 4 }}
       borderBottom={1}
@@ -91,18 +101,83 @@ export default function NavigationBar() {
       <Box
         mx="auto"
         my={2}
-        w="1720px"
-        h="65px"
+        w="1256px"
         display='flex'
 
       >
         <Image src={GOOSE_IMAGE}
-          boxSize='80px' />
+          boxSize='40px' />
         <Text
           className='navbar-title'
         >
           HonkedIn
         </Text>
+
+        <Button variant='ghost' className="navbar-text" marginLeft="32px" onClick={handleHome}>
+          Home
+        </Button>
+
+        <Menu>
+          <MenuButton as={Button} variant='ghost' className="navbar-text" marginLeft="8px" _expanded={{ bg: '#214E89' }}>
+            Events <ChevronDownIcon style={{ position: 'relative', top: '-1px' }} />
+          </MenuButton>
+          <MenuList>
+            <MenuGroup >
+              <MenuItem className="navbar-dropdown-text" onClick={handleEvents}>All Events</MenuItem>
+              <MenuItem className="navbar-dropdown-text" onClick={handleMyEvents}>My Events</MenuItem>
+            </MenuGroup>
+            <MenuDivider />
+            <MenuGroup>
+              <MenuItem
+                className="navbar-dropdown-text"
+                onClick={handleCreateEvent}
+              >
+                Create Event <AddIcon marginLeft="6px" boxSize="10px" style={{ position: 'relative', top: '1.25px' }} />
+              </MenuItem>
+            </MenuGroup>
+          </MenuList>
+        </Menu>
+
+        <Menu>
+          <MenuButton as={Button} variant='ghost' className="navbar-text" marginLeft="8px" _expanded={{ bg: '#214E89' }}>
+            Forums <ChevronDownIcon style={{ position: 'relative', top: '-1px' }} />
+          </MenuButton>
+          <MenuList className="navbar-list">
+            <MenuGroup>
+              <MenuItem className="navbar-dropdown-text" onClick={handleForums} >All Forums</MenuItem>
+              <MenuItem className="navbar-dropdown-text" onClick={handleMyForums}>My Forums</MenuItem>
+            </MenuGroup>
+            <MenuDivider />
+            <MenuGroup>
+              <MenuItem
+                className="navbar-dropdown-text"
+                onClick={handleCreateForum}
+              >
+                Create Forum <AddIcon marginLeft="6px" boxSize="10px" style={{ position: 'relative', top: '1.25px' }} />
+              </MenuItem>
+            </MenuGroup>
+          </MenuList>
+        </Menu>
+
+        <Menu>
+          <MenuButton as={Button} variant='ghost' className="navbar-text" marginLeft="8px" _expanded={{ bg: '#214E89' }}>
+            Resources <ChevronDownIcon style={{ position: 'relative', top: '-1px' }} />
+          </MenuButton>
+          <MenuList>
+            <MenuGroup>
+              <MenuItem className="navbar-dropdown-text" onClick={handleResources}>All Resources</MenuItem>
+            </MenuGroup>
+            <MenuDivider />
+            <MenuGroup>
+              <MenuItem
+                className="navbar-dropdown-text"
+                onClick={handleCreateResources}
+              >
+                Create Resource <AddIcon marginLeft="6px" boxSize="10px" style={{ position: 'relative', top: '1.25px' }} />
+              </MenuItem>
+            </MenuGroup>
+          </MenuList>
+        </Menu>
 
         <Stack
           flex={{ base: 1, md: "auto" }}
@@ -112,65 +187,22 @@ export default function NavigationBar() {
           alignItems="center"
         >
           <Menu>
-            <MenuButton as={Button} variant='ghost' className="navbar-text">
-              Events
+            <MenuButton as={Circle} size='32px' bg="#164684" color="#FFFFFF">
+              <Box display="flex" justifyContent="center">
+                <SettingsIcon />
+              </Box>
             </MenuButton>
             <MenuList>
-              <MenuGroup title='Events'>
-                <MenuItem onClick={handleCreateEvent}>Create an Event</MenuItem>
-                <MenuItem onClick={handleEvents}>View Events</MenuItem>
-              </MenuGroup>
-              <MenuDivider />
-              <MenuGroup title="My Events">
-                <MenuItem onClick={handleMyEvents}>View My Events</MenuItem>
-              </MenuGroup>
-            </MenuList>
-          </Menu>
-
-          <Menu>
-            <MenuButton as={Button} variant='ghost' className="navbar-text">
-              Forums
-            </MenuButton>
-            <MenuList>
-              <MenuGroup title='Forums'>
-                <MenuItem onClick={handleCreateForum}>Create a Forum</MenuItem>
-                <MenuItem onClick={handleForums}>View Forums</MenuItem>
-              </MenuGroup>
-              <MenuDivider />
-              <MenuGroup title="My Forums">
-                <MenuItem onClick={handleMyForums}>View My Forums</MenuItem>
-              </MenuGroup>
-            </MenuList>
-          </Menu>
-
-          <Menu>
-            <MenuButton as={Button} variant='ghost' className="navbar-text">
-              Resources
-            </MenuButton>
-            <MenuList>
-              <MenuGroup title='Resources'>
-                <MenuItem onClick={handleCreateResources}>Create a Resource</MenuItem>
-                <MenuItem onClick={handleResources}>View Resources </MenuItem>
-              </MenuGroup>
-            </MenuList>
-          </Menu>
-
-          <Menu>
-            <MenuButton as={Button} variant='ghost' className="navbar-text">
-              Settings
-            </MenuButton>
-            <MenuList>
-              <MenuGroup title='Profile'>
-                <MenuItem onClick={handleMyProfile}>My Profile</MenuItem>
-                <MenuItem onClick={handleSettings}>Settings </MenuItem>
+              <MenuGroup>
+                <MenuItem className="navbar-dropdown-text" onClick={handleMyProfile}>Profile</MenuItem>
+                <MenuItem className="navbar-dropdown-text" onClick={handleSettings}>Settings</MenuItem>
               </MenuGroup>
               <MenuDivider />
               <MenuGroup>
-                <MenuItem onClick={handleLogout}>Logout</MenuItem>
+                <MenuItem className="navbar-dropdown-text" onClick={handleLogout}>Logout</MenuItem>
               </MenuGroup>
             </MenuList>
           </Menu>
-
         </Stack>
       </Box>
     </Box>
