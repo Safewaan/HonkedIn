@@ -1,7 +1,6 @@
 import React, { useRef, useState, useEffect } from "react"
 import { useAuth } from "../../contexts/AuthContext"
 import { Link, useHistory } from "react-router-dom"
-import NavigationBar from '../common/NavigationBar';
 import DatePicker from "react-datepicker";
 import Box from "@material-ui/core/Box";
 import Card from '@material-ui/core/Card';
@@ -24,7 +23,9 @@ import {
     AlertIcon,
     AlertTitle,
     AlertDescription,
-} from '@chakra-ui/react'
+} from '@chakra-ui/react';
+
+import NavigationBar from '../common/NavigationBar';
 
 const { REACT_APP_API_ENDPOINT } = process.env;
 
