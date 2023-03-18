@@ -1,12 +1,10 @@
 import React, { useRef, useState, useEffect } from "react"
 import { useAuth } from "../../contexts/AuthContext"
-import { Link, useHistory } from "react-router-dom"
 import Card from '@material-ui/core/Card';
 import CardActions from '@material-ui/core/CardActions';
 import CardContent from '@material-ui/core/CardContent';
 import Button from '@material-ui/core/Button';
 import Typography from '@material-ui/core/Typography';
-import TextField from '@material-ui/core/TextField';
 import Dialog from '@material-ui/core/Dialog';
 import DialogActions from '@material-ui/core/DialogActions';
 import DialogContent from '@material-ui/core/DialogContent';
@@ -16,7 +14,6 @@ import MuiAlert from '@mui/material/Alert';
 import NavigationBar from '../common/NavigationBar';
 import Search from '../common/Search';
 import Box from "@material-ui/core/Box";
-import Grid from "@material-ui/core/Grid";
 
 const { REACT_APP_API_ENDPOINT } = process.env;
 
