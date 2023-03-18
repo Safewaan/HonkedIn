@@ -15,29 +15,18 @@ import DialogActions from '@material-ui/core/DialogActions';
 import DialogContent from '@material-ui/core/DialogContent';
 import DialogContentText from '@material-ui/core/DialogContentText';
 import DialogTitle from '@material-ui/core/DialogTitle';
-import MuiAlert from '@mui/material/Alert';
 import Grid from '@material-ui/core/Grid';
 import FormHelperText from '@material-ui/core/FormHelperText';
 import { makeStyles } from '@material-ui/core/styles';
 
-const { REACT_APP_API_ENDPOINT } = process.env;
+import {
+    Alert,
+    AlertIcon,
+    AlertTitle,
+    AlertDescription,
+} from '@chakra-ui/react'
 
-const Alert = React.forwardRef(function Alert(props, ref) {
-    return (
-        <MuiAlert
-            elevation={6}
-            ref={ref}
-            variant="filled"
-            {...props}
-            style={{
-                position: 'fixed',
-                bottom: '20px',
-                right: '20px',
-                zIndex: 9999
-            }}
-        />
-    );
-});
+const { REACT_APP_API_ENDPOINT } = process.env;
 
 const MyEvents = () => {
 
@@ -508,22 +497,31 @@ const MyEvents = () => {
             )}
 
             {showCancelAlertMessage && (
-                <Alert severity="success">
-                    Event cancelled.
+                <Alert
+                    status="success"
+                    sx={{ position: 'fixed', bottom: 0, right: 0, width: '25%', zIndex: 9999 }}>
+                    <AlertIcon />
+                    <AlertDescription>Event successfully cancelled.</AlertDescription>
                 </Alert>
             )}
 
             {showEditAlertMessage && (
-                <Alert severity="success">
-                    Event successfully edited.
+                <Alert
+                    status="success"
+                    sx={{ position: 'fixed', bottom: 0, right: 0, width: '25%', zIndex: 9999 }}>
+                    <AlertIcon />
+                    <AlertDescription>Event successfully editted.</AlertDescription>
                 </Alert>
             )}
 
             {eventCurrentParticipantsError && (
-                <Alert severity="error">
-                    You cannot set the maximum number of participants lower than your
-                    current number of participants. This event currently has {eventCurrentParticipants}
-                    &nbsp;participants.
+                <Alert
+                    status="error"
+                    sx={{ position: 'fixed', bottom: 0, right: 0, width: '25%', zIndex: 9999 }}>
+                    <AlertIcon />
+                    <AlertDescription>You cannot set the maximum number of participants lower than your
+                        current number of participants. This event currently has {eventCurrentParticipants}
+                        &nbsp;participants.</AlertDescription>
                 </Alert>
             )}
         </div >
