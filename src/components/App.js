@@ -13,6 +13,7 @@ import CreateForum from "./forums/CreateForum";
 import Forum from "./forums/Forum";
 import Forums from "./forums/Forums";
 import MyForums from "./forums/MyForums";
+import MyComments from "./forums/MyComments";
 
 import Login from "./auth/Login";
 import Signup from "./auth/Signup";
@@ -47,7 +48,8 @@ import {
   MY_PROFILE_PAGE,
   UPDATE_STATUS_PAGE,
   USER_SETTINGS_PAGE,
-  CREATE_RESOURCE_PAGE,
+  CREATE_RESOURCE_PAGE, 
+  MY_COMMENTS_PAGE,
   RESOURCES_PAGE,
   NETWORK_PAGE,
   NETWORK_PROFILE_PAGE
