@@ -50,7 +50,6 @@ const Events = () => {
   const [events, setEvents] = React.useState([]);
 
   const [searchTerm, setSearchTerm] = React.useState("");
-
   const [refreshSearch, setRefreshSearch] = React.useState(1);
 
   const handleSearch = (event) => {
@@ -220,8 +219,6 @@ const Events = () => {
         </Typography>
 
       </Box>
-      <br />
-      <br />
 
       {/*<Box sx={{ display: 'flex', justifyContent: 'flex-end', width: '30%', position: 'absolute', top: 210, left: '50%', transform: 'translateX(-50%)', marginBottom: '20px' }}>
         <SubmitButton
