@@ -2,32 +2,21 @@ import React, { useRef, useState } from "react"
 import { Form, Button, Card } from "react-bootstrap"
 import { useAuth } from "../../contexts/AuthContext"
 import { Link, useHistory } from "react-router-dom"
-import NavigationBar from '../common/NavigationBar';
 
-import MuiAlert from '@mui/material/Alert';
+import {
+  Alert,
+  AlertIcon,
+  AlertTitle,
+  AlertDescription,
+} from '@chakra-ui/react';
+
+import NavigationBar from '../common/NavigationBar';
 
 import {
   USER_SETTINGS_PAGE
 } from "../constants/Routes";
 
 const { REACT_APP_API_ENDPOINT } = process.env;
-
-const Alert = React.forwardRef(function Alert(props, ref) {
-  return (
-    <MuiAlert
-      elevation={6}
-      ref={ref}
-      variant="filled"
-      {...props}
-      style={{
-        position: 'fixed',
-        bottom: '20px',
-        right: '20px',
-        zIndex: 9999
-      }}
-    />
-  );
-});
 
 export default function UpdateStatus() {
   const history = useHistory()
@@ -137,8 +126,8 @@ export default function UpdateStatus() {
               <Form.Label className="d-flex justify-content-center mb-4">Status: {userStatus}</Form.Label>
 
               {userStatus === "Active" && (
-                <Form.Label className="text-center mb-4">Archiving your account will remove you from search results 
-                however, you will no longer be able to create events, forums and resources.
+                <Form.Label className="text-center mb-4">Archiving your account will remove you from search results
+                  however, you will no longer be able to create events, forums and resources.
                 </Form.Label>
               )}
 
@@ -167,14 +156,20 @@ export default function UpdateStatus() {
       </div>
 
       {showSuccessfulActivateMsg && (
-        <Alert severity="success">
-          Account activated.
+        <Alert
+          status="success"
+          sx={{ position: 'fixed', bottom: 0, right: 0, width: '25%', zIndex: 9999 }}>
+          <AlertIcon />
+          <AlertDescription>Account activated.</AlertDescription>
         </Alert>
       )}
 
       {showSuccessfulArchiveMsg && (
-        <Alert severity="success">
-          Account archived.
+        <Alert
+          status="success"
+          sx={{ position: 'fixed', bottom: 0, right: 0, width: '25%', zIndex: 9999 }}>
+          <AlertIcon />
+          <AlertDescription>Account archived.</AlertDescription>
         </Alert>
       )}
     </>
