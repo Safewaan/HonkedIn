@@ -4,13 +4,13 @@ import { Link, useHistory } from "react-router-dom"
 import { Card, Button } from "react-bootstrap"
 import { useAuth } from "../../contexts/AuthContext"
 import Box from "@material-ui/core/Box";
-import NavigationBar from '../common/NavigationBar';
-import MuiAlert from '@mui/material/Alert';
 import { useParams } from 'react-router-dom';
 import Dialog from '@material-ui/core/Dialog';
 import DialogActions from '@material-ui/core/DialogActions';
 import DialogContent from '@material-ui/core/DialogContent';
 import DialogTitle from '@material-ui/core/DialogTitle';
+
+import NavigationBar from '../common/NavigationBar';
 
 // Server URL
 const { REACT_APP_API_ENDPOINT } = process.env;
