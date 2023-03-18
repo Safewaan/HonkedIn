@@ -80,11 +80,24 @@ const createForumComment = require(`${routesDir}forumComments/createForumComment
 const getForumCommentsByForumID = require(`${routesDir}forumComments/getForumCommentsByForumID`);
 const deleteForumComment = require(`${routesDir}forumComments/deleteForumComment`);
 const editForumComment = require(`${routesDir}forumComments/editForumComment`);
+const getForumCommentsByUserID = require(`${routesDir}forumComments/getForumCommentsByUserID`);
 
 app.use(createForumComment);
 app.use(getForumCommentsByForumID);
 app.use(deleteForumComment);
 app.use(editForumComment);
+app.use(getForumCommentsByUserID);
+
+//User Network APIs
+const getUsers = require(`${routesDir}user/getUsers`);
+
+app.use(getUsers); 
+// Resources APIs
+const createResource = require(`${routesDir}resources/createResource`);
+const getResources = require(`${routesDir}resources/getResources`);
+
+app.use(createResource);
+app.use(getResources);
 
 app.listen(port, () => console.log(`Listening on port ${port}`)); //for the dev version
 //app.listen(port, '172.31.31.77'); //for the deployed version, specify the IP address of the server

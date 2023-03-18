@@ -25,9 +25,22 @@ export const MY_FORUMS_PAGE = "/my-forums";
 
 export const FORUM_PAGE = "/forum/:forumID";
 
+export const MY_COMMENTS_PAGE = "/my-comments";
+
 // Users Routes
 export const MY_PROFILE_PAGE = "/my-profile";
 
 export const UPDATE_STATUS_PAGE = "/update-status";
 
 export const USER_SETTINGS_PAGE = "/user-settings";
+
+// Network Routes
+export const NETWORK_PAGE = "/network";
+
+export const NETWORK_PROFILE_PAGE = "/network-profile/:selectedUserID";
+
+// Resources Routes
+export const CREATE_RESOURCE_PAGE = "/create-resource";
+
+export const RESOURCES_PAGE = "/resources";
+

@@ -27,7 +27,12 @@ import {
     FORUMS_PAGE,
     MY_FORUMS_PAGE,
     MY_PROFILE_PAGE,
-    USER_SETTINGS_PAGE
+    USER_SETTINGS_PAGE,
+    MY_COMMENTS_PAGE,
+    CREATE_RESOURCE_PAGE,
+    RESOURCES_PAGE,
+    NETWORK_PAGE, 
+    NETWORK_PROFILE_PAGE
   } from "../constants/Routes";
 
 export default function NavigationBar() {
@@ -35,6 +40,7 @@ export default function NavigationBar() {
     const [anchorElUser, setAnchorElUser] = React.useState(null);
     const [anchorElUserEvents, setAnchorElUserEvents] = React.useState(null);
     const [anchorElUserForums, setAnchorElUserForums] = React.useState(null);
+    const [anchorElUserResources, setAnchorElUserResources] = React.useState(null);
 
     const handleOpenUserMenu = (event) => {
         setAnchorElUser(event.currentTarget);
@@ -58,6 +64,14 @@ export default function NavigationBar() {
 
     const handleCloseUserMenuForums = () => {
         setAnchorElUserForums(null);
+    };
+
+    const handleOpenUserMenuResources = (event) => {
+        setAnchorElUserResources(event.currentTarget);
+    };
+
+    const handleCloseUserMenuResources = () => {
+        setAnchorElUserResources(null);
     };
 
     const [error, setError] = useState("")
@@ -112,6 +126,30 @@ export default function NavigationBar() {
     async function handleMyForums() {
 
         history.push(MY_FORUMS_PAGE)
+
+    }
+
+
+    async function handleMyComments() {
+
+        history.push(MY_COMMENTS_PAGE)
+
+    }
+
+    async function handleCreateResources() {
+
+        history.push(CREATE_RESOURCE_PAGE)
+
+    }
+
+    async function handleResources() {
+
+        history.push(RESOURCES_PAGE)
+    }
+
+    async function handleNetwork() {
+
+        history.push(NETWORK_PAGE)
 
     }
 
@@ -204,14 +242,57 @@ export default function NavigationBar() {
                                         <Typography textAlign="center">Forums</Typography>
                                     </MenuItem>
 
-                                    <MenuItem key="Create Forums" onClick={handleMyForums}>
+                                    <MenuItem key="MyForums" onClick={handleMyForums}>
                                         <Typography textAlign="center">My Forums</Typography>
+                                    </MenuItem>
+
+                                    <MenuItem key="MyComments" onClick={handleMyComments}>
+                                        <Typography textAlign="center">My Comments</Typography>
                                     </MenuItem>
 
                                     <MenuItem key="Create Forums" onClick={handleCreateForum}>
                                         <Typography textAlign="center">Create Forums</Typography>
                                     </MenuItem>
                                 </Menu>
+                            </Box>
+
+                            <Box sx={{ flexGrow: 1, display: { xs: 'none', md: 'flex' } }}>
+                                <Tooltip title="Resources">
+                                    <Button onClick={handleOpenUserMenuResources} sx={{ p: 0 }}>
+                                        Resources
+                                    </Button>
+                                </Tooltip>
+                                <Menu
+                                    sx={{ mt: '45px' }}
+                                    id="menu-appbar"
+                                    anchorEl={anchorElUserResources}
+                                    anchorOrigin={{
+                                        vertical: 'top',
+                                        horizontal: 'right',
+                                    }}
+                                    keepMounted
+                                    transformOrigin={{
+                                        vertical: 'top',
+                                        horizontal: 'right',
+                                    }}
+                                    open={Boolean(anchorElUserResources)}
+                                    onClose={handleCloseUserMenuResources}
+                                >
+                                    <MenuItem key="Resources" onClick={handleResources}>
+                                        <Typography textAlign="center">Resources</Typography>
+                                    </MenuItem>
+                                    <MenuItem key="Resources" onClick={handleCreateResources}>
+                                        <Typography textAlign="center">Create Resources</Typography>
+                                    </MenuItem>
+                                </Menu>
+                            </Box>
+
+                            <Box sx={{ flexGrow: 1, display: { xs: 'none', md: 'flex' } }}>
+                                <Tooltip title="Network">
+                                    <Button onClick={handleNetwork} sx={{ p: 0 }}>
+                                        Explore Network
+                                    </Button>
+                                </Tooltip>
                             </Box>
 
 
