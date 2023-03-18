@@ -1,5 +1,5 @@
 import React, { useRef, useState, useEffect } from "react"
-import { Form, Button, Card, Alert } from "react-bootstrap"
+import { Form, Button, Card } from "react-bootstrap"
 import { Link, useHistory } from "react-router-dom"
 import "react-datepicker/dist/react-datepicker.css";
 import { format } from 'date-fns'
@@ -14,22 +14,17 @@ import Typography from "@material-ui/core/Typography";
 import { styled } from '@material-ui/core/styles';
 import { makeStyles } from '@material-ui/core/styles';
 import TextField from '@material-ui/core/TextField';
-import MuiAlert from '@mui/material/Alert';
+
+import {
+  Alert,
+  AlertIcon,
+  AlertTitle,
+  AlertDescription,
+} from '@chakra-ui/react'
+
 import NavigationBar from '../common/NavigationBar';
 
 const { REACT_APP_API_ENDPOINT } = process.env;
-
-const MainGridContainer = styled(Grid)(({ theme }) => ({
-  margin: theme.spacing(4),
-}));
-
-const MyPaper = styled(Paper)(({ theme }) => ({
-  backgroundColor: '#FFFFFF',
-  elevation: 3,
-  padding: 8,
-  borderRadius: 4,
-  margin: theme.spacing(2)
-}));
 
 const CreateEvent = () => {
 
@@ -112,26 +107,9 @@ const CreateEvent = () => {
   const [eventDateErrorText, setEventDateErrorText] = React.useState(''); //ERROR EDITING IN RETURN BRACKETS
   const handleEventDateOG = (event) => {
     setEventDateOG(event.target.value);
-  }
+  };
 
   const [successfullSubmissionMsg, setsuccessfullSubmissionMsg] = React.useState(false);
-
-  const Alert = React.forwardRef(function Alert(props, ref) {
-    return (
-      <MuiAlert
-        elevation={6}
-        ref={ref}
-        variant="filled"
-        {...props}
-        style={{
-          position: 'fixed',
-          bottom: '20px',
-          right: '20px',
-          zIndex: 9999
-        }}
-      />
-    );
-  });
 
   const loaduserSearchByEmail = (email) => {
     callApiGetuserSearchByEmail(email)
@@ -142,7 +120,7 @@ const CreateEvent = () => {
         setUserStatus(parsed[0].status);
         setShowUserStatusError(parsed[0].status === "Archived");
       });
-  }
+  };
 
   const callApiGetuserSearchByEmail = async (email) => {
     const url = `${REACT_APP_API_ENDPOINT}/userSearchByEmail`;
@@ -162,13 +140,6 @@ const CreateEvent = () => {
     return body;
   }
 
-  const handleClose = (event, reason) => {
-    if (reason === 'clickaway') {
-      return;
-    }
-    setOpen(false);
-  };
-
   const resetForm = () => {
     setEventName('');
     setEventDesc('');
@@ -182,14 +153,10 @@ const CreateEvent = () => {
   }, [eventDateOG]);
 
   const formatDate = () => {
-    //console.log("before eventDate state is updated " + enableError)
     setEventDate(eventDateOG.toISOString().split('T')[0]);
   }
 
-
   const validateEvent = () => {
-
-    // console.log(" enableError is currently: " + enableError)
 
     // Do nothing if the user's status is archived
     if (userStatus === "Archived") {
@@ -362,14 +329,20 @@ const CreateEvent = () => {
         />
       </Grid>
       {successfullSubmissionMsg && (
-        <Alert severity="success">
-          Event Successfully created.
+        <Alert
+          status="success"
+          sx={{ position: 'fixed', bottom: 0, right: 0, width: '25%', zIndex: 9999 }}>
+          <AlertIcon />
+          <AlertDescription>Event Successfully created.</AlertDescription>
         </Alert>
       )}
 
       {showUserStatusError && (
-        <Alert severity="error">
-          You cannot create an event if your account is archived.
+        <Alert
+          status="error"
+          sx={{ position: 'fixed', bottom: 0, right: 0, width: '25%', zIndex: 9999 }}>
+          <AlertIcon />
+          <AlertDescription>You cannot create an event if your account is archived.</AlertDescription>
         </Alert>
       )}
 
