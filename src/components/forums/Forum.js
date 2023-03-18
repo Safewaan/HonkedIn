@@ -57,11 +57,12 @@ const Forum = () => {
     const [showEditAlertMessage, setShowEditAlertMessage] = React.useState(false);
     const [comment, setComment] = React.useState('');
     const [commentError, setCommentError] = React.useState('');
-    const [commentErrorText, setCommentErrorText] = React.useState(''); 
+    const [commentErrorText, setCommentErrorText] = React.useState('');
     const handleEditCommentBody = (comment) => {
         setComment(comment.target.value);
         setCommentError(false);
         setCommentErrorText('');
+
     }
 
     React.useEffect(() => {
@@ -224,7 +225,7 @@ const Forum = () => {
     }
 
     // API - Edit your own comments
-        const handleEditComment= (selectedComment) => {
+    const handleEditComment = (selectedComment) => {
         if (comment === '') {
             setCommentError(true);
             setCommentErrorText('Please enter your comment');
@@ -334,6 +335,11 @@ const Forum = () => {
                                         </Typography>
                                         <Typography style={{ mb: 1.5, fontSize: "12px" }} color="text.secondary">
                                             <strong> Comment Posted: </strong> {new Date(new Date(comment.commentDateTime).getTime() - (5 * 60 * 60 * 1000)).toLocaleString()} <br />
+                                        </Typography>
+                                        <Typography style={{ mb: 1.5, fontSize: "12px" }} color="text.secondary">
+                                            {comment.editedCommentDateTime && <strong> Comment Edited: </strong>}
+                                            {comment.editedCommentDateTime && new Date(new Date(comment.editedCommentDateTime).getTime() - (5 * 60 * 60 * 1000)).toLocaleString()}
+                                            <br />
                                         </Typography>
                                         {comment.userID === userID && (
                                             <div style={{ display: 'flex', gap: '10px' }}>

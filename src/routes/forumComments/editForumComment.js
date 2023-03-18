@@ -8,7 +8,7 @@ router.put('/api/editForumComment', (req, res) => {
 
 	let connection = mysql.createConnection(config);
 	let sql = `UPDATE forumComments SET 
-    comment = ?, commentDateTime = now() 
+    comment = ?, editedCommentDateTime = now() 
     WHERE id = ?`;
 	//console.log(sql);
 	let data = [req.body.comment, req.body.id];
