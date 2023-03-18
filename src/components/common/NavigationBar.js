@@ -105,10 +105,13 @@ export default function NavigationBar() {
         display='flex'
 
       >
-        <Image src={GOOSE_IMAGE}
-          boxSize='40px' />
+        <Image
+          src={GOOSE_IMAGE}
+          boxSize='40px'
+          onClick={handleHome} />
         <Text
           className='navbar-title'
+          onClick={handleHome}
         >
           HonkedIn
         </Text>
