@@ -6,34 +6,23 @@ import CardActions from '@material-ui/core/CardActions';
 import CardContent from '@material-ui/core/CardContent';
 import Button from '@material-ui/core/Button';
 import Typography from '@material-ui/core/Typography';
-import TextField from '@material-ui/core/TextField';
 import Dialog from '@material-ui/core/Dialog';
 import DialogActions from '@material-ui/core/DialogActions';
 import DialogContent from '@material-ui/core/DialogContent';
 import DialogContentText from '@material-ui/core/DialogContentText';
 import DialogTitle from '@material-ui/core/DialogTitle';
-import MuiAlert from '@mui/material/Alert';
-import NavigationBar from '../common/NavigationBar';
 import Box from "@material-ui/core/Box";
 
-const { REACT_APP_API_ENDPOINT } = process.env;
+import {
+  Alert,
+  AlertIcon,
+  AlertTitle,
+  AlertDescription,
+} from '@chakra-ui/react'
 
-const Alert = React.forwardRef(function Alert(props, ref) {
-  return (
-    <MuiAlert
-      elevation={6}
-      ref={ref}
-      variant="filled"
-      {...props}
-      style={{
-        position: 'fixed',
-        bottom: '20px',
-        right: '20px',
-        zIndex: 9999
-      }}
-    />
-  );
-});
+import NavigationBar from '../common/NavigationBar';
+
+const { REACT_APP_API_ENDPOINT } = process.env;
 
 const Events = () => {
 
@@ -235,10 +224,13 @@ const Events = () => {
         </Dialog>
       )}
 
-      {alertMessage && (
-        <Alert severity={alertSeverity}>
-          {alertMessage}
-        </Alert>
+      {alertSeverity !== '' && (
+      <Alert 
+      status={alertSeverity} 
+      sx={{ position: 'fixed', bottom: 0, right: 0, width: '25%', zIndex: 9999 }}>
+        <AlertIcon />
+        <AlertDescription>{alertMessage}</AlertDescription>
+      </Alert>
       )}
     </div>
   )
