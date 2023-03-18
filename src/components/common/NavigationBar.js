@@ -114,7 +114,11 @@ export default function NavigationBar() {
         </Text>
 
         <Button variant='ghost' className="navbar-text" marginLeft="32px" onClick={handleHome}>
-          Home
+          Dashboard
+        </Button>
+
+        <Button variant='ghost' className="navbar-text" marginLeft="8px" onClick={handleNetwork}>
+          Network
         </Button>
 
         <Menu>
@@ -132,7 +136,7 @@ export default function NavigationBar() {
                 className="navbar-dropdown-text"
                 onClick={handleCreateEvent}
               >
-                Create Event <AddIcon marginLeft="6px" boxSize="10px" style={{ position: 'relative', top: '1.25px' }} />
+                <AddIcon marginRight="8px" boxSize="10px" style={{ position: 'relative', top: '1.25px' }} /> Create Event
               </MenuItem>
             </MenuGroup>
           </MenuList>
@@ -153,7 +157,7 @@ export default function NavigationBar() {
                 className="navbar-dropdown-text"
                 onClick={handleCreateForum}
               >
-                Create Forum <AddIcon marginLeft="6px" boxSize="10px" style={{ position: 'relative', top: '1.25px' }} />
+                <AddIcon marginRight="8px" boxSize="10px" style={{ position: 'relative', top: '1.25px' }} /> Create Forum
               </MenuItem>
             </MenuGroup>
           </MenuList>
@@ -173,7 +177,7 @@ export default function NavigationBar() {
                 className="navbar-dropdown-text"
                 onClick={handleCreateResources}
               >
-                Create Resource <AddIcon marginLeft="6px" boxSize="10px" style={{ position: 'relative', top: '1.25px' }} />
+                <AddIcon marginRight="8px" boxSize="10px" style={{ position: 'relative', top: '1.25px' }} /> Create Resource
               </MenuItem>
             </MenuGroup>
           </MenuList>
