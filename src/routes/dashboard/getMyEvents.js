@@ -4,7 +4,7 @@ const mysql = require('mysql');
 const config = require('../../../config.js');
 
 // get 5 upcoming events the user has RSVPed to
-router.post('/api/getMyEvents', (req, res) => {
+router.get('/api/getMyEvents', (req, res) => {
 
 	let connection = mysql.createConnection(config);
 
@@ -19,7 +19,7 @@ router.post('/api/getMyEvents', (req, res) => {
     AND events.status = "Active"
 	ORDER BY events.date
     LIMIT 5;`;
-	let data = [req.body.userID];
+	let data = [req.query.userID];
 
 	// console.log(sql);
 	// console.log(data);

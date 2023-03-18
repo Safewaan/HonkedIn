@@ -133,19 +133,19 @@ export default function Dashboard() {
     loadGetPopularForums();
   }, []);
 
-  const CallApiGetMyEvents = async () => {
+  const CallApiGetMyEvents = async (userID) => {
 
-    const url = `${REACT_APP_API_ENDPOINT}/getMyEvents`;
+    const url = `${REACT_APP_API_ENDPOINT}/getMyEvents?userID=${userID}`;
     console.log(url);
 
     const response = await fetch(url, {
-        method: "POST",
+        method: "GET",
         headers: {
             "Content-Type": "application/json",
         },
-        body: JSON.stringify({
+        /*body: JSON.stringify({
             userID: userID
-        })
+        })*/
     });
     const body = await response.json();
     if (response.status !== 200) throw Error(body.message);
@@ -154,7 +154,7 @@ export default function Dashboard() {
 
   const loadGetMyEvents = async () => {
     try {
-      const res = await CallApiGetMyEvents();
+      const res = await CallApiGetMyEvents(userID);
       const parsed = JSON.parse(res.express);
       setMyEvents(parsed);
   } catch (error) {
