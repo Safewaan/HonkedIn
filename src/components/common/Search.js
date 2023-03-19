@@ -1,36 +1,44 @@
-import TextField from '@material-ui/core/TextField';
-import Button from '@material-ui/core/Button';
-import Box from "@material-ui/core/Box";
+import {
+    Box,
+    Input,
+    Button,
+    Flex
+} from "@chakra-ui/react";
 
-const Search = ({ label, onSetSearch, searchTerm, onButtonClick }) => {
+import "../../styles/search-style.css";
+
+const Search = ({ label, onSetSearch, searchTerm, onButtonClick, onResetSearch }) => {
     return (
-        <Box sx={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-evenly' }}>
-            <TextField
-                id="search"
-                label={label}
-                value={searchTerm}
-                onChange={onSetSearch}
+        <Box>
+            <Flex justify="space-between">
+                <Input
+                    id="search"
+                    placeholder={label}
+                    value={searchTerm}
+                    onChange={onSetSearch}
+                    variant="outline"
+                    className="search-input"
+                />
+                <Button
+                    variant="solid"
+                    onClick={(event) => onButtonClick(event)}
+                    position="relative"
+                    className="search-submit"
+                >
+                    Search
+                </Button>
 
-                autoComplete="off"
-                color="secondary"
-                inline variant="standard"
-                fullWidth
-
-            />
-
+            </Flex>
             <Button
-                inline variant="contained"
-                maxHeight= '20px'
-                color="secondary"
-                onClick={(event) => onButtonClick(event)}
-                position='absolute'
+                variant="link"
+                onClick={onResetSearch}
+                className="search-reset"
+                _hover={{ textDecor: "none" }}
             >
-                SEARCH
+                Clear Search
             </Button>
         </Box>
-
-    )
+    );
 };
 
-
-export default Search; 
+export default Search;
