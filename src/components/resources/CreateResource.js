@@ -34,6 +34,10 @@ const CreateResource = () => {
     //const email = currentUser.email;
     const [email, setEmail] = React.useState('');
     const [userID, setUserID] = React.useState('');
+    const [userStatus, setUserStatus] = React.useState('');
+
+    const [showUserStatusError, setShowUserStatusError] = React.useState(false);
+
     const [open, setOpen] = React.useState(false);
 
 
@@ -48,6 +52,8 @@ const CreateResource = () => {
                 var parsed = JSON.parse(res.express);
                 //console.log(parsed[0].id);
                 setUserID(parsed[0].id);
+                setUserStatus(parsed[0].status);
+                setShowUserStatusError(parsed[0].status === "Archived");
             });
     }
 
@@ -113,7 +119,9 @@ const CreateResource = () => {
 
     const validateResources = () => {
 
-        // console.log(" enableError is currently: " + enableError)
+        if (userStatus === "Archived") {
+            return false;
+        };
 
         if (resourcesTitle === '') {
             setResourcesTitleError(true);
@@ -243,6 +251,11 @@ const CreateResource = () => {
             {successfullSubmissionMsg && (
                 <Alert severity="success">
                     Resource Successfully created.
+                </Alert>
+            )}
+            {showUserStatusError && (
+                <Alert severity="error">
+                    You cannot create a resource if your account is archived.
                 </Alert>
             )}
         </div>
