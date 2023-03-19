@@ -68,7 +68,6 @@ const Forums = () => {
         try {
             const res = await callApiGetForums(searchTerm);
             const parsed = JSON.parse(res.express);
-            //console.log(parsed[0].forumTitle);
             setForums(parsed);
 
         } catch (error) {

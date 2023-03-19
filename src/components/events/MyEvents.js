@@ -379,7 +379,7 @@ const MyEvents = () => {
 
     React.useEffect(() => {
         loadGetEventsByUser(userID, searchTerm);
-        console.log("userId is: " + userID + "and" )
+        //console.log("userId is: " + userID + "and" )
     }, [userID, refreshSearch]);
 
     const handleRefreshSearch = async () => {
