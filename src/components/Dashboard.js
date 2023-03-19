@@ -272,10 +272,10 @@ export default function Dashboard() {
                     {myEvent.name}<br />
                   </Typography>
                   <Typography sx={{ mb: 1.5 }} color="text.secondary">
-                    Date of Event: {new Date(new Date(myEvent.date).getTime() - (5 * 60 * 60 * 1000)).toLocaleDateString()}<br />
+                    Date: {new Date(new Date(myEvent.date).getTime() - (5 * 60 * 60 * 1000)).toLocaleDateString()}<br />
                   </Typography>
                   <Typography sx={{ mb: 1.5 }} color="text.secondary">
-                    Location of Event: {myEvent.location}<br />
+                    Location: {myEvent.location}<br />
                   </Typography>
                 </CardContent>
               </Card>
