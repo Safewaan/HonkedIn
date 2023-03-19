@@ -411,14 +411,8 @@ const MyEvents = () => {
                     onSetSearch={handleSearch}
                     fullWidth
                     onButtonClick={loadGetEventsByUser}
+                    onResetSearch={handleRefreshSearch}
                 />
-
-                <Typography
-                    onClick={() => handleRefreshSearch()}
-                    style={{ color: "gray", mb: 1.5, cursor: 'pointer', fontSize: 12, align: 'right' }}
-                >
-                    Clear Search
-                </Typography>
 
             </Box>
 

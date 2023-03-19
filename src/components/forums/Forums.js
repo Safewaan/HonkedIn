@@ -7,6 +7,7 @@ import CardContent from '@material-ui/core/CardContent';
 import Typography from '@material-ui/core/Typography';
 import NavigationBar from '../common/NavigationBar';
 import Box from "@material-ui/core/Box";
+import Search from "../common/Search";
 
 const { REACT_APP_API_ENDPOINT } = process.env;
 
@@ -19,10 +20,17 @@ const Forums = () => {
 
     const [forums, setForums] = React.useState([]);
 
+    const [searchTerm, setSearchTerm] = React.useState("");
+    const [refreshSearch, setRefreshSearch] = React.useState(1);
+
+    const handleSearch = (event) => {
+        setSearchTerm(event.target.value);
+    }
+
     React.useEffect(() => {
         setEmail(currentUser.email);
         loaduserSearchByEmail(currentUser.email);
-        //loadGetForums(); 
+        //loadGetForums(searchTerm);
     }, []);
 
     const loaduserSearchByEmail = (email) => {
@@ -52,13 +60,13 @@ const Forums = () => {
         return body;
     }
 
-    useEffect(() => {
-        loadGetForums();
-    }, []);
+    React.useEffect(() => {
+        loadGetForums(searchTerm);
+    }, [refreshSearch]);
 
     const loadGetForums = async () => {
         try {
-            const res = await callApiGetForums();
+            const res = await callApiGetForums(searchTerm);
             const parsed = JSON.parse(res.express);
             //console.log(parsed[0].forumTitle);
             setForums(parsed);
@@ -68,9 +76,9 @@ const Forums = () => {
         }
     }
 
-    const callApiGetForums = async () => {
+    const callApiGetForums = async (searchTerm) => {
 
-        const url = `${REACT_APP_API_ENDPOINT}/getForums`;
+        const url = `${REACT_APP_API_ENDPOINT}/getForums?searchTerm=${searchTerm}`;
         console.log(url);
 
         const response = await fetch(url, {
@@ -79,10 +87,16 @@ const Forums = () => {
                 "Content-Type": "application/json",
             }
         });
+        console.log("the searchTerm is " + searchTerm)
         const body = await response.json();
         if (response.status !== 200) throw Error(body.message);
         return body;
     }
+
+    const handleRefreshSearch = async () => {
+        setSearchTerm("");
+        setRefreshSearch(refreshSearch + 1);
+      }
 
     return (
         <div id="body">
@@ -98,30 +112,41 @@ const Forums = () => {
                 </Typography>
             </Box>
 
-    <Box sx={{ position: 'absolute', top: 150, left: '50%', transform: 'translateX(-50%)' }}>
-        {forums.map((forum) => (
-            <Card style={{ width: '800px', marginBottom: '20px' }} key={forum.id}>
-                <CardContent>
-                    <Link to={`/forum/${forum.id}`} target="_blank">
-                        <Typography variant="h5" component="div">
-                            {forum.forumTitle}<br />
-                        </Typography>
-                    </Link>
-                    <Typography sx={{ mb: 1.5 }} color="text.secondary">
-                        Posted on {new Date(new Date(forum.dateTime).getTime() - (5 * 60 * 60 * 1000)).toLocaleDateString()}<br />
-                        by {forum.creatorName}<br />
-                    </Typography>
-                    <Typography variant="subtitle2" sx={{ mb: 1.5 }} color="text.secondary">
+            <Box sx={{ width: '600px', position: 'absolute', top: 150, left: '50%', transform: 'translateX(-50%)', marginBottom: '20px' }}>
+                <Search
+                    label="Search for events"
+                    searchTerm={searchTerm}
+                    onSetSearch={handleSearch}
+                    fullWidth
+                    onButtonClick={loadGetForums}
+                    onResetSearch={handleRefreshSearch}
+                />
+            </Box>
+
+            <Box sx={{ position: 'absolute', top: 260, left: '50%', transform: 'translateX(-50%)' }}>
+                {forums.map((forum) => (
+                    <Card style={{ width: '800px', marginBottom: '20px' }} key={forum.id}>
+                        <CardContent>
+                            <Link to={`/forum/${forum.id}`} target="_blank">
+                                <Typography variant="h5" component="div">
+                                    {forum.forumTitle}<br />
+                                </Typography>
+                            </Link>
+                            <Typography sx={{ mb: 1.5 }} color="text.secondary">
+                                Posted on {new Date(new Date(forum.dateTime).getTime() - (5 * 60 * 60 * 1000)).toLocaleDateString()}<br />
+                                by {forum.creatorName}<br />
+                            </Typography>
+                            <Typography variant="subtitle2" sx={{ mb: 1.5 }} color="text.secondary">
                                 Status: {forum.status}<br />
                             </Typography>
-                    <Typography sx={{ mb: 1.5 }} color="text.secondary">
-                        <br />{forum.description}<br />
-                    </Typography>
-                </CardContent>
-            </Card>
-        ))}
-        </Box>
-    </div>
+                            <Typography sx={{ mb: 1.5 }} color="text.secondary">
+                                <br />{forum.description}<br />
+                            </Typography>
+                        </CardContent>
+                    </Card>
+                ))}
+            </Box>
+        </div>
     )
 }
 

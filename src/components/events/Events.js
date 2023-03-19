@@ -202,7 +202,6 @@ const Events = () => {
       </Box>
 
       <Box sx={{ width:'600px', position: 'absolute', top: 150, left: '50%', transform: 'translateX(-50%)', marginBottom: '20px' }}>
-
         <Search
           label="Search for events"
           searchTerm={searchTerm}
@@ -211,16 +210,7 @@ const Events = () => {
           onButtonClick={loadGetEvents}
           onResetSearch={handleRefreshSearch}
         />
-
       </Box>
-
-      {/*<Box sx={{ display: 'flex', justifyContent: 'flex-end', width: '30%', position: 'absolute', top: 210, left: '50%', transform: 'translateX(-50%)', marginBottom: '20px' }}>
-        <SubmitButton
-          label={"SEARCH"}
-          onButtonClick={loadGetEvents}
-          position='absolute'
-        />
-      </Box>*/}
 
       <Box sx={{ position: 'absolute', top: 260, left: '50%', transform: 'translateX(-50%)' }}>
         {events.map((event) => (
