@@ -13,6 +13,10 @@ import Grid from '@material-ui/core/Grid';
 import FormHelperText from '@material-ui/core/FormHelperText';
 import TextField from '@material-ui/core/TextField';
 import { makeStyles } from '@material-ui/core/styles';
+import Select from "@material-ui/core/Select";
+import MenuItem from "@material-ui/core/MenuItem";
+import InputLabel from "@material-ui/core/InputLabel";
+import FormControl from "@material-ui/core/FormControl";
 
 const { REACT_APP_API_ENDPOINT } = process.env;
 
@@ -77,6 +81,13 @@ const CreateForum = () => {
         setForumDescErrorText('');
     }
 
+    const [forumTag, setForumTag] = React.useState('');
+    const forumTagList = ["School", "Co-op", "Funny", "Debate", "Rant", "Interview", "Class Review", "Good News"];
+
+    const handleForumTag = (event) => {
+        setForumTag(event.target.value);
+    }
+
     const [successfullSubmissionMsg, setsuccessfullSubmissionMsg] = React.useState(false);
 
     const Alert = React.forwardRef(function Alert(props, ref) {
@@ -99,6 +110,7 @@ const CreateForum = () => {
     const resetForm = () => {
         setForumName('');
         setForumDesc('');
+        setForumTag(''); 
     }
 
     const validateForum = () => {
@@ -119,7 +131,8 @@ const CreateForum = () => {
 
             var newForum = {
                 forumName: forumName,
-                forumDesc: forumDesc
+                forumDesc: forumDesc,
+                forumTag: forumTag 
             }
 
             // console.log(format(eventDate))
@@ -175,7 +188,8 @@ const CreateForum = () => {
                 body: JSON.stringify({
                     forumTitle: forumName,
                     forumDesc: forumDesc,
-                    creatorID: userID
+                    creatorID: userID, 
+                    forumTag: forumTag
                 })
             });
 
@@ -218,6 +232,22 @@ const CreateForum = () => {
                     forumDescErrorText={forumDescErrorText}
                 />
             </form>
+
+            <FormControl className={classes.root}>
+                <InputLabel id="Forum-Tag"> Tags </InputLabel>
+                <Select
+                    labelId="Forum-Tag"
+                    id="Forum-Tag"
+                    value={forumTag}
+                    onChange={handleForumTag}
+                    fullWidth
+                >
+                    {forumTagList.map((tag) => (
+                        <MenuItem value={tag}> {tag} </MenuItem>
+                    ))}
+                </Select>
+
+            </FormControl>
 
             <Grid item>
                 <SubmitButton

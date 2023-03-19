@@ -13,6 +13,10 @@ import Grid from '@material-ui/core/Grid';
 import FormHelperText from '@material-ui/core/FormHelperText';
 import TextField from '@material-ui/core/TextField';
 import { makeStyles } from '@material-ui/core/styles';
+import Select from "@material-ui/core/Select";
+import MenuItem from "@material-ui/core/MenuItem";
+import InputLabel from "@material-ui/core/InputLabel";
+import FormControl from "@material-ui/core/FormControl";
 
 const { REACT_APP_API_ENDPOINT } = process.env;
 
@@ -21,12 +25,12 @@ const CreateResource = () => {
     function isValidHttpUrl(string) {
         let url;
         try {
-          url = new URL(string);
+            url = new URL(string);
         } catch (_) {
-          return false;
+            return false;
         }
         return url.protocol === "http:" || url.protocol === "https:";
-      }
+    }
 
     const { currentUser } = useAuth();
     const history = useHistory()
@@ -87,6 +91,13 @@ const CreateResource = () => {
         setResourcesLinkErrorText('');
     }
 
+    const [mediaTag, setMediaTag] = React.useState('');
+    const mediaTagList = ["Youtube", "Stack Overflow", "School Website", "Personal Website", "Spreadsheet"];
+
+    const handleMediaTag = (event) => {
+        setMediaTag(event.target.value);
+    }
+
     const [successfullSubmissionMsg, setsuccessfullSubmissionMsg] = React.useState(false);
 
     const Alert = React.forwardRef(function Alert(props, ref) {
@@ -109,6 +120,7 @@ const CreateResource = () => {
     const resetForm = () => {
         setResourcesTitle('');
         setResourcesLink('');
+        setMediaTag('');
     }
 
     const validateResources = () => {
@@ -133,7 +145,8 @@ const CreateResource = () => {
 
             var newResources = {
                 resourcesTitle: resourcesTitle,
-                resourcesLink: resourcesLink
+                resourcesLink: resourcesLink,
+                mediaTag: mediaTag
             }
 
             // console.log(format(eventDate))
@@ -189,7 +202,8 @@ const CreateResource = () => {
                 body: JSON.stringify({
                     creatorID: userID,
                     resourcesTitle: resourcesTitle,
-                    resourcesLink: resourcesLink
+                    resourcesLink: resourcesLink,
+                    mediaTag: mediaTag
                 })
             });
 
@@ -232,6 +246,22 @@ const CreateResource = () => {
                     resourceLinkErrorText={resourcesLinkErrorText}
                 />
             </form>
+
+            <FormControl className={classes.root}>
+                <InputLabel id="Media-Tag"> Media Tag </InputLabel>
+                <Select
+                    labelId="Media-Tag"
+                    id="MediaTagList"
+                    value={mediaTag}
+                    onChange={handleMediaTag}
+                    fullWidth
+                >
+                    {mediaTagList.map((tag) => (
+                        <MenuItem value={tag}> {tag} </MenuItem>
+                    ))}
+                </Select>
+
+            </FormControl>
 
             <Grid item>
                 <SubmitButton

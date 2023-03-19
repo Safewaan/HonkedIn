@@ -8,9 +8,9 @@ router.post('/api/createResource', (req, res) => {
 
     let connection = mysql.createConnection(config);
 
-    let sql = "INSERT INTO shchowdh.resources (creatorID, resourcesTitle, resourcesLink) VALUES (?, ?, ?)";
+    let sql = "INSERT INTO shchowdh.resources (creatorID, resourcesTitle, resourcesLink, mediaTag) VALUES (?, ?, ?, ?)";
     //console.log(sql);
-    let data = [req.body.creatorID, req.body.resourcesTitle, req.body.resourcesLink];
+    let data = [req.body.creatorID, req.body.resourcesTitle, req.body.resourcesLink, req.body.mediaTag];
     //console.log(data);
 
     connection.query(sql, data, (error, results, fields) => {
