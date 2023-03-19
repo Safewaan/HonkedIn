@@ -14,6 +14,7 @@ app.use(bodyParser.urlencoded({ limit: '50mb', extended: true }));
 app.use(function (req, res, next) {
 	res.header("Access-Control-Allow-Origin", "*");
 	res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
+	res.header("Access-Control-Allow-Methods", "GET, OPTIONS, POST, PUT");
 	next();
 });
 
@@ -78,11 +79,13 @@ app.use(archiveForum);
 const createForumComment = require(`${routesDir}forumComments/createForumComment`);
 const getForumCommentsByForumID = require(`${routesDir}forumComments/getForumCommentsByForumID`);
 const deleteForumComment = require(`${routesDir}forumComments/deleteForumComment`);
+const editForumComment = require(`${routesDir}forumComments/editForumComment`);
 const getForumCommentsByUserID = require(`${routesDir}forumComments/getForumCommentsByUserID`);
 
 app.use(createForumComment);
 app.use(getForumCommentsByForumID);
 app.use(deleteForumComment);
+app.use(editForumComment);
 app.use(getForumCommentsByUserID);
 
 //User Network APIs

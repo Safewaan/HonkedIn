@@ -9,7 +9,7 @@ router.post('/api/getForumCommentsByForumID', (req, res) => {
     let connection = mysql.createConnection(config);
 
     let sql = 
-    `SELECT forumComments.id, forumComments.forumID, forumComments.userID, forumComments.commentDateTime, forumComments.comment, users.firstName, users.lastName
+    `SELECT forumComments.id, forumComments.forumID, forumComments.userID, forumComments.commentDateTime, forumComments.editedCommentDateTime, forumComments.comment, users.firstName, users.lastName
     FROM shchowdh.forumComments
     LEFT JOIN users ON forumComments.userID = users.id
     WHERE forumID = ?;`;
