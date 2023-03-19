@@ -4,31 +4,28 @@
     font-family: "DM Sans";
     font-size: 14px !important;
     font-weight: 400 !important;
-    width: 85%;
+    width: 90%;
 }
 
 .search-submit {
     font-family: "DM Sans";
     font-size: 14px !important;
-    width: 15%;
-    color: #FFFFFF !important;
-    background-color: #023679 !important;
+    margin-left: 8px;
 }
 
 .search-submit:hover {
-    background-color: #164684 !important;
+    color: #164684 !important;
     box-shadow: none !important;
 }
 
 .search-submit:active {
-    background-color: #214E89 !important;
+    color: #214E89 !important;
 }
 
 .search-reset {
     font-family: "DM Sans";
     font-size: 12px !important;
     font-weight: 500 !important;
-    width: 15%;
 }
 
 .search-reset:hover {

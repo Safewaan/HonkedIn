@@ -5,12 +5,16 @@ import {
     Flex
 } from "@chakra-ui/react";
 
+import {
+    SearchIcon
+} from "@chakra-ui/icons";
+
 import "../../styles/search-style.css";
 
 const Search = ({ label, onSetSearch, searchTerm, onButtonClick, onResetSearch }) => {
     return (
         <Box>
-            <Flex justify="space-between">
+            <Flex justify="space-between" align="center">
                 <Input
                     id="search"
                     placeholder={label}
@@ -19,15 +23,13 @@ const Search = ({ label, onSetSearch, searchTerm, onButtonClick, onResetSearch }
                     variant="outline"
                     className="search-input"
                 />
-                <Button
+                <SearchIcon
                     variant="solid"
                     onClick={(event) => onButtonClick(event)}
                     position="relative"
+                    boxSize="22px"
                     className="search-submit"
-                >
-                    Search
-                </Button>
-
+                />
             </Flex>
             <Button
                 variant="link"
