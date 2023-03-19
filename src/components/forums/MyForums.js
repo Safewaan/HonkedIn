@@ -438,5 +438,4 @@ const ForumTag = ({ classes, forumTag, handleForumTag, forumTagList }) => {
     )
 }
 
-
 export default MyForums;

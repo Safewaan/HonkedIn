@@ -13,12 +13,13 @@ import TextField from '@material-ui/core/TextField';
 import Dialog from '@material-ui/core/Dialog';
 import DialogActions from '@material-ui/core/DialogActions';
 import DialogContent from '@material-ui/core/DialogContent';
-import DialogContentText from '@material-ui/core/DialogContentText';
 import DialogTitle from '@material-ui/core/DialogTitle';
 import MuiAlert from '@mui/material/Alert';
 import Grid from '@material-ui/core/Grid';
 import FormHelperText from '@material-ui/core/FormHelperText';
 import { makeStyles } from '@material-ui/core/styles';
+import Search from '../common/Search';
+
 
 const { REACT_APP_API_ENDPOINT } = process.env;
 
@@ -64,6 +65,12 @@ const MyEvents = () => {
     const { currentUser } = useAuth();
     const history = useHistory()
 
+    const [searchTerm, setSearchTerm] = React.useState("");
+    const [refreshSearch, setRefreshSearch] = React.useState(1);
+    const handleSearch = (event) => {
+        setSearchTerm(event.target.value);
+    }
+
     const [selectedEvent, setSelectedEvent] = React.useState(null);
     const [isDialogOpen, setIsDialogOpen] = React.useState(false);
     const [isCancelDialogOpen, setIsCancelDialogOpen] = React.useState(false);
@@ -72,7 +79,6 @@ const MyEvents = () => {
 
     const [showEditAlertMessage, setShowEditAlertMessage] = React.useState(false);
 
-    //const email = currentUser.email;
     const [email, setEmail] = React.useState('');
     const [userID, setUserID] = React.useState('');
 
@@ -120,7 +126,6 @@ const MyEvents = () => {
             setEventParticipantsError(false);
             setEventParticipantsErrorText('');
         }
-
         // Catch where first number can't be deleted, reset the state
         else {
             setEventParticipants('');
@@ -129,11 +134,7 @@ const MyEvents = () => {
         }
     }
 
-    var holderDate = new Date();
     const [eventDateOG, setEventDateOG] = React.useState(new Date());
-
-    const [participantsList, setParticipantsList] = React.useState([]);
-
 
     const handleOpenDialog = (event) => {
         setSelectedEvent(event);
@@ -206,7 +207,10 @@ const MyEvents = () => {
     React.useEffect(() => {
         setEmail(currentUser.email);
         loaduserSearchByEmail(currentUser.email);
+        loadGetEventsByUser(userID, searchTerm);
     }, []);
+
+
 
     const callApiGetuserSearchByEmail = async (email) => {
         const url = `${REACT_APP_API_ENDPOINT}/userSearchByEmail`;
@@ -235,34 +239,34 @@ const MyEvents = () => {
             });
     }
 
-    const CallApiGetEventsByUser = async () => {
-
-        const url = `${REACT_APP_API_ENDPOINT}/getEventsByUser`;
-        console.log(url);
-
-        const response = await fetch(url, {
-            method: "POST",
-            headers: {
-                "Content-Type": "application/json",
-            },
-            body: JSON.stringify({
-                userID: userID
-            })
-        });
-        const body = await response.json();
-        if (response.status !== 200) throw Error(body.message);
-        return body;
-    }
-
     const loadGetEventsByUser = async () => {
         try {
-            const res = await CallApiGetEventsByUser();
+            const res = await CallApiGetEventsByUser(userID, searchTerm);
             const parsed = JSON.parse(res.express);
             setEvents(parsed);
         } catch (error) {
             console.error(error);
         }
     }
+
+    const CallApiGetEventsByUser = async (userID, searchTerm) => {
+
+        const url = `${REACT_APP_API_ENDPOINT}/getEventsByUser?userID=${userID}&searchTerm=${searchTerm}`;
+        console.log(url);
+
+        const response = await fetch(url, {
+            method: "GET",
+            headers: {
+                "Content-Type": "application/json",
+            }
+        });
+        const body = await response.json();
+        console.log(body);
+        if (response.status !== 200) throw Error(body.message);
+        return body;
+    }
+
+
 
     const CallApiCancelEvents = async () => {
 
@@ -351,8 +355,6 @@ const MyEvents = () => {
         CallApiGetParticipants()
             .then(res => {
                 var parsed = JSON.parse(res.express);
-                //console.log(parsed[0]);
-                //setParticipantsList(parsed);
                 setSelectedEventParticipants(parsed);
             });
     };
@@ -360,8 +362,6 @@ const MyEvents = () => {
     const CallApiGetParticipants = async () => {
 
         const url = `${REACT_APP_API_ENDPOINT}/getParticipants`;
-        //console.log(url);
-        //console.log("selectedEvent = " + selectedEvent)
 
         const response = await fetch(url, {
             method: "POST",
@@ -377,9 +377,15 @@ const MyEvents = () => {
         return body;
     };
 
-    useEffect(() => {
-        loadGetEventsByUser();
-    }, [userID]);
+    React.useEffect(() => {
+        loadGetEventsByUser(userID, searchTerm);
+        console.log("userId is: " + userID + "and" )
+    }, [userID, refreshSearch]);
+
+    const handleRefreshSearch = async () => {
+        setSearchTerm("");
+        setRefreshSearch(refreshSearch + 1);
+    }
 
     const classes = useStyles();
 
@@ -397,7 +403,26 @@ const MyEvents = () => {
                 </Typography>
             </Box>
 
-            <Box sx={{ position: 'absolute', top: 150, left: '50%', transform: 'translateX(-50%)' }}>
+            <Box sx={{ width: '600px', position: 'absolute', top: 150, left: '50%', transform: 'translateX(-50%)', marginBottom: '20px' }}>
+
+                <Search
+                    label="Search for events"
+                    searchTerm={searchTerm}
+                    onSetSearch={handleSearch}
+                    fullWidth
+                    onButtonClick={loadGetEventsByUser}
+                />
+
+                <Typography
+                    onClick={() => handleRefreshSearch()}
+                    style={{ color: "gray", mb: 1.5, cursor: 'pointer', fontSize: 12, align: 'right' }}
+                >
+                    Clear Search
+                </Typography>
+
+            </Box>
+
+            <Box sx={{ position: 'absolute', top: 260, left: '50%', transform: 'translateX(-50%)' }}>
                 {events.map((event) => (
                     <Card style={{ width: '600px', marginBottom: '20px' }} key={event.id}>
                         <CardContent>

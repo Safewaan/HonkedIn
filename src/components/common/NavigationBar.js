@@ -28,6 +28,7 @@ import {
     MY_FORUMS_PAGE,
     MY_PROFILE_PAGE,
     USER_SETTINGS_PAGE,
+    MY_COMMENTS_PAGE,
     CREATE_RESOURCE_PAGE,
     RESOURCES_PAGE,
     NETWORK_PAGE, 
@@ -125,6 +126,13 @@ export default function NavigationBar() {
     async function handleMyForums() {
 
         history.push(MY_FORUMS_PAGE)
+
+    }
+
+
+    async function handleMyComments() {
+
+        history.push(MY_COMMENTS_PAGE)
 
     }
 
@@ -234,8 +242,12 @@ export default function NavigationBar() {
                                         <Typography textAlign="center">Forums</Typography>
                                     </MenuItem>
 
-                                    <MenuItem key="Create Forums" onClick={handleMyForums}>
+                                    <MenuItem key="MyForums" onClick={handleMyForums}>
                                         <Typography textAlign="center">My Forums</Typography>
+                                    </MenuItem>
+
+                                    <MenuItem key="MyComments" onClick={handleMyComments}>
+                                        <Typography textAlign="center">My Comments</Typography>
                                     </MenuItem>
 
                                     <MenuItem key="Create Forums" onClick={handleCreateForum}>

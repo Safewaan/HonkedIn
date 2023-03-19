@@ -1,12 +1,10 @@
 import React, { useRef, useState, useEffect } from "react"
 import { useAuth } from "../../contexts/AuthContext"
-import { Link, useHistory } from "react-router-dom"
 import Card from '@material-ui/core/Card';
 import CardActions from '@material-ui/core/CardActions';
 import CardContent from '@material-ui/core/CardContent';
 import Button from '@material-ui/core/Button';
 import Typography from '@material-ui/core/Typography';
-import TextField from '@material-ui/core/TextField';
 import Dialog from '@material-ui/core/Dialog';
 import DialogActions from '@material-ui/core/DialogActions';
 import DialogContent from '@material-ui/core/DialogContent';
@@ -14,6 +12,7 @@ import DialogContentText from '@material-ui/core/DialogContentText';
 import DialogTitle from '@material-ui/core/DialogTitle';
 import MuiAlert from '@mui/material/Alert';
 import NavigationBar from '../common/NavigationBar';
+import Search from '../common/Search';
 import Box from "@material-ui/core/Box";
 
 const { REACT_APP_API_ENDPOINT } = process.env;
@@ -38,19 +37,24 @@ const Alert = React.forwardRef(function Alert(props, ref) {
 const Events = () => {
 
   const { currentUser } = useAuth();
-  const history = useHistory()
+  //const history = useHistory()
 
   const [selectedEvent, setSelectedEvent] = React.useState(null);
   const [isDialogOpen, setIsDialogOpen] = React.useState(false);
 
-  const [alertMessage, setAlertMessage] = useState('');
-  const [alertSeverity, setAlertSeverity] = useState('');
+  const [alertMessage, setAlertMessage] = React.useState('');
+  const [alertSeverity, setAlertSeverity] = React.useState('');
 
-  //const email = currentUser.email;
-  const [email, setEmail] = React.useState('');
   const [userID, setUserID] = React.useState('');
 
-  const [events, setEvents] = useState([]);
+  const [events, setEvents] = React.useState([]);
+
+  const [searchTerm, setSearchTerm] = React.useState("");
+  const [refreshSearch, setRefreshSearch] = React.useState(1);
+
+  const handleSearch = (event) => {
+    setSearchTerm(event.target.value);
+  }
 
   const handleOpenDialog = (event) => {
     setSelectedEvent(event);
@@ -63,13 +67,14 @@ const Events = () => {
   };
 
   React.useEffect(() => {
-    setEmail(currentUser.email);
+    //setEmail(currentUser.email);
     loaduserSearchByEmail(currentUser.email);
-  }, []);
+    loadGetEvents(searchTerm);
+  }, [refreshSearch]);
 
   const loadGetEvents = async () => {
     try {
-      const res = await callApiGetEvents();
+      const res = await callApiGetEvents(searchTerm);
       const parsed = JSON.parse(res.express);
       setEvents(parsed);
     } catch (error) {
@@ -77,9 +82,9 @@ const Events = () => {
     }
   }
 
-  const callApiGetEvents = async () => {
+  const callApiGetEvents = async (searchTerm) => {
 
-    const url = `${REACT_APP_API_ENDPOINT}/getEvents`;
+    const url = `${REACT_APP_API_ENDPOINT}/getEvents?searchTerm=${searchTerm}`;
     console.log(url);
 
     const response = await fetch(url, {
@@ -148,9 +153,7 @@ const Events = () => {
     return body;
   }
 
-  useEffect(() => {
-    loadGetEvents();
-  }, []);
+
 
   const loaduserSearchByEmail = (email) => {
     callApiGetuserSearchByEmail(email)
@@ -179,6 +182,11 @@ const Events = () => {
     return body;
   }
 
+  const handleRefreshSearch = async () => {
+    setSearchTerm("");
+    setRefreshSearch(refreshSearch + 1);
+  }
+
   return (
     <div id="body">
 
@@ -193,7 +201,34 @@ const Events = () => {
         </Typography>
       </Box>
 
-      <Box sx={{ position: 'absolute', top: 150, left: '50%', transform: 'translateX(-50%)' }}>
+      <Box sx={{ width:'600px', position: 'absolute', top: 150, left: '50%', transform: 'translateX(-50%)', marginBottom: '20px' }}>
+
+        <Search
+          label="Search for events"
+          searchTerm={searchTerm}
+          onSetSearch={handleSearch}
+          fullWidth
+          onButtonClick={loadGetEvents}
+        />
+
+        <Typography
+          onClick={() => handleRefreshSearch()}
+          style={{ color: "gray", mb: 1.5, cursor: 'pointer', fontSize: 12, align: 'right'}}
+        >
+          Clear Search
+        </Typography>
+
+      </Box>
+
+      {/*<Box sx={{ display: 'flex', justifyContent: 'flex-end', width: '30%', position: 'absolute', top: 210, left: '50%', transform: 'translateX(-50%)', marginBottom: '20px' }}>
+        <SubmitButton
+          label={"SEARCH"}
+          onButtonClick={loadGetEvents}
+          position='absolute'
+        />
+      </Box>*/}
+
+      <Box sx={{ position: 'absolute', top: 260, left: '50%', transform: 'translateX(-50%)' }}>
         {events.map((event) => (
           <Card style={{ width: '600px', marginBottom: '20px' }} key={event.id}>
             <CardContent>
@@ -222,7 +257,7 @@ const Events = () => {
           <DialogTitle>{selectedEvent.name}</DialogTitle>
           <DialogContent>
             <DialogContentText>{selectedEvent.description}</DialogContentText>
-            <DialogContentText>Hosted By: {selectedEvent.firstName}&nbsp;{selectedEvent.lastName}</DialogContentText>
+            <DialogContentText>Hosted By: {selectedEvent.creatorName}</DialogContentText>
             <DialogContentText>Date: {new Date(new Date(selectedEvent.date).getTime() - (5 * 60 * 60 * 1000)).toLocaleString()}</DialogContentText>
             <DialogContentText>Location: {selectedEvent.location}</DialogContentText>
             <DialogContentText>Participants: {selectedEvent.participants}/{selectedEvent.totalParticipants}</DialogContentText>
