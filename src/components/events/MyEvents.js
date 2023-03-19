@@ -404,7 +404,6 @@ const MyEvents = () => {
             </Box>
 
             <Box sx={{ width: '600px', position: 'absolute', top: 150, left: '50%', transform: 'translateX(-50%)', marginBottom: '20px' }}>
-
                 <Search
                     label="Search for events"
                     searchTerm={searchTerm}
@@ -413,7 +412,6 @@ const MyEvents = () => {
                     onButtonClick={loadGetEventsByUser}
                     onResetSearch={handleRefreshSearch}
                 />
-
             </Box>
 
             <Box sx={{ position: 'absolute', top: 260, left: '50%', transform: 'translateX(-50%)' }}>
@@ -621,14 +619,5 @@ const EventParticipants = ({ eventParticipants, onEnterEventParticipants, eventP
     )
 }
 
-const SubmitButton = ({ label, onButtonClick }) => (
-    <Button
-        variant="contained"
-        color="secondary"
-        onClick={(event) => onButtonClick(event)}
-    >
-        {label}
-    </Button>
-)
 
 export default MyEvents;

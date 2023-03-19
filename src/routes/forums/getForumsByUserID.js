@@ -4,7 +4,7 @@ const mysql = require('mysql');
 const config = require('../../../config.js');
 
 //retrives all forum data created by the given user id
-router.post('/api/getForumsByUserID', (req, res) => {
+router.get('/api/getForumsByUserID', (req, res) => {
 
     let connection = mysql.createConnection(config);
 
@@ -14,8 +14,10 @@ router.post('/api/getForumsByUserID', (req, res) => {
             FROM users, forums
             WHERE forums.creatorID = users.id
             AND users.id = ?
+            AND (forumTitle like ? OR forums.description like ?)
             ORDER BY dateTime`;
-    let data = [req.body.userID];
+    let searchTerm = req.query.searchTerm;
+    let data = [req.query.userID, "%" + searchTerm + "%","%" + searchTerm + "%"];
 
      //console.log(sql);
      //console.log(data);

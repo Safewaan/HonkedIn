@@ -114,7 +114,7 @@ const Forums = () => {
 
             <Box sx={{ width: '600px', position: 'absolute', top: 150, left: '50%', transform: 'translateX(-50%)', marginBottom: '20px' }}>
                 <Search
-                    label="Search for events"
+                    label="Search for forums"
                     searchTerm={searchTerm}
                     onSetSearch={handleSearch}
                     fullWidth

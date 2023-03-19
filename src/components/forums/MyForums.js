@@ -18,6 +18,7 @@ import DialogContent from '@material-ui/core/DialogContent';
 import DialogTitle from '@material-ui/core/DialogTitle';
 import MuiAlert from '@mui/material/Alert';
 import { Form } from "react-bootstrap"
+import Search from '../common/Search';
 
 const { REACT_APP_API_ENDPOINT } = process.env;
 
@@ -74,6 +75,12 @@ const MyForums = () => {
     const [forumStatus, setForumStatus] = React.useState('');
     const [showSuccessfulArchiveMsg, setshowSuccessfulArchiveMsg] = React.useState(false);
 
+    const [searchTerm, setSearchTerm] = React.useState("");
+    const [refreshSearch, setRefreshSearch] = React.useState(1);
+    const handleSearch = (event) => {
+        setSearchTerm(event.target.value);
+    }
+
     const Alert = React.forwardRef(function Alert(props, ref) {
         return (
             <MuiAlert
@@ -125,7 +132,7 @@ const MyForums = () => {
 
     const loadgetForumsByUserID = async () => {
         try {
-            const res = await CallApigetForumsByUserID();
+            const res = await CallApigetForumsByUserID(userID, searchTerm);
             const parsed = JSON.parse(res.express);
             setForums(parsed);
             setForumStatus(parsed.status);
@@ -134,19 +141,16 @@ const MyForums = () => {
         }
     }
 
-    const CallApigetForumsByUserID = async () => {
+    const CallApigetForumsByUserID = async (userID, searchTerm) => {
 
-        const url = `${REACT_APP_API_ENDPOINT}/getForumsByUserID`;
+        const url = `${REACT_APP_API_ENDPOINT}/getForumsByUserID?userID=${userID}&searchTerm=${searchTerm}`;
         console.log(url);
 
         const response = await fetch(url, {
-            method: "POST",
+            method: "GET",
             headers: {
                 "Content-Type": "application/json",
-            },
-            body: JSON.stringify({
-                userID: userID
-            })
+            }
         });
         const body = await response.json();
         console.log("got here");
@@ -156,7 +160,7 @@ const MyForums = () => {
 
     useEffect(() => {
         loadgetForumsByUserID();
-    }, [userID]);
+    }, [userID, refreshSearch]);
 
     const callApiArchiveForum = async (forumID) => {
         const url = `${REACT_APP_API_ENDPOINT}/archiveForum`;
@@ -267,6 +271,11 @@ const MyForums = () => {
         setIsDialogOpen(false);
     };
 
+    const handleRefreshSearch = async () => {
+        setSearchTerm("");
+        setRefreshSearch(refreshSearch + 1);
+    }
+
     return (
         <div id="body">
 
@@ -281,7 +290,20 @@ const MyForums = () => {
                 </Typography>
             </Box>
 
-            <Box sx={{ position: 'absolute', top: 150, left: '50%', transform: 'translateX(-50%)' }}>
+            <Box sx={{ width: '600px', position: 'absolute', top: 150, left: '50%', transform: 'translateX(-50%)', marginBottom: '20px' }}>
+
+                <Search
+                    label="Search for forums"
+                    searchTerm={searchTerm}
+                    onSetSearch={handleSearch}
+                    fullWidth
+                    onButtonClick={loadgetForumsByUserID}
+                    onResetSearch={handleRefreshSearch}
+                />
+
+            </Box>
+
+            <Box sx={{ position: 'absolute', top: 260, left: '50%', transform: 'translateX(-50%)' }}>
                 {forums.map((forum) => (
                     <Card style={{ width: '800px', marginBottom: '20px' }} key={forum.id}>
                         <CardContent>
