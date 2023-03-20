@@ -1,6 +1,6 @@
 import React, { useRef, useState, useEffect } from "react"
 import { Form, Button, Card } from "react-bootstrap"
-import { Link, useHistory } from "react-router-dom"
+import { useHistory } from "react-router-dom"
 import "react-datepicker/dist/react-datepicker.css";
 import { useAuth } from "../../contexts/AuthContext"
 import Typography from "@material-ui/core/Typography";
@@ -19,7 +19,8 @@ import {
     FormHelperText,
     Select,
     Text,
-    Image
+    Image,
+    Link
 } from '@chakra-ui/react';
 
 import NavigationBar from '../common/NavigationBar';
