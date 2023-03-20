@@ -16,6 +16,10 @@ import DialogActions from '@material-ui/core/DialogActions';
 import DialogContent from '@material-ui/core/DialogContent';
 import DialogTitle from '@material-ui/core/DialogTitle';
 import { Form } from "react-bootstrap"
+import Select from "@material-ui/core/Select";
+import MenuItem from "@material-ui/core/MenuItem";
+import InputLabel from "@material-ui/core/InputLabel";
+import FormControl from "@material-ui/core/FormControl";
 
 import {
     Alert,
@@ -172,6 +176,7 @@ const MyForums = () => {
             body: JSON.stringify({
                 forumTitle: forumTitle,
                 forumDesc: forumDesc,
+                forumTag: forumTag,
                 forumID: selectedForum.id
             })
         });
@@ -198,6 +203,13 @@ const MyForums = () => {
         setForumDesc(event.target.value);
         setForumDescError(false);
         setForumDescErrorText('');
+    }
+
+    const [forumTag, setForumTag] = React.useState('');
+    const forumTagList = ["School", "Co-op", "Funny", "Debate", "Rant", "Interview", "Class Review", "Good News"];
+
+    const handleForumTag = (event) => {
+        setForumTag(event.target.value);
     }
 
     const handleEditForum = () => {
@@ -232,6 +244,9 @@ const MyForums = () => {
         setForumDesc(event.description);
         setForumDescError(false);
         setForumDescErrorText('');
+
+        // Update tag
+        setForumTag(event.forumTag);
 
     };
 
@@ -304,6 +319,13 @@ const MyForums = () => {
                                 forumDescErrorText={forumDescErrorText}
                             />
 
+                            <ForumTag
+                                classes={classes}
+                                forumTag={forumTag}
+                                handleForumTag={handleForumTag}
+                                forumTagList={forumTagList}
+                            />
+
                         </DialogContent>
                         <DialogActions>
                             <Button onClick={handleCloseDialog}>Close</Button>
@@ -368,6 +390,29 @@ const ForumDesc = ({ forumDesc, onEnterForumDesc, forumDescError, forumDescError
                 fullWidth
             />
             <FormHelperText>{forumDescErrorText}</FormHelperText>
+        </Grid>
+    )
+}
+
+const ForumTag = ({ classes, forumTag, handleForumTag, forumTagList }) => {
+    return (
+        <Grid item>
+
+            <FormControl className={classes.root}>
+                <InputLabel id="Forum-Tag"> Tags </InputLabel>
+                <Select
+                    label="Forum Tag"
+                    labelId="Forum-Tag"
+                    id="Forum-Tag"
+                    value={forumTag}
+                    onChange={handleForumTag}
+                >
+                    {forumTagList.map((tag) => (
+                        <MenuItem value={tag}> {tag} </MenuItem>
+                    ))}
+                </Select>
+
+            </FormControl>
         </Grid>
     )
 }
