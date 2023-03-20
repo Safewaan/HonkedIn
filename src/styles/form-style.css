@@ -36,5 +36,15 @@
     font-size: 14px !important;
     font-weight: 400 !important;
     color: #FFFFFF !important;
+    background-color: #023679 !important;
     text-decoration: none;
+}
+
+.form-submit:hover {
+    background-color: #164684 !important;
+    outline: none;
+}
+
+.form-submit:active {
+    background-color: #214E89 !important;
 }
