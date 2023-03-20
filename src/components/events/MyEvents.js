@@ -1,7 +1,6 @@
 import React, { useRef, useState, useEffect } from "react"
 import { useAuth } from "../../contexts/AuthContext"
 import { Link, useHistory } from "react-router-dom"
-import NavigationBar from '../common/NavigationBar';
 import DatePicker from "react-datepicker";
 import Box from "@material-ui/core/Box";
 import Card from '@material-ui/core/Card';
@@ -14,31 +13,22 @@ import Dialog from '@material-ui/core/Dialog';
 import DialogActions from '@material-ui/core/DialogActions';
 import DialogContent from '@material-ui/core/DialogContent';
 import DialogTitle from '@material-ui/core/DialogTitle';
-import MuiAlert from '@mui/material/Alert';
 import Grid from '@material-ui/core/Grid';
 import FormHelperText from '@material-ui/core/FormHelperText';
 import { makeStyles } from '@material-ui/core/styles';
 import Search from '../common/Search';
 
 
-const { REACT_APP_API_ENDPOINT } = process.env;
+import {
+    Alert,
+    AlertIcon,
+    AlertTitle,
+    AlertDescription,
+} from '@chakra-ui/react';
 
-const Alert = React.forwardRef(function Alert(props, ref) {
-    return (
-        <MuiAlert
-            elevation={6}
-            ref={ref}
-            variant="filled"
-            {...props}
-            style={{
-                position: 'fixed',
-                bottom: '20px',
-                right: '20px',
-                zIndex: 9999
-            }}
-        />
-    );
-});
+import NavigationBar from '../common/NavigationBar';
+
+const { REACT_APP_API_ENDPOINT } = process.env;
 
 const MyEvents = () => {
 
@@ -394,7 +384,7 @@ const MyEvents = () => {
 
             <NavigationBar></NavigationBar>
 
-            <Box sx={{ position: 'absolute', top: 110, left: '50%', transform: 'translate(-50%, -50%)' }}>
+            <Box sx={{ position: 'absolute', top: 145, left: '50%', transform: 'translate(-50%, -50%)' }}>
                 <Typography
                     variant="h4"
                     gutterBottom
@@ -533,22 +523,31 @@ const MyEvents = () => {
             )}
 
             {showCancelAlertMessage && (
-                <Alert severity="success">
-                    Event cancelled.
+                <Alert
+                    status="success"
+                    sx={{ position: 'fixed', bottom: 0, right: 0, width: '25%', zIndex: 9999 }}>
+                    <AlertIcon />
+                    <AlertDescription>Event successfully cancelled.</AlertDescription>
                 </Alert>
             )}
 
             {showEditAlertMessage && (
-                <Alert severity="success">
-                    Event successfully edited.
+                <Alert
+                    status="success"
+                    sx={{ position: 'fixed', bottom: 0, right: 0, width: '25%', zIndex: 9999 }}>
+                    <AlertIcon />
+                    <AlertDescription>Event successfully editted.</AlertDescription>
                 </Alert>
             )}
 
             {eventCurrentParticipantsError && (
-                <Alert severity="error">
-                    You cannot set the maximum number of participants lower than your
-                    current number of participants. This event currently has {eventCurrentParticipants}
-                    &nbsp;participants.
+                <Alert
+                    status="error"
+                    sx={{ position: 'fixed', bottom: 0, right: 0, width: '25%', zIndex: 9999 }}>
+                    <AlertIcon />
+                    <AlertDescription>You cannot set the maximum number of participants lower than your
+                        current number of participants. This event currently has {eventCurrentParticipants}
+                        &nbsp;participants.</AlertDescription>
                 </Alert>
             )}
         </div >

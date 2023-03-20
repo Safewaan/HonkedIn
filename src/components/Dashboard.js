@@ -19,8 +19,12 @@ import MenuItem from '@material-ui/core/MenuItem';
 import Paper from '@material-ui/core/Paper';
 import NavigationBar from './common/NavigationBar';
 import CardContent from '@material-ui/core/CardContent';
-import Grid from '@mui/material/Grid';
 import { makeStyles } from '@material-ui/core/styles';
+
+import {
+  Grid,
+  GridItem
+} from '@chakra-ui/react';
 
 const pages = ['Events'];
 const settings = ['Update Profile', 'Logout'];
@@ -139,27 +143,27 @@ export default function Dashboard() {
     console.log(url);
 
     const response = await fetch(url, {
-        method: "GET",
-        headers: {
-            "Content-Type": "application/json",
-        },
-        /*body: JSON.stringify({
-            userID: userID
-        })*/
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      /*body: JSON.stringify({
+          userID: userID
+      })*/
     });
     const body = await response.json();
     if (response.status !== 200) throw Error(body.message);
     return body;
-}
+  }
 
   const loadGetMyEvents = async () => {
     try {
       const res = await CallApiGetMyEvents(userID);
       const parsed = JSON.parse(res.express);
       setMyEvents(parsed);
-  } catch (error) {
+    } catch (error) {
       console.error(error);
-  }
+    }
   }
 
   useEffect(() => {
@@ -188,8 +192,8 @@ export default function Dashboard() {
       </Box>
 
       <Box sx={{ width: 1200, height: 1000, position: 'absolute', top: 250, left: '50%', transform: 'translateX(-50%)', display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
-        <Grid container spacing={10}>
-          <Grid item xs={8} md={4}>
+        <Grid templateColumns='repeat(3, 1fr)' gap={6}>
+          <GridItem xs={8} md={4}>
             <Typography
               variant="h5"
               align="center"
@@ -224,8 +228,9 @@ export default function Dashboard() {
                 View all events
               </Typography>
             </Link>
-          </Grid>
-          <Grid item xs={8} md={4}>
+          </GridItem>
+
+          <GridItem xs={8} md={4}>
             <Typography
               variant="h5"
               align="center"
@@ -256,8 +261,9 @@ export default function Dashboard() {
                 View all forums
               </Typography>
             </Link>
-          </Grid>
-          <Grid item xs={8} md={4}>
+          </GridItem>
+
+          <GridItem xs={8} md={4}>
             <Typography
               variant="h5"
               align="center"
@@ -280,7 +286,7 @@ export default function Dashboard() {
                 </CardContent>
               </Card>
             ))}
-          </Grid>
+          </GridItem>
         </Grid>
       </Box>
     </>

@@ -10,29 +10,19 @@ import DialogActions from '@material-ui/core/DialogActions';
 import DialogContent from '@material-ui/core/DialogContent';
 import DialogContentText from '@material-ui/core/DialogContentText';
 import DialogTitle from '@material-ui/core/DialogTitle';
-import MuiAlert from '@mui/material/Alert';
-import NavigationBar from '../common/NavigationBar';
-import Search from '../common/Search';
 import Box from "@material-ui/core/Box";
 
-const { REACT_APP_API_ENDPOINT } = process.env;
+import {
+  Alert,
+  AlertIcon,
+  AlertTitle,
+  AlertDescription,
+} from '@chakra-ui/react'
 
-const Alert = React.forwardRef(function Alert(props, ref) {
-  return (
-    <MuiAlert
-      elevation={6}
-      ref={ref}
-      variant="filled"
-      {...props}
-      style={{
-        position: 'fixed',
-        bottom: '20px',
-        right: '20px',
-        zIndex: 9999
-      }}
-    />
-  );
-});
+import NavigationBar from '../common/NavigationBar';
+import Search from '../common/Search';
+
+const { REACT_APP_API_ENDPOINT } = process.env;
 
 const Events = () => {
 
@@ -192,7 +182,7 @@ const Events = () => {
 
       <NavigationBar></NavigationBar>
 
-      <Box sx={{ position: 'absolute', top: 110, left: '50%', transform: 'translate(-50%, -50%)' }}>
+      <Box sx={{ position: 'absolute', top: 145, left: '50%', transform: 'translate(-50%, -50%)' }}>
         <Typography
           variant="h4"
           gutterBottom
@@ -270,10 +260,13 @@ const Events = () => {
         </Dialog>
       )}
 
-      {alertMessage && (
-        <Alert severity={alertSeverity}>
-          {alertMessage}
-        </Alert>
+      {alertSeverity !== '' && (
+      <Alert 
+      status={alertSeverity} 
+      sx={{ position: 'fixed', bottom: 0, right: 0, width: '25%', zIndex: 9999 }}>
+        <AlertIcon />
+        <AlertDescription>{alertMessage}</AlertDescription>
+      </Alert>
       )}
     </div>
   )

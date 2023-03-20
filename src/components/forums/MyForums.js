@@ -5,7 +5,6 @@ import Card from '@material-ui/core/Card';
 import CardActions from '@material-ui/core/CardActions';
 import CardContent from '@material-ui/core/CardContent';
 import Typography from '@material-ui/core/Typography';
-import NavigationBar from '../common/NavigationBar';
 import Box from "@material-ui/core/Box";
 import Button from '@material-ui/core/Button';
 import TextField from '@material-ui/core/TextField';
@@ -16,27 +15,18 @@ import Dialog from '@material-ui/core/Dialog';
 import DialogActions from '@material-ui/core/DialogActions';
 import DialogContent from '@material-ui/core/DialogContent';
 import DialogTitle from '@material-ui/core/DialogTitle';
-import MuiAlert from '@mui/material/Alert';
 import { Form } from "react-bootstrap"
 
-const { REACT_APP_API_ENDPOINT } = process.env;
+import {
+    Alert,
+    AlertIcon,
+    AlertTitle,
+    AlertDescription,
+} from '@chakra-ui/react';
 
-const Alert = React.forwardRef(function Alert(props, ref) {
-    return (
-        <MuiAlert
-            elevation={6}
-            ref={ref}
-            variant="filled"
-            {...props}
-            style={{
-                position: 'fixed',
-                bottom: '20px',
-                right: '20px',
-                zIndex: 9999
-            }}
-        />
-    );
-});
+import NavigationBar from '../common/NavigationBar';
+
+const { REACT_APP_API_ENDPOINT } = process.env;
 
 const MyForums = () => {
 
@@ -73,23 +63,6 @@ const MyForums = () => {
 
     const [forumStatus, setForumStatus] = React.useState('');
     const [showSuccessfulArchiveMsg, setshowSuccessfulArchiveMsg] = React.useState(false);
-
-    const Alert = React.forwardRef(function Alert(props, ref) {
-        return (
-            <MuiAlert
-                elevation={6}
-                ref={ref}
-                variant="filled"
-                {...props}
-                style={{
-                    position: 'fixed',
-                    bottom: '20px',
-                    right: '20px',
-                    zIndex: 9999
-                }}
-            />
-        );
-    });
 
     React.useEffect(() => {
         setEmail(currentUser.email);
@@ -272,7 +245,7 @@ const MyForums = () => {
 
             <NavigationBar></NavigationBar>
 
-            <Box sx={{ position: 'absolute', top: 110, left: '50%', transform: 'translate(-50%, -50%)' }}>
+            <Box sx={{ position: 'absolute', top: 145, left: '50%', transform: 'translate(-50%, -50%)' }}>
                 <Typography
                     variant="h4"
                     gutterBottom
@@ -281,7 +254,7 @@ const MyForums = () => {
                 </Typography>
             </Box>
 
-            <Box sx={{ position: 'absolute', top: 150, left: '50%', transform: 'translateX(-50%)' }}>
+            <Box sx={{ position: 'absolute', top: 180, left: '50%', transform: 'translateX(-50%)' }}>
                 {forums.map((forum) => (
                     <Card style={{ width: '800px', marginBottom: '20px' }} key={forum.id}>
                         <CardContent>
@@ -341,13 +314,19 @@ const MyForums = () => {
             )}
 
             {showEditAlertMessage && (
-                <Alert severity="success">
-                    Event successfully edited.
+                <Alert
+                    status="success"
+                    sx={{ position: 'fixed', bottom: 0, right: 0, width: '25%', zIndex: 9999 }}>
+                    <AlertIcon />
+                    <AlertDescription>Forum successfully created.</AlertDescription>
                 </Alert>
             )}
             {showSuccessfulArchiveMsg && (
-                <Alert severity="success">
-                    Forum archived.
+                <Alert
+                    status="success"
+                    sx={{ position: 'fixed', bottom: 0, right: 0, width: '25%', zIndex: 9999 }}>
+                    <AlertIcon />
+                    <AlertDescription>Forum successfully archived.</AlertDescription>
                 </Alert>
             )}
         </div >

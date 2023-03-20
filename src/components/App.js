@@ -3,6 +3,8 @@ import { Container } from "react-bootstrap";
 import { AuthProvider } from "../contexts/AuthContext";
 import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
 
+import { ChakraProvider } from "@chakra-ui/react";
+
 import CreateEvent from "./events/CreateEvent";
 import Events from "./events/Events";
 import MyEvents from "./events/MyEvents";
@@ -55,54 +57,55 @@ import {
 
 function App() {
   return (
-    <Container
-      className="d-flex align-items-center justify-content-center"
-      style={{ minHeight: "100vh" }}
-    >
-      <div className="w-100" style={{ maxWidth: "400px" }}>
-        <Router>
-          <AuthProvider>
-            <Switch>
-              {/* Landing Page */}
-              <PrivateRoute exact path={HOME_PAGE} component={Dashboard} />
+    <ChakraProvider>
+      <Container
+        className="d-flex align-items-center justify-content-center"
+        style={{ minHeight: "100vh" }}
+      >
+        <div className="w-100" style={{ maxWidth: "400px" }}>
+          <Router>
+            <AuthProvider>
+              <Switch>
+                {/* Landing Page */}
+                <PrivateRoute exact path={HOME_PAGE} component={Dashboard} />
 
-              {/* Authentication Pages */}
-              <Route path={SIGNUP_PAGE} component={Signup} />
-              <Route path={LOGIN_PAGE} component={Login} />
-              <Route path={FORGOT_PASSWORD_PAGE} component={ForgotPassword} />
+                {/* Authentication Pages */}
+                <Route path={SIGNUP_PAGE} component={Signup} />
+                <Route path={LOGIN_PAGE} component={Login} />
+                <Route path={FORGOT_PASSWORD_PAGE} component={ForgotPassword} />
 
-              {/* Settings Page */}
-              <PrivateRoute path={USER_SETTINGS_PAGE} component={UserSettings} />
-              <PrivateRoute path={UPDATE_CREDENTIALS_PAGE} component={UpdateCredentials} />
-              <PrivateRoute path={UPDATE_STATUS_PAGE} component={UpdateStatus} />
-              <PrivateRoute path={MY_PROFILE_PAGE} component={ProfileDashboard} />
+                {/* Settings Page */}
+                <PrivateRoute path={USER_SETTINGS_PAGE} component={UserSettings} />
+                <PrivateRoute path={UPDATE_CREDENTIALS_PAGE} component={UpdateCredentials} />
+                <PrivateRoute path={UPDATE_STATUS_PAGE} component={UpdateStatus} />
+                <PrivateRoute path={MY_PROFILE_PAGE} component={ProfileDashboard} />
 
-              {/* Event Pages */}
-              <PrivateRoute path={EVENTS_PAGE} component={Events} />
-              <PrivateRoute path={CREATE_EVENT_PAGE} component={CreateEvent} />
-              <PrivateRoute path={MY_EVENTS_PAGE} component={MyEvents} />
+                {/* Event Pages */}
+                <PrivateRoute path={EVENTS_PAGE} component={Events} />
+                <PrivateRoute path={CREATE_EVENT_PAGE} component={CreateEvent} />
+                <PrivateRoute path={MY_EVENTS_PAGE} component={MyEvents} />
 
-              {/* Forum Pages */}
-              <PrivateRoute path={CREATE_FORUM_PAGE} component={CreateForum} />
-              <PrivateRoute path={FORUMS_PAGE} component={Forums} />
-              <PrivateRoute path={MY_FORUMS_PAGE} component={MyForums} />
-              <PrivateRoute path={MY_COMMENTS_PAGE} component={MyComments} />
-              <PrivateRoute path={FORUM_PAGE} component={Forum} />
+                {/* Forum Pages */}
+                <PrivateRoute path={CREATE_FORUM_PAGE} component={CreateForum} />
+                <PrivateRoute path={FORUMS_PAGE} component={Forums} />
+                <PrivateRoute path={MY_FORUMS_PAGE} component={MyForums} />
+                <PrivateRoute path={FORUM_PAGE} component={Forum} />
 
-              {/* User Network Pages */}
-              <PrivateRoute path={NETWORK_PAGE} component={Network} /> 
-              <PrivateRoute path={NETWORK_PROFILE_PAGE} component={NetworkProfile} /> 
-              
-              {/* Resources Pages */}
-              <PrivateRoute path={CREATE_RESOURCE_PAGE} component={CreateResource} />
-              <PrivateRoute path={RESOURCES_PAGE} component={Resources} />
+                {/* User Network Pages */}
+                <PrivateRoute path={NETWORK_PAGE} component={Network} />
+                <PrivateRoute path={NETWORK_PROFILE_PAGE} component={NetworkProfile} />
+
+                {/* Resources Pages */}
+                <PrivateRoute path={CREATE_RESOURCE_PAGE} component={CreateResource} />
+                <PrivateRoute path={RESOURCES_PAGE} component={Resources} />
 
 
-            </Switch>
-          </AuthProvider>
-        </Router>
-      </div>
-    </Container>
+              </Switch>
+            </AuthProvider>
+          </Router>
+        </div>
+      </Container>
+    </ChakraProvider>
   )
 }
 
