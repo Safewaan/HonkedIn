@@ -132,7 +132,6 @@ const Network = () => {
           searchTerm={program}
           onSetSearch={handleProgram}
           fullWidth
-          onButtonClick={handleFindUser}
         />
 
       </Box>
@@ -140,10 +139,13 @@ const Network = () => {
       <br />
 
 
-      <Box sx={{ position: 'absolute', top: 300, left: '50%', transform: 'translateX(-50%)' }}>
+      <Box sx={{ position: 'absolute', top: 400, left: '50%', transform: 'translateX(-50%)' }}>
         {profiles.map((profile) => {
           if (yearSemester && profile.yearSemester !== yearSemester) {
             return null;
+          }
+          if (program && !profile.program.contains(program)) {
+            return null
           }
           return (
             <Card style={{ width: '600px', marginTop: '20px' }} key={profile.id}>
