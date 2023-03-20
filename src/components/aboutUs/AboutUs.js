@@ -46,7 +46,7 @@ const CreateResource = () => {
                         boxSize="200px"
                         alt="Goose Image"
                     />
-                    <Text align="center" fontSize='4xl' as='i'>Made by students, for students.</Text>
+                    <Text align="center" fontSize='2xl' as='i'>Made by students, for students.</Text>
                     <Text align="center" fontSize='2xl'>We aim to connect like-minded scholars at University of Waterloo.</Text>
                 </Card>
                 <br></br>
