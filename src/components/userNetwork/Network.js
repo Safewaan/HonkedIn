@@ -156,7 +156,7 @@ const Network = () => {
           if (yearSemester && profile.yearSemester !== yearSemester) {
             return null;
           }
-          if (program && !profile.program.includes(program)) {
+          if (program && !profile.program.toLowerCase().includes(program.toLowerCase())) {
             return null
           }
           return (
