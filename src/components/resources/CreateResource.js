@@ -1,15 +1,8 @@
 import React, { useRef, useState, useEffect } from "react"
 import { Form, Button, Card } from "react-bootstrap"
 import { Link, useHistory } from "react-router-dom"
-import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
-import { format } from 'date-fns'
 import { useAuth } from "../../contexts/AuthContext"
-import Paper from "@material-ui/core/Paper";
-import Typography from "@material-ui/core/Typography";
-import Grid from '@material-ui/core/Grid';
-import TextField from '@material-ui/core/TextField';
-import { makeStyles } from '@material-ui/core/styles';
 
 import {
     Alert,
@@ -146,28 +139,6 @@ const CreateResource = () => {
         }
     };
 
-    const useStyles = makeStyles((theme) => ({
-        formControl: {
-            margin: theme.spacing(1),
-            minWidth: 120,
-        },
-        selectEmpty: {
-            marginTop: theme.spacing(2),
-        },
-        root: {
-            '& > *': {
-                margin: theme.spacing(1),
-                width: '50ch',
-            },
-        },
-        paper: {
-            padding: theme.spacing(2),
-            textAlign: 'center',
-        },
-    }));
-
-    const classes = useStyles();
-
     const loadCreateResources = () => {
         callApiCreateResources()
     }
@@ -213,6 +184,7 @@ const CreateResource = () => {
                     <FormControl
                         isRequired
                         marginTop="16px"
+                        isInvalid={resourcesTitleError}
                     >
                         <FormLabel className="form-label">Resource Title</FormLabel>
                         <Input
@@ -220,31 +192,33 @@ const CreateResource = () => {
                             className="form-input"
                             value={resourcesTitle}
                             onChange={handleResourcesTitle}
-                            error={resourcesTitleError}
+                            inputProps={{ maxLength: 200 }}
                         />
                         <FormHelperText className="form-helper-text">Enter the name of your resource.</FormHelperText>
-                        <FormHelperText className="form-error-text">{resourcesTitleErrorText}</FormHelperText>
+                        <FormErrorMessage className="form-helper-text">{resourcesTitleErrorText}</FormErrorMessage>
                     </FormControl>
 
-                    <FormControl isRequired marginTop="16px">
+                    <FormControl
+                        isRequired
+                        marginTop="16px"
+                        isInvalid={resourcesLinkError}>
                         <FormLabel className="form-label">Resource Link</FormLabel>
                         <Input
                             placeholder='Resource link'
                             className="form-input"
                             value={resourcesLink}
                             onChange={handleResourcesLink}
-                            error={resourcesLinkError}
                             inputProps={{ maxLength: 1000 }}
                         />
                         <FormHelperText className="form-helper-text">Enter the link to your resource ex: "https://www.google.com/".</FormHelperText>
-                        <FormHelperText className="form-error-text">{resourcesLinkErrorText}</FormHelperText>
+                        <FormErrorMessage className="form-helper-text">{resourcesLinkErrorText}</FormErrorMessage>
                     </FormControl>
                 </Form>
 
                 <Box marginTop="16px">
-                    <Button 
-                    className="form-submit"
-                    onClick={(event) => validateResources(event)}
+                    <Button
+                        className="form-submit"
+                        onClick={(event) => validateResources(event)}
                     >
                         Submit
                     </Button>
