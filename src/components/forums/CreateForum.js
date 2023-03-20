@@ -1,5 +1,5 @@
 import React, { useRef, useState, useEffect } from "react"
-import { Form, Button, Card, Alert } from "react-bootstrap"
+import { Form, Button, Card } from "react-bootstrap"
 import { Link, useHistory } from "react-router-dom"
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
@@ -7,12 +7,19 @@ import { format } from 'date-fns'
 import { useAuth } from "../../contexts/AuthContext"
 import Paper from "@material-ui/core/Paper";
 import Typography from "@material-ui/core/Typography";
-import NavigationBar from '../common/NavigationBar';
-import MuiAlert from '@mui/material/Alert';
 import Grid from '@material-ui/core/Grid';
 import FormHelperText from '@material-ui/core/FormHelperText';
 import TextField from '@material-ui/core/TextField';
 import { makeStyles } from '@material-ui/core/styles';
+
+import {
+    Alert,
+    AlertIcon,
+    AlertTitle,
+    AlertDescription,
+} from '@chakra-ui/react';
+
+import NavigationBar from '../common/NavigationBar';
 
 const { REACT_APP_API_ENDPOINT } = process.env;
 
@@ -78,23 +85,6 @@ const CreateForum = () => {
     }
 
     const [successfullSubmissionMsg, setsuccessfullSubmissionMsg] = React.useState(false);
-
-    const Alert = React.forwardRef(function Alert(props, ref) {
-        return (
-            <MuiAlert
-                elevation={6}
-                ref={ref}
-                variant="filled"
-                {...props}
-                style={{
-                    position: 'fixed',
-                    bottom: '20px',
-                    right: '20px',
-                    zIndex: 9999
-                }}
-            />
-        );
-    });
 
     const resetForm = () => {
         setForumName('');
@@ -227,8 +217,11 @@ const CreateForum = () => {
             </Grid>
 
             {successfullSubmissionMsg && (
-                <Alert severity="success">
-                    Forum Successfully created.
+                <Alert
+                    status="success"
+                    sx={{ position: 'fixed', bottom: 0, right: 0, width: '25%', zIndex: 9999 }}>
+                    <AlertIcon />
+                    <AlertDescription>Forum successfully created.</AlertDescription>
                 </Alert>
             )}
         </div>

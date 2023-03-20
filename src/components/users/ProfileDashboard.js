@@ -10,8 +10,15 @@ import FormControl from "@material-ui/core/FormControl";
 import InputLabel from "@material-ui/core/InputLabel";
 import Select from "@material-ui/core/Select";
 import MenuItem from "@material-ui/core/MenuItem";
+
+import {
+    Alert,
+    AlertIcon,
+    AlertTitle,
+    AlertDescription,
+} from '@chakra-ui/react';
+
 import NavigationBar from '../common/NavigationBar';
-import MuiAlert from '@mui/material/Alert';
 
 // Server URL
 const { REACT_APP_API_ENDPOINT } = process.env;
@@ -22,23 +29,6 @@ const useStyles = makeStyles((theme) => ({
         display: "flex",
     },
 }));
-
-const Alert = React.forwardRef(function Alert(props, ref) {
-    return (
-        <MuiAlert
-            elevation={6}
-            ref={ref}
-            variant="filled"
-            {...props}
-            style={{
-                position: 'fixed',
-                bottom: '20px',
-                right: '20px',
-                zIndex: 9999
-            }}
-        />
-    );
-});
 
 // Main page of Profile, i
 const ProfileDashboard = () => {
@@ -414,7 +404,14 @@ const ProfileDashboard = () => {
             <Box sx={{ position: 'absolute', top: 850, left: "60%" }} >
                 {loadProfile ? <Button variant="outlined" style={{ color: "white", backgroundColor: "red" }} onClick={() => { setLoadProfile(false) }} >Edit Profile</Button> : <Button variant="outlined" style={{ color: "white", backgroundColor: "seagreen" }} onClick={() => { validationCheck() }} >Save Profile</Button>}
 
-                {submission && <Alert severity="success"> Profile successfully edited. </Alert>}
+                {submission && (
+                    <Alert
+                        status="success"
+                        sx={{ position: 'fixed', bottom: 0, right: 0, width: '25%', zIndex: 9999 }}>
+                        <AlertIcon />
+                        <AlertDescription>Profile successfully edited.</AlertDescription>
+                    </Alert>
+                )}
             </Box>
 
         </div>
