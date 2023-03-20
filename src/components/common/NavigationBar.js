@@ -119,6 +119,10 @@ export default function NavigationBar() {
           HonkedIn
         </Link>
 
+        <Button variant='ghost' className="navbar-text" marginLeft="32px" onClick={handleAboutUs}>
+          About Us
+        </Button>
+
         <Button variant='ghost' className="navbar-text" marginLeft="8px" onClick={handleNetwork}>
           Network
         </Button>
@@ -184,10 +188,6 @@ export default function NavigationBar() {
             </MenuGroup>
           </MenuList>
         </Menu>
-
-        <Button variant='ghost' className="navbar-text" marginLeft="8px" onClick={handleAboutUs}>
-          About Us
-        </Button>
 
         <Stack
           flex={{ base: 1, md: "auto" }}
