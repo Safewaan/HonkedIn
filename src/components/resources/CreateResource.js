@@ -8,7 +8,6 @@ import { useAuth } from "../../contexts/AuthContext"
 import Paper from "@material-ui/core/Paper";
 import Typography from "@material-ui/core/Typography";
 import Grid from '@material-ui/core/Grid';
-import FormHelperText from '@material-ui/core/FormHelperText';
 import TextField from '@material-ui/core/TextField';
 import { makeStyles } from '@material-ui/core/styles';
 import Select from "@material-ui/core/Select";
@@ -21,9 +20,18 @@ import {
     AlertIcon,
     AlertTitle,
     AlertDescription,
+    Box,
+    Input,
+    FormControl,
+    FormLabel,
+    FormErrorMessage,
+    FormHelperText,
+    Text
 } from '@chakra-ui/react';
 
 import NavigationBar from '../common/NavigationBar';
+
+import "../../styles/form-style.css";
 
 const { REACT_APP_API_ENDPOINT } = process.env;
 
@@ -127,15 +135,15 @@ const CreateResource = () => {
 
         if (resourcesTitle === '') {
             setResourcesTitleError(true);
-            setResourcesTitleErrorText('Please enter your resource title');
+            setResourcesTitleErrorText('Please enter your resource title.');
             return false;
         } else if (resourcesLink === '') {
             setResourcesLinkError(true);
-            setResourcesLinkErrorText('Please enter the link to your resource');
+            setResourcesLinkErrorText('Please enter the link to your resource.');
             return false;
         } else if (!isValidHttpUrl(resourcesLink)) {
             setResourcesLinkError(true);
-            setResourcesLinkErrorText('Please ensure the link to your resource link starts with https://');
+            setResourcesLinkErrorText('Please ensure the link to your resource link starts with "https://".');
             return false;
         } else {
 
@@ -220,53 +228,49 @@ const CreateResource = () => {
     return (
         <div>
             <NavigationBar></NavigationBar>
+            <Card style={{ padding: '16px' }}>
+                <Text align="center" className="form-header">Create a Resource</Text>
+                <Form>
+                    <FormControl
+                        isRequired
+                        marginTop="16px"
+                    >
+                        <FormLabel className="form-label">Resource Title</FormLabel>
+                        <Input
+                            placeholder='Resource title'
+                            className="form-input"
+                            value={resourcesTitle}
+                            onChange={handleResourcesTitle}
+                            error={resourcesTitleError}
+                        />
+                        <FormHelperText className="form-helper-text">Enter the name of your resource.</FormHelperText>
+                        <FormHelperText className="form-error-text">{resourcesTitleErrorText}</FormHelperText>
+                    </FormControl>
 
-            <Typography variant="h4" color="inherit" component="div" noWrap>
-                Submit a Resource
-            </Typography>
+                    <FormControl isRequired marginTop="16px">
+                        <FormLabel className="form-label">Resource Link</FormLabel>
+                        <Input
+                            placeholder='Resource link'
+                            className="form-input"
+                            value={resourcesLink}
+                            onChange={handleResourcesLink}
+                            error={resourcesLinkError}
+                            inputProps={{ maxLength: 1000 }}
+                        />
+                        <FormHelperText className="form-helper-text">Enter the link to your resource ex: "https://www.google.com/".</FormHelperText>
+                        <FormHelperText className="form-error-text">{resourcesLinkErrorText}</FormHelperText>
+                    </FormControl>
+                </Form>
 
-            <form className={classes.root} noValidate autoComplete="off">
-                <ResourceTitle
-                    classes={classes}
-                    resourceTitle={resourcesTitle}
-                    onEnterResourceTitle={handleResourcesTitle}
-                    resourceTitleError={resourcesTitleError}
-                    resourceTitleErrorText={resourcesTitleErrorText}
-                />
-            </form>
-
-            <form className={classes.root} noValidate autoComplete="off">
-                <ResourceLink
-                    classes={classes}
-                    resourceLink={resourcesLink}
-                    onEnterResourceLink={handleResourcesLink}
-                    resourceLinkError={resourcesLinkError}
-                    resourceLinkErrorText={resourcesLinkErrorText}
-                />
-            </form>
-
-            <FormControl className={classes.root}>
-                <InputLabel id="Media-Tag"> Media Tag </InputLabel>
-                <Select
-                    labelId="Media-Tag"
-                    id="MediaTagList"
-                    value={mediaTag}
-                    onChange={handleMediaTag}
-                    fullWidth
-                >
-                    {mediaTagList.map((tag) => (
-                        <MenuItem value={tag}> {tag} </MenuItem>
-                    ))}
-                </Select>
-
-            </FormControl>
-
-            <Grid item>
-                <SubmitButton
-                    label={"SUBMIT"}
-                    onButtonClick={validateResources}
-                />
-            </Grid>
+                <Box marginTop="16px">
+                    <Button 
+                    className="form-submit"
+                    onClick={(event) => validateResources(event)}
+                    >
+                        Submit
+                    </Button>
+                </Box>
+            </Card>
 
             {successfullSubmissionMsg && (
                 <Alert
@@ -288,52 +292,5 @@ const CreateResource = () => {
         </div>
     )
 }
-
-const ResourceTitle = ({ resourceTitle, onEnterResourceTitle, resourceTitleError, resourceTitleErrorText }) => {
-    return (
-        <Grid item>
-            <TextField
-                id="name-of-resource"
-                label="Title"
-                placeholder="Enter the resource name"
-                value={resourceTitle}
-                onChange={onEnterResourceTitle}
-                error={resourceTitleError}
-                fullWidth
-            />
-            <FormHelperText>{resourceTitleErrorText}</FormHelperText>
-        </Grid>
-    )
-}
-
-const ResourceLink = ({ resourceLink, onEnterResourceLink, resourceLinkError, resourceLinkErrorText }) => {
-    return (
-        <Grid item>
-            <TextField
-                id="link-of-resource"
-                label="Link"
-                multiline
-                minrows={4}
-                placeholder="Enter the link of the resource"
-                value={resourceLink}
-                onChange={onEnterResourceLink}
-                error={resourceLinkError}
-                inputProps={{ maxLength: 1000 }}
-                fullWidth
-            />
-            <FormHelperText>{resourceLinkErrorText}</FormHelperText>
-        </Grid>
-    )
-}
-
-const SubmitButton = ({ label, onButtonClick }) => (
-    <Button
-        variant="contained"
-        color="secondary"
-        onClick={(event) => onButtonClick(event)}
-    >
-        {label}
-    </Button>
-)
 
 export default CreateResource;

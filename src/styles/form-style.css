@@ -1,0 +1,40 @@
+@import url('https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;700&display=swap');
+
+.form-header {
+    font-family: "DM Sans";
+    font-size: 16px !important;
+    font-weight: 400 !important;
+}
+
+.form-label {
+    font-family: "DM Sans";
+    font-size: 14px !important;
+    font-weight: 400 !important;
+}
+
+.form-input {
+    font-family: "DM Sans";
+    font-size: 14px !important;
+    font-weight: 400 !important;
+}
+
+.form-helper-text {
+    font-family: "DM Sans";
+    font-size: 12px !important;
+    font-weight: 400 !important;
+}
+
+.form-error-text {
+    font-family: "DM Sans";
+    color: #ff0033 !important;
+    font-size: 12px !important;
+    font-weight: 400 !important;
+}
+
+.form-submit {
+    font-family: "DM Sans";
+    font-size: 14px !important;
+    font-weight: 400 !important;
+    color: #FFFFFF !important;
+    text-decoration: none;
+}
