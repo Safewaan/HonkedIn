@@ -40,12 +40,14 @@ const CreateResource = () => {
                 <Text noOfLines={1} align="center" fontSize='5xl'>We are HonkedIn.</Text>
                 <Image
                     src={GOOSE_IMAGE}
-                    align="center"
-                    boxSize='200px' />
+                    mx="auto"
+                    boxSize="200px"
+                    alt="Goose Image"
+                />
                 <Text align="center" fontSize='2xl'>We aim to connect students and scholars in the University of Waterloo Region.</Text>
                 <br></br>
                 <Text align="center" fontSize='2xl'>Want to learn more about how HonkedIn was built?</Text>
-                <Link href='https://github.com/Safewaan/HonkedIn' isExternal align="center" target = "_blank">
+                <Link href='https://github.com/Safewaan/HonkedIn' isExternal align="center" target="_blank">
                     Find out more here! <ExternalLinkIcon mx='2px' />
                 </Link>
 
