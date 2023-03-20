@@ -37,23 +37,31 @@ const CreateResource = () => {
         <div>
             <NavigationBar></NavigationBar>
 
-            <Card style={{ padding: '16px' }}>
-                <Text noOfLines={1} align="center" fontSize='5xl'>We are HonkedIn.</Text>
-                <Image
-                    src={GOOSE_IMAGE}
-                    mx="auto"
-                    boxSize="200px"
-                    alt="Goose Image"
-                />
-                <Text align="center" fontSize='2xl'>We aim to connect students and scholars in the University of Waterloo Region.</Text>
+            <Box sx={{ position: 'absolute', top: 100, left: '50%', transform: 'translateX(-50%)' }}>
+                <Card style={{ padding: '16px' }}>
+                    <Text noOfLines={1} align="center" fontSize='4xl'>We are HonkedIn.</Text>
+                    <Image
+                        src={GOOSE_IMAGE}
+                        mx="auto"
+                        boxSize="200px"
+                        alt="Goose Image"
+                    />
+                    <Text align="center" fontSize='4xl' as='i'>Made by students, for students.</Text>
+                    <Text align="center" fontSize='2xl'>We aim to connect like-minded scholars at University of Waterloo.</Text>
+                </Card>
                 <br></br>
-                <Text align="center" fontSize='2xl'>Want to learn more about how HonkedIn was built?</Text>
-                <Link href='https://github.com/Safewaan/HonkedIn' isExternal align="center" target="_blank">
-                    Find out more here!<ExternalLinkIcon mx='2px' />
-                </Link>
-
-            </Card>
-
+                <Card style={{ padding: '16px' }}>
+                    <Text align="center" fontSize='2xl'>Want to learn more about how HonkedIn was built?</Text>
+                    <Link href='https://github.com/Safewaan/HonkedIn' isExternal align="center" target="_blank">
+                        Find out more here!<ExternalLinkIcon mx='2px' />
+                    </Link>
+                    <br></br>
+                    <Text align="center" fontSize='2xl'>Want to see HonkedIn in action?</Text>
+                    <Link href='https://youtu.be/01CqZoxI3ps' isExternal align="center" target="_blank">
+                        Check this out!<ExternalLinkIcon mx='2px' />
+                    </Link>
+                </Card>
+            </Box>
 
         </div>
     )
