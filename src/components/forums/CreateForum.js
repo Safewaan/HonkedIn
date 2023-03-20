@@ -31,6 +31,10 @@ const CreateForum = () => {
     //const email = currentUser.email;
     const [email, setEmail] = React.useState('');
     const [userID, setUserID] = React.useState('');
+    const [userStatus, setUserStatus] = React.useState('');
+
+    const [showUserStatusError, setShowUserStatusError] = React.useState(false);
+
     const [open, setOpen] = React.useState(false);
 
 
@@ -45,6 +49,8 @@ const CreateForum = () => {
                 var parsed = JSON.parse(res.express);
                 //console.log(parsed[0].id);
                 setUserID(parsed[0].id);
+                setUserStatus(parsed[0].status);
+                setShowUserStatusError(parsed[0].status === "Archived");
             });
     }
 
@@ -93,7 +99,9 @@ const CreateForum = () => {
 
     const validateForum = () => {
 
-        // console.log(" enableError is currently: " + enableError)
+        if (userStatus === "Archived") {
+            return false;
+        };
 
         if (forumName === '') {
             setForumNameError(true);
@@ -222,6 +230,15 @@ const CreateForum = () => {
                     sx={{ position: 'fixed', bottom: 0, right: 0, width: '25%', zIndex: 9999 }}>
                     <AlertIcon />
                     <AlertDescription>Forum successfully created.</AlertDescription>
+                </Alert>
+            )}
+
+            {showUserStatusError && (
+                <Alert
+                    status="error"
+                    sx={{ position: 'fixed', bottom: 0, right: 0, width: '25%', zIndex: 9999 }}>
+                    <AlertIcon />
+                    <AlertDescription>You cannot create a forum if your account is archived.</AlertDescription>
                 </Alert>
             )}
         </div>
