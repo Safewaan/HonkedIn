@@ -117,10 +117,6 @@ export default function NavigationBar() {
           HonkedIn
         </Link>
 
-        <Button variant='ghost' className="navbar-text" marginLeft="32px" onClick={handleHome}>
-          Dashboard
-        </Button>
-
         <Button variant='ghost' className="navbar-text" marginLeft="8px" onClick={handleNetwork}>
           Network
         </Button>
