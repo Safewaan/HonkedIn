@@ -49,7 +49,7 @@ const CreateResource = () => {
                 <br></br>
                 <Text align="center" fontSize='2xl'>Want to learn more about how HonkedIn was built?</Text>
                 <Link href='https://github.com/Safewaan/HonkedIn' isExternal align="center" target="_blank">
-                    Find out more here! <ExternalLinkIcon mx='2px' />
+                    Find out more here!<ExternalLinkIcon mx='2px' />
                 </Link>
 
             </Card>
