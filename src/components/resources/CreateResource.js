@@ -15,6 +15,7 @@ import {
     FormLabel,
     FormErrorMessage,
     FormHelperText,
+    Select,
     Text
 } from '@chakra-ui/react';
 
@@ -102,7 +103,7 @@ const CreateResource = () => {
     }
 
     const [mediaTag, setMediaTag] = React.useState('');
-    const mediaTagList = ["Youtube", "Stack Overflow", "School Website", "Personal Website", "Spreadsheet"];
+    const mediaTagList = ["", "Youtube", "Stack Overflow", "School Website", "Personal Website", "Spreadsheet"];
 
     const handleMediaTag = (event) => {
         setMediaTag(event.target.value);
@@ -203,7 +204,7 @@ const CreateResource = () => {
                         marginTop="16px"
                         isInvalid={resourcesTitleError}
                     >
-                        <FormLabel className="form-label">Resource Title</FormLabel>
+                        <FormLabel className="form-label">Title</FormLabel>
                         <Input
                             placeholder='Resource title'
                             className="form-input"
@@ -211,7 +212,7 @@ const CreateResource = () => {
                             onChange={handleResourcesTitle}
                             inputProps={{ maxLength: 200 }}
                         />
-                        <FormHelperText className="form-helper-text">Enter the name of your resource.</FormHelperText>
+                        <FormHelperText className="form-helper-text">Enter the title of your resource.</FormHelperText>
                         <FormErrorMessage className="form-helper-text">{resourcesTitleErrorText}</FormErrorMessage>
                     </FormControl>
 
@@ -219,7 +220,7 @@ const CreateResource = () => {
                         isRequired
                         marginTop="16px"
                         isInvalid={resourcesLinkError}>
-                        <FormLabel className="form-label">Resource Link</FormLabel>
+                        <FormLabel className="form-label">Link</FormLabel>
                         <Input
                             placeholder='Resource link'
                             className="form-input"
@@ -229,6 +230,24 @@ const CreateResource = () => {
                         />
                         <FormHelperText className="form-helper-text">Enter the link to your resource ex: "https://www.google.com/".</FormHelperText>
                         <FormErrorMessage className="form-helper-text">{resourcesLinkErrorText}</FormErrorMessage>
+                    </FormControl>
+
+                    <FormControl
+                        marginTop="16px"
+                    >
+                        <FormLabel className="form-label">Tag</FormLabel>
+                        <Select
+                            labelId="Media-Tag"
+                            id="MediaTagList"
+                            value={mediaTag}
+                            onChange={handleMediaTag}
+                            className="form-helper-text"
+                        >
+                            {mediaTagList.map((tag) => (
+                                <option value={tag}> {tag} </option>
+                            ))}
+                        </Select>
+                        <FormHelperText className="form-helper-text">Select a tag for your resource.</FormHelperText>
                     </FormControl>
                 </Form>
 
