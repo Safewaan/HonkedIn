@@ -372,5 +372,4 @@ const ForumDesc = ({ forumDesc, onEnterForumDesc, forumDescError, forumDescError
     )
 }
 
-
 export default MyForums;

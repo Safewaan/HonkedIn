@@ -14,6 +14,7 @@ app.use(bodyParser.urlencoded({ limit: '50mb', extended: true }));
 app.use(function (req, res, next) {
 	res.header("Access-Control-Allow-Origin", "*");
 	res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
+	res.header("Access-Control-Allow-Methods", "GET, OPTIONS, POST, PUT");
 	next();
 });
 
@@ -33,7 +34,7 @@ app.use(archiveUser);
 // Event APIs
 const createEvent = require(`${routesDir}events/createEvent`);
 const getEvents = require(`${routesDir}events/getEvents`);
-const getEventsByUser = require (`${routesDir}events/getEventsByUser`);
+const getEventsByUser = require(`${routesDir}events/getEventsByUser`);
 const joinEvent = require(`${routesDir}events/joinEvent`);
 const editEvent = require(`${routesDir}events/editEvent`);
 const cancelEvent = require(`${routesDir}events/cancelEvent`);
@@ -62,7 +63,7 @@ app.use(editUserProfile);
 // Forum APIs
 const createForum = require(`${routesDir}forums/createForum`);
 const getForums = require(`${routesDir}forums/getForums`);
-const getForumsByUserID = require(`${routesDir}forums/getForumsByUserID`); 
+const getForumsByUserID = require(`${routesDir}forums/getForumsByUserID`);
 const editForum = require(`${routesDir}forums/editForum`);
 const getForumsByForumID = require(`${routesDir}forums/getForumsByForumID`);
 const archiveForum = require(`${routesDir}forums/archiveForum`)
@@ -70,7 +71,7 @@ const archiveForum = require(`${routesDir}forums/archiveForum`)
 app.use(createForum);
 app.use(getForums);
 app.use(getForumsByUserID);
-app.use(editForum); 
+app.use(editForum);
 app.use(getForumsByForumID);
 app.use(archiveForum);
 
@@ -78,23 +79,35 @@ app.use(archiveForum);
 const createForumComment = require(`${routesDir}forumComments/createForumComment`);
 const getForumCommentsByForumID = require(`${routesDir}forumComments/getForumCommentsByForumID`);
 const deleteForumComment = require(`${routesDir}forumComments/deleteForumComment`);
+const editForumComment = require(`${routesDir}forumComments/editForumComment`);
 const getForumCommentsByUserID = require(`${routesDir}forumComments/getForumCommentsByUserID`);
 
 app.use(createForumComment);
 app.use(getForumCommentsByForumID);
 app.use(deleteForumComment);
+app.use(editForumComment);
 app.use(getForumCommentsByUserID);
 
 //User Network APIs
 const getUsers = require(`${routesDir}user/getUsers`);
 
-app.use(getUsers); 
+app.use(getUsers);
+
 // Resources APIs
 const createResource = require(`${routesDir}resources/createResource`);
 const getResources = require(`${routesDir}resources/getResources`);
 
 app.use(createResource);
 app.use(getResources);
+
+// Dashboard APIs
+const getRecentEvents = require(`${routesDir}dashboard/getRecentEvents`);
+const getPopularForums = require(`${routesDir}dashboard/getPopularForums`);
+const getMyEvents = require(`${routesDir}dashboard/getMyEvents`)
+
+app.use(getRecentEvents);
+app.use(getPopularForums);
+app.use(getMyEvents);
 
 app.listen(port, () => console.log(`Listening on port ${port}`)); //for the dev version
 //app.listen(port, '172.31.31.77'); //for the deployed version, specify the IP address of the server

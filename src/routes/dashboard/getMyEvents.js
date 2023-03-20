@@ -3,27 +3,29 @@ const router = express.Router();
 const mysql = require('mysql');
 const config = require('../../../config.js');
 
-//gets list of all events according to search term
-//if no search term, returns all events currently in the db
-router.get('/api/getEvents', (req, res) => {
+// get 5 upcoming events the user has RSVPed to
+router.get('/api/getMyEvents', (req, res) => {
 
 	let connection = mysql.createConnection(config);
 
-	let sql = 
-	`SELECT CONCAT(firstName, " ", lastName) as creatorName, 
+	let sql =
+    `Select firstName, lastName, 
 	events.id, events.name, events.description, events.location, events.date, events.participants, events.totalParticipants, events.status
-	FROM shchowdh.users, shchowdh.events
-	WHERE events.creatorID = users.id
-    AND (events.name like ? OR events.description like ? OR CONCAT(firstName, " ", lastName) like ?)
-	ORDER BY date`; 
-	let searchTerm = req.query.searchTerm; 
-	let data = ["%" + searchTerm + "%","%" + searchTerm + "%", "%" + searchTerm + "%"];
-	
-	//console.log(sql);
+	FROM shchowdh.users, shchowdh.events,shchowdh.eventParticipants
+    WHERE events.id = eventParticipants.eventID
+    AND users.id = eventParticipants.participantID
+    AND users.id = ?
+    AND events.date > now()
+    AND events.status = "Active"
+	ORDER BY events.date
+    LIMIT 5;`;
+	let data = [req.query.userID];
+
+	// console.log(sql);
+	// console.log(data);
 
 	connection.query(sql, data, (error, results, fields) => {
 		if (error) {
-			res.status(400).send(error.message);
 			return console.error(error.message);
 		}
 
