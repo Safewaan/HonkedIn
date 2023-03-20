@@ -8,7 +8,7 @@ import Typography from '@material-ui/core/Typography';
 import NavigationBar from '../common/NavigationBar';
 import Box from "@material-ui/core/Box";
 import Search from '../common/Search';
-import { Select } from '@chakra-ui/react'
+import { Select, Input } from '@chakra-ui/react'
 
 const { REACT_APP_API_ENDPOINT } = process.env;
 
@@ -71,10 +71,14 @@ const Network = () => {
     return body;
   }
 
-
   const handleRefreshSearch = async () => {
     setUserSearchTerm("");
     setRefreshSearch(refreshSearch + 1);
+  }
+
+  const handleRefreshFilter = async () => {
+    setYearSemester("");
+    setProgram("");
   }
 
 
@@ -127,12 +131,20 @@ const Network = () => {
         </Select>
 
         <br />
-        <Search
-          label="Filter by Program Name"
-          searchTerm={program}
-          onSetSearch={handleProgram}
-          fullWidth
+        <Input
+          id="filter"
+          placeholder="Filter by Program Name"
+          value={program}
+          onChange={handleProgram}
+          variant="outline"
+          className="filter-input"
         />
+        <Typography
+          onClick={() => handleRefreshFilter()}
+          style={{ color: "gray", mb: 1.5, cursor: 'pointer', fontSize: 12, align: 'right' }}
+        >
+          Clear Filters
+        </Typography>
 
       </Box>
       <br />
@@ -144,7 +156,7 @@ const Network = () => {
           if (yearSemester && profile.yearSemester !== yearSemester) {
             return null;
           }
-          if (program && !profile.program.contains(program)) {
+          if (program && !profile.program.includes(program)) {
             return null
           }
           return (
