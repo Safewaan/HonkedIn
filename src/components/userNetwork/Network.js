@@ -2,11 +2,13 @@ import React, { useRef, useState, useEffect } from "react"
 import { useAuth } from "../../contexts/AuthContext"
 import { Link, useHistory } from "react-router-dom"
 import Card from '@material-ui/core/Card';
+import Chip from '@material-ui/core/Chip';
 import CardContent from '@material-ui/core/CardContent';
 import Typography from '@material-ui/core/Typography';
 import NavigationBar from '../common/NavigationBar';
 import Box from "@material-ui/core/Box";
 import Search from '../common/Search';
+import { Select } from '@chakra-ui/react'
 
 const { REACT_APP_API_ENDPOINT } = process.env;
 
@@ -35,6 +37,19 @@ const Network = () => {
       });
   }
 
+  // Filters
+  const [yearSemester, setYearSemester] = React.useState('');
+  const handleYearSemester = (event) => {
+    setYearSemester(event.target.value);
+  }
+  const yearList = ["1A", "1B", "2A", "2B", "3A", "3B", "4A", "4B", "Masters", "PHD", "Professor"];
+
+  const [program, setProgram] = React.useState('');
+  const handleProgram = (event) => {
+    setProgram(event.target.value);
+  }
+
+
   const callApiGetUsers = async (userSearchTerm) => {
 
     const url = `${REACT_APP_API_ENDPOINT}/getUsers?userSearchTerm=${userSearchTerm}`;
@@ -55,7 +70,6 @@ const Network = () => {
     if (response.status !== 200) throw Error(body.message);
     return body;
   }
-
 
 
   const handleRefreshSearch = async () => {
@@ -93,25 +107,74 @@ const Network = () => {
         >
           Clear Search
         </Typography>
+        <br />
+
+        <Typography
+          style={{ color: "black", mb: 2, fontSize: 14, align: 'right' }}
+        >
+          Filters
+        </Typography>
+        <Select
+          placeholder="Select a Year and Semester"
+          value={yearSemester}
+          onChange={handleYearSemester}
+        >
+          {yearList.map((year) => (
+            <option key={year} value={year}>
+              {year}
+            </option>
+          ))}
+        </Select>
+
+        <br />
+        <Search
+          label="Filter by Program Name"
+          searchTerm={program}
+          onSetSearch={handleProgram}
+          fullWidth
+          onButtonClick={handleFindUser}
+        />
+
       </Box>
       <br />
       <br />
 
 
-      <Box sx={{ position: 'absolute', top: 260, left: '50%', transform: 'translateX(-50%)' }}>
-        {profiles.map((profile) => (
-          <Card style={{ width: '600px', marginTop: '20px' }} key={profile.id}>
-            <CardContent>
-              <Link to={`/network-profile/${profile.id}`} target="_blank">
-                <Typography variant="h5" component="div">
-                  {profile.firstName} {profile.lastName}
-                </Typography>
-              </Link>
-            </CardContent>
-            <br />
-          </Card>
-        ))}
+      <Box sx={{ position: 'absolute', top: 300, left: '50%', transform: 'translateX(-50%)' }}>
+        {profiles.map((profile) => {
+          if (yearSemester && profile.yearSemester !== yearSemester) {
+            return null;
+          }
+          return (
+            <Card style={{ width: '600px', marginTop: '20px' }} key={profile.id}>
+              <CardContent>
+                <Link to={`/network-profile/${profile.id}`} target="_blank">
+                  <Typography variant="h5" component="div">
+                    {profile.userName}
+                  </Typography>
+                </Link>
+                <Chip
+                  key={profile.id}
+                  label={profile.yearSemester}
+                  color="primary"
+                  size="small"
+                  style={{ marginRight: 8 }}
+                />
+
+                <Chip
+                  key={profile.id}
+                  label={profile.program}
+                  color="grey"
+                  size="small"
+                  style={{ marginRight: 8 }}
+                />
+              </CardContent>
+              <br />
+            </Card>
+          );
+        })}
       </Box>
+
 
     </div>
   )
