@@ -32,6 +32,8 @@ import NetworkProfile from "./userNetwork/NetworkProfile";
 import CreateResource from "./resources/CreateResource";
 import Resources from "./resources/Resources";
 
+import AboutUs from "./aboutUs/AboutUs";
+
 import {
   HOME_PAGE,
   FORGOT_PASSWORD_PAGE,
@@ -48,11 +50,12 @@ import {
   MY_PROFILE_PAGE,
   UPDATE_STATUS_PAGE,
   USER_SETTINGS_PAGE,
-  CREATE_RESOURCE_PAGE, 
+  CREATE_RESOURCE_PAGE,
   MY_COMMENTS_PAGE,
   RESOURCES_PAGE,
   NETWORK_PAGE,
-  NETWORK_PROFILE_PAGE
+  NETWORK_PROFILE_PAGE,
+  ABOUT_US_PAGE
 } from "./constants/Routes";
 
 function App() {
@@ -99,6 +102,8 @@ function App() {
                 <PrivateRoute path={CREATE_RESOURCE_PAGE} component={CreateResource} />
                 <PrivateRoute path={RESOURCES_PAGE} component={Resources} />
 
+                {/* About Us Pages */}
+                <PrivateRoute path={ABOUT_US_PAGE} component={AboutUs} />
 
               </Switch>
             </AuthProvider>
