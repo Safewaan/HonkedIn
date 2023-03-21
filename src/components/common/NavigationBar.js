@@ -38,6 +38,7 @@ import {
   CREATE_RESOURCE_PAGE,
   RESOURCES_PAGE,
   NETWORK_PAGE,
+  ABOUT_US_PAGE
 } from "../constants/Routes";
 
 import "../../styles/navbar-style.css";
@@ -66,6 +67,7 @@ export default function NavigationBar() {
   const handleCreateResources = redirectToPage(CREATE_RESOURCE_PAGE);
   const handleResources = redirectToPage(RESOURCES_PAGE);
   const handleNetwork = redirectToPage(NETWORK_PAGE);
+  const handleAboutUs = redirectToPage(ABOUT_US_PAGE);
 
   const [error, setError] = useState("")
   const { currentUser, logout } = useAuth();
@@ -116,6 +118,10 @@ export default function NavigationBar() {
         >
           HonkedIn
         </Link>
+
+        <Button variant='ghost' className="navbar-text" marginLeft="32px" onClick={handleAboutUs}>
+          About Us
+        </Button>
 
         <Button variant='ghost' className="navbar-text" marginLeft="8px" onClick={handleNetwork}>
           Network
