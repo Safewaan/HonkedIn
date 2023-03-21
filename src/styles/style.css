@@ -35,7 +35,8 @@ button:hover {
 .link {
     font-family: "DM Sans";
     font-size: 12px !important;
-    margin-left: 8px;
+    margin-top: 8px;
+    text-align: center;
 }
 
 .search-submit:hover {
@@ -45,4 +46,15 @@ button:hover {
 
 .search-submit:active {
     color: #214E89 !important;
+}
+
+.logo {
+    margin-right: 20px;
+}
+
+.title {
+    font-family: "DM Sans";
+    font-size: 40px !important;
+    font-weight: 400 !important;
+    text-align: center;
 }

@@ -72,6 +72,7 @@ export default function UpdateCredentials() {
             <Alert
               status="error"
               marginTop="16px"
+              className="body"
             >
               <AlertIcon />
               {error}
@@ -128,6 +129,7 @@ export default function UpdateCredentials() {
           </Form>
         </Card.Body>
       </Card>
+
       <div className="w-100 text-center mt-2">
         <Link
           to={USER_SETTINGS_PAGE}
