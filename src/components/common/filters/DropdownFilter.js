@@ -1,6 +1,6 @@
 import { Select, Box } from '@chakra-ui/react'
 
-const Dropdown = ({ placeholder, value, onChange, lists }) => {
+const DropdownFilter = ({ placeholder, value, onChange, lists }) => {
     return (
         <Box sx={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-evenly' }}>
             <Select
@@ -20,4 +20,4 @@ const Dropdown = ({ placeholder, value, onChange, lists }) => {
 };
 
 
-export default Dropdown; 
+export default DropdownFilter; 

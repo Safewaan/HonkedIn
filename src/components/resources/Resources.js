@@ -10,6 +10,7 @@ import Box from "@material-ui/core/Box";
 import Chip from '@material-ui/core/Chip';
 import { Select } from '@chakra-ui/react'
 import DropdownFilter from "../common/filters/DropdownFilter";
+import ClearFilter from "../common/filters/ClearFilter";
 
 const { REACT_APP_API_ENDPOINT } = process.env;
 
@@ -122,14 +123,11 @@ const Resources = () => {
                     placeholder="Select a Media Type Tag"
                     value={mediaTag}
                     onChange={handleMediaTag}
-                    lists = {mediaTagList}
+                    lists={mediaTagList}
                 />
-                <Typography
+                <ClearFilter
                     onClick={() => handleRefreshFilter()}
-                    style={{ color: "gray", mb: 1.5, cursor: 'pointer', fontSize: 12, align: 'right' }}
-                >
-                    Clear Filters
-                </Typography>
+                />
 
             </Box>
 
