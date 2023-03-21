@@ -103,7 +103,7 @@ const CreateResource = () => {
     }
 
     const [mediaTag, setMediaTag] = React.useState('');
-    const mediaTagList = ["", "Youtube", "Stack Overflow", "School Website", "Personal Website", "Spreadsheet"];
+    const mediaTagList = ["Interview Tips", "Youtube", "Stack Overflow", "School Website", "Personal Website", "Spreadsheet"];
 
     const handleMediaTag = (event) => {
         setMediaTag(event.target.value);
