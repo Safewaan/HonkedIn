@@ -273,7 +273,7 @@ const Events = () => {
         />
       </Box>*/}
 
-      <Box sx={{ position: 'absolute', top: 600, left: '50%', transform: 'translateX(-50%)', zIndex: 0}}>
+      <Box sx={{ position: 'absolute', top: 525, left: '50%', transform: 'translateX(-50%)', zIndex: 0}}>
         {events.map((event) => {
           if (status && event.status !== status) {
             return null;
