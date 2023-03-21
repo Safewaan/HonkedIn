@@ -9,6 +9,7 @@ import NavigationBar from '../common/NavigationBar';
 import Box from "@material-ui/core/Box";
 import Chip from '@material-ui/core/Chip';
 import { Select } from '@chakra-ui/react'
+import DropdownFilter from "../common/filters/DropdownFilter";
 
 const { REACT_APP_API_ENDPOINT } = process.env;
 
@@ -117,17 +118,12 @@ const Resources = () => {
                 >
                     Filters
                 </Typography>
-                <Select
+                <DropdownFilter
                     placeholder="Select a Media Type Tag"
                     value={mediaTag}
                     onChange={handleMediaTag}
-                >
-                    {mediaTagList.map((tag) => (
-                        <option key={tag} value={tag}>
-                            {tag}
-                        </option>
-                    ))}
-                </Select>
+                    lists = {mediaTagList}
+                />
                 <Typography
                     onClick={() => handleRefreshFilter()}
                     style={{ color: "gray", mb: 1.5, cursor: 'pointer', fontSize: 12, align: 'right' }}
