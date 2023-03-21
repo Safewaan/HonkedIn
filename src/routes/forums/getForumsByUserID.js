@@ -10,7 +10,7 @@ router.get('/api/getForumsByUserID', (req, res) => {
 
     let sql =
         `SELECT CONCAT(firstName, " ", lastName) AS creatorName,
-            forums.id, forumTitle, forums.description, dateTime, forums.status
+            forums.id, forumTitle, forums.description, forums.forumTag, dateTime, forums.status
             FROM users, forums
             WHERE forums.creatorID = users.id
             AND users.id = ?

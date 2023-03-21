@@ -8,9 +8,9 @@ router.post('/api/createForum', (req, res) => {
 
     let connection = mysql.createConnection(config);
 
-    let sql = "INSERT INTO shchowdh.forums (forumTitle, description, creatorID) VALUES (?, ?, ?)";
+    let sql = "INSERT INTO shchowdh.forums (forumTitle, description, creatorID, forumTag) VALUES (?, ?, ?, ?)";
     //console.log(sql);
-    let data = [req.body.forumTitle, req.body.forumDesc, req.body.creatorID];
+    let data = [req.body.forumTitle, req.body.forumDesc, req.body.creatorID, req.body.forumTag];
     //console.log(data);
 
     connection.query(sql, data, (error, results, fields) => {

@@ -11,6 +11,10 @@ import Grid from '@material-ui/core/Grid';
 import FormHelperText from '@material-ui/core/FormHelperText';
 import TextField from '@material-ui/core/TextField';
 import { makeStyles } from '@material-ui/core/styles';
+import Select from "@material-ui/core/Select";
+import MenuItem from "@material-ui/core/MenuItem";
+import InputLabel from "@material-ui/core/InputLabel";
+import FormControl from "@material-ui/core/FormControl";
 
 import {
     Alert,
@@ -31,6 +35,10 @@ const CreateForum = () => {
     //const email = currentUser.email;
     const [email, setEmail] = React.useState('');
     const [userID, setUserID] = React.useState('');
+    const [userStatus, setUserStatus] = React.useState('');
+
+    const [showUserStatusError, setShowUserStatusError] = React.useState(false);
+
     const [open, setOpen] = React.useState(false);
 
 
@@ -45,6 +53,8 @@ const CreateForum = () => {
                 var parsed = JSON.parse(res.express);
                 //console.log(parsed[0].id);
                 setUserID(parsed[0].id);
+                setUserStatus(parsed[0].status);
+                setShowUserStatusError(parsed[0].status === "Archived");
             });
     }
 
@@ -84,16 +94,26 @@ const CreateForum = () => {
         setForumDescErrorText('');
     }
 
+    const [forumTag, setForumTag] = React.useState('');
+    const forumTagList = ["School", "Co-op", "Funny", "Debate", "Rant", "Interview", "Class Review", "Good News"];
+
+    const handleForumTag = (event) => {
+        setForumTag(event.target.value);
+    }
+
     const [successfullSubmissionMsg, setsuccessfullSubmissionMsg] = React.useState(false);
 
     const resetForm = () => {
         setForumName('');
         setForumDesc('');
+        setForumTag(''); 
     }
 
     const validateForum = () => {
 
-        // console.log(" enableError is currently: " + enableError)
+        if (userStatus === "Archived") {
+            return false;
+        };
 
         if (forumName === '') {
             setForumNameError(true);
@@ -109,7 +129,8 @@ const CreateForum = () => {
 
             var newForum = {
                 forumName: forumName,
-                forumDesc: forumDesc
+                forumDesc: forumDesc,
+                forumTag: forumTag 
             }
 
             // console.log(format(eventDate))
@@ -165,7 +186,8 @@ const CreateForum = () => {
                 body: JSON.stringify({
                     forumTitle: forumName,
                     forumDesc: forumDesc,
-                    creatorID: userID
+                    creatorID: userID, 
+                    forumTag: forumTag
                 })
             });
 
@@ -209,6 +231,22 @@ const CreateForum = () => {
                 />
             </form>
 
+            <FormControl className={classes.root}>
+                <InputLabel id="Forum-Tag"> Tags </InputLabel>
+                <Select
+                    labelId="Forum-Tag"
+                    id="Forum-Tag"
+                    value={forumTag}
+                    onChange={handleForumTag}
+                    fullWidth
+                >
+                    {forumTagList.map((tag) => (
+                        <MenuItem value={tag}> {tag} </MenuItem>
+                    ))}
+                </Select>
+
+            </FormControl>
+
             <Grid item>
                 <SubmitButton
                     label={"SUBMIT"}
@@ -222,6 +260,15 @@ const CreateForum = () => {
                     sx={{ position: 'fixed', bottom: 0, right: 0, width: '25%', zIndex: 9999 }}>
                     <AlertIcon />
                     <AlertDescription>Forum successfully created.</AlertDescription>
+                </Alert>
+            )}
+
+            {showUserStatusError && (
+                <Alert
+                    status="error"
+                    sx={{ position: 'fixed', bottom: 0, right: 0, width: '25%', zIndex: 9999 }}>
+                    <AlertIcon />
+                    <AlertDescription>You cannot create a forum if your account is archived.</AlertDescription>
                 </Alert>
             )}
         </div>
