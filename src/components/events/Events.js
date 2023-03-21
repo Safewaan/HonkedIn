@@ -22,6 +22,7 @@ import {
   AlertIcon,
   AlertTitle,
   AlertDescription,
+  FormHelperText,
 } from '@chakra-ui/react'
 
 import NavigationBar from '../common/NavigationBar';
@@ -196,13 +197,12 @@ const Events = () => {
     setFilterParticipants(value);
   }
 
-  const [selectedDates, setSelectedDates] = React.useState([new Date(), new Date()]);
-
-  const dateToday = new Date(new Date().getTime() - 24 * 60 * 60 * 1000);
+  const [selectedDates, setSelectedDates] = React.useState([]);
 
   const handleRefreshFilter = async () => {
     setStatus("");
     setFilterParticipants("");
+    setSelectedDates([]);
   }
 
   return (
@@ -219,7 +219,7 @@ const Events = () => {
         </Typography>
       </Box>
 
-      <Box sx={{ width: '600px', position: 'absolute', top: 150, left: '50%', transform: 'translateX(-50%)', marginBottom: '20px' }}>
+      <Box sx={{ width: '600px', position: 'absolute', top: 150, left: '50%', transform: 'translateX(-50%)', marginBottom: '20px', zIndex: 1 }}>
 
         <Search
           label="Search for events"
@@ -258,7 +258,7 @@ const Events = () => {
         <DateFilter
           placeholder="Select a Date Range"
           selectedDates={selectedDates}
-          onDateChange={setSelectedDates}
+          onDateChange={(selectedDates) => setSelectedDates(selectedDates)}
         />
         <ClearFilter
           onClick={() => handleRefreshFilter()}
@@ -273,13 +273,29 @@ const Events = () => {
         />
       </Box>*/}
 
-      <Box sx={{ position: 'absolute', top: 500, left: '50%', transform: 'translateX(-50%)' }}>
+      <Box sx={{ position: 'absolute', top: 600, left: '50%', transform: 'translateX(-50%)', zIndex: 0}}>
         {events.map((event) => {
           if (status && event.status !== status) {
             return null;
           }
           if (parseInt(filterParticipants) && parseInt(event.totalParticipants) !== parseInt(filterParticipants)) {
             return null;
+          }
+          if (selectedDates.length !== 0) {
+            const startDate = new Date(selectedDates[0]);
+            const endDate = new Date(selectedDates[1]);
+            const convertDate = (new Date(event.date).getTime() - (5 * 60 * 60 * 1000));
+            const eventDate = new Date(convertDate)
+
+            startDate.setHours(0,0,0,0);
+            endDate.setHours(0,0,0,0);
+            eventDate.setHours(0,0,0,0);
+
+            if (!(eventDate >= startDate && eventDate <= endDate) &&
+              !(eventDate === startDate && eventDate >= startDate) &&
+              !(eventDate === endDate && eventDate <= endDate)) {
+              return null;
+            }
           }
           return (
             <Card style={{ width: '600px', marginBottom: '20px' }} key={event.id}>

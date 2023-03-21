@@ -4,16 +4,16 @@ import {
 } from '@chakra-ui/react'
 import { RangeDatepicker } from "chakra-dayzed-datepicker";
 
-const DateFilter = ({ placeholder, selectedDates, setSelectedDates }) => {
+const DateFilter = ({ placeholder, selectedDates, onDateChange }) => {
     return (
         <div>
             <Box sx={{ display: 'flex', flexDirection: 'row', justifyContent: 'flex-start' }}>
                 <Text>{placeholder}</Text>
             </Box>
-            <Box sx={{ display: 'flex', flexDirection: 'row', justifyContent: 'flex-start' }}>
+            <Box sx={{ display: 'flex', flexDirection: 'row', justifyContent: 'flex-start', zIndex: 1}}>
                 <RangeDatepicker
                     selectedDates={selectedDates}
-                    onDateChange={setSelectedDates}
+                    onDateChange={onDateChange}
                     propsConfigs={{
                         dayOfMonthBtnProps: {
                             defaultBtnProps: {
