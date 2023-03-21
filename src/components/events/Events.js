@@ -218,7 +218,7 @@ const Events = () => {
           Events
         </Typography>
       </Box>
-      
+
       <Box sx={{ width: '600px', position: 'absolute', top: 150, left: '50%', transform: 'translateX(-50%)', marginBottom: '20px', zIndex: 1 }}>
         <Search
           label="Search for event names, descriptions, or hosts"
@@ -228,14 +228,6 @@ const Events = () => {
           onButtonClick={loadGetEvents}
           onResetSearch={handleRefreshSearch}
         />
-        
-        <Typography
-          onClick={() => handleRefreshSearch()}
-          style={{ color: "gray", mb: 1.5, cursor: 'pointer', fontSize: 12, align: 'right' }}
-        >
-          Clear Search
-        </Typography>
-
         <br />
         <Typography
           style={{ color: "black", mb: 2, fontSize: 14, align: 'right' }}
@@ -273,7 +265,7 @@ const Events = () => {
         />
       </Box>*/}
 
-      <Box sx={{ position: 'absolute', top: 525, left: '50%', transform: 'translateX(-50%)', zIndex: 0}}>
+      <Box sx={{ position: 'absolute', top: 525, left: '50%', transform: 'translateX(-50%)', zIndex: 0 }}>
         {events.map((event) => {
           if (status && event.status !== status) {
             return null;
@@ -287,9 +279,9 @@ const Events = () => {
             const convertDate = (new Date(event.date).getTime() - (5 * 60 * 60 * 1000));
             const eventDate = new Date(convertDate)
 
-            startDate.setHours(0,0,0,0);
-            endDate.setHours(0,0,0,0);
-            eventDate.setHours(0,0,0,0);
+            startDate.setHours(0, 0, 0, 0);
+            endDate.setHours(0, 0, 0, 0);
+            eventDate.setHours(0, 0, 0, 0);
 
             if (!(eventDate >= startDate && eventDate <= endDate) &&
               !(eventDate === startDate && eventDate >= startDate) &&

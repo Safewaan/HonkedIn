@@ -104,7 +104,7 @@ const Resources = () => {
 
     const handleRefreshFilter = async () => {
         setMediaTag("");
-        }
+    }
     const handleRefreshSearch = async () => {
         setSearchTerm("");
         setRefreshSearch(refreshSearch + 1);
@@ -125,7 +125,16 @@ const Resources = () => {
             </Box>
 
             <Box sx={{ width: '30%', position: 'absolute', top: 185, left: '50%', transform: 'translateX(-50%)', marginBottom: '20px' }}>
+                <Search
+                    label="Search for resource names or creators"
+                    searchTerm={searchTerm}
+                    onSetSearch={handleSearch}
+                    fullWidth
+                    onButtonClick={loadGetResources}
+                    onResetSearch={handleRefreshSearch}
+                />
 
+                <br />
                 <Typography
                     style={{ color: "black", mb: 2, fontSize: 14, align: 'right' }}
                 >
@@ -142,19 +151,9 @@ const Resources = () => {
                 />
 
             </Box>
-            
-            <Box sx={{ width: '600px', position: 'absolute', top: 150, left: '50%', transform: 'translateX(-50%)', marginBottom: '20px' }}>
-                <Search
-                    label="Search for resource names or creators"
-                    searchTerm={searchTerm}
-                    onSetSearch={handleSearch}
-                    fullWidth
-                    onButtonClick={loadGetResources}
-                    onResetSearch={handleRefreshSearch}
-                />
-            </Box>
 
-            <Box sx={{ position: 'absolute', top: 300, left: '50%', transform: 'translateX(-50%)' }}>
+
+            <Box sx={{ position: 'absolute', top: 390, left: '50%', transform: 'translateX(-50%)' }}>
                 {resources.map((resources) => {
                     if (mediaTag && resources.mediaTag !== mediaTag) {
                         return null;

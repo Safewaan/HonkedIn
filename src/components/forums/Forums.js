@@ -117,7 +117,7 @@ const Forums = () => {
     const handleRefreshSearch = async () => {
         setSearchTerm("");
         setRefreshSearch(refreshSearch + 1);
-      }
+    }
 
     return (
         <div id="body">
@@ -134,7 +134,16 @@ const Forums = () => {
             </Box>
 
             <Box sx={{ width: '30%', position: 'absolute', top: 185, left: '50%', transform: 'translateX(-50%)', marginBottom: '20px' }}>
+                <Search
+                    label="Search for forum titles, descriptions, or creators"
+                    searchTerm={searchTerm}
+                    onSetSearch={handleSearch}
+                    fullWidth
+                    onButtonClick={loadGetForums}
+                    onResetSearch={handleRefreshSearch}
+                />
 
+                <br />
                 <Typography
                     style={{ color: "black", mb: 2, fontSize: 14, align: 'right' }}
                 >
@@ -158,19 +167,9 @@ const Forums = () => {
                 />
 
             </Box>
-            
-            <Box sx={{ width: '600px', position: 'absolute', top: 150, left: '50%', transform: 'translateX(-50%)', marginBottom: '20px' }}>
-                <Search
-                    label="Search for forum titles, descriptions, or creators"
-                    searchTerm={searchTerm}
-                    onSetSearch={handleSearch}
-                    fullWidth
-                    onButtonClick={loadGetForums}
-                    onResetSearch={handleRefreshSearch}
-                />
-            </Box>
 
-            <Box sx={{ position: 'absolute', top: 350, left: '50%', transform: 'translateX(-50%)' }}>
+
+            <Box sx={{ position: 'absolute', top: 450, left: '50%', transform: 'translateX(-50%)' }}>
                 {forums.map((forum) => {
                     if (forumTag && forum.forumTag !== forumTag) {
                         return null;
