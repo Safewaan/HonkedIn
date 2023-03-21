@@ -48,7 +48,7 @@ import {
   MY_PROFILE_PAGE,
   UPDATE_STATUS_PAGE,
   USER_SETTINGS_PAGE,
-  CREATE_RESOURCE_PAGE, 
+  CREATE_RESOURCE_PAGE,
   MY_COMMENTS_PAGE,
   RESOURCES_PAGE,
   NETWORK_PAGE,
@@ -89,6 +89,7 @@ function App() {
                 <PrivateRoute path={CREATE_FORUM_PAGE} component={CreateForum} />
                 <PrivateRoute path={FORUMS_PAGE} component={Forums} />
                 <PrivateRoute path={MY_FORUMS_PAGE} component={MyForums} />
+                <PrivateRoute path={MY_COMMENTS_PAGE} component={MyComments} />
                 <PrivateRoute path={FORUM_PAGE} component={Forum} />
 
                 {/* User Network Pages */}

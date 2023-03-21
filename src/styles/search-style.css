@@ -1,0 +1,38 @@
+@import url('https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;700&display=swap');
+
+.search-input {
+    font-family: "DM Sans";
+    font-size: 14px !important;
+    font-weight: 400 !important;
+    width: 90%;
+}
+
+.search-submit {
+    font-family: "DM Sans";
+    font-size: 14px !important;
+    margin-left: 8px;
+}
+
+.search-submit:hover {
+    color: #164684 !important;
+    box-shadow: none !important;
+}
+
+.search-submit:active {
+    color: #214E89 !important;
+}
+
+.search-reset {
+    font-family: "DM Sans";
+    font-size: 12px !important;
+    font-weight: 500 !important;
+}
+
+.search-reset:hover {
+    color: #164684 !important;
+    box-shadow: none !important;
+}
+
+.search-reset:active {
+    color: #214E89 !important;
+}

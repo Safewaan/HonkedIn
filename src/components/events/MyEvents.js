@@ -369,7 +369,7 @@ const MyEvents = () => {
 
     React.useEffect(() => {
         loadGetEventsByUser(userID, searchTerm);
-        console.log("userId is: " + userID + "and" )
+        //console.log("userId is: " + userID + "and" )
     }, [userID, refreshSearch]);
 
     const handleRefreshSearch = async () => {
@@ -384,7 +384,7 @@ const MyEvents = () => {
 
             <NavigationBar></NavigationBar>
 
-            <Box sx={{ position: 'absolute', top: 145, left: '50%', transform: 'translate(-50%, -50%)' }}>
+            <Box sx={{ position: 'absolute', top: 115, left: '50%', transform: 'translate(-50%, -50%)' }}>
                 <Typography
                     variant="h4"
                     gutterBottom
@@ -394,22 +394,14 @@ const MyEvents = () => {
             </Box>
 
             <Box sx={{ width: '600px', position: 'absolute', top: 150, left: '50%', transform: 'translateX(-50%)', marginBottom: '20px' }}>
-
                 <Search
-                    label="Search for events"
+                    label="Search for event names or descriptions"
                     searchTerm={searchTerm}
                     onSetSearch={handleSearch}
                     fullWidth
                     onButtonClick={loadGetEventsByUser}
+                    onResetSearch={handleRefreshSearch}
                 />
-
-                <Typography
-                    onClick={() => handleRefreshSearch()}
-                    style={{ color: "gray", mb: 1.5, cursor: 'pointer', fontSize: 12, align: 'right' }}
-                >
-                    Clear Search
-                </Typography>
-
             </Box>
 
             <Box sx={{ position: 'absolute', top: 260, left: '50%', transform: 'translateX(-50%)' }}>
@@ -626,14 +618,5 @@ const EventParticipants = ({ eventParticipants, onEnterEventParticipants, eventP
     )
 }
 
-const SubmitButton = ({ label, onButtonClick }) => (
-    <Button
-        variant="contained"
-        color="secondary"
-        onClick={(event) => onButtonClick(event)}
-    >
-        {label}
-    </Button>
-)
 
 export default MyEvents;

@@ -85,14 +85,8 @@ const Network = () => {
           onSetSearch={handleUserSearch}
           fullWidth
           onButtonClick={handleFindUser}
+          onResetSearch={handleRefreshSearch}
         />
-
-        <Typography
-          onClick={() => handleRefreshSearch()}
-          style={{ color: "gray", mb: 1.5, cursor: 'pointer', fontSize: 12, align: 'right' }}
-        >
-          Clear Search
-        </Typography>
       </Box>
       <br />
       <br />
