@@ -8,7 +8,7 @@ import Typography from '@material-ui/core/Typography';
 import NavigationBar from '../common/NavigationBar';
 import Box from "@material-ui/core/Box";
 import DropdownFilter from "../common/filters/DropdownFilter";
-import ClearFilter from "../common/filters/ClearFilter";
+import ClearFilters from "../common/filters/ClearFilters";
 import Chip from '@material-ui/core/Chip';
 import Search from "../common/Search";
 
@@ -162,7 +162,7 @@ const Forums = () => {
                     onChange={handleStatus}
                     lists={statusList}
                 />
-                <ClearFilter
+                <ClearFilters
                     onClick={() => handleRefreshFilter()}
                 />
 

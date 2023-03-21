@@ -12,7 +12,7 @@ import DialogContentText from '@material-ui/core/DialogContentText';
 import DialogTitle from '@material-ui/core/DialogTitle';
 import Box from "@material-ui/core/Box";
 import DropdownFilter from "../common/filters/DropdownFilter";
-import ClearFilter from "../common/filters/ClearFilter";
+import ClearFilters from "../common/filters/ClearFilters";
 import NumberFilter from "../common/filters/NumberFilter";
 import "react-datepicker/dist/react-datepicker.css";
 import { RangeDatepicker } from "chakra-dayzed-datepicker";
@@ -252,7 +252,7 @@ const Events = () => {
           selectedDates={selectedDates}
           onDateChange={(selectedDates) => setSelectedDates(selectedDates)}
         />
-        <ClearFilter
+        <ClearFilters
           onClick={() => handleRefreshFilter()}
         />
       </Box>

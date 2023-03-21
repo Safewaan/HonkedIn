@@ -11,7 +11,7 @@ import Search from '../common/Search';
 import { Select, Input } from '@chakra-ui/react'
 import DropdownFilter from "../common/filters/DropdownFilter";
 import InputFilter from "../common/filters/InputFilter";
-import ClearFilter from "../common/filters/ClearFilter";
+import ClearFilters from "../common/filters/ClearFilters";
 
 const { REACT_APP_API_ENDPOINT } = process.env;
 
@@ -127,7 +127,7 @@ const Network = () => {
           value={program}
           onChange={handleProgram}
         />
-        <ClearFilter
+        <ClearFilters
           onClick={() => handleRefreshFilter()}
         />
 

@@ -9,7 +9,7 @@ import Box from "@material-ui/core/Box";
 import Chip from '@material-ui/core/Chip';
 import { Select } from '@chakra-ui/react'
 import DropdownFilter from "../common/filters/DropdownFilter";
-import ClearFilter from "../common/filters/ClearFilter";
+import ClearFilters from "../common/filters/ClearFilters";
 import Search from '../common/Search';
 
 const { REACT_APP_API_ENDPOINT } = process.env;
@@ -32,7 +32,7 @@ const Resources = () => {
 
     // Filters
     const [mediaTag, setMediaTag] = React.useState('');
-    const mediaTagList = ["Interview Tips", "Youtube", "Stack Overflow", "School Website", "Personal Website", "Spreadsheet"];
+    const mediaTagList = ["Interview Tips", "Youtube", "Stack Overflow", "School", "Personal Website", "Spreadsheet"];
 
     const handleMediaTag = (event) => {
         setMediaTag(event.target.value);
@@ -146,7 +146,7 @@ const Resources = () => {
                     onChange={handleMediaTag}
                     lists={mediaTagList}
                 />
-                <ClearFilter
+                <ClearFilters
                     onClick={() => handleRefreshFilter()}
                 />
 
