@@ -5,7 +5,7 @@ import { Link, useHistory } from "react-router-dom"
 import NavigationBar from '../common/NavigationBar';
 
 import {
-    Button, 
+    Button,
     Text
 } from "@chakra-ui/react";
 
@@ -32,7 +32,7 @@ export default function UpdateCredentials() {
             <NavigationBar></NavigationBar>
             <Card>
                 <Card.Body>
-                    <Text className="header" textAlign="center">User Settings</Text>
+                    <Text className="header">User Settings</Text>
                     <Button
                         onClick={redirectUpdateCredentials}
                         className="button"

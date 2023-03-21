@@ -5,9 +5,9 @@
     font-size: 14px !important;
     font-weight: 400 !important;
     color: #FFFFFF !important;
-    background-color: #023679;
+    background-color: #023679 !important;
     text-decoration: none;
-    width: 100%;
+    width: 100% !important;
 }
 
 button:hover {
@@ -23,4 +23,26 @@ button:hover {
     font-family: "DM Sans";
     font-size: 16px !important;
     font-weight: 400 !important;
+    text-align: center;
+}
+
+.body {
+    font-family: "DM Sans";
+    font-size: 14px !important;
+    font-weight: 400 !important;
+}
+
+.link {
+    font-family: "DM Sans";
+    font-size: 12px !important;
+    margin-left: 8px;
+}
+
+.search-submit:hover {
+    color: #164684 !important;
+    box-shadow: none !important;
+}
+
+.search-submit:active {
+    color: #214E89 !important;
 }
