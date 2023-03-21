@@ -266,7 +266,7 @@ const MyForums = () => {
             <Box sx={{ width: '600px', position: 'absolute', top: 150, left: '50%', transform: 'translateX(-50%)', marginBottom: '20px' }}>
 
                 <Search
-                    label="Search for forums"
+                    label="Search for forum titles or descriptions"
                     searchTerm={searchTerm}
                     onSetSearch={handleSearch}
                     fullWidth
