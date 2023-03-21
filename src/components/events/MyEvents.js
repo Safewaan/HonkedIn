@@ -66,7 +66,6 @@ const MyEvents = () => {
     const [isCancelDialogOpen, setIsCancelDialogOpen] = React.useState(false);
     const [isParticipantsListOpen, setIsParticipantsListOpen] = React.useState(false);
     const [showCancelAlertMessage, setShowCancelAlertMessage] = React.useState(false);
-
     const [showEditAlertMessage, setShowEditAlertMessage] = React.useState(false);
 
     const [email, setEmail] = React.useState('');

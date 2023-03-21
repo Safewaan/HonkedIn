@@ -44,5 +44,7 @@ export const CREATE_RESOURCE_PAGE = "/create-resource";
 
 export const RESOURCES_PAGE = "/resources";
 
+export const MY_RESOURCES_PAGE = "/my-resources";
+
 // About us Routes
 export const ABOUT_US_PAGE = "/about-us";

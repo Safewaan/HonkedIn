@@ -96,9 +96,11 @@ app.use(getUsers);
 // Resources APIs
 const createResource = require(`${routesDir}resources/createResource`);
 const getResources = require(`${routesDir}resources/getResources`);
+const getResourcesByUser = require(`${routesDir}resources/getResourcesByUser`);
 
 app.use(createResource);
 app.use(getResources);
+app.use(getResourcesByUser);
 
 // Dashboard APIs
 const getRecentEvents = require(`${routesDir}dashboard/getRecentEvents`);
