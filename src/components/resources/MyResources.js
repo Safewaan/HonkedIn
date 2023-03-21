@@ -35,6 +35,31 @@ const MyResources = () => {
     const [isDialogOpen, setIsDialogOpen] = React.useState(false);
     const [showEditAlertMessage, setShowEditAlertMessage] = React.useState(false);
 
+    const [resourceTitle, setResourceTitle] = React.useState(""); 
+    const [resourceTitleError, setResourceTitleError] = React.useState(""); 
+    const [resourceTitleErrorText, setResourceTitleErrorText] = React.useState(""); 
+    const handleResourceTitle = (resource) => {
+        setResourceTitle(resource.target.value);
+        setResourceTitleError(false);
+        setResourceTitleErrorText('');
+    }
+    const [resourceLink, setResourceLink] = React.useState(""); 
+    const [resourceLinkError, setResourceLinkError] = React.useState(""); 
+    const [resourceLinkErrorText, setResourceLinkErrorText] = React.useState(""); 
+    const handleResourceLink = (resource) => {
+        setResourceLink(resource.target.value);
+        setResourceLinkError(false);
+        setResourceLinkErrorText('');
+    }
+    const [resourceTag, setResourceTag] = React.useState(""); 
+    const [resourceTagError, setResourceTagError] = React.useState(""); 
+    const [resourceTagErrorText, setResourceTagErrorText] = React.useState(""); 
+    const handleResourceTag = (resource) => {
+        setResourceTag(resource.target.value);
+        setResourceTagError(false);
+        setResourceTagErrorText('');
+    }
+
     React.useEffect(() => {
         setEmail(currentUser.email);
         loaduserSearchByEmail(currentUser.email);
@@ -102,6 +127,73 @@ const MyResources = () => {
     useEffect(() => {
         loadgetResourcesByUser();
     }, [userID, refreshSearch]);
+
+    const handleEditForum = () => {
+        if (resourceTitle === '') {
+            setResourceTitleError(true);
+            setResourceTitleErrorText('Please enter the resource title');
+            return false;
+        } else if (resourceLink === '') {
+            setResourceLinkError(true);
+            setResourceLinkErrorText('Please enter the resource link');
+            return false;
+        } else {
+            //console.log("about to call api edit forum");
+            CallApiEditResource();
+            setShowEditAlertMessage(true);
+            setTimeout(() => {
+                window.location.reload();
+            }, 3000);
+        }
+    }
+
+    const CallApiEditResource = async () => {
+
+        const url = `${REACT_APP_API_ENDPOINT}/editResource`;
+        console.log(url);
+
+        const response = await fetch(url, {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+            },
+            body: JSON.stringify({
+                resourceTitle: resourceTitle,
+                resourceLink: resourceLink,
+                resourceforumTag: resourceTag,
+            })
+        });
+
+        const body = await response.json();
+        if (response.status !== 200) throw Error(body.message);
+        return body;
+    }
+
+    const handleOpenDialog = (resource) => {
+        setSelectedResource(resource);
+        setIsDialogOpen(true);
+
+        // Update resource title
+        setResourceTitle(resource.resourcesTitle);
+        setResourceTitleError(false);
+        setResourceTitleErrorText('');
+
+        // Update resource link
+        setResourceLink(resource.resourcesLink);
+        setResourceLinkError(false);
+        setResourceLinkErrorText('');
+
+        // Update resource media tag
+        setResourceTag(resource.mediaTag);
+        setResourceTagError(false);
+        setResourceTagErrorText('');
+
+    };
+
+    const handleCloseDialog = () => {
+        setSelectedResource(null);
+        setIsDialogOpen(false);
+    };
 
     const handleRefreshSearch = async () => {
         setSearchTerm("");

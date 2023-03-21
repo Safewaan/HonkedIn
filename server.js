@@ -97,10 +97,12 @@ app.use(getUsers);
 const createResource = require(`${routesDir}resources/createResource`);
 const getResources = require(`${routesDir}resources/getResources`);
 const getResourcesByUser = require(`${routesDir}resources/getResourcesByUser`);
+const editResource = require(`${routesDir}resources/editResource`); 
 
 app.use(createResource);
 app.use(getResources);
 app.use(getResourcesByUser);
+app.use(editResource); 
 
 // Dashboard APIs
 const getRecentEvents = require(`${routesDir}dashboard/getRecentEvents`);
