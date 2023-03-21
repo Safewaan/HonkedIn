@@ -15,6 +15,7 @@ import DropdownFilter from "../common/filters/DropdownFilter";
 import ClearFilter from "../common/filters/ClearFilter";
 import NumberFilter from "../common/filters/NumberFilter";
 import "react-datepicker/dist/react-datepicker.css";
+import { RangeDatepicker } from "chakra-dayzed-datepicker";
 
 import {
   Alert,
@@ -198,15 +199,6 @@ const Events = () => {
   const [selectedDates, setSelectedDates] = React.useState([new Date(), new Date()]);
 
   const dateToday = new Date(new Date().getTime() - 24 * 60 * 60 * 1000);
-  const handleSelectedDates = (event) => {
-    setSelectedDates(event.target.value);
-  };
-
-  const datePickerRef = useRef(null);
-
-  const handleClick = () => {
-    datePickerRef.current.setOpen(true);
-  };
 
   const handleRefreshFilter = async () => {
     setStatus("");
@@ -262,11 +254,11 @@ const Events = () => {
           value={filterParticipants}
           onChange={handleFilterParticipants}
         />
+        <br />
         <DateFilter
-          placeholder={"Select the Date Range"}
-          date = {selectedDates}
-          minDate = {dateToday} 
-          setDate = {setSelectedDates}
+          placeholder="Select a Date Range"
+          selectedDates={selectedDates}
+          onDateChange={setSelectedDates}
         />
         <ClearFilter
           onClick={() => handleRefreshFilter()}
