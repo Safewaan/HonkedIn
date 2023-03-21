@@ -1,5 +1,5 @@
 import React, { useRef, useState, useEffect } from "react"
-import { Form, Button, Card } from "react-bootstrap"
+import { Card } from "react-bootstrap"
 import { Link, useHistory } from "react-router-dom"
 import "react-datepicker/dist/react-datepicker.css";
 import { useAuth } from "../../contexts/AuthContext"
@@ -7,9 +7,9 @@ import { useAuth } from "../../contexts/AuthContext"
 import {
     Alert,
     AlertIcon,
-    AlertTitle,
     AlertDescription,
     Box,
+    Button,
     Input,
     FormControl,
     FormLabel,
@@ -198,7 +198,7 @@ const CreateResource = () => {
             <NavigationBar></NavigationBar>
             <Card style={{ padding: '16px' }}>
                 <Text align="center" className="form-header">Create a Resource</Text>
-                <Form>
+                <FormControl>
                     <FormControl
                         isRequired
                         marginTop="16px"
@@ -249,7 +249,7 @@ const CreateResource = () => {
                         </Select>
                         <FormHelperText className="form-helper-text">Select a tag for your resource.</FormHelperText>
                     </FormControl>
-                </Form>
+                </FormControl>
 
                 <Box marginTop="16px">
                     <Button
