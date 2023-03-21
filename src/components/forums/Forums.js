@@ -9,8 +9,11 @@ import NavigationBar from '../common/NavigationBar';
 import Box from "@material-ui/core/Box";
 import DropdownFilter from "../common/filters/DropdownFilter";
 import ClearFilters from "../common/filters/ClearFilters";
+import DateFilter from "../common/filters/DateFilter";
 import Chip from '@material-ui/core/Chip';
 import Search from "../common/Search";
+import "react-datepicker/dist/react-datepicker.css";
+import zIndex from "@material-ui/core/styles/zIndex";
 
 const { REACT_APP_API_ENDPOINT } = process.env;
 
@@ -110,9 +113,12 @@ const Forums = () => {
         setStatus(event.target.value);
     }
 
+    const [selectedDates, setSelectedDates] = React.useState([]);
+
     const handleRefreshFilter = async () => {
         setForumTag("");
         setStatus("");
+        setSelectedDates([]);
     }
     const handleRefreshSearch = async () => {
         setSearchTerm("");
@@ -133,7 +139,7 @@ const Forums = () => {
                 </Typography>
             </Box>
 
-            <Box sx={{ width: '30%', position: 'absolute', top: 185, left: '50%', transform: 'translateX(-50%)', marginBottom: '20px' }}>
+            <Box sx={{ width: '30%', position: 'absolute', top: 185, left: '50%', transform: 'translateX(-50%)', marginBottom: '20px', zIndex: 1 }}>
                 <Search
                     label="Search for forum titles, descriptions, or creators"
                     searchTerm={searchTerm}
@@ -162,14 +168,19 @@ const Forums = () => {
                     onChange={handleStatus}
                     lists={statusList}
                 />
+                <br />
+                <DateFilter
+                    placeholder="Select a Date Range"
+                    selectedDates={selectedDates}
+                    onDateChange={(selectedDates) => setSelectedDates(selectedDates)}
+                />
                 <ClearFilters
                     onClick={() => handleRefreshFilter()}
                 />
 
             </Box>
 
-
-            <Box sx={{ position: 'absolute', top: 450, left: '50%', transform: 'translateX(-50%)' }}>
+            <Box sx={{ position: 'absolute', top: 550, left: '50%', transform: 'translateX(-50%)', zIndex: 0}}>
                 {forums.map((forum) => {
                     if (forumTag && forum.forumTag !== forumTag) {
                         return null;
@@ -177,9 +188,25 @@ const Forums = () => {
                     if (status && forum.status !== status) {
                         return null;
                     }
+                    if (selectedDates.length !== 0) {
+                        const startDate = new Date(selectedDates[0]);
+                        const endDate = new Date(selectedDates[1]);
+                        const convertDate = (new Date(forum.date).getTime() - (5 * 60 * 60 * 1000));
+                        const forumDate = new Date(convertDate);
+
+                        startDate.setHours(0, 0, 0, 0);
+                        endDate.setHours(0, 0, 0, 0);
+                        forumDate.setHours(0, 0, 0, 0);
+
+                        if (!(forumDate >= startDate && forumDate <= endDate) &&
+                            !(forumDate === startDate && forumDate >= startDate) &&
+                            !(forumDate === endDate && forumDate <= endDate)) {
+                            return null;
+                        }
+                    }
 
                     return (
-                        <Card style={{ width: '800px', marginBottom: '20px' }} key={forum.id}>
+                        <Card style={{ width: '800px', marginBottom: '20px'}} key={forum.id}>
                             <CardContent>
                                 <Link to={`/forum/${forum.id}`} target="_blank">
                                     <Typography variant="h5" component="div">

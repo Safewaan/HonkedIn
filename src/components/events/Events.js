@@ -277,7 +277,7 @@ const Events = () => {
             const startDate = new Date(selectedDates[0]);
             const endDate = new Date(selectedDates[1]);
             const convertDate = (new Date(event.date).getTime() - (5 * 60 * 60 * 1000));
-            const eventDate = new Date(convertDate)
+            const eventDate = new Date(convertDate);
 
             startDate.setHours(0, 0, 0, 0);
             endDate.setHours(0, 0, 0, 0);
