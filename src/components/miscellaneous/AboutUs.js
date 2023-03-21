@@ -48,9 +48,7 @@ const CreateResource = () => {
                     />
                     <Text align="center" fontSize='2xl' as='i'>Made by students, for students.</Text>
                     <Text align="center" fontSize='2xl'>We aim to connect like-minded scholars at University of Waterloo.</Text>
-                </Card>
-                <br></br>
-                <Card style={{ padding: '16px' }}>
+                    <br></br>
                     <Text align="center" fontSize='2xl'>Want to learn more about how HonkedIn was built?</Text>
                     <Link href='https://github.com/Safewaan/HonkedIn' isExternal align="center" target="_blank">
                         Find out more here!<ExternalLinkIcon mx='2px' />

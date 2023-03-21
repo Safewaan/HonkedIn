@@ -32,7 +32,7 @@ import NetworkProfile from "./userNetwork/NetworkProfile";
 import CreateResource from "./resources/CreateResource";
 import Resources from "./resources/Resources";
 
-import AboutUs from "./aboutUs/AboutUs";
+import AboutUs from "./miscellaneous/AboutUs";
 
 import {
   HOME_PAGE,
