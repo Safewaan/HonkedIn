@@ -10,6 +10,7 @@ import Box from "@material-ui/core/Box";
 import DropdownFilter from "../common/filters/DropdownFilter";
 import ClearFilter from "../common/filters/ClearFilter";
 import Chip from '@material-ui/core/Chip';
+import Search from "../common/Search";
 
 const { REACT_APP_API_ENDPOINT } = process.env;
 
@@ -22,10 +23,17 @@ const Forums = () => {
 
     const [forums, setForums] = React.useState([]);
 
+    const [searchTerm, setSearchTerm] = React.useState("");
+    const [refreshSearch, setRefreshSearch] = React.useState(1);
+
+    const handleSearch = (event) => {
+        setSearchTerm(event.target.value);
+    }
+
     React.useEffect(() => {
         setEmail(currentUser.email);
         loaduserSearchByEmail(currentUser.email);
-        //loadGetForums(); 
+        //loadGetForums(searchTerm);
     }, []);
 
     const loaduserSearchByEmail = (email) => {
@@ -55,15 +63,14 @@ const Forums = () => {
         return body;
     }
 
-    useEffect(() => {
-        loadGetForums();
-    }, []);
+    React.useEffect(() => {
+        loadGetForums(searchTerm);
+    }, [refreshSearch]);
 
     const loadGetForums = async () => {
         try {
-            const res = await callApiGetForums();
+            const res = await callApiGetForums(searchTerm);
             const parsed = JSON.parse(res.express);
-            //console.log(parsed[0].forumTitle);
             setForums(parsed);
 
         } catch (error) {
@@ -71,9 +78,9 @@ const Forums = () => {
         }
     }
 
-    const callApiGetForums = async () => {
+    const callApiGetForums = async (searchTerm) => {
 
-        const url = `${REACT_APP_API_ENDPOINT}/getForums`;
+        const url = `${REACT_APP_API_ENDPOINT}/getForums?searchTerm=${searchTerm}`;
         console.log(url);
 
         const response = await fetch(url, {
@@ -82,6 +89,7 @@ const Forums = () => {
                 "Content-Type": "application/json",
             }
         });
+        console.log("the searchTerm is " + searchTerm)
         const body = await response.json();
         if (response.status !== 200) throw Error(body.message);
         return body;
@@ -106,13 +114,17 @@ const Forums = () => {
         setForumTag("");
         setStatus("");
     }
+    const handleRefreshSearch = async () => {
+        setSearchTerm("");
+        setRefreshSearch(refreshSearch + 1);
+      }
 
     return (
         <div id="body">
 
             <NavigationBar></NavigationBar>
 
-            <Box sx={{ position: 'absolute', top: 145, left: '50%', transform: 'translate(-50%, -50%)' }}>
+            <Box sx={{ position: 'absolute', top: 115, left: '50%', transform: 'translate(-50%, -50%)' }}>
                 <Typography
                     variant="h4"
                     gutterBottom
@@ -145,6 +157,17 @@ const Forums = () => {
                     onClick={() => handleRefreshFilter()}
                 />
 
+            </Box>
+            
+            <Box sx={{ width: '600px', position: 'absolute', top: 150, left: '50%', transform: 'translateX(-50%)', marginBottom: '20px' }}>
+                <Search
+                    label="Search for forum titles, descriptions, or creators"
+                    searchTerm={searchTerm}
+                    onSetSearch={handleSearch}
+                    fullWidth
+                    onButtonClick={loadGetForums}
+                    onResetSearch={handleRefreshSearch}
+                />
             </Box>
 
             <Box sx={{ position: 'absolute', top: 350, left: '50%', transform: 'translateX(-50%)' }}>

@@ -2,7 +2,6 @@ import React, { useRef, useState, useEffect } from "react"
 import { useAuth } from "../../contexts/AuthContext"
 import { Link, useHistory } from "react-router-dom"
 import Card from '@material-ui/core/Card';
-import CardActions from '@material-ui/core/CardActions';
 import CardContent from '@material-ui/core/CardContent';
 import Typography from '@material-ui/core/Typography';
 import NavigationBar from '../common/NavigationBar';
@@ -11,6 +10,7 @@ import Chip from '@material-ui/core/Chip';
 import { Select } from '@chakra-ui/react'
 import DropdownFilter from "../common/filters/DropdownFilter";
 import ClearFilter from "../common/filters/ClearFilter";
+import Search from '../common/Search';
 
 const { REACT_APP_API_ENDPOINT } = process.env;
 
@@ -20,6 +20,13 @@ const Resources = () => {
     const history = useHistory();
     const [email, setEmail] = React.useState('');
     const [userID, setUserID] = React.useState('');
+
+    const [searchTerm, setSearchTerm] = React.useState("");
+    const [refreshSearch, setRefreshSearch] = React.useState(1);
+
+    const handleSearch = (event) => {
+        setSearchTerm(event.target.value);
+    }
 
     const [resources, setResources] = React.useState([]);
 
@@ -63,13 +70,13 @@ const Resources = () => {
         return body;
     }
 
-    useEffect(() => {
-        loadGetResources();
-    }, []);
+    React.useEffect(() => {
+        loadGetResources(searchTerm);
+    }, [refreshSearch]);
 
     const loadGetResources = async () => {
         try {
-            const res = await callApiGetResources();
+            const res = await callApiGetResources(searchTerm);
             const parsed = JSON.parse(res.express);
             setResources(parsed);
 
@@ -78,9 +85,9 @@ const Resources = () => {
         }
     }
 
-    const callApiGetResources = async () => {
+    const callApiGetResources = async (searchTerm) => {
 
-        const url = `${REACT_APP_API_ENDPOINT}/getResources`;
+        const url = `${REACT_APP_API_ENDPOINT}/getResources?searchTerm=${searchTerm}`;
         console.log(url);
 
         const response = await fetch(url, {
@@ -89,6 +96,7 @@ const Resources = () => {
                 "Content-Type": "application/json",
             }
         });
+        console.log("the searchTerm is " + searchTerm)
         const body = await response.json();
         if (response.status !== 200) throw Error(body.message);
         return body;
@@ -96,6 +104,10 @@ const Resources = () => {
 
     const handleRefreshFilter = async () => {
         setMediaTag("");
+        }
+    const handleRefreshSearch = async () => {
+        setSearchTerm("");
+        setRefreshSearch(refreshSearch + 1);
     }
 
     return (
@@ -103,7 +115,7 @@ const Resources = () => {
 
             <NavigationBar></NavigationBar>
 
-            <Box sx={{ position: 'absolute', top: 145, left: '50%', transform: 'translate(-50%, -50%)' }}>
+            <Box sx={{ position: 'absolute', top: 115, left: '50%', transform: 'translate(-50%, -50%)' }}>
                 <Typography
                     variant="h4"
                     gutterBottom
@@ -129,6 +141,17 @@ const Resources = () => {
                     onClick={() => handleRefreshFilter()}
                 />
 
+            </Box>
+            
+            <Box sx={{ width: '600px', position: 'absolute', top: 150, left: '50%', transform: 'translateX(-50%)', marginBottom: '20px' }}>
+                <Search
+                    label="Search for resource names or creators"
+                    searchTerm={searchTerm}
+                    onSetSearch={handleSearch}
+                    fullWidth
+                    onButtonClick={loadGetResources}
+                    onResetSearch={handleRefreshSearch}
+                />
             </Box>
 
             <Box sx={{ position: 'absolute', top: 300, left: '50%', transform: 'translateX(-50%)' }}>

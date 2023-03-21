@@ -210,7 +210,7 @@ const Events = () => {
 
       <NavigationBar></NavigationBar>
 
-      <Box sx={{ position: 'absolute', top: 145, left: '50%', transform: 'translate(-50%, -50%)' }}>
+      <Box sx={{ position: 'absolute', top: 115, left: '50%', transform: 'translate(-50%, -50%)' }}>
         <Typography
           variant="h4"
           gutterBottom
@@ -218,17 +218,17 @@ const Events = () => {
           Events
         </Typography>
       </Box>
-
+      
       <Box sx={{ width: '600px', position: 'absolute', top: 150, left: '50%', transform: 'translateX(-50%)', marginBottom: '20px', zIndex: 1 }}>
-
         <Search
-          label="Search for events"
+          label="Search for event names, descriptions, or hosts"
           searchTerm={searchTerm}
           onSetSearch={handleSearch}
           fullWidth
           onButtonClick={loadGetEvents}
+          onResetSearch={handleRefreshSearch}
         />
-
+        
         <Typography
           onClick={() => handleRefreshSearch()}
           style={{ color: "gray", mb: 1.5, cursor: 'pointer', fontSize: 12, align: 'right' }}

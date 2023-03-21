@@ -106,6 +106,7 @@ const Network = () => {
           onSetSearch={handleUserSearch}
           fullWidth
           onButtonClick={handleFindUser}
+          onResetSearch={handleRefreshSearch}
         />
 
         <Typography
@@ -136,7 +137,7 @@ const Network = () => {
         <ClearFilter
           onClick={() => handleRefreshFilter()}
         />
-
+        
       </Box>
       <br />
       <br />
