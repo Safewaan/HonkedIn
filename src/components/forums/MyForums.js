@@ -25,6 +25,7 @@ import DropdownFilter from "../common/filters/DropdownFilter";
 import ClearFilters from "../common/filters/ClearFilters";
 import DateFilter from "../common/filters/DateFilter";
 import Chip from '@material-ui/core/Chip';
+import "react-datepicker/dist/react-datepicker.css";
 
 import {
     Alert,
