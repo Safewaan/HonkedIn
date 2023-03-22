@@ -114,6 +114,10 @@ export default function Login() {
               Log In
             </Button>
           </Form>
+
+          <div className="link">
+            <Link to={FORGOT_PASSWORD_PAGE}>Forgot Password?</Link>
+          </div>
         </Card.Body>
       </Card>
 
