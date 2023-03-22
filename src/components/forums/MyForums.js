@@ -189,8 +189,7 @@ const MyForums = () => {
                 forumID: selectedForum.id
             })
         });
-
-        console.log("forumDesc = " + forumDesc)
+        //console.log("forumID = " + selectedForum.id)
         const body = await response.json();
         if (response.status !== 200) throw Error(body.message);
         return body;
@@ -444,7 +443,7 @@ const MyForums = () => {
                     status="success"
                     sx={{ position: 'fixed', bottom: 0, right: 0, width: '25%', zIndex: 9999 }}>
                     <AlertIcon />
-                    <AlertDescription>Forum successfully created.</AlertDescription>
+                    <AlertDescription>Forum successfully edited.</AlertDescription>
                 </Alert>
             )}
             {showSuccessfulArchiveMsg && (

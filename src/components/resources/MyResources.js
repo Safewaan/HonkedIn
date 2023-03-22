@@ -3,12 +3,21 @@ import { useAuth } from "../../contexts/AuthContext"
 import { Link, useHistory } from "react-router-dom"
 import Card from '@material-ui/core/Card';
 import CardContent from '@material-ui/core/CardContent';
+import CardActions from '@material-ui/core/CardActions';
 import Typography from '@material-ui/core/Typography';
 import NavigationBar from '../common/NavigationBar';
 import Search from '../common/Search';
 import Chip from '@material-ui/core/Chip';
 import DropdownFilter from "../common/filters/DropdownFilter";
 import ClearFilters from "../common/filters/ClearFilters";
+import Dialog from '@material-ui/core/Dialog';
+import DialogActions from '@material-ui/core/DialogActions';
+import DialogContent from '@material-ui/core/DialogContent';
+import DialogTitle from '@material-ui/core/DialogTitle';
+import Button from '@material-ui/core/Button';
+import { ChakraProvider } from "@chakra-ui/provider";
+import { makeStyles } from '@material-ui/core/styles';
+import FormHelperText from '@material-ui/core/FormHelperText';
 import {
     Alert,
     AlertIcon,
@@ -19,19 +28,40 @@ import {
     FormControl,
     FormLabel,
     FormErrorMessage,
-    FormHelperText,
     Select,
     Text
 } from '@chakra-ui/react';
 
-import "../../styles/form-style.css";
+//import "../../styles/form-style.css";
 
 const { REACT_APP_API_ENDPOINT } = process.env;
 
 const MyResources = () => {
+    const useStyles = makeStyles((theme) => ({
+        formControl: {
+            margin: theme.spacing(1),
+            minWidth: 120,
+        },
+        selectEmpty: {
+            marginTop: theme.spacing(2),
+        },
+        root: {
+            '& > *': {
+                margin: theme.spacing(1),
+                width: '50ch',
+            },
+        },
+        paper: {
+            padding: theme.spacing(2),
+            textAlign: 'center',
+        },
+    }));
+
 
     const { currentUser } = useAuth();
     const history = useHistory()
+    const classes = useStyles();
+
 
     const [searchTerm, setSearchTerm] = React.useState("");
     const [refreshSearch, setRefreshSearch] = React.useState(1);
@@ -42,14 +72,7 @@ const MyResources = () => {
     const [email, setEmail] = React.useState("");
     const [resources, setResources] = React.useState([]);
 
-    const [mediaTag, setMediaTag] = React.useState('');
-    const mediaTagList = ["Interview Tips", "Youtube", "Stack Overflow", "School", "Personal Website", "Spreadsheet"];
-
-    const handleMediaTag = (event) => {
-        setMediaTag(event.target.value);
-    }
-
-    const [selectedResource, setSelectedResource] = React.useState("");
+    const [selectedResource, setSelectedResource] = React.useState(null);
     const [isDialogOpen, setIsDialogOpen] = React.useState(false);
     const [showEditAlertMessage, setShowEditAlertMessage] = React.useState(false);
 
@@ -69,13 +92,17 @@ const MyResources = () => {
         setResourceLinkError(false);
         setResourceLinkErrorText('');
     }
+    //for editing chosen tag
+    const [mediaTag, setMediaTag] = React.useState("");
+    const mediaTagList = ["", "Interview Tips", "Youtube", "Stack Overflow", "School", "Personal Website", "Spreadsheet"];
+    const handleMediaTag = (event) => {
+        setMediaTag(event.target.value);
+    }
+
+    //for filtering
     const [resourceTag, setResourceTag] = React.useState("");
-    const [resourceTagError, setResourceTagError] = React.useState("");
-    const [resourceTagErrorText, setResourceTagErrorText] = React.useState("");
-    const handleResourceTag = (resource) => {
-        setResourceTag(resource.target.value);
-        setResourceTagError(false);
-        setResourceTagErrorText('');
+    const handleResourceTag = (event) => {
+        setResourceTag(event.target.value);
     }
 
     React.useEffect(() => {
@@ -137,7 +164,7 @@ const MyResources = () => {
             }
         });
         const body = await response.json();
-        console.log("got here");
+        //console.log("got here");
         if (response.status !== 200) throw Error(body.message);
         return body;
     }
@@ -156,7 +183,7 @@ const MyResources = () => {
             setResourceLinkErrorText('Please enter the resource link');
             return false;
         } else {
-            //console.log("about to call api edit forum");
+            //console.log("about to call api edit resource");
             CallApiEditResource();
             setShowEditAlertMessage(true);
             setTimeout(() => {
@@ -171,14 +198,15 @@ const MyResources = () => {
         console.log(url);
 
         const response = await fetch(url, {
-            method: "POST",
+            method: "PUT",
             headers: {
                 "Content-Type": "application/json",
             },
             body: JSON.stringify({
                 resourceTitle: resourceTitle,
                 resourceLink: resourceLink,
-                resourceforumTag: resourceTag,
+                mediaTag: mediaTag,
+                resourceID: selectedResource.id
             })
         });
 
@@ -189,6 +217,7 @@ const MyResources = () => {
 
     const handleOpenDialog = (resource) => {
         setSelectedResource(resource);
+        console.log(selectedResource)
         setIsDialogOpen(true);
 
         // Update resource title
@@ -202,10 +231,7 @@ const MyResources = () => {
         setResourceLinkErrorText('');
 
         // Update resource media tag
-        setResourceTag(resource.mediaTag);
-        setResourceTagError(false);
-        setResourceTagErrorText('');
-
+        setMediaTag(resource.mediaTag);
     };
 
     const handleCloseDialog = () => {
@@ -214,7 +240,7 @@ const MyResources = () => {
     };
 
     const handleRefreshFilter = async () => {
-        setMediaTag("");
+        setResourceTag("");
     }
 
     const handleRefreshSearch = async () => {
@@ -253,8 +279,8 @@ const MyResources = () => {
                 </Typography>
                 <DropdownFilter
                     placeholder="Select a Media Type Tag"
-                    value={mediaTag}
-                    onChange={handleMediaTag}
+                    value={resourceTag}
+                    onChange={handleResourceTag}
                     lists={mediaTagList}
                 />
                 <ClearFilters
@@ -263,37 +289,87 @@ const MyResources = () => {
             </Box>
 
             <Box sx={{ position: 'absolute', top: 390, left: '50%', transform: 'translateX(-50%)' }}>
-
-                {resources.map((resources) => {
-                    if (mediaTag && resources.mediaTag !== mediaTag) {
+                {resources.map((resource) => {
+                    if (resourceTag && resource.mediaTag !== resourceTag) {
                         return null;
                     }
                     return (
-                        <Card style={{ width: '800px', marginBottom: '20px' }}>
+                        <Card style={{ width: '800px', marginBottom: '20px' }} key={resource.id}>
                             <CardContent>
                                 <Typography variant="h5" component="div">
-                                    {resources.resourcesTitle}<br />
+                                    {resource.resourcesTitle}<br />
                                 </Typography>
-                                {resources.mediaTag && <Chip
-                                    key={resources.id}
-                                    label={resources.mediaTag}
+                                {resource.mediaTag && <Chip
+                                    key={resource.id}
+                                    label={resource.mediaTag}
                                     color="primary"
                                     size="small"
                                     style={{ marginRight: 8 }}
                                 />}
                                 <Typography sx={{ mb: 1.5 }} color="text.secondary">
-                                    Posted on {new Date(new Date(resources.dateTime).getTime() - (5 * 60 * 60 * 1000)).toLocaleDateString()}
+                                    Posted on {new Date(new Date(resource.dateTime).getTime() - (5 * 60 * 60 * 1000)).toLocaleDateString()}
                                 </Typography>
-                                <a href={`${resources.resourcesLink}`} target="_blank">
+                                <a href={`${resource.resourcesLink}`} target="_blank">
                                     <Typography sx={{ mb: 1.5 }} color="text.secondary">
-                                        <br />{resources.resourcesLink}<br />
+                                        <br />{resource.resourcesLink}<br />
                                     </Typography>
                                 </a>
                             </CardContent>
+                            <CardActions>
+                                {<Button onClick={() => handleOpenDialog(resource)}>Edit Resource</Button>}
+                            </CardActions>
                         </Card>
                     )
                 })}
             </Box>
+            <ChakraProvider>
+                {selectedResource && (
+                    <div>
+                        {/*Edit resource dialog*/}
+                        < Dialog open={isDialogOpen} onClose={handleCloseDialog} >
+                            <DialogTitle>{selectedResource.resourcesTitle}</DialogTitle>
+                            <DialogContent>
+                                <ResourceTitle
+                                    classes={classes}
+                                    resourceTitle={resourceTitle}
+                                    onEnterResourceTitle={handleResourceTitle}
+                                    resourceTitleError={resourceTitleError}
+                                    resourceTitleErrorText={resourceTitleErrorText}
+                                />
+
+                                <ResourceLink
+                                    classes={classes}
+                                    resourceLink={resourceLink}
+                                    onEnterResourceLink={handleResourceLink}
+                                    resourceLinkError={resourceLinkError}
+                                    resourceLinkErrorText={resourceLinkErrorText}
+                                />
+
+                                <MediaTag
+                                    classes={classes}
+                                    mediaTag={mediaTag}
+                                    handleMediaTag={handleMediaTag}
+                                    mediaTagList={mediaTagList}
+                                />
+
+                            </DialogContent>
+                            <DialogActions>
+                                <Button onClick={handleCloseDialog}>Close</Button>
+                                {<Button onClick={handleEditForum}>Edit Resource</Button>}
+                            </DialogActions>
+                        </Dialog>
+                    </div>
+                )}
+
+                {showEditAlertMessage && (
+                    <Alert
+                        status="success"
+                        sx={{ position: 'fixed', bottom: 0, right: 0, width: '25%', zIndex: 9999 }}>
+                        <AlertIcon />
+                        <AlertDescription>Resource successfully edited.</AlertDescription>
+                    </Alert>
+                )}
+            </ChakraProvider>
         </div>
     );
 
@@ -302,20 +378,66 @@ const MyResources = () => {
 const ResourceTitle = ({ resourceTitle, onEnterResourceTitle, resourceTitleError, resourceTitleErrorText }) => {
     return (
         <div>
-            <Input
-                id="resource-title"
-                label="Title"
-                placeholder="Enter the resource title"
-                value={resourceTitle}
-                onChange={onEnterResourceTitle}
-                error={resourceTitleError}
-                fullWidth
-            />
-            <FormHelperText>{resourceTitleErrorText}</FormHelperText>
+            <FormControl
+                isRequired
+                marginTop="16px"
+                isInvalid={resourceTitleError}
+            >
+                <Input
+                    id="resource-title"
+                    label="Title"
+                    placeholder="Enter the resource title"
+                    value={resourceTitle}
+                    onChange={onEnterResourceTitle}
+                    error={resourceTitleError}
+                    fullWidth
+                />
+                <FormHelperText>{resourceTitleErrorText}</FormHelperText>
+            </FormControl>
         </div>
     )
 }
 
+const ResourceLink = ({ resourceLink, onEnterResourceLink, resourceLinkError, resourceLinkErrorText }) => {
+    return (
+        <div>
+            <FormControl
+                isRequired
+                marginTop="16px"
+                isInvalid={resourceLinkError}>
+                <FormLabel className="form-label">Link</FormLabel>
+                <Input
+                    placeholder='Resource link'
+                    className="form-input"
+                    value={resourceLink}
+                    onChange={onEnterResourceLink}
+                    inputProps={{ maxLength: 1000 }}
+                />
+                <FormHelperText className="form-helper-text">Enter the link to your resource ex: "https://www.google.com/".</FormHelperText>
+                <FormErrorMessage className="form-helper-text">{resourceLinkErrorText}</FormErrorMessage>
+            </FormControl>
+        </div>
+    )
+}
+const MediaTag = ({ mediaTag, handleMediaTag, mediaTagList }) => {
+    return (
+        <div>
+            <FormLabel className="form-label">Tag</FormLabel>
+            <Select
+                labelId="Media-Tag"
+                id="MediaTagList"
+                value={mediaTag}
+                onChange={handleMediaTag}
+                className="form-helper-text"
+            >
+                {mediaTagList.map((tag) => (
+                    <option value={tag}> {tag} </option>
+                ))}
+            </Select>
+            <FormHelperText className="form-helper-text">Select a tag for your resource.</FormHelperText>
+        </div>
+    )
+}
 
 
 

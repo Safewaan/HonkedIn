@@ -4,13 +4,13 @@ const mysql = require('mysql');
 const config = require('../../../config.js');
 
 //this edits an existing resource's information given the resource ID
-router.post('/api/editResource', (req, res) => {
+router.put('/api/editResource', (req, res) => {
 
 	let connection = mysql.createConnection(config);
 
 	let sql = "UPDATE resources SET resourcesTitle = ?, resourcesLink = ?, mediaTag = ? WHERE id = ?;";
 	//console.log(sql);
-	let data = [req.body.resourceTitle, req.body.resourceLink, req.body.resourceTag, req.body.resourceID];
+	let data = [req.body.resourceTitle, req.body.resourceLink, req.body.mediaTag, req.body.resourceID];
 	//console.log(data);
 
 	connection.query(sql, data, (error, results, fields) => {
