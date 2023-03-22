@@ -184,7 +184,7 @@ const CreateForum = () => {
             <NavigationBar></NavigationBar>
 
             <Card style={{ padding: '16px' }}>
-                <Text align="center" className="form-header">Create an Forum</Text>
+                <Text align="center" className="form-header">Create a Forum</Text>
                 <FormControl>
                     <FormControl
                         isRequired
