@@ -16,10 +16,16 @@ import DialogActions from '@material-ui/core/DialogActions';
 import DialogContent from '@material-ui/core/DialogContent';
 import DialogTitle from '@material-ui/core/DialogTitle';
 import { Form } from "react-bootstrap"
+import Search from '../common/Search';
 import Select from "@material-ui/core/Select";
 import MenuItem from "@material-ui/core/MenuItem";
 import InputLabel from "@material-ui/core/InputLabel";
 import FormControl from "@material-ui/core/FormControl";
+import DropdownFilter from "../common/filters/DropdownFilter";
+import ClearFilters from "../common/filters/ClearFilters";
+import DateFilter from "../common/filters/DateFilter";
+import Chip from '@material-ui/core/Chip';
+import "react-datepicker/dist/react-datepicker.css";
 
 import {
     Alert,
@@ -68,6 +74,12 @@ const MyForums = () => {
     const [forumStatus, setForumStatus] = React.useState('');
     const [showSuccessfulArchiveMsg, setshowSuccessfulArchiveMsg] = React.useState(false);
 
+    const [searchTerm, setSearchTerm] = React.useState("");
+    const [refreshSearch, setRefreshSearch] = React.useState(1);
+    const handleSearch = (event) => {
+        setSearchTerm(event.target.value);
+    }
+
     React.useEffect(() => {
         setEmail(currentUser.email);
         loaduserSearchByEmail(currentUser.email);
@@ -102,7 +114,7 @@ const MyForums = () => {
 
     const loadgetForumsByUserID = async () => {
         try {
-            const res = await CallApigetForumsByUserID();
+            const res = await CallApigetForumsByUserID(userID, searchTerm);
             const parsed = JSON.parse(res.express);
             setForums(parsed);
             setForumStatus(parsed.status);
@@ -111,19 +123,16 @@ const MyForums = () => {
         }
     }
 
-    const CallApigetForumsByUserID = async () => {
+    const CallApigetForumsByUserID = async (userID, searchTerm) => {
 
-        const url = `${REACT_APP_API_ENDPOINT}/getForumsByUserID`;
+        const url = `${REACT_APP_API_ENDPOINT}/getForumsByUserID?userID=${userID}&searchTerm=${searchTerm}`;
         console.log(url);
 
         const response = await fetch(url, {
-            method: "POST",
+            method: "GET",
             headers: {
                 "Content-Type": "application/json",
-            },
-            body: JSON.stringify({
-                userID: userID
-            })
+            }
         });
         const body = await response.json();
         console.log("got here");
@@ -133,7 +142,7 @@ const MyForums = () => {
 
     useEffect(() => {
         loadgetForumsByUserID();
-    }, [userID]);
+    }, [userID, refreshSearch]);
 
     const callApiArchiveForum = async (forumID) => {
         const url = `${REACT_APP_API_ENDPOINT}/archiveForum`;
@@ -205,13 +214,6 @@ const MyForums = () => {
         setForumDescErrorText('');
     }
 
-    const [forumTag, setForumTag] = React.useState('');
-    const forumTagList = ["School", "Co-op", "Funny", "Debate", "Rant", "Interview", "Class Review", "Good News"];
-
-    const handleForumTag = (event) => {
-        setForumTag(event.target.value);
-    }
-
     const handleEditForum = () => {
         if (forumTitle === '') {
             setForumTitleError(true);
@@ -255,12 +257,40 @@ const MyForums = () => {
         setIsDialogOpen(false);
     };
 
+    const handleRefreshSearch = async () => {
+        setSearchTerm("");
+        setRefreshSearch(refreshSearch + 1);
+    }
+
+    // Filters
+    const [forumTag, setForumTag] = React.useState('');
+    const forumTagList = ["School", "Co-op", "Funny", "Debate", "Rant", "Interview", "Class Review", "Good News"];
+
+    const handleForumTag = (event) => {
+        setForumTag(event.target.value);
+    }
+
+    const [status, setStatus] = React.useState('');
+    const statusList = ["Active", "Archived"];
+
+    const handleStatus = (event) => {
+        setStatus(event.target.value);
+    }
+
+    const [selectedDates, setSelectedDates] = React.useState([]);
+
+    const handleRefreshFilter = async () => {
+        setForumTag("");
+        setStatus("");
+        setSelectedDates([]);
+    }
+
     return (
         <div id="body">
 
             <NavigationBar></NavigationBar>
 
-            <Box sx={{ position: 'absolute', top: 145, left: '50%', transform: 'translate(-50%, -50%)' }}>
+            <Box sx={{ position: 'absolute', top: 115, left: '50%', transform: 'translate(-50%, -50%)' }}>
                 <Typography
                     variant="h4"
                     gutterBottom
@@ -269,32 +299,106 @@ const MyForums = () => {
                 </Typography>
             </Box>
 
-            <Box sx={{ position: 'absolute', top: 180, left: '50%', transform: 'translateX(-50%)' }}>
-                {forums.map((forum) => (
-                    <Card style={{ width: '800px', marginBottom: '20px' }} key={forum.id}>
-                        <CardContent>
-                            <Link to={`/forum/${forum.id}`} target="_blank">
-                                <Typography variant="h5" component="div">
-                                    {forum.forumTitle}<br />
-                                </Typography>
-                            </Link>
-                            <Typography sx={{ mb: 1.5 }} color="text.secondary">
-                                Posted on {new Date(forum.dateTime).toLocaleDateString()}<br />
-                            </Typography>
-                            <Typography variant="subtitle2" sx={{ mb: 1.5 }} color="text.secondary">
-                                Status: {forum.status}<br />
-                            </Typography>
-                            <Typography sx={{ mb: 1.5 }} color="text.secondary">
-                                <br />{forum.description}<br />
-                            </Typography>
+            <Box sx={{ width: '600px', position: 'absolute', top: 150, left: '50%', transform: 'translateX(-50%)', marginBottom: '20px', zIndex: 1 }}>
 
-                        </CardContent>
-                        <CardActions>
-                            {forum.status === "Active" && <Button onClick={() => handleOpenDialog(forum)}>Edit Forum</Button>}
-                            {forum.status === 'Active' && (<Button onClick={() => handleArchiveForum(forum.id)}>Archive Forum</Button>)}
-                        </CardActions>
-                    </Card>
-                ))}
+                <Search
+                    label="Search for forum titles or descriptions"
+                    searchTerm={searchTerm}
+                    onSetSearch={handleSearch}
+                    fullWidth
+                    onButtonClick={loadgetForumsByUserID}
+                    onResetSearch={handleRefreshSearch}
+                />
+                <br />
+                <Typography
+                    style={{ color: "black", mb: 2, fontSize: 14, align: 'right' }}
+                >
+                    Filters
+                </Typography>
+                <DropdownFilter
+                    placeholder="Select a Forum Tag"
+                    value={forumTag}
+                    onChange={handleForumTag}
+                    lists={forumTagList}
+                />
+                <br />
+                <DropdownFilter
+                    placeholder="Select the Status"
+                    value={status}
+                    onChange={handleStatus}
+                    lists={statusList}
+                />
+                <br />
+                <DateFilter
+                    placeholder="Select a Date Range"
+                    selectedDates={selectedDates}
+                    onDateChange={(selectedDates) => setSelectedDates(selectedDates)}
+                />
+                <ClearFilters
+                    onClick={() => handleRefreshFilter()}
+                />
+
+
+            </Box>
+
+            <Box sx={{ position: 'absolute', top: 490, left: '50%', transform: 'translateX(-50%)', zIndex: 0 }}>
+                {forums.map((forum) => {
+                    if (forumTag && forum.forumTag !== forumTag) {
+                        return null;
+                    }
+                    if (status && forum.status !== status) {
+                        return null;
+                    }
+                    if (selectedDates.length !== 0) {
+                        const startDate = new Date(selectedDates[0]);
+                        const endDate = new Date(selectedDates[1]);
+                        const convertDate = (new Date(forum.dateTime).getTime() - (5 * 60 * 60 * 1000));
+                        const forumDate = new Date(convertDate);
+
+                        startDate.setHours(0, 0, 0, 0);
+                        endDate.setHours(0, 0, 0, 0);
+                        forumDate.setHours(0, 0, 0, 0);
+
+                        if (!(forumDate >= startDate && forumDate <= endDate) &&
+                            !(forumDate === startDate && forumDate >= startDate) &&
+                            !(forumDate === endDate && forumDate <= endDate)) {
+                            return null;
+                        }
+                    }
+
+                    return (
+                        <Card style={{ width: '800px', marginBottom: '20px' }} key={forum.id}>
+                            <CardContent>
+                                <Link to={`/forum/${forum.id}`} target="_blank">
+                                    <Typography variant="h5" component="div">
+                                        {forum.forumTitle}<br />
+                                    </Typography>
+                                </Link>
+                                {forum.forumTag && <Chip
+                                    key={forum.id}
+                                    label={forum.forumTag}
+                                    color="primary"
+                                    size="small"
+                                    style={{ marginRight: 8 }}
+                                />}
+                                <Typography sx={{ mb: 1.5 }} color="text.secondary">
+                                    Posted on {new Date(forum.dateTime).toLocaleDateString()}<br />
+                                </Typography>
+                                <Typography variant="subtitle2" sx={{ mb: 1.5 }} color="text.secondary">
+                                    Status: {forum.status}<br />
+                                </Typography>
+                                <Typography sx={{ mb: 1.5 }} color="text.secondary">
+                                    <br />{forum.description}<br />
+                                </Typography>
+
+                            </CardContent>
+                            <CardActions>
+                                {forum.status === "Active" && <Button onClick={() => handleOpenDialog(forum)}>Edit Forum</Button>}
+                                {forum.status === 'Active' && (<Button onClick={() => handleArchiveForum(forum.id)}>Archive Forum</Button>)}
+                            </CardActions>
+                        </Card>
+                    );
+                })}
             </Box>
 
             {selectedForum && (

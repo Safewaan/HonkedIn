@@ -9,13 +9,16 @@ router.get('/api/getResources', (req, res) => {
 	let connection = mysql.createConnection(config);
 
 	let sql = 
-	`SELECT CONCAT(firstName, " ", lastName) AS creatorName, resources.resourcesTitle, resources.resourcesLink, resources.dateTime
+	`SELECT CONCAT(firstName, " ", lastName) AS creatorName, resources.resourcesTitle, resources.resourcesLink, resources.dateTime, resources.mediaTag
     FROM resources, users
-    WHERE creatorID = users.id;`; 
+    WHERE creatorID = users.id
+	AND (resourcesTitle like ? OR CONCAT(firstName, " ", lastName) like ?)`;
+	let searchTerm = req.query.searchTerm
+	let data = ["%" + searchTerm + "%", "%" + searchTerm + "%"]
 	
 	//console.log(sql);
 
-	connection.query(sql, (error, results, fields) => {
+	connection.query(sql, data, (error, results, fields) => {
 		if (error) {
 			return console.error(error.message);
 		}
