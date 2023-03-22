@@ -240,7 +240,7 @@ const MyResources = () => {
                 resourceID: selectedResource.id
             })
         });
-        console.log("want to delete resource: "+ selectedResource.id)
+        console.log("want to delete resource: " + selectedResource.id)
         const body = await response.json();
         if (response.status !== 200) throw Error(body.message);
         return body;
@@ -429,6 +429,16 @@ const MyResources = () => {
                         </Dialog>
                     </div>
                 )}
+
+                {showSuccessfulDeleteMsg && (
+                    <Alert
+                        status="success"
+                        sx={{ position: 'fixed', bottom: 0, right: 0, width: '25%', zIndex: 9999 }}>
+                        <AlertIcon />
+                        <AlertDescription>Resource successfully deleted.</AlertDescription>
+                    </Alert>
+                )}
+
             </ChakraProvider>
         </div>
     );
