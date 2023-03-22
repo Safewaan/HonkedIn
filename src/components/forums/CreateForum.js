@@ -193,7 +193,7 @@ const CreateForum = () => {
                     >
                         <FormLabel className="form-label">Name</FormLabel>
                         <Input
-                            placeholder='Event name'
+                            placeholder='Forum name'
                             className="form-input"
                             value={forumName}
                             onChange={handleForumName}
@@ -209,7 +209,7 @@ const CreateForum = () => {
                         isInvalid={forumDescError}>
                         <FormLabel className="form-label">Description</FormLabel>
                         <Input
-                            placeholder='Event description'
+                            placeholder='Forum description'
                             className="form-input"
                             value={forumDesc}
                             onChange={handleForumDesc}
