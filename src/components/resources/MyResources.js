@@ -5,16 +5,23 @@ import Card from '@material-ui/core/Card';
 import CardContent from '@material-ui/core/CardContent';
 import Typography from '@material-ui/core/Typography';
 import NavigationBar from '../common/NavigationBar';
-import Box from "@material-ui/core/Box";
 import Search from '../common/Search';
-
 import {
     Alert,
     AlertIcon,
     AlertTitle,
     AlertDescription,
+    Box,
+    Input,
+    FormControl,
+    FormLabel,
+    FormErrorMessage,
+    FormHelperText,
+    Select,
+    Text
 } from '@chakra-ui/react';
-import Resources from "./Resources";
+
+import "../../styles/form-style.css";
 
 const { REACT_APP_API_ENDPOINT } = process.env;
 
@@ -35,25 +42,25 @@ const MyResources = () => {
     const [isDialogOpen, setIsDialogOpen] = React.useState(false);
     const [showEditAlertMessage, setShowEditAlertMessage] = React.useState(false);
 
-    const [resourceTitle, setResourceTitle] = React.useState(""); 
-    const [resourceTitleError, setResourceTitleError] = React.useState(""); 
-    const [resourceTitleErrorText, setResourceTitleErrorText] = React.useState(""); 
+    const [resourceTitle, setResourceTitle] = React.useState("");
+    const [resourceTitleError, setResourceTitleError] = React.useState("");
+    const [resourceTitleErrorText, setResourceTitleErrorText] = React.useState("");
     const handleResourceTitle = (resource) => {
         setResourceTitle(resource.target.value);
         setResourceTitleError(false);
         setResourceTitleErrorText('');
     }
-    const [resourceLink, setResourceLink] = React.useState(""); 
-    const [resourceLinkError, setResourceLinkError] = React.useState(""); 
-    const [resourceLinkErrorText, setResourceLinkErrorText] = React.useState(""); 
+    const [resourceLink, setResourceLink] = React.useState("");
+    const [resourceLinkError, setResourceLinkError] = React.useState("");
+    const [resourceLinkErrorText, setResourceLinkErrorText] = React.useState("");
     const handleResourceLink = (resource) => {
         setResourceLink(resource.target.value);
         setResourceLinkError(false);
         setResourceLinkErrorText('');
     }
-    const [resourceTag, setResourceTag] = React.useState(""); 
-    const [resourceTagError, setResourceTagError] = React.useState(""); 
-    const [resourceTagErrorText, setResourceTagErrorText] = React.useState(""); 
+    const [resourceTag, setResourceTag] = React.useState("");
+    const [resourceTagError, setResourceTagError] = React.useState("");
+    const [resourceTagErrorText, setResourceTagErrorText] = React.useState("");
     const handleResourceTag = (resource) => {
         setResourceTag(resource.target.value);
         setResourceTagError(false);
@@ -248,5 +255,25 @@ const MyResources = () => {
     );
 
 }
+
+const ResourceTitle = ({ resourceTitle, onEnterResourceTitle, resourceTitleError, resourceTitleErrorText }) => {
+    return (
+        <div>
+            <Input
+                id="resource-title"
+                label="Title"
+                placeholder="Enter the resource title"
+                value={resourceTitle}
+                onChange={onEnterResourceTitle}
+                error={resourceTitleError}
+                fullWidth
+            />
+            <FormHelperText>{resourceTitleErrorText}</FormHelperText>
+        </div>
+    )
+}
+
+
+
 
 export default MyResources; 
