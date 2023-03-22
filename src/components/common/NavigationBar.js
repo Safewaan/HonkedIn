@@ -37,6 +37,7 @@ import {
   USER_SETTINGS_PAGE,
   CREATE_RESOURCE_PAGE,
   RESOURCES_PAGE,
+  MY_RESOURCES_PAGE,
   NETWORK_PAGE,
   ABOUT_US_PAGE
 } from "../constants/Routes";
@@ -66,6 +67,7 @@ export default function NavigationBar() {
   const handleMyForums = redirectToPage(MY_FORUMS_PAGE);
   const handleCreateResources = redirectToPage(CREATE_RESOURCE_PAGE);
   const handleResources = redirectToPage(RESOURCES_PAGE);
+  const handleMyResources = redirectToPage(MY_RESOURCES_PAGE);
   const handleNetwork = redirectToPage(NETWORK_PAGE);
   const handleAboutUs = redirectToPage(ABOUT_US_PAGE);
 
@@ -177,6 +179,7 @@ export default function NavigationBar() {
           <MenuList>
             <MenuGroup>
               <MenuItem className="navbar-dropdown-text" onClick={handleResources}>All Resources</MenuItem>
+              <MenuItem className="navbar-dropdown-text" onClick={handleMyResources}>My Resources</MenuItem>
             </MenuGroup>
             <MenuDivider />
             <MenuGroup>

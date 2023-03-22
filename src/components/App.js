@@ -31,6 +31,7 @@ import NetworkProfile from "./userNetwork/NetworkProfile";
 
 import CreateResource from "./resources/CreateResource";
 import Resources from "./resources/Resources";
+import MyResources from "./resources/MyResources";
 
 import AboutUs from "./miscellaneous/AboutUs";
 
@@ -53,6 +54,7 @@ import {
   CREATE_RESOURCE_PAGE,
   MY_COMMENTS_PAGE,
   RESOURCES_PAGE,
+  MY_RESOURCES_PAGE, 
   NETWORK_PAGE,
   NETWORK_PROFILE_PAGE,
   ABOUT_US_PAGE
@@ -102,6 +104,7 @@ function App() {
                 {/* Resources Pages */}
                 <PrivateRoute path={CREATE_RESOURCE_PAGE} component={CreateResource} />
                 <PrivateRoute path={RESOURCES_PAGE} component={Resources} />
+                <PrivateRoute path={MY_RESOURCES_PAGE} component={MyResources} />
 
                 {/* About Us Pages */}
                 <PrivateRoute path={ABOUT_US_PAGE} component={AboutUs} />

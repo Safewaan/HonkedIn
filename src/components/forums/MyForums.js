@@ -189,8 +189,7 @@ const MyForums = () => {
                 forumID: selectedForum.id
             })
         });
-
-        console.log("forumDesc = " + forumDesc)
+        //console.log("forumID = " + selectedForum.id)
         const body = await response.json();
         if (response.status !== 200) throw Error(body.message);
         return body;
@@ -270,6 +269,12 @@ const MyForums = () => {
         setForumTag(event.target.value);
     }
 
+    //for filtering
+    const [forumFilterTag, setForumFilterTag] = React.useState("");
+    const handleForumFilterTag = (event) => {
+        setForumFilterTag(event.target.value);
+    }
+
     const [status, setStatus] = React.useState('');
     const statusList = ["Active", "Archived"];
 
@@ -280,7 +285,7 @@ const MyForums = () => {
     const [selectedDates, setSelectedDates] = React.useState([]);
 
     const handleRefreshFilter = async () => {
-        setForumTag("");
+        setForumFilterTag("");
         setStatus("");
         setSelectedDates([]);
     }
@@ -317,8 +322,8 @@ const MyForums = () => {
                 </Typography>
                 <DropdownFilter
                     placeholder="Select a Forum Tag"
-                    value={forumTag}
-                    onChange={handleForumTag}
+                    value={forumFilterTag}
+                    onChange={handleForumFilterTag}
                     lists={forumTagList}
                 />
                 <br />
@@ -343,7 +348,7 @@ const MyForums = () => {
 
             <Box sx={{ position: 'absolute', top: 490, left: '50%', transform: 'translateX(-50%)', zIndex: 0 }}>
                 {forums.map((forum) => {
-                    if (forumTag && forum.forumTag !== forumTag) {
+                    if (forumFilterTag && forum.forumTag !== forumFilterTag) {
                         return null;
                     }
                     if (status && forum.status !== status) {
@@ -444,7 +449,7 @@ const MyForums = () => {
                     status="success"
                     sx={{ position: 'fixed', bottom: 0, right: 0, width: '25%', zIndex: 9999 }}>
                     <AlertIcon />
-                    <AlertDescription>Forum successfully created.</AlertDescription>
+                    <AlertDescription>Forum successfully edited.</AlertDescription>
                 </Alert>
             )}
             {showSuccessfulArchiveMsg && (

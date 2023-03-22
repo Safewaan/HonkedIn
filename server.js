@@ -14,7 +14,7 @@ app.use(bodyParser.urlencoded({ limit: '50mb', extended: true }));
 app.use(function (req, res, next) {
 	res.header("Access-Control-Allow-Origin", "*");
 	res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
-	res.header("Access-Control-Allow-Methods", "GET, OPTIONS, POST, PUT");
+	res.header("Access-Control-Allow-Methods", "GET, OPTIONS, POST, PUT, DELETE");
 	next();
 });
 
@@ -96,9 +96,15 @@ app.use(getUsers);
 // Resources APIs
 const createResource = require(`${routesDir}resources/createResource`);
 const getResources = require(`${routesDir}resources/getResources`);
+const getResourcesByUser = require(`${routesDir}resources/getResourcesByUser`);
+const editResource = require(`${routesDir}resources/editResource`); 
+const deleteResource = require(`${routesDir}resources/deleteResource`);
 
 app.use(createResource);
 app.use(getResources);
+app.use(getResourcesByUser);
+app.use(editResource); 
+app.use(deleteResource);
 
 // Dashboard APIs
 const getRecentEvents = require(`${routesDir}dashboard/getRecentEvents`);
