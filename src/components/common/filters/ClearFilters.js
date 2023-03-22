@@ -10,7 +10,7 @@ const ClearFilters = ({ onClick}) => {
                 className="search-reset"
                 _hover={{ textDecor: "none" }}
             >
-                Clear Filter
+                Clear Filters
             </Button>
         </Box>
 

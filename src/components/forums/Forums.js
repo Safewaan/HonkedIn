@@ -193,9 +193,9 @@ const Forums = () => {
                         const convertDate = (new Date(forum.date).getTime() - (5 * 60 * 60 * 1000));
                         const forumDate = new Date(convertDate);
 
-                        startDate.setHours(0, 0, 0, 0);
-                        endDate.setHours(0, 0, 0, 0);
-                        forumDate.setHours(0, 0, 0, 0);
+                        startDate.setHours(0, 0, 0, 0,0);
+                        endDate.setHours(0, 0, 0, 0,0);
+                        forumDate.setHours(0, 0, 0, 0,0);
 
                         if (!(forumDate >= startDate && forumDate <= endDate) &&
                             !(forumDate === startDate && forumDate >= startDate) &&
