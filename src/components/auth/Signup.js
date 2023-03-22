@@ -69,12 +69,24 @@ export default function Signup() {
   async function handleSubmit(e) {
     e.preventDefault()
 
+    if (firstNameRef.current.value === "") {
+      return setError("Please input your first name.");
+    }
+
+    if (lastNameRef.current.value === "") {
+      return setError("Please input your last name.");
+    }
+
+    if (emailRef.current.value === "") {
+      return setError("Please input your email.");
+    }
+
     if (passwordRef.current.value !== passwordConfirmRef.current.value) {
-      return setError("Passwords do not match.")
+      return setError("Passwords do not match.");
     }
 
     if (passwordRef.current.value.length < 8) {
-      return setError("The new password must be at least 8 characters in length.")
+      return setError("The new password must be at least 8 characters in length.");
     }
 
     try {
@@ -125,12 +137,12 @@ export default function Signup() {
               id="first-name"
               className="body"
               marginTop="16px"
+              isRequired
             >
               <FormLabel className="body">First Name</FormLabel>
               <Input
                 type="email"
                 ref={firstNameRef}
-                required
               />
             </FormControl>
 
@@ -138,12 +150,12 @@ export default function Signup() {
               id="last-name"
               className="body"
               marginTop="16px"
+              isRequired
             >
               <FormLabel className="body">Last Name</FormLabel>
               <Input
                 type="email"
                 ref={lastNameRef}
-                required
               />
             </FormControl>
 
@@ -151,12 +163,12 @@ export default function Signup() {
               id="email"
               className="body"
               marginTop="16px"
+              isRequired
             >
               <FormLabel className="body">Email</FormLabel>
               <Input
                 type="email"
                 ref={emailRef}
-                required
               />
             </FormControl>
 
@@ -164,6 +176,7 @@ export default function Signup() {
               id="password"
               className="body"
               marginTop="16px"
+              isRequired
             >
               <FormLabel className="body">Password</FormLabel>
               <Input
@@ -176,6 +189,7 @@ export default function Signup() {
               id="password-confirm"
               className="body"
               marginTop="16px"
+              isRequired
             >
               <FormLabel className="body">Password Confirmation</FormLabel>
               <Input
