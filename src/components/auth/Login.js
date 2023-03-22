@@ -51,7 +51,7 @@ export default function Login() {
   }
 
   return (
-    <Box transform="translateY(-20px)">
+    <Box transform="translateY(-10%)">
       <Box
         className="title"
         display="flex"
