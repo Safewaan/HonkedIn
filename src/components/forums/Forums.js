@@ -13,7 +13,6 @@ import DateFilter from "../common/filters/DateFilter";
 import Chip from '@material-ui/core/Chip';
 import Search from "../common/Search";
 import "react-datepicker/dist/react-datepicker.css";
-import zIndex from "@material-ui/core/styles/zIndex";
 
 const { REACT_APP_API_ENDPOINT } = process.env;
 

@@ -1,7 +1,7 @@
 import { Box, Button} from '@chakra-ui/react'
 import "../../../styles/search-style.css";
 
-const ClearFilter = ({ onClick}) => {
+const ClearFilters = ({ onClick}) => {
     return (
         <Box sx={{ display: 'flex', flexDirection: 'row', justifyContent: 'flex-start' }}>
             <Button
@@ -18,4 +18,4 @@ const ClearFilter = ({ onClick}) => {
 };
 
 
-export default ClearFilter; 
+export default ClearFilters; 
