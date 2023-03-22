@@ -464,7 +464,7 @@ const MyEvents = () => {
                     if (status && event.status !== status) {
                         return null;
                     }
-                    if (parseInt(filterParticipants) && parseInt(event.totalParticipants) !== parseInt(filterParticipants)) {
+                    if (parseInt(filterParticipants) && (parseInt(event.totalParticipants) >= parseInt(filterParticipants) && parseInt(event.totalParticipants) !== parseInt(filterParticipants))) {
                         return null;
                     }
                     if (selectedDates.length !== 0) {
