@@ -70,7 +70,11 @@ export default function Signup() {
     e.preventDefault()
 
     if (passwordRef.current.value !== passwordConfirmRef.current.value) {
-      return setError("Passwords do not match")
+      return setError("Passwords do not match.")
+    }
+
+    if (passwordRef.current.value.length < 8) {
+      return setError("The new password must be at least 8 characters in length.")
     }
 
     try {
@@ -80,7 +84,7 @@ export default function Signup() {
       callApiCreateUser()
       history.push(HOME_PAGE)
     } catch {
-      setError("Failed to create an account")
+      setError("Failed to create an account.")
     }
 
     setLoading(false)

@@ -37,6 +37,10 @@ export default function UpdateCredentials() {
       return setError("Passwords do not match.")
     }
 
+    if (passwordRef.current.value.length < 8) {
+      return setError("The new password must be at least 8 characters in length.")
+    }
+
     const promises = []
     setLoading(true)
     setError("")
@@ -53,7 +57,7 @@ export default function UpdateCredentials() {
         history.push(HOME_PAGE)
       })
       .catch(() => {
-        setError("Failed to update account")
+        setError("Failed to update account.")
       })
       .finally(() => {
         setLoading(false)
@@ -98,7 +102,7 @@ export default function UpdateCredentials() {
               className="body"
               marginTop="16px"
             >
-              <FormLabel className="body">Password</FormLabel>
+              <FormLabel className="body">New Password</FormLabel>
               <Input
                 type="password"
                 ref={passwordRef}
@@ -111,7 +115,7 @@ export default function UpdateCredentials() {
               className="body"
               marginTop="16px"
             >
-              <FormLabel className="body">Password Confirmation</FormLabel>
+              <FormLabel className="body">New Password Confirmation</FormLabel>
               <Input
                 type="password"
                 ref={passwordConfirmRef}
