@@ -269,6 +269,12 @@ const MyForums = () => {
         setForumTag(event.target.value);
     }
 
+    //for filtering
+    const [forumFilterTag, setForumFilterTag] = React.useState("");
+    const handleForumFilterTag = (event) => {
+        setForumFilterTag(event.target.value);
+    }
+
     const [status, setStatus] = React.useState('');
     const statusList = ["Active", "Archived"];
 
@@ -279,7 +285,7 @@ const MyForums = () => {
     const [selectedDates, setSelectedDates] = React.useState([]);
 
     const handleRefreshFilter = async () => {
-        setForumTag("");
+        setForumFilterTag("");
         setStatus("");
         setSelectedDates([]);
     }
@@ -316,8 +322,8 @@ const MyForums = () => {
                 </Typography>
                 <DropdownFilter
                     placeholder="Select a Forum Tag"
-                    value={forumTag}
-                    onChange={handleForumTag}
+                    value={forumFilterTag}
+                    onChange={handleForumFilterTag}
                     lists={forumTagList}
                 />
                 <br />
@@ -342,7 +348,7 @@ const MyForums = () => {
 
             <Box sx={{ position: 'absolute', top: 490, left: '50%', transform: 'translateX(-50%)', zIndex: 0 }}>
                 {forums.map((forum) => {
-                    if (forumTag && forum.forumTag !== forumTag) {
+                    if (forumFilterTag && forum.forumTag !== forumFilterTag) {
                         return null;
                     }
                     if (status && forum.status !== status) {

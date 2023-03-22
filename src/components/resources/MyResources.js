@@ -305,7 +305,7 @@ const MyResources = () => {
 
             <Box sx={{ width: '600px', position: 'absolute', top: 185, left: '50%', transform: 'translateX(-50%)', marginBottom: '20px' }}>
                 <Search
-                    label="Search for resource names or creators"
+                    label="Search for resource names"
                     searchTerm={searchTerm}
                     onSetSearch={handleSearch}
                     fullWidth
