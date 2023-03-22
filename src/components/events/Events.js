@@ -11,16 +11,23 @@ import DialogContent from '@material-ui/core/DialogContent';
 import DialogContentText from '@material-ui/core/DialogContentText';
 import DialogTitle from '@material-ui/core/DialogTitle';
 import Box from "@material-ui/core/Box";
+import DropdownFilter from "../common/filters/DropdownFilter";
+import ClearFilters from "../common/filters/ClearFilters";
+import NumberFilter from "../common/filters/NumberFilter";
+import "react-datepicker/dist/react-datepicker.css";
+import { RangeDatepicker } from "chakra-dayzed-datepicker";
 
 import {
   Alert,
   AlertIcon,
   AlertTitle,
   AlertDescription,
+  FormHelperText,
 } from '@chakra-ui/react'
 
 import NavigationBar from '../common/NavigationBar';
 import Search from '../common/Search';
+import DateFilter from "../common/filters/DateFilter";
 
 const { REACT_APP_API_ENDPOINT } = process.env;
 
@@ -177,6 +184,27 @@ const Events = () => {
     setRefreshSearch(refreshSearch + 1);
   }
 
+  // Filters
+  const [status, setStatus] = React.useState('Active');
+  const statusList = ["Active", "Cancelled"];
+
+  const handleStatus = (event) => {
+    setStatus(event.target.value);
+  }
+  const [filterParticipants, setFilterParticipants] = React.useState("");
+
+  const handleFilterParticipants = (value) => {
+    setFilterParticipants(value);
+  }
+
+  const [selectedDates, setSelectedDates] = React.useState([]);
+
+  const handleRefreshFilter = async () => {
+    setStatus("");
+    setFilterParticipants("");
+    setSelectedDates([]);
+  }
+
   return (
     <div id="body">
 
@@ -191,7 +219,7 @@ const Events = () => {
         </Typography>
       </Box>
 
-      <Box sx={{ width:'600px', position: 'absolute', top: 150, left: '50%', transform: 'translateX(-50%)', marginBottom: '20px' }}>
+      <Box sx={{ width: '600px', position: 'absolute', top: 150, left: '50%', transform: 'translateX(-50%)', marginBottom: '20px', zIndex: 1 }}>
         <Search
           label="Search for event names, descriptions, or hosts"
           searchTerm={searchTerm}
@@ -200,30 +228,89 @@ const Events = () => {
           onButtonClick={loadGetEvents}
           onResetSearch={handleRefreshSearch}
         />
+        <br />
+        <Typography
+          style={{ color: "black", mb: 2, fontSize: 14, align: 'right' }}
+        >
+          Filters
+        </Typography>
+        <DropdownFilter
+          placeholder="Select the Status"
+          value={status}
+          onChange={handleStatus}
+          lists={statusList}
+        />
+        <br />
+        <NumberFilter
+          placeholder="Select the Maximum Number of Participants"
+          value={filterParticipants}
+          onChange={handleFilterParticipants}
+        />
+        <br />
+        <DateFilter
+          placeholder="Select a Date Range"
+          selectedDates={selectedDates}
+          onDateChange={(selectedDates) => setSelectedDates(selectedDates)}
+        />
+        <ClearFilters
+          onClick={() => handleRefreshFilter()}
+        />
       </Box>
 
-      <Box sx={{ position: 'absolute', top: 260, left: '50%', transform: 'translateX(-50%)' }}>
-        {events.map((event) => (
-          <Card style={{ width: '600px', marginBottom: '20px' }} key={event.id}>
-            <CardContent>
-              <Typography variant="h5" component="div">
-                {event.name}<br />
-              </Typography>
-              <Typography sx={{ mb: 1.5 }} color="text.secondary">
-                Date: {new Date(new Date(event.date).getTime() - (5 * 60 * 60 * 1000)).toLocaleString()}<br />
-              </Typography>
-              <Typography sx={{ mb: 1.5 }} color="text.secondary">
-                Participants: {event.participants} / {event.totalParticipants}<br />
-              </Typography>
-              <Typography sx={{ mb: 1.5 }} color="text.secondary">
-                Status: {event.status}<br />
-              </Typography>
-            </CardContent>
-            <CardActions>
-              <Button onClick={() => handleOpenDialog(event)}>View Event</Button>
-            </CardActions>
-          </Card>
-        ))}
+      {/*<Box sx={{ display: 'flex', justifyContent: 'flex-end', width: '30%', position: 'absolute', top: 210, left: '50%', transform: 'translateX(-50%)', marginBottom: '20px' }}>
+        <SubmitButton
+          label={"SEARCH"}
+          onButtonClick={loadGetEvents}
+          position='absolute'
+        />
+      </Box>*/}
+
+      <Box sx={{ position: 'absolute', top: 525, left: '50%', transform: 'translateX(-50%)', zIndex: 0 }}>
+        {events.map((event) => {
+          if (status && event.status !== status) {
+            return null;
+          }
+          if (parseInt(filterParticipants) && (parseInt(event.totalParticipants) >= parseInt(filterParticipants) && parseInt(event.totalParticipants) !== parseInt(filterParticipants))) {
+            return null;
+          }
+          if (selectedDates.length !== 0) {
+            const startDate = new Date(selectedDates[0]);
+            const endDate = new Date(selectedDates[1]);
+            const convertDate = (new Date(event.date).getTime() - (5 * 60 * 60 * 1000));
+            const eventDate = new Date(convertDate);
+
+            startDate.setHours(0, 0, 0, 0);
+            endDate.setHours(0, 0, 0, 0);
+            eventDate.setHours(0, 0, 0, 0);
+
+            if (!(eventDate >= startDate && eventDate <= endDate) &&
+              !(eventDate === startDate && eventDate >= startDate) &&
+              !(eventDate === endDate && eventDate <= endDate)) {
+              return null;
+            }
+          }
+          return (
+            <Card style={{ width: '600px', marginBottom: '20px' }} key={event.id}>
+              <CardContent>
+                <Typography variant="h5" component="div">
+                  {event.name}<br />
+                </Typography>
+                <Typography sx={{ mb: 1.5 }} color="text.secondary">
+                  Date: {new Date(new Date(event.date).getTime() - (5 * 60 * 60 * 1000)).toLocaleString()}<br />
+                </Typography>
+                <Typography sx={{ mb: 1.5 }} color="text.secondary">
+                  Participants: {event.participants} / {event.totalParticipants}<br />
+                </Typography>
+                <Typography sx={{ mb: 1.5 }} color="text.secondary">
+                  Status: {event.status}<br />
+                </Typography>
+              </CardContent>
+              <CardActions>
+                <Button onClick={() => handleOpenDialog(event)}>View Event</Button>
+              </CardActions>
+            </Card>
+          );
+        })}
       </Box>
 
       {selectedEvent && (
@@ -245,12 +332,12 @@ const Events = () => {
       )}
 
       {alertSeverity !== '' && (
-      <Alert 
-      status={alertSeverity} 
-      sx={{ position: 'fixed', bottom: 0, right: 0, width: '25%', zIndex: 9999 }}>
-        <AlertIcon />
-        <AlertDescription>{alertMessage}</AlertDescription>
-      </Alert>
+        <Alert
+          status={alertSeverity}
+          sx={{ position: 'fixed', bottom: 0, right: 0, width: '25%', zIndex: 9999 }}>
+          <AlertIcon />
+          <AlertDescription>{alertMessage}</AlertDescription>
+        </Alert>
       )}
     </div>
   )

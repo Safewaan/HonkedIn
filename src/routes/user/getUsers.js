@@ -10,7 +10,10 @@ const config = require('../../../config.js');
 router.get('/api/getUsers', (req, res) => {
 
     let connection = mysql.createConnection(config);
-    let sql = `SELECT * FROM users WHERE status = "Active" AND CONCAT(firstName, " ", lastName) like ?`
+    let sql = `SELECT userProfiles.userID, userProfiles.aboutMe, userProfiles.yearSemester, userProfiles.program, userProfiles.interest, userProfiles.coop, CONCAT(users.firstName, " ", users.lastName) as userName 
+    FROM userProfiles
+    JOIN users ON userProfiles.userID = users.id
+    WHERE users.status = "Active" AND CONCAT(users.firstName, " ", users.lastName) LIKE ?`
     //let userSearchTerm = req.body.userSearchTerm;
     let userSearchTerm = req.query.userSearchTerm;
     let data = ["%" + userSearchTerm + "%"]; 

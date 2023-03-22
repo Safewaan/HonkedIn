@@ -17,6 +17,12 @@ import Grid from '@material-ui/core/Grid';
 import FormHelperText from '@material-ui/core/FormHelperText';
 import { makeStyles } from '@material-ui/core/styles';
 import Search from '../common/Search';
+import DropdownFilter from "../common/filters/DropdownFilter";
+import ClearFilters from "../common/filters/ClearFilters";
+import NumberFilter from "../common/filters/NumberFilter";
+import "react-datepicker/dist/react-datepicker.css";
+import { RangeDatepicker } from "chakra-dayzed-datepicker";
+import DateFilter from "../common/filters/DateFilter";
 
 
 import {
@@ -379,6 +385,28 @@ const MyEvents = () => {
 
     const classes = useStyles();
 
+    // Filters
+    const [status, setStatus] = React.useState('');
+    const statusList = ["Active", "Cancelled"];
+
+    const handleStatus = (event) => {
+        setStatus(event.target.value);
+    }
+    const [filterParticipants, setFilterParticipants] = React.useState("");
+
+    const handleFilterParticipants = (value) => {
+        setFilterParticipants(value);
+    }
+
+    const [selectedDates, setSelectedDates] = React.useState([]);
+
+    const handleRefreshFilter = async () => {
+        setStatus("");
+        setFilterParticipants("");
+        setSelectedDates([]);
+    }
+
+
     return (
         <div id="body">
 
@@ -393,7 +421,7 @@ const MyEvents = () => {
                 </Typography>
             </Box>
 
-            <Box sx={{ width: '600px', position: 'absolute', top: 150, left: '50%', transform: 'translateX(-50%)', marginBottom: '20px' }}>
+            <Box sx={{ width: '600px', position: 'absolute', top: 150, left: '50%', transform: 'translateX(-50%)', marginBottom: '20px', zIndex: 1 }}>
                 <Search
                     label="Search for event names or descriptions"
                     searchTerm={searchTerm}
@@ -402,33 +430,85 @@ const MyEvents = () => {
                     onButtonClick={loadGetEventsByUser}
                     onResetSearch={handleRefreshSearch}
                 />
+                <br />
+                <Typography
+                    style={{ color: "black", mb: 2, fontSize: 14, align: 'right' }}
+                >
+                    Filters
+                </Typography>
+                <DropdownFilter
+                    placeholder="Select the Status"
+                    value={status}
+                    onChange={handleStatus}
+                    lists={statusList}
+                />
+                <br />
+                <NumberFilter
+                    placeholder="Select the Maximum Number of Participants"
+                    value={filterParticipants}
+                    onChange={handleFilterParticipants}
+                />
+                <br />
+                <DateFilter
+                    placeholder="Select a Date Range"
+                    selectedDates={selectedDates}
+                    onDateChange={(selectedDates) => setSelectedDates(selectedDates)}
+                />
+                <ClearFilters
+                    onClick={() => handleRefreshFilter()}
+                />
             </Box>
 
-            <Box sx={{ position: 'absolute', top: 260, left: '50%', transform: 'translateX(-50%)' }}>
-                {events.map((event) => (
-                    <Card style={{ width: '600px', marginBottom: '20px' }} key={event.id}>
-                        <CardContent>
-                            <Typography variant="h5" component="div">
-                                {event.name}<br />
-                            </Typography>
-                            <Typography sx={{ mb: 1.5 }} color="text.secondary">
-                                Date: {new Date(event.date).toLocaleDateString()}<br />
-                            </Typography>
-                            <Typography sx={{ mb: 1.5 }} color="text.secondary">
-                                Participants: {event.participants} / {event.totalParticipants}<br />
-                            </Typography>
-                            <Typography sx={{ mb: 1.5 }} color="text.secondary">
-                                Status: {event.status}<br />
-                            </Typography>
-                        </CardContent>
+            <Box sx={{ position: 'absolute', top: 525, left: '50%', transform: 'translateX(-50%)', zIndex: 0 }}>
+                {events.map((event) => {
+                    if (status && event.status !== status) {
+                        return null;
+                    }
+                    if (parseInt(filterParticipants) && (parseInt(event.totalParticipants) >= parseInt(filterParticipants) && parseInt(event.totalParticipants) !== parseInt(filterParticipants))) {
+                        return null;
+                    }
+                    if (selectedDates.length !== 0) {
+                        const startDate = new Date(selectedDates[0]);
+                        const endDate = new Date(selectedDates[1]);
+                        const convertDate = (new Date(event.date).getTime() - (5 * 60 * 60 * 1000));
+                        const eventDate = new Date(convertDate);
 
-                        <CardActions>
-                            {event.status === "Active" && <Button onClick={() => handleOpenDialog(event)}>Edit Event</Button>}
-                            {event.status === "Active" && <Button onClick={() => handleOpenCancelDialog(event)}>Cancel Event</Button>}
-                            {<Button onClick={() => handleOpenParticipantsDialog(event)}>See Participants</Button>}
-                        </CardActions>
-                    </Card>
-                ))}
+                        startDate.setHours(0, 0, 0, 0);
+                        endDate.setHours(0, 0, 0, 0);
+                        eventDate.setHours(0, 0, 0, 0);
+
+                        if (!(eventDate >= startDate && eventDate <= endDate) &&
+                            !(eventDate === startDate && eventDate >= startDate) &&
+                            !(eventDate === endDate && eventDate <= endDate)) {
+                            return null;
+                        }
+                    }
+                    return (
+
+                        <Card style={{ width: '600px', marginBottom: '20px' }} key={event.id}>
+                            <CardContent>
+                                <Typography variant="h5" component="div">
+                                    {event.name}<br />
+                                </Typography>
+                                <Typography sx={{ mb: 1.5 }} color="text.secondary">
+                                    Date: {new Date(new Date(event.date).getTime() - (5 * 60 * 60 * 1000)).toLocaleDateString()}<br />
+                                </Typography>
+                                <Typography sx={{ mb: 1.5 }} color="text.secondary">
+                                    Participants: {event.participants} / {event.totalParticipants}<br />
+                                </Typography>
+                                <Typography sx={{ mb: 1.5 }} color="text.secondary">
+                                    Status: {event.status}<br />
+                                </Typography>
+                            </CardContent>
+
+                            <CardActions>
+                                {event.status === "Active" && <Button onClick={() => handleOpenDialog(event)}>Edit Event</Button>}
+                                {event.status === "Active" && <Button onClick={() => handleOpenCancelDialog(event)}>Cancel Event</Button>}
+                                {<Button onClick={() => handleOpenParticipantsDialog(event)}>See Participants</Button>}
+                            </CardActions>
+                        </Card>
+                    );
+                })}
             </Box>
 
             {selectedEvent && (
