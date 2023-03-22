@@ -145,15 +145,15 @@ const Network = () => {
             return null
           }
           return (
-            <Card style={{ width: '600px', marginTop: '20px' }} key={profile.id}>
+            <Card style={{ width: '600px', marginTop: '20px' }} key={profile.userID}>
               <CardContent>
-                <Link to={`/network-profile/${profile.id}`} target="_blank">
+                <Link to={`/network-profile/${profile.userID}`} target="_blank">
                   <Typography variant="h5" component="div">
                     {profile.userName}
                   </Typography>
                 </Link>
                 <Chip
-                  key={profile.id}
+                  key={profile.userID}
                   label={profile.yearSemester}
                   color="primary"
                   size="small"
@@ -161,7 +161,7 @@ const Network = () => {
                 />
 
                 <Chip
-                  key={profile.id}
+                  key={profile.userID}
                   label={profile.program}
                   color="grey"
                   size="small"
