@@ -1,29 +1,27 @@
-import React, { useRef, useState, useEffect } from "react"
-import { Form, Button, Card } from "react-bootstrap"
-import { Link, useHistory } from "react-router-dom"
-import DatePicker from "react-datepicker";
+import React, { useRef, useState, useEffect } from "react";
+import { Card } from "react-bootstrap";
+import { Link, useHistory } from "react-router-dom";
 import "react-datepicker/dist/react-datepicker.css";
-import { format } from 'date-fns'
-import { useAuth } from "../../contexts/AuthContext"
-import Paper from "@material-ui/core/Paper";
-import Typography from "@material-ui/core/Typography";
-import Grid from '@material-ui/core/Grid';
-import FormHelperText from '@material-ui/core/FormHelperText';
-import TextField from '@material-ui/core/TextField';
-import { makeStyles } from '@material-ui/core/styles';
-import Select from "@material-ui/core/Select";
-import MenuItem from "@material-ui/core/MenuItem";
-import InputLabel from "@material-ui/core/InputLabel";
-import FormControl from "@material-ui/core/FormControl";
+import { useAuth } from "../../contexts/AuthContext";
 
 import {
     Alert,
     AlertIcon,
-    AlertTitle,
     AlertDescription,
+    Box,
+    Button,
+    Input,
+    FormControl,
+    FormLabel,
+    FormErrorMessage,
+    FormHelperText,
+    Select,
+    Text
 } from '@chakra-ui/react';
 
 import NavigationBar from '../common/NavigationBar';
+
+import "../../styles/form-style.css";
 
 const { REACT_APP_API_ENDPOINT } = process.env;
 
@@ -95,7 +93,7 @@ const CreateForum = () => {
     }
 
     const [forumTag, setForumTag] = React.useState('');
-    const forumTagList = ["School", "Co-op", "Funny", "Debate", "Rant", "Interview", "Class Review", "Good News"];
+    const forumTagList = ["", "School", "Co-op", "Funny", "Debate", "Rant", "Interview", "Class Review", "Good News"];
 
     const handleForumTag = (event) => {
         setForumTag(event.target.value);
@@ -106,7 +104,7 @@ const CreateForum = () => {
     const resetForm = () => {
         setForumName('');
         setForumDesc('');
-        setForumTag(''); 
+        setForumTag('');
     }
 
     const validateForum = () => {
@@ -117,11 +115,11 @@ const CreateForum = () => {
 
         if (forumName === '') {
             setForumNameError(true);
-            setForumNameErrorText('Please enter your forum name');
+            setForumNameErrorText('Please enter your forum name.');
             return false;
         } else if (forumDesc === '') {
             setForumDescError(true);
-            setForumDescErrorText('Please enter a description of your forum');
+            setForumDescErrorText('Please enter a description of your forum.');
             return false;
         } else {
 
@@ -130,7 +128,7 @@ const CreateForum = () => {
             var newForum = {
                 forumName: forumName,
                 forumDesc: forumDesc,
-                forumTag: forumTag 
+                forumTag: forumTag
             }
 
             // console.log(format(eventDate))
@@ -144,28 +142,6 @@ const CreateForum = () => {
             return false;
         }
     };
-
-    const useStyles = makeStyles((theme) => ({
-        formControl: {
-            margin: theme.spacing(1),
-            minWidth: 120,
-        },
-        selectEmpty: {
-            marginTop: theme.spacing(2),
-        },
-        root: {
-            '& > *': {
-                margin: theme.spacing(1),
-                width: '50ch',
-            },
-        },
-        paper: {
-            padding: theme.spacing(2),
-            textAlign: 'center',
-        },
-    }));
-
-    const classes = useStyles();
 
     const loadCreateForum = () => {
         callApiCreateForum()
@@ -186,7 +162,7 @@ const CreateForum = () => {
                 body: JSON.stringify({
                     forumTitle: forumName,
                     forumDesc: forumDesc,
-                    creatorID: userID, 
+                    creatorID: userID,
                     forumTag: forumTag
                 })
             });
@@ -207,52 +183,71 @@ const CreateForum = () => {
         <div>
             <NavigationBar></NavigationBar>
 
-            <Typography variant="h4" color="inherit" component="div" noWrap>
-                Create Forum
-            </Typography>
+            <Card style={{ padding: '16px' }}>
+                <Text align="center" className="form-header">Create a Forum</Text>
+                <FormControl>
+                    <FormControl
+                        isRequired
+                        marginTop="16px"
+                        isInvalid={forumNameError}
+                    >
+                        <FormLabel className="form-label">Name</FormLabel>
+                        <Input
+                            placeholder='Forum name'
+                            className="form-input"
+                            value={forumName}
+                            onChange={handleForumName}
+                            inputProps={{ maxLength: 350 }}
+                        />
+                        <FormHelperText className="form-helper-text">Enter the name of your forum.</FormHelperText>
+                        <FormErrorMessage className="form-helper-text">{forumNameErrorText}</FormErrorMessage>
+                    </FormControl>
 
-            <form className={classes.root} noValidate autoComplete="off">
-                <ForumName
-                    classes={classes}
-                    forumName={forumName}
-                    onEnterForumName={handleForumName}
-                    forumNameError={forumNameError}
-                    forumNameErrorText={forumNameErrorText}
-                />
-            </form>
+                    <FormControl
+                        isRequired
+                        marginTop="16px"
+                        isInvalid={forumDescError}>
+                        <FormLabel className="form-label">Description</FormLabel>
+                        <Input
+                            placeholder='Forum description'
+                            className="form-input"
+                            value={forumDesc}
+                            onChange={handleForumDesc}
+                            inputProps={{ maxLength: 350 }}
+                        />
+                        <FormHelperText className="form-helper-text">Enter a description of your forum.</FormHelperText>
+                        <FormErrorMessage className="form-helper-text">{forumDescErrorText}</FormErrorMessage>
+                    </FormControl>
 
-            <form className={classes.root} noValidate autoComplete="off">
-                <ForumDesc
-                    classes={classes}
-                    forumDesc={forumDesc}
-                    onEnterForumDesc={handleForumDesc}
-                    forumDescError={forumDescError}
-                    forumDescErrorText={forumDescErrorText}
-                />
-            </form>
+                    <FormControl
+                        marginTop="16px"
+                    >
+                        <FormLabel className="form-label">Tag</FormLabel>
+                        <Select
+                            labelId="Media-Tag"
+                            id="MediaTagList"
+                            value={forumTag}
+                            onChange={handleForumTag}
+                            className="form-helper-text"
+                        >
+                            {forumTagList.map((tag) => (
+                                <option value={tag}> {tag} </option>
+                            ))}
+                        </Select>
+                        <FormHelperText className="form-helper-text">Select a tag for your forum.</FormHelperText>
+                    </FormControl>
 
-            <FormControl className={classes.root}>
-                <InputLabel id="Forum-Tag"> Tags </InputLabel>
-                <Select
-                    labelId="Forum-Tag"
-                    id="Forum-Tag"
-                    value={forumTag}
-                    onChange={handleForumTag}
-                    fullWidth
-                >
-                    {forumTagList.map((tag) => (
-                        <MenuItem value={tag}> {tag} </MenuItem>
-                    ))}
-                </Select>
+                </FormControl>
 
-            </FormControl>
-
-            <Grid item>
-                <SubmitButton
-                    label={"SUBMIT"}
-                    onButtonClick={validateForum}
-                />
-            </Grid>
+                <Box marginTop="16px">
+                    <Button
+                        className="form-submit"
+                        onClick={(event) => validateForum(event)}
+                    >
+                        Submit
+                    </Button>
+                </Box>
+            </Card >
 
             {successfullSubmissionMsg && (
                 <Alert
@@ -274,52 +269,5 @@ const CreateForum = () => {
         </div>
     )
 }
-
-const ForumName = ({ forumName, onEnterForumName, forumNameError, forumNameErrorText }) => {
-    return (
-        <Grid item>
-            <TextField
-                id="name-of-forum"
-                label="Name"
-                placeholder="Enter the forum name"
-                value={forumName}
-                onChange={onEnterForumName}
-                error={forumNameError}
-                fullWidth
-            />
-            <FormHelperText>{forumNameErrorText}</FormHelperText>
-        </Grid>
-    )
-}
-
-const ForumDesc = ({ forumDesc, onEnterForumDesc, forumDescError, forumDescErrorText }) => {
-    return (
-        <Grid item>
-            <TextField
-                id="desc-of-forum"
-                label="Description"
-                multiline
-                minrows={4}
-                placeholder="Enter a forum description"
-                value={forumDesc}
-                onChange={onEnterForumDesc}
-                error={forumDescError}
-                inputProps={{ maxLength: 1000 }}
-                fullWidth
-            />
-            <FormHelperText>{forumDescErrorText}</FormHelperText>
-        </Grid>
-    )
-}
-
-const SubmitButton = ({ label, onButtonClick }) => (
-    <Button
-        variant="contained"
-        color="secondary"
-        onClick={(event) => onButtonClick(event)}
-    >
-        {label}
-    </Button>
-)
 
 export default CreateForum;

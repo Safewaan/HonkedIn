@@ -1,28 +1,36 @@
 import React, { useRef, useState, useEffect } from "react"
-import { Form, Button, Card } from "react-bootstrap"
+import { Card } from "react-bootstrap"
 import { Link, useHistory } from "react-router-dom"
 import "react-datepicker/dist/react-datepicker.css";
 import { format } from 'date-fns'
 import { useAuth } from "../../contexts/AuthContext"
 
-import DatePicker from "react-datepicker";
-
-import Paper from "@material-ui/core/Paper";
-import Grid from '@material-ui/core/Grid';
-import FormHelperText from '@material-ui/core/FormHelperText';
-import Typography from "@material-ui/core/Typography";
-import { styled } from '@material-ui/core/styles';
-import { makeStyles } from '@material-ui/core/styles';
-import TextField from '@material-ui/core/TextField';
+import { SingleDatepicker } from "chakra-dayzed-datepicker";
 
 import {
   Alert,
   AlertIcon,
   AlertTitle,
   AlertDescription,
+  Box,
+  Button,
+  Input,
+  FormControl,
+  FormLabel,
+  FormErrorMessage,
+  FormHelperText,
+  NumberInput,
+  NumberInputField,
+  NumberInputStepper,
+  NumberDecrementStepper,
+  NumberIncrementStepper,
+  Select,
+  Text
 } from '@chakra-ui/react';
 
 import NavigationBar from '../common/NavigationBar';
+
+import "../../styles/form-style.css";
 
 const { REACT_APP_API_ENDPOINT } = process.env;
 
@@ -77,16 +85,13 @@ const CreateEvent = () => {
   const [eventParticipants, setEventParticipants] = React.useState('');
   const [eventParticipantsError, setEventParticipantsError] = React.useState('');
   const [eventParticipantsErrorText, setEventParticipantsErrorText] = React.useState(''); //ERROR EDITING IN RETURN BRACKETS
-  const handleEventParticipants = (event) => {
-    const strToInt = parseInt(event.target.value);
-
+  const handleEventParticipants = (valueString, valueAsNumber) => {
     // If the input is number, update the react state
-    if (!isNaN(strToInt)) {
-      setEventParticipants(parseInt(event.target.value));
+    if (!isNaN(valueAsNumber)) {
+      setEventParticipants(valueAsNumber);
       setEventParticipantsError(false);
       setEventParticipantsErrorText('');
     }
-
     // Catch where first number can't be deleted, reset the state
     else {
       setEventParticipants('');
@@ -95,8 +100,8 @@ const CreateEvent = () => {
     }
   }
 
-  var holderDate = new Date();
   const [eventDateOG, setEventDateOG] = React.useState(new Date());
+  const dateToday = new Date(new Date().getTime() - 24 * 60 * 60 * 1000);
   //eventDateOG is to handle date picker value input as Date
   //below version accounts for built-in time offset due to JS date function
   //const [eventDateOG, setEventDateOG] = React.useState(new Date(holderDate.getTime() + Math.abs(holderDate.getTimezoneOffset() * 60000)))
@@ -107,6 +112,12 @@ const CreateEvent = () => {
   const [eventDateErrorText, setEventDateErrorText] = React.useState(''); //ERROR EDITING IN RETURN BRACKETS
   const handleEventDateOG = (event) => {
     setEventDateOG(event.target.value);
+  };
+
+  const datePickerRef = useRef(null);
+
+  const handleClick = () => {
+    datePickerRef.current.setOpen(true);
   };
 
   const [successfullSubmissionMsg, setsuccessfullSubmissionMsg] = React.useState(false);
@@ -165,24 +176,24 @@ const CreateEvent = () => {
 
     if (eventName === '') {
       setEventNameError(true);
-      setEventNameErrorText('Please enter your event name');
+      setEventNameErrorText('Please enter your event name.');
       return false;
     } else if (eventDesc === '') {
       setEventDescError(true);
-      setEventDescErrorText('Please enter a description of your event');
+      setEventDescErrorText('Please enter a description of your event.');
       return false;
     } else if (eventLocation === '') {
       setEventLocationError(true);
-      setEventLocationErrorText('Please enter the location of your event');
+      setEventLocationErrorText('Please enter the location of your event.');
       return false;
     } else if (eventDate === '') {
       setEventDateError(true);
-      setEventDateErrorText('Please enter the date of your event in the YYYY-MM_DD format');
-      return false
+      setEventDateErrorText('Please enter the date of your event in the YYYY-MM_DD format.');
+      return false;
     } else if (eventParticipants === '') {
       setEventParticipantsError(true);
       setEventParticipantsErrorText('Please enter a valid number of maximum participants.');
-      return false
+      return false;
     } else {
 
       setOpen(true);
@@ -209,29 +220,6 @@ const CreateEvent = () => {
       return false;
     }
   };
-
-
-  const useStyles = makeStyles((theme) => ({
-    formControl: {
-      margin: theme.spacing(1),
-      minWidth: 120,
-    },
-    selectEmpty: {
-      marginTop: theme.spacing(2),
-    },
-    root: {
-      '& > *': {
-        margin: theme.spacing(1),
-        width: '50ch',
-      },
-    },
-    paper: {
-      padding: theme.spacing(2),
-      textAlign: 'center',
-    },
-  }));
-
-  const classes = useStyles();
 
   const loadCreateEvent = () => {
     callApiCreateEvent()
@@ -275,161 +263,162 @@ const CreateEvent = () => {
   return (
     <div>
       <NavigationBar></NavigationBar>
-      <Typography variant="h4" color="inherit" component="div" noWrap>
-        Create Event
-      </Typography>
+      <Card style={{ padding: '16px' }}>
+        <Text align="center" className="form-header">Create an Event</Text>
+        <FormControl>
+          <FormControl
+            isRequired
+            marginTop="16px"
+            isInvalid={eventNameError}
+          >
+            <FormLabel className="form-label">Name</FormLabel>
+            <Input
+              placeholder='Event name'
+              className="form-input"
+              value={eventName}
+              onChange={handleEventName}
+              inputProps={{ maxLength: 200 }}
+            />
+            <FormHelperText className="form-helper-text">Enter the name of your event.</FormHelperText>
+            <FormErrorMessage className="form-helper-text">{eventNameErrorText}</FormErrorMessage>
+          </FormControl>
 
+          <FormControl
+            isRequired
+            marginTop="16px"
+            isInvalid={eventDescError}>
+            <FormLabel className="form-label">Description</FormLabel>
+            <Input
+              placeholder='Event description'
+              className="form-input"
+              value={eventDesc}
+              onChange={handleEventDesc}
+              inputProps={{ maxLength: 350 }}
+            />
+            <FormHelperText className="form-helper-text">Enter a description of your event.</FormHelperText>
+            <FormErrorMessage className="form-helper-text">{eventDescErrorText}</FormErrorMessage>
+          </FormControl>
 
-      <form className={classes.root} noValidate autoComplete="off">
-        <EventName
-          classes={classes}
-          eventName={eventName}
-          onEnterEventName={handleEventName}
-          eventNameError={eventNameError}
-          eventNameErrorText={eventNameErrorText}
-        />
+          <FormControl
+            isRequired
+            marginTop="16px"
+            isInvalid={eventLocationError}>
+            <FormLabel className="form-label">Location</FormLabel>
+            <Input
+              placeholder='Event location'
+              className="form-input"
+              value={eventLocation}
+              onChange={handleEventLocation}
+              inputProps={{ maxLength: 350 }}
+            />
+            <FormHelperText className="form-helper-text">Enter the location of your event.</FormHelperText>
+            <FormErrorMessage className="form-helper-text">{eventLocationErrorText}</FormErrorMessage>
+          </FormControl>
 
-        <EventDesc
-          classes={classes}
-          eventDesc={eventDesc}
-          onEnterEventDesc={handleEventDesc}
-          eventDescError={eventDescError}
-          eventDescErrorText={eventDescErrorText}
-        />
+          <FormControl
+            isRequired
+            marginTop="16px"
+            isInvalid={eventParticipantsError}>
+            <FormLabel className="form-label">Maximum Participants</FormLabel>
+            <NumberInput
+              max={1000}
+              min={1}
+              className="form-input"
+              value={eventParticipants}
+              onChange={handleEventParticipants}
+            >
+              <NumberInputField />
+              <NumberInputStepper>
+                <NumberIncrementStepper />
+                <NumberDecrementStepper />
+              </NumberInputStepper>
+            </NumberInput>
+            <FormHelperText className="form-helper-text">Enter the number of maximum participants of your event.</FormHelperText>
+            <FormErrorMessage className="form-helper-text">{eventParticipantsErrorText}</FormErrorMessage>
+          </FormControl>
 
-        <EventLocation
-          classes={classes}
-          eventLocation={eventLocation}
-          onEnterEventLocation={handleEventLocation}
-          eventLocationError={eventLocationError}
-          eventLocationErrorText={eventLocationErrorText}
-        />
+          <FormControl
+            isRequired
+            marginTop="16px"
+            isInvalid={eventDateErrorText}
+          >
+            <FormLabel className="form-label">Date</FormLabel>
+            <SingleDatepicker
+              name="date-input"
+              date={eventDateOG}
+              minDate={dateToday}
+              onDateChange={(eventDateOG) => setEventDateOG(eventDateOG)}
+              propsConfigs={{
+                dayOfMonthBtnProps: {
+                  defaultBtnProps: {
+                    _hover: {
+                      background: '#164684',
+                      color: '#F0F6FF',
+                    },
+                    _active: {
+                      background: '#214E89',
+                    }
+                  },
+                  selectedBtnProps: {
+                    background: '#023679',
+                    color: '#F0F6FF',
+                    _hover: {
+                      background: '#164684',
+                      color: '#F0F6FF',
+                    },
+                    _active: {
+                      background: '#214E89',
+                    }
+                  },
+                  todayBtnProps: {
+                    borderColor: "#023679"
+                  },
+                }
+              }}
+            />
+            <FormHelperText className="form-helper-text">
+              Enter the date of your event.
+            </FormHelperText>
+            <FormErrorMessage className="form-helper-text">
+              {eventDateErrorText}
+            </FormErrorMessage>
+          </FormControl>
+        </FormControl>
 
-        <EventParticipants
-          classes={classes}
-          eventParticipants={eventParticipants}
-          onEnterEventParticipants={handleEventParticipants}
-          eventParticipantsError={eventParticipantsError}
-          eventParticipantsErrorText={eventParticipantsErrorText}
-        />
+        <Box marginTop="16px">
+          <Button
+            className="form-submit"
+            onClick={(event) => validateEvent(event)}
+          >
+            Submit
+          </Button>
+        </Box>
+      </Card >
 
-        <DatePicker
-          selected={eventDateOG}
-          onChange={(eventDateOG) => setEventDateOG(eventDateOG)}
+      {
+        successfullSubmissionMsg && (
+          <Alert
+            status="success"
+            sx={{ position: 'fixed', bottom: 0, right: 0, width: '25%', zIndex: 9999 }}>
+            <AlertIcon />
+            <AlertDescription>Event successfully created.</AlertDescription>
+          </Alert>
+        )
+      }
 
-          dateFormat="yyyy-MM-dd"
-        />
+      {
+        showUserStatusError && (
+          <Alert
+            status="error"
+            sx={{ position: 'fixed', bottom: 0, right: 0, width: '25%', zIndex: 9999 }}>
+            <AlertIcon />
+            <AlertDescription>You cannot create an event if your account is archived.</AlertDescription>
+          </Alert>
+        )
+      }
 
-      </form>
-
-      <Grid item>
-        <SubmitButton
-          label={"SUBMIT"}
-          onButtonClick={validateEvent}
-        />
-      </Grid>
-      {successfullSubmissionMsg && (
-        <Alert
-          status="success"
-          sx={{ position: 'fixed', bottom: 0, right: 0, width: '25%', zIndex: 9999 }}>
-          <AlertIcon />
-          <AlertDescription>Event successfully created.</AlertDescription>
-        </Alert>
-      )}
-
-      {showUserStatusError && (
-        <Alert
-          status="error"
-          sx={{ position: 'fixed', bottom: 0, right: 0, width: '25%', zIndex: 9999 }}>
-          <AlertIcon />
-          <AlertDescription>You cannot create an event if your account is archived.</AlertDescription>
-        </Alert>
-      )}
-
-    </div>
+    </div >
   )
 }
-
-const EventName = ({ eventName, onEnterEventName, eventNameError, eventNameErrorText }) => {
-  return (
-    <Grid item>
-      <TextField
-        id="name-of-event"
-        label="Name"
-        placeholder="Enter the name of your event"
-        value={eventName}
-        onChange={onEnterEventName}
-        error={eventNameError}
-        fullWidth
-      />
-      <FormHelperText>{eventNameErrorText}</FormHelperText>
-    </Grid>
-  )
-}
-
-const EventDesc = ({ eventDesc, onEnterEventDesc, eventDescError, eventDescErrorText, }) => {
-  return (
-    <Grid item>
-      <TextField
-        id="desc-of-event"
-        label="Description"
-        multiline
-        minrows={4}
-        placeholder="Enter a description of your event"
-        value={eventDesc}
-        onChange={onEnterEventDesc}
-        error={eventDescError}
-        inputProps={{ maxLength: 200 }}
-        fullWidth
-      />
-      <FormHelperText>{eventDescErrorText}</FormHelperText>
-    </Grid>
-  )
-}
-
-const EventLocation = ({ eventLocation, onEnterEventLocation, eventLocationError, eventLocationErrorText }) => {
-  return (
-    <Grid item>
-      <TextField
-        id="location-of-event"
-        label="Location"
-        placeholder="Enter the location of your event"
-        value={eventLocation}
-        onChange={onEnterEventLocation}
-        error={eventLocationError}
-        fullWidth
-
-      />
-      <FormHelperText>{eventLocationErrorText}</FormHelperText>
-    </Grid>
-  )
-}
-
-const EventParticipants = ({ eventParticipants, onEnterEventParticipants, eventParticipantsError, eventParticipantsErrorText }) => {
-  return (
-    <Grid item>
-      <TextField
-        id="Participants-of-event"
-        label="Participants"
-        placeholder="Enter the maximum number of participants for your event"
-        value={eventParticipants}
-        onChange={onEnterEventParticipants}
-        error={eventParticipantsError}
-        fullWidth
-      />
-      <FormHelperText>{eventParticipantsErrorText}</FormHelperText>
-    </Grid>
-  )
-}
-
-const SubmitButton = ({ label, onButtonClick }) => (
-  <Button
-    variant="contained"
-    color="secondary"
-    onClick={(event) => onButtonClick(event)}
-  >
-    {label}
-  </Button>
-)
 
 export default CreateEvent;
