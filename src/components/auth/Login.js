@@ -16,7 +16,6 @@ import {
   Text
 } from "@chakra-ui/react";
 
-
 import {
   HOME_PAGE,
   FORGOT_PASSWORD_PAGE,
@@ -123,6 +122,9 @@ export default function Login() {
 
       <div className="link">
         Need an account? <Link to={SIGNUP_PAGE}>Sign Up</Link>
+      </div>
+      <div className="link">
+        Forgot your password? <Link to={FORGOT_PASSWORD_PAGE}>Password Reset</Link>
       </div>
     </Box>
   )
