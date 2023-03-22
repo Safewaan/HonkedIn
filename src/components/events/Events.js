@@ -185,7 +185,7 @@ const Events = () => {
   }
 
   // Filters
-  const [status, setStatus] = React.useState('');
+  const [status, setStatus] = React.useState('Active');
   const statusList = ["Active", "Cancelled"];
 
   const handleStatus = (event) => {
