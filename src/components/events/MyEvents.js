@@ -491,7 +491,7 @@ const MyEvents = () => {
                                     {event.name}<br />
                                 </Typography>
                                 <Typography sx={{ mb: 1.5 }} color="text.secondary">
-                                    Date: {new Date(event.date).toLocaleDateString()}<br />
+                                    Date: {new Date(new Date(event.date).getTime() - (5 * 60 * 60 * 1000)).toLocaleDateString()}<br />
                                 </Typography>
                                 <Typography sx={{ mb: 1.5 }} color="text.secondary">
                                     Participants: {event.participants} / {event.totalParticipants}<br />
