@@ -75,6 +75,7 @@ const MyResources = () => {
     const [selectedResource, setSelectedResource] = React.useState(null);
     const [isDialogOpen, setIsDialogOpen] = React.useState(false);
     const [showEditAlertMessage, setShowEditAlertMessage] = React.useState(false);
+    const [showSuccessfulDeleteMsg, setshowSuccessfulDeleteMsg] = React.useState(false);
 
     const [resourceTitle, setResourceTitle] = React.useState("");
     const [resourceTitleError, setResourceTitleError] = React.useState("");
@@ -104,6 +105,8 @@ const MyResources = () => {
     const handleResourceTag = (event) => {
         setResourceTag(event.target.value);
     }
+
+    const [openDeleteDialog, setOpenDeleteDialog] = React.useState(false);
 
     React.useEffect(() => {
         setEmail(currentUser.email);
@@ -215,6 +218,34 @@ const MyResources = () => {
         return body;
     }
 
+    const handleDeleteResource = async () => {
+        await loaduserSearchByEmail(currentUser.email);
+        setshowSuccessfulDeleteMsg(true);
+        callAPIDeleteResource();
+        setTimeout(() => {
+            window.location.reload();
+        }, 3000);
+    }
+
+    const callAPIDeleteResource = async () => {
+        const url = `${REACT_APP_API_ENDPOINT}/deleteResource`;
+        console.log(url);
+
+        const response = await fetch(url, {
+            method: "DELETE",
+            headers: {
+                "Content-Type": "application/json",
+            },
+            body: JSON.stringify({
+                resourceID: selectedResource.id
+            })
+        });
+        console.log("want to delete resource: "+ selectedResource.id)
+        const body = await response.json();
+        if (response.status !== 200) throw Error(body.message);
+        return body;
+    }
+
     const handleOpenDialog = (resource) => {
         setSelectedResource(resource);
         console.log(selectedResource)
@@ -233,6 +264,16 @@ const MyResources = () => {
         // Update resource media tag
         setMediaTag(resource.mediaTag);
     };
+
+    const handleOpenDeleteDialog = (resource) => {
+        setSelectedResource(resource);
+        setOpenDeleteDialog(true);
+    }
+
+    const handleCloseDeleteDialog = () => {
+        setSelectedResource(null);
+        setOpenDeleteDialog(false);
+    }
 
     const handleCloseDialog = () => {
         setSelectedResource(null);
@@ -317,6 +358,7 @@ const MyResources = () => {
                             </CardContent>
                             <CardActions>
                                 {<Button onClick={() => handleOpenDialog(resource)}>Edit Resource</Button>}
+                                {<Button onClick={() => handleOpenDeleteDialog(resource)}>Delete Resource</Button>}
                             </CardActions>
                         </Card>
                     )
@@ -368,6 +410,24 @@ const MyResources = () => {
                         <AlertIcon />
                         <AlertDescription>Resource successfully edited.</AlertDescription>
                     </Alert>
+                )}
+
+                {selectedResource && (
+                    <div>
+                        {/* delete resource dialog*/}
+                        <Dialog open={openDeleteDialog} onClose={handleCloseDeleteDialog}>
+                            <DialogTitle> Confirm deletion</DialogTitle>
+                            <DialogContent>
+                                <Typography variant="body1">
+                                    Are you sure you want to delete this resource? This action is irreversible.
+                                </Typography>
+                            </DialogContent>
+                            <DialogActions>
+                                <Button onClick={handleCloseDeleteDialog}>No</Button>
+                                <Button onClick={handleDeleteResource}>Yes</Button>
+                            </DialogActions>
+                        </Dialog>
+                    </div>
                 )}
             </ChakraProvider>
         </div>
