@@ -78,6 +78,16 @@ export default function ForgotPassword() {
               {error}
             </Alert>}
 
+          {message &&
+            <Alert
+              status="info"
+              marginTop="16px"
+              className="body"
+            >
+              <AlertIcon />
+              {message}
+            </Alert>}
+
           <Form>
             <FormControl
               id="email"
