@@ -102,6 +102,7 @@ const MyResources = () => {
 
     //for filtering
     const [resourceTag, setResourceTag] = React.useState("");
+    const resourceTagList = ["Interview Tips", "Youtube", "Stack Overflow", "School", "Personal Website", "Spreadsheet"];
     const handleResourceTag = (event) => {
         setResourceTag(event.target.value);
     }
@@ -322,7 +323,7 @@ const MyResources = () => {
                     placeholder="Select a Media Type Tag"
                     value={resourceTag}
                     onChange={handleResourceTag}
-                    lists={mediaTagList}
+                    lists={resourceTagList}
                 />
                 <ClearFilters
                     onClick={() => handleRefreshFilter()}
