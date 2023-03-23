@@ -1,22 +1,30 @@
 import React, { useState } from "react"
 import { makeStyles } from "@material-ui/core/styles";
 import { Link, useHistory } from "react-router-dom"
-import { Card, Button } from "react-bootstrap"
+import { Card, Form } from "react-bootstrap"
 import { useAuth } from "../../contexts/AuthContext"
-import Box from "@material-ui/core/Box";
-import TextField from "@material-ui/core/TextField";
-import FormHelperText from "@material-ui/core/FormHelperText";
-import FormControl from "@material-ui/core/FormControl";
-import InputLabel from "@material-ui/core/InputLabel";
-import Select from "@material-ui/core/Select";
-import MenuItem from "@material-ui/core/MenuItem";
 
 import {
     Alert,
     AlertIcon,
     AlertTitle,
     AlertDescription,
-} from '@chakra-ui/react';
+    Avatar,
+    Badge,
+    Box,
+    Button,
+    Center,
+    FormControl,
+    FormLabel,
+    Flex,
+    Heading,
+    HStack,
+    Grid,
+    GridItem,
+    SimpleGrid,
+    Stack,
+    Text
+} from "@chakra-ui/react";
 
 import NavigationBar from '../common/NavigationBar';
 
@@ -302,10 +310,72 @@ const ProfileDashboard = () => {
     }
 
     return (
-        // Displays the AppBar, Drawer, the Title, the fields and conditionals for the SAVE/EDIT button. 
-        <div className={classes.root}>
+        <>
             <NavigationBar></NavigationBar>
-            <Box sx={{ position: 'absolute', top: 100, left: "35%" }} >
+            <Box
+                p="6"
+                width="800px"
+                position="absolute"
+                top="40%"
+                left="50%"
+                transform="translate(-50%, -50%)"
+            >
+                <Card>
+                    <Center>
+                        <Avatar
+                            size="2xl"
+                            src="https://media.licdn.com/dms/image/D5603AQGgkVSakExSQQ/profile-displayphoto-shrink_800_800/0/1673582873956?e=1684972800&v=beta&t=QWj5XijJixDAcYdguwI-vnbZlmQBqQkopLfFBvmqZR0"
+                            marginTop="16px" />
+                    </Center>
+
+                    <Center>
+                        <Heading mt="4" mb="2">
+                            {firstName} {lastName}
+                        </Heading>
+                    </Center>
+
+                    <Center>
+                        <Badge colorScheme="blue">{program}</Badge>
+                    </Center>
+
+                    <Center>
+                        <Badge colorScheme="blue" marginTop="8px">{yearSemester}</Badge>
+                    </Center>
+
+                    <Box paddingBottom="16px" textAlign="center">
+                        <Box>
+                            <Heading size="md" mb="4">
+                                About Me
+                            </Heading>
+                            <Text>
+                                {aboutMe}
+                            </Text>
+                        </Box>
+
+                        <Box>
+                            <Heading size="md" mb="4">
+                                Co-op
+                            </Heading>
+                            <Text>
+                                {coop}
+                            </Text>
+                        </Box>
+
+                        <Box>
+                            <Heading size="md" mb="4">
+                                Interest
+                            </Heading>
+                            <Text>
+                                {interest}
+                            </Text>
+                        </Box>
+                    </Box>
+
+                </Card>
+            </Box>
+
+
+            {/* <Box sx={{ position: 'absolute', top: 100, left: "35%" }} >
                 <Card>
                     <Card.Body>
                         <h2> {firstName} {lastName}'s HonkedIn Profile</h2>
@@ -412,9 +482,9 @@ const ProfileDashboard = () => {
                         <AlertDescription>Profile successfully edited.</AlertDescription>
                     </Alert>
                 )}
-            </Box>
+            </Box> */}
 
-        </div>
+        </>
     );
 };
 
