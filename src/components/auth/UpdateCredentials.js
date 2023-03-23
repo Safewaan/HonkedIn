@@ -1,13 +1,26 @@
 import React, { useRef, useState } from "react"
-import { Form, Button, Card, Alert } from "react-bootstrap"
+import { Form, Card } from "react-bootstrap"
 import { useAuth } from "../../contexts/AuthContext"
 import { Link, useHistory } from "react-router-dom"
 import NavigationBar from '../common/NavigationBar';
 
 import {
+  Alert,
+  AlertIcon,
+  Button,
+  FormLabel,
+  FormControl,
+  FormErrorMessage,
+  Input,
+  Text
+} from "@chakra-ui/react";
+
+import {
   HOME_PAGE,
   USER_SETTINGS_PAGE
 } from "../constants/Routes";
+
+import "../../styles/style.css";
 
 export default function UpdateCredentials() {
   const emailRef = useRef()
@@ -21,7 +34,11 @@ export default function UpdateCredentials() {
   function handleSubmit(e) {
     e.preventDefault()
     if (passwordRef.current.value !== passwordConfirmRef.current.value) {
-      return setError("Passwords do not match")
+      return setError("Passwords do not match.")
+    }
+
+    if (passwordRef.current.value.length < 8) {
+      return setError("The new password must be at least 8 characters in length.")
     }
 
     const promises = []
@@ -40,7 +57,7 @@ export default function UpdateCredentials() {
         history.push(HOME_PAGE)
       })
       .catch(() => {
-        setError("Failed to update account")
+        setError("Failed to update account.")
       })
       .finally(() => {
         setLoading(false)
@@ -52,42 +69,77 @@ export default function UpdateCredentials() {
       <NavigationBar></NavigationBar>
       <Card>
         <Card.Body>
-          <h2 className="text-center mb-4">Update Credentials</h2>
-          {error && <Alert variant="danger">{error}</Alert>}
-          <Form onSubmit={handleSubmit}>
-            <Form.Group id="email">
-              <Form.Label>Email</Form.Label>
-              <Form.Control
+
+          <Text className="header">Update Credentials</Text>
+
+          {error &&
+            <Alert
+              status="error"
+              marginTop="16px"
+              className="body"
+            >
+              <AlertIcon />
+              {error}
+            </Alert>}
+
+          <Form>
+            <FormControl
+              id="email"
+              className="body"
+              marginTop="16px"
+            >
+              <FormLabel className="body">Email</FormLabel>
+              <Input
                 type="email"
                 ref={emailRef}
                 required
                 defaultValue={currentUser.email}
               />
-            </Form.Group>
-            <Form.Group id="password">
-              <Form.Label>Password</Form.Label>
-              <Form.Control
+            </FormControl>
+
+            <FormControl
+              id="password"
+              className="body"
+              marginTop="16px"
+            >
+              <FormLabel className="body">New Password</FormLabel>
+              <Input
                 type="password"
                 ref={passwordRef}
                 placeholder="Leave blank to keep the same"
               />
-            </Form.Group>
-            <Form.Group id="password-confirm">
-              <Form.Label>Password Confirmation</Form.Label>
-              <Form.Control
+            </FormControl>
+
+            <FormControl
+              id="password-confirm"
+              className="body"
+              marginTop="16px"
+            >
+              <FormLabel className="body">New Password Confirmation</FormLabel>
+              <Input
                 type="password"
                 ref={passwordConfirmRef}
                 placeholder="Leave blank to keep the same"
               />
-            </Form.Group>
-            <Button disabled={loading} className="w-100" type="submit">
+            </FormControl>
+
+            <Button
+              className="button"
+              marginTop="16px"
+              onClick={handleSubmit}
+            >
               Update
             </Button>
           </Form>
         </Card.Body>
       </Card>
+
       <div className="w-100 text-center mt-2">
-        <Link to={USER_SETTINGS_PAGE}>Cancel</Link>
+        <Link
+          to={USER_SETTINGS_PAGE}
+          className="link"
+        >
+          Cancel</Link>
       </div>
     </>
   )

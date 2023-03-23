@@ -1,12 +1,29 @@
 import React, { useRef, useState } from "react"
-import { Form, Button, Card, Alert } from "react-bootstrap"
+import { Form, Card } from "react-bootstrap"
 import { useAuth } from "../../contexts/AuthContext"
 import { Link, useHistory } from "react-router-dom"
+
+import {
+  Alert,
+  AlertIcon,
+  Box,
+  Button,
+  FormLabel,
+  FormControl,
+  FormErrorMessage,
+  Image,
+  Input,
+  Text
+} from "@chakra-ui/react";
 
 import {
   HOME_PAGE,
   LOGIN_PAGE
 } from "../constants/Routes";
+
+import "../../styles/style.css";
+
+import GOOSE_IMAGE from "../../images/Goose.png"
 
 const { REACT_APP_API_ENDPOINT } = process.env;
 
@@ -52,8 +69,24 @@ export default function Signup() {
   async function handleSubmit(e) {
     e.preventDefault()
 
+    if (firstNameRef.current.value === "") {
+      return setError("Please input your first name.");
+    }
+
+    if (lastNameRef.current.value === "") {
+      return setError("Please input your last name.");
+    }
+
+    if (emailRef.current.value === "") {
+      return setError("Please input your email.");
+    }
+
     if (passwordRef.current.value !== passwordConfirmRef.current.value) {
-      return setError("Passwords do not match")
+      return setError("Passwords do not match.");
+    }
+
+    if (passwordRef.current.value.length < 8) {
+      return setError("The new password must be at least 8 characters in length.");
     }
 
     try {
@@ -63,48 +96,121 @@ export default function Signup() {
       callApiCreateUser()
       history.push(HOME_PAGE)
     } catch {
-      setError("Failed to create an account")
+      setError("Failed to create an account.")
     }
 
     setLoading(false)
   }
 
   return (
-    <>
+    <Box transform="translateY(-10%)">
+      <Box
+        className="title"
+        display="flex"
+        alignItems="center"
+      >
+        <Image
+          src={GOOSE_IMAGE}
+          boxSize='100px'
+          className="logo"></Image>
+        <Text
+        >
+          HonkedIn
+        </Text>
+      </Box>
       <Card>
         <Card.Body>
-          <h2 className="text-center mb-4">Sign Up</h2>
-          {error && <Alert variant="danger">{error}</Alert>}
-          <Form onSubmit={handleSubmit}>
-            <Form.Group id="first-name">
-              <Form.Label>First Name</Form.Label>
-              <Form.Control type="first-name" ref={firstNameRef} required />
-            </Form.Group>
-            <Form.Group id="last-name">
-              <Form.Label>Last Name</Form.Label>
-              <Form.Control type="last-name" ref={lastNameRef} required />
-            </Form.Group>
-            <Form.Group id="email">
-              <Form.Label>Email</Form.Label>
-              <Form.Control type="email" ref={emailRef} required />
-            </Form.Group>
-            <Form.Group id="password">
-              <Form.Label>Password</Form.Label>
-              <Form.Control type="password" ref={passwordRef} required />
-            </Form.Group>
-            <Form.Group id="password-confirm">
-              <Form.Label>Password Confirmation</Form.Label>
-              <Form.Control type="password" ref={passwordConfirmRef} required />
-            </Form.Group>
-            <Button disabled={loading} className="w-100" type="submit">
+          <Text className="header">Sign Up</Text>
+
+          {error &&
+            <Alert
+              status="error"
+              marginTop="16px"
+              className="body"
+            >
+              <AlertIcon />
+              {error}
+            </Alert>}
+
+          <Form>
+            <FormControl
+              id="first-name"
+              className="body"
+              marginTop="16px"
+              isRequired
+            >
+              <FormLabel className="body">First Name</FormLabel>
+              <Input
+                type="email"
+                ref={firstNameRef}
+              />
+            </FormControl>
+
+            <FormControl
+              id="last-name"
+              className="body"
+              marginTop="16px"
+              isRequired
+            >
+              <FormLabel className="body">Last Name</FormLabel>
+              <Input
+                type="email"
+                ref={lastNameRef}
+              />
+            </FormControl>
+
+            <FormControl
+              id="email"
+              className="body"
+              marginTop="16px"
+              isRequired
+            >
+              <FormLabel className="body">Email</FormLabel>
+              <Input
+                type="email"
+                ref={emailRef}
+              />
+            </FormControl>
+
+            <FormControl
+              id="password"
+              className="body"
+              marginTop="16px"
+              isRequired
+            >
+              <FormLabel className="body">Password</FormLabel>
+              <Input
+                type="password"
+                ref={passwordRef}
+              />
+            </FormControl>
+
+            <FormControl
+              id="password-confirm"
+              className="body"
+              marginTop="16px"
+              isRequired
+            >
+              <FormLabel className="body">Password Confirmation</FormLabel>
+              <Input
+                type="password"
+                ref={passwordConfirmRef}
+              />
+            </FormControl>
+
+            <Button
+              className="button"
+              marginTop="16px"
+              onClick={handleSubmit}
+            >
               Sign Up
             </Button>
           </Form>
         </Card.Body>
       </Card>
-      <div className="w-100 text-center mt-2">
+      <div className="link">
         Already have an account? <Link to={LOGIN_PAGE}>Log In</Link>
       </div>
-    </>
+    </Box>
   )
 }

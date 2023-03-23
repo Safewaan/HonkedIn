@@ -1,20 +1,26 @@
 import React, { useRef, useState } from "react"
-import { Form, Button, Card } from "react-bootstrap"
+import { Form, Card } from "react-bootstrap"
 import { useAuth } from "../../contexts/AuthContext"
 import { Link, useHistory } from "react-router-dom"
 
 import {
   Alert,
   AlertIcon,
-  AlertTitle,
-  AlertDescription,
-} from '@chakra-ui/react';
+  Button,
+  FormLabel,
+  FormControl,
+  FormErrorMessage,
+  Input,
+  Text
+} from "@chakra-ui/react";
 
 import NavigationBar from '../common/NavigationBar';
 
 import {
   USER_SETTINGS_PAGE
 } from "../constants/Routes";
+
+import "../../styles/style.css";
 
 const { REACT_APP_API_ENDPOINT } = process.env;
 
@@ -120,39 +126,66 @@ export default function UpdateStatus() {
       <NavigationBar></NavigationBar>
       <Card>
         <Card.Body>
-          <h2 className="text-center mb-4">Update Status</h2>
-          <Form>
-            <Form.Group id="status">
-              <Form.Label className="d-flex justify-content-center mb-4">Status: {userStatus}</Form.Label>
+
+          <Text className="header">Update Credentials</Text>
+
+          <FormControl>
+            <FormControl
+              id="status">
+              <FormLabel
+                className="body"
+                textAlign="center"
+                marginTop="16px"
+              >
+                Status: {userStatus}
+              </FormLabel>
 
               {userStatus === "Active" && (
-                <Form.Label className="text-center mb-4">Archiving your account will remove you from search results
+                <FormLabel
+                  className="body"
+                  textAlign="center"
+                  marginTop="16px"
+                >
+                  Archiving your account will remove you from search results
                   however, you will no longer be able to create events, forums and resources.
-                </Form.Label>
+                </FormLabel>
               )}
 
               {userStatus === "Archived" && (
-                <Form.Label className="text-center mb-4">Activating your account will allow you to create events, forums, and
+                <FormLabel
+                  className="body"
+                  textAlign="center"
+                  marginTop="16px"
+                >
+                  Activating your account will allow you to create events, forums, and
                   resources. You will also appear in search results.
-                </Form.Label>
+                </FormLabel>
               )}
-            </Form.Group>
+            </FormControl>
             {userStatus === "Active" && (
-              <Button variant="primary" onClick={handleArchiveAccount} className="w-100">
+              <Button
+                onClick={handleArchiveAccount}
+                className="button"
+                marginTop="16px"
+              >
                 Archive Account
               </Button>
             )}
             {userStatus === "Archived" && (
-              <Button variant="primary" onClick={handleActivateAccount} className="w-100">
+              <Button
+                onClick={handleActivateAccount}
+                className="button"
+                marginTop="16px"
+              >
                 Activate Account
               </Button>
             )}
-          </Form>
+          </FormControl>
         </Card.Body>
       </Card>
 
       <div className="w-100 text-center mt-2">
-        <Link to={USER_SETTINGS_PAGE}>Cancel</Link>
+        <Link to={USER_SETTINGS_PAGE} className="link">Cancel</Link>
       </div>
 
       {showSuccessfulActivateMsg && (
@@ -160,7 +193,7 @@ export default function UpdateStatus() {
           status="success"
           sx={{ position: 'fixed', bottom: 0, right: 0, width: '25%', zIndex: 9999 }}>
           <AlertIcon />
-          <AlertDescription>Account activated.</AlertDescription>
+          Account activated.
         </Alert>
       )}
 
@@ -169,7 +202,7 @@ export default function UpdateStatus() {
           status="success"
           sx={{ position: 'fixed', bottom: 0, right: 0, width: '25%', zIndex: 9999 }}>
           <AlertIcon />
-          <AlertDescription>Account archived.</AlertDescription>
+          Account archived.
         </Alert>
       )}
     </>
