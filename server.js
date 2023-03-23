@@ -14,14 +14,17 @@ app.use(bodyParser.urlencoded({ limit: '50mb', extended: true }));
 app.use(function (req, res, next) {
 	res.header("Access-Control-Allow-Origin", "*");
 	res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
+	res.header("Access-Control-Allow-Methods", "GET, OPTIONS, POST, PUT, DELETE");
 	next();
 });
 
+const routesDir = './src/routes/';
+
 // User APIs
-const createUser = require('./routes/user/createUser');
-const userSearchByEmail = require('./routes/user/userSearchByEmail');
-const activateUser = require('./routes/user/activateUser');
-const archiveUser = require('./routes/user/archiveUser');
+const createUser = require(`${routesDir}user/createUser`);
+const userSearchByEmail = require(`${routesDir}user/userSearchByEmail`);
+const activateUser = require(`${routesDir}user/activateUser`);
+const archiveUser = require(`${routesDir}user/archiveUser`);
 
 app.use(createUser);
 app.use(userSearchByEmail);
@@ -29,13 +32,12 @@ app.use(activateUser);
 app.use(archiveUser);
 
 // Event APIs
-const createEvent = require('./routes/events/createEvent');
-const getEvents = require('./routes/events/getEvents');
-const getEventsByUser = require ('./routes/events/getEventsByUser');
-const joinEvent = require('./routes/events/joinEvent');
-const editEvent = require('./routes/events/editEvent');
-const cancelEvent = require('./routes/events/cancelEvent');
-const getParticipants = require('./routes/events/getParticipants');
+const createEvent = require(`${routesDir}events/createEvent`);
+const getEvents = require(`${routesDir}events/getEvents`);
+const getEventsByUser = require(`${routesDir}events/getEventsByUser`);
+const joinEvent = require(`${routesDir}events/joinEvent`);
+const editEvent = require(`${routesDir}events/editEvent`);
+const cancelEvent = require(`${routesDir}events/cancelEvent`);
 
 app.use(createEvent);
 app.use(getEvents);
@@ -43,37 +45,75 @@ app.use(getEventsByUser);
 app.use(joinEvent);
 app.use(editEvent);
 app.use(cancelEvent);
+
+// Event Participants APIs
+const getParticipants = require(`${routesDir}participants/getParticipants`);
+
 app.use(getParticipants);
 
 //Profile APIs
-const createUserProfile = require('./routes/profile/createUserProfile');
-const getUserProfile = require('./routes/profile/getUserProfile');
-const editUserProfile = require('./routes/profile/editUserProfile');
+const createUserProfile = require(`${routesDir}userProfile/createUserProfile`);
+const getUserProfile = require(`${routesDir}userProfile/getUserProfile`);
+const editUserProfile = require(`${routesDir}userProfile/editUserProfile`);
 
 app.use(createUserProfile);
 app.use(getUserProfile);
 app.use(editUserProfile);
 
 // Forum APIs
-const createForum = require('./routes/forums/createForum');
-const getForums = require('./routes/forums/getForums');
-const getForumsByUserID = require('./routes/forums/getForumsByUserID'); 
-const editForum = require('./routes/forums/editForum');
-const getForumsByForumID = require('./routes/forums/getForumsByForumID');
-const createForumComment = require('./routes/forums/createForumComment');
-const getForumCommentsByForumID = require('./routes/forums/getForumCommentsByForumID');
-const deleteForumComment = require('./routes/forums/deleteForumComment');
-const archiveForum = require('./routes/forums/archiveForum')
+const createForum = require(`${routesDir}forums/createForum`);
+const getForums = require(`${routesDir}forums/getForums`);
+const getForumsByUserID = require(`${routesDir}forums/getForumsByUserID`);
+const editForum = require(`${routesDir}forums/editForum`);
+const getForumsByForumID = require(`${routesDir}forums/getForumsByForumID`);
+const archiveForum = require(`${routesDir}forums/archiveForum`)
 
 app.use(createForum);
 app.use(getForums);
 app.use(getForumsByUserID);
-app.use(editForum); 
+app.use(editForum);
 app.use(getForumsByForumID);
+app.use(archiveForum);
+
+// Forum Comments APIs
+const createForumComment = require(`${routesDir}forumComments/createForumComment`);
+const getForumCommentsByForumID = require(`${routesDir}forumComments/getForumCommentsByForumID`);
+const deleteForumComment = require(`${routesDir}forumComments/deleteForumComment`);
+const editForumComment = require(`${routesDir}forumComments/editForumComment`);
+const getForumCommentsByUserID = require(`${routesDir}forumComments/getForumCommentsByUserID`);
+
 app.use(createForumComment);
 app.use(getForumCommentsByForumID);
 app.use(deleteForumComment);
-app.use(archiveForum);
+app.use(editForumComment);
+app.use(getForumCommentsByUserID);
+
+//User Network APIs
+const getUsers = require(`${routesDir}user/getUsers`);
+
+app.use(getUsers);
+
+// Resources APIs
+const createResource = require(`${routesDir}resources/createResource`);
+const getResources = require(`${routesDir}resources/getResources`);
+const getResourcesByUser = require(`${routesDir}resources/getResourcesByUser`);
+const editResource = require(`${routesDir}resources/editResource`); 
+const deleteResource = require(`${routesDir}resources/deleteResource`);
+
+app.use(createResource);
+app.use(getResources);
+app.use(getResourcesByUser);
+app.use(editResource); 
+app.use(deleteResource);
+
+// Dashboard APIs
+const getRecentEvents = require(`${routesDir}dashboard/getRecentEvents`);
+const getPopularForums = require(`${routesDir}dashboard/getPopularForums`);
+const getMyEvents = require(`${routesDir}dashboard/getMyEvents`)
+
+app.use(getRecentEvents);
+app.use(getPopularForums);
+app.use(getMyEvents);
 
 app.listen(port, () => console.log(`Listening on port ${port}`)); //for the dev version
 //app.listen(port, '172.31.31.77'); //for the deployed version, specify the IP address of the server

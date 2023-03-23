@@ -1,0 +1,53 @@
+@import url('https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;700&display=swap');
+
+.navbar-text {
+  font-family: "DM Sans";
+  font-size: 16px !important;
+  font-weight: 400 !important;
+  color: #FFFFFF !important;
+  text-decoration: none;
+}
+
+.navbar-text:hover {
+  background-color: #164684 !important;
+  outline: none;
+}
+
+.navbar-text:active {
+  background-color: #214E89 !important;
+}
+
+.navbar-dropdown-text:hover {
+  background-color: #F0F6FF !important;
+  color: #023679 !important;
+  transition: ease-in-out 300ms !important;
+}
+
+.navbar-title {
+  font-family: "DM Sans";
+  font-size: 32px;
+  line-height: 40px;
+  font-weight: 400;
+  color: #FFFFFF !important;
+  text-decoration: none;
+}
+
+.navbar-list {
+  padding: 4px 0 !important;
+  border-radius: 8px !important;
+}
+
+.navbar-settings {
+  color: #F0F6FF !important;
+  border-radius: 50% !important;
+  background-color: #164684;
+  width: 30px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.navbar-settings:hover {
+  background-color: #164684 !important;
+  box-shadow: none !important; 
+}
