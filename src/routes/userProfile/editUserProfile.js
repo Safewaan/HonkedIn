@@ -9,9 +9,9 @@ router.post('/api/editUserProfile', (req, res) => {
 	let connection = mysql.createConnection(config);
 
 	let sql = "UPDATE shchowdh.userProfiles SET aboutMe = ?, yearSemester = ?, program = ?, interest = ?, coop = ?, pictureURL = ? WHERE `userID` = ?;";
-	console.log(sql);
+	//console.log(sql);
 	let data = [req.body.aboutMe, req.body.yearSemester, req.body.program, req.body.interest, req.body.coop, req.body.pictureURL, req.body.userID];
-	console.log(data);
+	//console.log(data);
 
 	connection.query(sql, data, (error, results, fields) => {
 
