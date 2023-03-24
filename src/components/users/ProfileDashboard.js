@@ -196,11 +196,11 @@ const ProfileDashboard = () => {
                 //authorization: `Bearer ${this.state.token}`
             },
             body: JSON.stringify({
-                aboutMe: aboutMe,
-                yearSemester: yearSemester,
-                program: program,
-                interest: interest,
-                coop: coop,
+                aboutMe: aboutMeForm,
+                yearSemester: yearSemesterForm,
+                program: programForm,
+                interest: interestForm,
+                coop: coopForm,
                 userID: userID
             })
         });
@@ -275,7 +275,15 @@ const ProfileDashboard = () => {
             return setError("Please input your most recent co-op.");
         }
         setError("");
-        handleApiEditUserProfile();
+
+        // If the user profile doesnt exist, create one
+        if (aboutMe === "") {
+            handleApiCreateUserProfile();
+        }
+        // If the user profile exists, update existing row
+        else {
+            handleApiEditUserProfile();
+        }
         setTimeout(() => {
             window.location.reload();
         }, 3000);
