@@ -7,7 +7,7 @@ const config = require('../../../config.js');
 router.get('/api/getUserProfile', (req, res) => {
 
 	let connection = mysql.createConnection(config);
-	let sql = `SELECT userID, aboutMe, yearSemester, program, interest, coop, CONCAT(firstName, " ", lastName) as userName 
+	let sql = `SELECT userID, aboutMe, yearSemester, program, interest, coop, pictureURL, CONCAT(firstName, " ", lastName) as userName 
 	FROM userProfiles, users WHERE userID = users.id AND userID = ?`; 
 
     let data = [req.query.userID];

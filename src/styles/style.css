@@ -19,6 +19,20 @@ button:hover {
     background-color: #214E89 !important;
 }
 
+.title {
+    font-family: "DM Sans";
+    font-size: 32px !important;
+    font-weight: 500 !important;
+    text-align: center;
+}
+
+.headerBig {
+    font-family: "DM Sans";
+    font-size: 24px !important;
+    font-weight: 500 !important;
+    text-align: center;
+}
+
 .header {
     font-family: "DM Sans";
     font-size: 16px !important;

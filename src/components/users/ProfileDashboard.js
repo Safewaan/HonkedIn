@@ -1,38 +1,43 @@
 import React, { useState } from "react"
-import { makeStyles } from "@material-ui/core/styles";
-import { Link, useHistory } from "react-router-dom"
-import { Card, Button } from "react-bootstrap"
+import { Card, Form } from "react-bootstrap"
 import { useAuth } from "../../contexts/AuthContext"
-import Box from "@material-ui/core/Box";
-import TextField from "@material-ui/core/TextField";
-import FormHelperText from "@material-ui/core/FormHelperText";
-import FormControl from "@material-ui/core/FormControl";
-import InputLabel from "@material-ui/core/InputLabel";
-import Select from "@material-ui/core/Select";
-import MenuItem from "@material-ui/core/MenuItem";
 
 import {
     Alert,
-    AlertIcon,
-    AlertTitle,
     AlertDescription,
-} from '@chakra-ui/react';
+    AlertIcon,
+    Avatar,
+    Badge,
+    Box,
+    Button,
+    Center,
+    FormControl,
+    FormLabel,
+    Heading,
+    Input,
+    Modal,
+    ModalOverlay,
+    ModalContent,
+    ModalHeader,
+    ModalFooter,
+    ModalBody,
+    Select,
+    Text,
+    useDisclosure
+} from "@chakra-ui/react";
 
 import NavigationBar from '../common/NavigationBar';
+
+import "../../styles/style.css";
 
 // Server URL
 const { REACT_APP_API_ENDPOINT } = process.env;
 
-// Set the style of the appBar and drawer
-const useStyles = makeStyles((theme) => ({
-    root: {
-        display: "flex",
-    },
-}));
-
 // Main page of Profile, i
 const ProfileDashboard = () => {
-    const classes = useStyles();
+
+    const { isOpen, onOpen, onClose } = useDisclosure();
+    const yearList = ["1A", "1B", "2A", "2B", "3A", "3B", "4A", "4B", "Masters", "PHD", "Professor"];
 
     // Store the user's history and currentUser
     const { currentUser } = useAuth()
@@ -84,102 +89,98 @@ const ProfileDashboard = () => {
         return body;
     }
 
-    // States and Variables to store user's information
-    // For About Me
+    // RENDER STATES
     const [aboutMe, setAboutMe] = React.useState('');
-    const [missingAboutMe, setMissingAboutMe] = React.useState('');
-
-    const handleAboutMe = (event) => {
-        setAboutMe(event.target.value);
-        setMissingAboutMe(event.target.value === "");
-        setSubmission(event.target.value = false);
-    }
-
-    // For year and semester list
     const [yearSemester, setYearSemester] = React.useState('');
-    const [missingYearSemester, setMissingYearSemester] = React.useState('');
-
-    const handleYearSemester = (event) => {
-        setYearSemester(event.target.value);
-        setMissingYearSemester(event.target.value === "");
-        setSubmission(event.target.value = false);
-    }
-
-    const yearList = ["1A", "1B", "2A", "2B", "3A", "3B", "4A", "4B", "Masters", "PHD", "Professor"];
-
-    // For my Program 
     const [program, setProgram] = React.useState('');
-    const [missingProgram, setMissingProgram] = React.useState('');
-
-    const handleProgram = (event) => {
-        setProgram(event.target.value);
-        setMissingProgram(event.target.value === "");
-        setSubmission(event.target.value = false);
-    }
-
-    // For Interests
     const [interest, setInterest] = React.useState('');
-    const [missingInterest, setMissingInterest] = React.useState('');
-
-    const handleInterest = (event) => {
-        setInterest(event.target.value);
-        setMissingInterest(event.target.value === "");
-        setSubmission(event.target.value = false);
-    }
-
-    // For Co-op
     const [coop, setCoop] = React.useState('');
-    const [missingCoop, setMissingCoop] = React.useState('');
+    const [pictureURL, setPictureURL] = React.useState('');
 
-    const handleCoop = (event) => {
-        setCoop(event.target.value);
-        setMissingCoop(event.target.value === "");
-        setSubmission(event.target.value = false);
-    }
-    // Handle Save, and create an array to insert into the SQL database
-    const [submission, setSubmission] = React.useState();
+    // Inserts the User ID to retrieve their most recent profile 
+    const callAPIUserProfile = async (userID) => {
 
-    // Add or edit profile info into the database
-    const addProfileInfo = () => {
+        const url = `${REACT_APP_API_ENDPOINT}/getUserProfile?userID=${userID}`;
+        console.log(url);
 
-        if (!editProfile) {
-            handleApiAddSubmission();
-        } else {
-            handleApiEditUserProfile();
-        }
-
-        setAboutMe("");
-        setYearSemester("");
-        setProgram("");
-        setInterest("");
-        setCoop("");
+        const response = await fetch(url, {
+            method: "GET",
+            headers: {
+                "Content-Type": "application/json",
+            }
+        });
+        const body = await response.json();
+        if (response.status !== 200) throw Error(body.message);
+        //console.log("Profile:", body);
+        return body;
     }
 
-    // Ensures that the fields have been filled out before inserting into the SQL database. 
-    const validationCheck = () => {
-        setMissingAboutMe(aboutMe === "");
-        setMissingYearSemester(yearSemester === "");
-        setMissingProgram(program === "");
-        setMissingInterest(interest === "");
-        setMissingCoop(coop === "");
+    // Parses through the data for the user if there is existing data
+    const handleAPIUserProfile = (userID) => {
+        callAPIUserProfile(userID)
+            .then(res => {
+                var parsed = JSON.parse(res.express);
 
-        if (!(aboutMe === "") && !(yearSemester === "") && !(program === "") && !(interest === "") && !(coop === "")) {
-            addProfileInfo();
-            setSubmission(true);
-            setLoadProfile(true);
-            handleAPIUserProfile(userID);
-            setTimeout(() => {
-                window.location.reload();
-            }, 3000);
-        } else {
-            setSubmission(false);
-            setLoadProfile(false);
-        }
+                if (parsed.length !== 0) {
+
+                    // Update Render States
+                    setAboutMe(parsed[0].aboutMe);
+                    setYearSemester(parsed[0].yearSemester);
+                    setProgram(parsed[0].program);
+                    setInterest(parsed[0].interest);
+                    setCoop(parsed[0].coop);
+                    setPictureURL(parsed[0].pictureURL);
+
+                    // Update Form states
+                    setAboutMeForm(parsed[0].aboutMe);
+                    setYearSemesterForm(parsed[0].yearSemester);
+                    setProgramForm(parsed[0].program);
+                    setInterestForm(parsed[0].interest);
+                    setCoopForm(parsed[0].coop);
+                    setPictureURLForm(parsed[0].pictureURL);
+                }
+            })
     }
+
+    // FORM STATES
+    const [aboutMeForm, setAboutMeForm] = React.useState('');
+    const handleAboutMeForm = (event) => {
+        setAboutMeForm(event.target.value);
+    }
+
+    const [yearSemesterForm, setYearSemesterForm] = React.useState('');
+    const handleYearSemesterForm = (event) => {
+        setYearSemesterForm(event.target.value);
+    }
+
+    const [programForm, setProgramForm] = React.useState('');
+    const handleProgramForm = (event) => {
+        setProgramForm(event.target.value);
+        console.log(event.target.value);
+    }
+
+    const [interestForm, setInterestForm] = React.useState('');
+    const handleInterestForm = (event) => {
+        setInterestForm(event.target.value);
+    }
+
+    const [coopForm, setCoopForm] = React.useState('');
+    const handleCoopForm = (event) => {
+        setCoopForm(event.target.value);
+    }
+
+    const [pictureURLForm, setPictureURLForm] = React.useState('');
+    const handlePictureURLForm = (event) => {
+        setPictureURLForm(event.target.value);
+    }
+
+    const [error, setError] = React.useState("");
+    const [successfullSubmissionMsg, setsuccessfullSubmissionMsg] = React.useState(false);
+
 
     // Other APIs - getUserProfile, editUserProfile and createUserProfile 
     // Add the user's profile information into the database
-    const callApiAddSubmission = async () => {
+    const callApiCreateUserProfile = async () => {
 
         const url = `${REACT_APP_API_ENDPOINT}/createUserProfile`;
         console.log(url);
@@ -191,11 +192,11 @@ const ProfileDashboard = () => {
                 //authorization: `Bearer ${this.state.token}`
             },
             body: JSON.stringify({
-                aboutMe: aboutMe,
-                yearSemester: yearSemester,
-                program: program,
-                interest: interest,
-                coop: coop,
+                aboutMe: aboutMeForm,
+                yearSemester: yearSemesterForm,
+                program: programForm,
+                interest: interestForm,
+                coop: coopForm,
                 userID: userID
             })
         });
@@ -206,10 +207,10 @@ const ProfileDashboard = () => {
         return body;
     }
 
-    const handleApiAddSubmission = () => {
-        callApiAddSubmission()
+    const handleApiCreateUserProfile = () => {
+        callApiCreateUserProfile()
             .then(res => {
-                console.log("callApiAddSubmission returned: ", res)
+                console.log("callApiCreateUserProfile returned: ", res)
             })
     }
 
@@ -226,11 +227,12 @@ const ProfileDashboard = () => {
                 //authorization: `Bearer ${this.state.token}`
             },
             body: JSON.stringify({
-                aboutMe: aboutMe,
-                yearSemester: yearSemester,
-                program: program,
-                interest: interest,
-                coop: coop,
+                aboutMe: aboutMeForm,
+                yearSemester: yearSemesterForm,
+                program: programForm,
+                interest: interestForm,
+                coop: coopForm,
+                pictureURL: pictureURLForm,
                 userID: userID
             })
         });
@@ -248,173 +250,250 @@ const ProfileDashboard = () => {
             })
     }
 
-    // Display the user's profile 
-    // Obtain the appropriate fields 
-    // Load the profile if it is not empty and ensure that they can edit/update the rows
-    const [loadProfile, setLoadProfile] = React.useState();
-    const [editProfile, setEditProfile] = React.useState();
+    const HandleEditProfile = () => {
+        if (aboutMeForm === "") {
+            return setError("Please include an about me section.");
+        }
 
-    // Inserts the User ID to retrieve their most recent profile 
-    const callAPIUserProfile = async (userID) => {
+        if (yearSemesterForm === "") {
+            return setError("Please set your year and semester.");
+        }
 
-        const url = `${REACT_APP_API_ENDPOINT}/getUserProfile?userID=${userID}`;
-        console.log(url);
+        if (programForm === "") {
+            return setError("Please input your program.");
+        }
 
-        const response = await fetch(url, {
-            method: "GET",
-            headers: {
-                "Content-Type": "application/json",
-                //authorization: `Bearer ${this.state.token}`
-            }/*,
-            body: JSON.stringify({
-                userID: userID,
-            })*/
-        });
-        const body = await response.json();
-        if (response.status !== 200) throw Error(body.message);
-        //console.log("Profile:", body);
-        return body;
-    }
+        if (interestForm === "") {
+            return setError("Please input an interest of yours.")
+        }
 
-    // Parses through the data for the user if there is existing data
-    const handleAPIUserProfile = (userID) => {
-        callAPIUserProfile(userID)
-            .then(res => {
-                var parsed = JSON.parse(res.express);
+        if (coopForm === "") {
+            return setError("Please input your most recent co-op.");
+        }
+        setError("");
 
-                if (parsed.length !== 0) {
-
-                    setAboutMe(parsed[0].aboutMe);
-                    setYearSemester(parsed[0].yearSemester);
-                    setProgram(parsed[0].program);
-                    setInterest(parsed[0].interest);
-                    setCoop(parsed[0].coop);
-
-                    if (parsed[0].aboutMe === "") {
-                        setLoadProfile(false);
-                        setEditProfile(false);
-                    } else {
-                        setLoadProfile(true);
-                        setEditProfile(true);
-                    }
-                }
-            })
+        // If the user profile doesnt exist, create one
+        if (aboutMe === "") {
+            handleApiCreateUserProfile();
+        }
+        // If the user profile exists, update existing row
+        else {
+            handleApiEditUserProfile();
+        }
+        setsuccessfullSubmissionMsg(true);
+        setTimeout(() => {
+            window.location.reload();
+        }, 3000);
     }
 
     return (
-        // Displays the AppBar, Drawer, the Title, the fields and conditionals for the SAVE/EDIT button. 
-        <div className={classes.root}>
+        <>
             <NavigationBar></NavigationBar>
-            <Box sx={{ position: 'absolute', top: 100, left: "35%" }} >
+            <Box
+                p="6"
+                width="800px"
+                position="absolute"
+                top="40%"
+                left="50%"
+                transform="translate(-50%, -50%)"
+            >
                 <Card>
-                    <Card.Body>
-                        <h2> {firstName} {lastName}'s HonkedIn Profile</h2>
-                    </Card.Body>
-                </Card>
-            </Box>
+                    <Center>
+                        <Avatar
+                            size="2xl"
+                            src={pictureURL}
+                            marginTop="16px" />
+                    </Center>
 
-            <Box sx={{ position: 'absolute', top: 240, left: "35%" }} >
-                <div>  <h5><strong>About Me:</strong>  </h5>
-                    {loadProfile ? <h6> {aboutMe} </h6> : <form className={classes.root} noValidate autoComplete="off">
-                        <TextField
-                            id="AboutMe"
-                            label="About Me"
-                            defaultValue="Enter About Me"
-                            variant="outlined"
-                            style={{ width: "300px" }}
-                            value={aboutMe}
-                            onChange={handleAboutMe}
-                            inputProps={{ maxLength: 200 }} />
-                    </form>}
-                    {!loadProfile && <FormHelperText> Tell us about you! [Max 200 Char.] </FormHelperText>}
-                    {missingAboutMe && <FormHelperText> <strong><p style={{ color: 'red' }}>Please fill this out!</p></strong> </FormHelperText>} </div>
-            </Box>
+                    <Center>
+                        <Heading className="title" mt="4" mb="2">
+                            {firstName} {lastName}
+                        </Heading>
+                    </Center>
 
-            <Box sx={{ position: 'absolute', top: 380, left: "35%" }} >
-                <div> <h5><strong>Year of Study:</strong> </h5>
-                    {loadProfile ? <h6> {yearSemester} </h6> : <FormControl className={classes.formControl}>
-                        <InputLabel id="Year and Semester">Year and Semester</InputLabel>
-                        <Select
-                            labelId="YearSemesterSelect"
-                            id="YearSemester"
-                            value={yearSemester}
-                            onChange={handleYearSemester}
+                    <Center>
+                        <Badge
+                            className="body"
+                            backgroundColor="#023679"
+                            color="#FFFFFF"
                         >
-                            {yearList.map((year) => (
-                                <MenuItem value={year}> {year} </MenuItem>
-                            ))}
-                        </Select>
-                        <FormHelperText> Select a year and semester from the list! </FormHelperText>
-                        {missingYearSemester && <FormHelperText> <strong><p style={{ color: 'red' }}>Please fill this out!</p></strong> </FormHelperText>}
-                    </FormControl>} </div>
+                            {program}
+                        </Badge>
+                    </Center>
+
+                    <Center>
+                        <Badge
+                            className="body"
+                            backgroundColor="#023679"
+                            color="#FFFFFF"
+                            marginTop="4px"
+                        >
+                            {yearSemester}
+                        </Badge>
+                    </Center>
+
+                    <Box
+                        marginTop="16px"
+                        paddingBottom="16px"
+                        textAlign="center"
+                    >
+                        <Box>
+                            <Heading className="headerBig">
+                                About Me
+                            </Heading>
+                            <Text className="header">
+                                {aboutMe}
+                            </Text>
+                        </Box>
+
+                        <Box marginTop="8px">
+                            <Heading className="headerBig">
+                                Co-op
+                            </Heading>
+                            <Text className="header">
+                                {coop}
+                            </Text>
+                        </Box>
+
+                        <Box marginTop="8px">
+                            <Heading className="headerBig">
+                                Interest
+                            </Heading>
+                            <Text className="header">
+                                {interest}
+                            </Text>
+                        </Box>
+                    </Box>
+
+                    {/*Edit profile dialog*/}
+                    <Modal isOpen={isOpen} onClose={onClose}>
+                        <ModalOverlay />
+                        <ModalContent>
+                            <ModalHeader className="header">Edit Profile</ModalHeader>
+                            {error &&
+                                <Alert
+                                    status="error"
+                                    marginTop="16px"
+                                    className="body"
+                                >
+                                    <AlertIcon />
+                                    {error}
+                                </Alert>}
+                            <ModalBody>
+                                <Form>
+                                    <FormControl
+                                        className="body"
+                                        marginTop="16px"
+                                    >
+                                        <FormLabel className="body">Profile Picture URL</FormLabel>
+                                        <Input
+                                            defaultValue={pictureURL}
+                                            onChange={handlePictureURLForm}
+                                            type="About Me"
+                                            required
+                                        />
+                                    </FormControl>
+
+                                    <FormControl
+                                        className="body"
+                                        marginTop="16px"
+                                    >
+                                        <FormLabel className="body">About Me</FormLabel>
+                                        <Input
+                                            defaultValue={aboutMe}
+                                            onChange={handleAboutMeForm}
+                                            type="About Me"
+                                            required
+                                        />
+                                    </FormControl>
+
+                                    <FormControl
+                                        id="password"
+                                        className="body"
+                                        marginTop="16px"
+                                    >
+                                        <FormLabel className="body">Year and Semester</FormLabel>
+                                        <Select
+                                            defaultValue={yearSemester}
+                                            onChange={handleYearSemesterForm}
+                                        >
+                                            {yearList.map((year) => (
+                                                <option value={year}> {year} </option>
+                                            ))}
+                                        </Select>
+                                    </FormControl>
+
+                                    <FormControl
+                                        className="body"
+                                        marginTop="16px"
+                                    >
+                                        <FormLabel className="body">Program</FormLabel>
+                                        <Input
+                                            defaultValue={program}
+                                            onChange={handleProgramForm}
+                                            type="Program"
+                                            required
+                                        />
+                                    </FormControl>
+
+                                    <FormControl
+                                        className="body"
+                                        marginTop="16px"
+                                    >
+                                        <FormLabel className="body">Co-op</FormLabel>
+                                        <Input
+                                            defaultValue={coop}
+                                            onChange={handleCoopForm}
+                                            type="Co-op"
+                                            required
+                                        />
+                                    </FormControl>
+
+                                    <FormControl
+                                        className="body"
+                                        marginTop="16px"
+                                    >
+                                        <FormLabel className="body">Interest</FormLabel>
+                                        <Input
+                                            defaultValue={interest}
+                                            onChange={handleInterestForm}
+                                            type="Interest"
+                                            required
+                                        />
+                                    </FormControl>
+                                </Form>
+                            </ModalBody>
+
+                            <ModalFooter>
+                                <Button className="button" onClick={onClose} marginRight="8px">
+                                    Close
+                                </Button>
+                                <Button className="button" onClick={HandleEditProfile}>Edit</Button>
+                            </ModalFooter>
+                        </ModalContent>
+                    </Modal>
+
+                </Card>
+
+                <Box float="right" width="15%" marginTop="8px">
+                    <Button
+                        onClick={onOpen}
+                        className="button"
+                    >Edit Profile</Button>
+                </Box>
             </Box>
 
-            <Box sx={{ position: 'absolute', top: 500, left: "35%" }} >
-                <div>  <h5><strong> Program: </strong></h5>
-                    {loadProfile ? <h6> {program} </h6> : <form className={classes.root} noValidate autoComplete="off">
-                        <TextField
-                            id="Program"
-                            label="Program"
-                            defaultValue="Enter Program"
-                            variant="outlined"
-                            style={{ width: "300px" }}
-                            value={program}
-                            onChange={handleProgram}
-                            inputProps={{ maxLength: 200 }} />
-                    </form>}
-                    {!loadProfile && <FormHelperText> Ex. Computer Science </FormHelperText>}
-                    {missingProgram && <FormHelperText> <strong><p style={{ color: 'red' }}>Please fill this out!</p></strong> </FormHelperText>}</div>
-            </Box>
-
-            <Box sx={{ position: 'absolute', top: 640, left: "35%" }} >
-                <div> <h5> <strong>Interest: </strong>  </h5>
-                    {loadProfile ? <h6> {interest} </h6> : <form className={classes.root} noValidate autoComplete="off">
-                        <TextField
-                            id="Interest"
-                            label="Interest"
-                            defaultValue="Enter Interest"
-                            variant="outlined"
-                            style={{ width: "300px" }}
-                            value={interest}
-                            onChange={handleInterest}
-                            inputProps={{ maxLength: 200 }} />
-                    </form>}
-                    {!loadProfile && <FormHelperText> Ex. Coding </FormHelperText>}
-                    {missingInterest && <FormHelperText> <strong><p style={{ color: 'red' }}>Please fill this out!</p></strong> </FormHelperText>}</div>
-            </Box>
-
-            <Box sx={{ position: 'absolute', top: 790, left: "35%" }} >
-                <div> <h5><strong> Co-op:</strong> </h5> {loadProfile ? <h6>
-                    {coop} </h6> : <form className={classes.root} noValidate autoComplete="off">
-                    <TextField
-                        id="Co-op"
-                        label="Co-op"
-                        defaultValue="Co-op"
-                        variant="outlined"
-                        style={{ width: "300px" }}
-                        value={coop}
-                        onChange={handleCoop}
-                        inputProps={{ maxLength: 200 }} />
-
-                </form>}
-                    {!loadProfile && <FormHelperText> Role, Company (Ex. None, None) </FormHelperText>}
-                    {missingCoop && <FormHelperText> <strong><p style={{ color: 'red' }}>Please fill this out!</p></strong> </FormHelperText>}</div>
-            </Box>
-
-            <Box sx={{ position: 'absolute', top: 850, left: "60%" }} >
-                {loadProfile ? <Button variant="outlined" style={{ color: "white", backgroundColor: "red" }} onClick={() => { setLoadProfile(false) }} >Edit Profile</Button> : <Button variant="outlined" style={{ color: "white", backgroundColor: "seagreen" }} onClick={() => { validationCheck() }} >Save Profile</Button>}
-
-                {submission && (
+            {
+                successfullSubmissionMsg && (
                     <Alert
                         status="success"
                         sx={{ position: 'fixed', bottom: 0, right: 0, width: '25%', zIndex: 9999 }}>
                         <AlertIcon />
-                        <AlertDescription>Profile successfully edited.</AlertDescription>
+                        <AlertDescription>Profile successfully updated.</AlertDescription>
                     </Alert>
-                )}
-            </Box>
-
-        </div>
+                )
+            }
+        </>
     );
 };
 
