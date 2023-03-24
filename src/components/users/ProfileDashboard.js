@@ -1,13 +1,11 @@
 import React, { useState } from "react"
-import { Link, useHistory } from "react-router-dom"
 import { Card, Form } from "react-bootstrap"
 import { useAuth } from "../../contexts/AuthContext"
 
 import {
     Alert,
-    AlertIcon,
-    AlertTitle,
     AlertDescription,
+    AlertIcon,
     Avatar,
     Badge,
     Box,
@@ -15,25 +13,22 @@ import {
     Center,
     FormControl,
     FormLabel,
-    Flex,
     Heading,
-    HStack,
     Input,
-    Grid,
-    GridItem,
     Modal,
     ModalOverlay,
     ModalContent,
     ModalHeader,
     ModalFooter,
     ModalBody,
-    ModalCloseButton,
     Select,
     Text,
     useDisclosure
 } from "@chakra-ui/react";
 
 import NavigationBar from '../common/NavigationBar';
+
+import "../../styles/style.css";
 
 // Server URL
 const { REACT_APP_API_ENDPOINT } = process.env;
@@ -180,6 +175,7 @@ const ProfileDashboard = () => {
     }
 
     const [error, setError] = React.useState("");
+    const [successfullSubmissionMsg, setsuccessfullSubmissionMsg] = React.useState(false);
 
 
     // Other APIs - getUserProfile, editUserProfile and createUserProfile 
@@ -284,6 +280,7 @@ const ProfileDashboard = () => {
         else {
             handleApiEditUserProfile();
         }
+        setsuccessfullSubmissionMsg(true);
         setTimeout(() => {
             window.location.reload();
         }, 3000);
@@ -309,43 +306,60 @@ const ProfileDashboard = () => {
                     </Center>
 
                     <Center>
-                        <Heading mt="4" mb="2">
+                        <Heading className="title" mt="4" mb="2">
                             {firstName} {lastName}
                         </Heading>
                     </Center>
 
                     <Center>
-                        <Badge colorScheme="blue">{program}</Badge>
+                        <Badge
+                            className="body"
+                            backgroundColor="#023679"
+                            color="#FFFFFF"
+                        >
+                            {program}
+                        </Badge>
                     </Center>
 
                     <Center>
-                        <Badge colorScheme="blue" marginTop="8px">{yearSemester}</Badge>
+                        <Badge
+                            className="body"
+                            backgroundColor="#023679"
+                            color="#FFFFFF"
+                            marginTop="4px"
+                        >
+                            {yearSemester}
+                        </Badge>
                     </Center>
 
-                    <Box paddingBottom="16px" textAlign="center">
+                    <Box
+                        marginTop="16px"
+                        paddingBottom="16px"
+                        textAlign="center"
+                    >
                         <Box>
-                            <Heading size="md" mb="4">
+                            <Heading className="headerBig">
                                 About Me
                             </Heading>
-                            <Text>
+                            <Text className="header">
                                 {aboutMe}
                             </Text>
                         </Box>
 
-                        <Box>
-                            <Heading size="md" mb="4">
+                        <Box marginTop="8px">
+                            <Heading className="headerBig">
                                 Co-op
                             </Heading>
-                            <Text>
+                            <Text className="header">
                                 {coop}
                             </Text>
                         </Box>
 
-                        <Box>
-                            <Heading size="md" mb="4">
+                        <Box marginTop="8px">
+                            <Heading className="headerBig">
                                 Interest
                             </Heading>
-                            <Text>
+                            <Text className="header">
                                 {interest}
                             </Text>
                         </Box>
@@ -355,7 +369,7 @@ const ProfileDashboard = () => {
                     <Modal isOpen={isOpen} onClose={onClose}>
                         <ModalOverlay />
                         <ModalContent>
-                            <ModalHeader>Edit Profile</ModalHeader>
+                            <ModalHeader className="header">Edit Profile</ModalHeader>
                             {error &&
                                 <Alert
                                     status="error"
@@ -365,7 +379,6 @@ const ProfileDashboard = () => {
                                     <AlertIcon />
                                     {error}
                                 </Alert>}
-                            <ModalCloseButton />
                             <ModalBody>
                                 <Form>
                                     <FormControl
@@ -452,20 +465,34 @@ const ProfileDashboard = () => {
                             </ModalBody>
 
                             <ModalFooter>
-                                <Button onClick={onClose}>
+                                <Button className="button" onClick={onClose} marginRight="8px">
                                     Close
                                 </Button>
-                                <Button onClick={HandleEditProfile}>Edit</Button>
+                                <Button className="button" onClick={HandleEditProfile}>Edit</Button>
                             </ModalFooter>
                         </ModalContent>
                     </Modal>
 
                 </Card>
-                <Box textAlign="right" marginTop="8px">
-                    <Button onClick={onOpen}>Edit Profile</Button>
+
+                <Box float="right" width="15%" marginTop="8px">
+                    <Button
+                        onClick={onOpen}
+                        className="button"
+                    >Edit Profile</Button>
                 </Box>
             </Box>
 
+            {
+                successfullSubmissionMsg && (
+                    <Alert
+                        status="success"
+                        sx={{ position: 'fixed', bottom: 0, right: 0, width: '25%', zIndex: 9999 }}>
+                        <AlertIcon />
+                        <AlertDescription>Profile successfully updated.</AlertDescription>
+                    </Alert>
+                )
+            }
         </>
     );
 };
