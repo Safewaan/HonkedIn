@@ -109,11 +109,16 @@ app.use(deleteResource);
 // Dashboard APIs
 const getRecentEvents = require(`${routesDir}dashboard/getRecentEvents`);
 const getPopularForums = require(`${routesDir}dashboard/getPopularForums`);
-const getMyEvents = require(`${routesDir}dashboard/getMyEvents`)
+const getMyEvents = require(`${routesDir}dashboard/getMyEvents`);
 
 app.use(getRecentEvents);
 app.use(getPopularForums);
 app.use(getMyEvents);
+
+// Request APIs
+const createRequest = require(`${routesDir}requests/createRequest`);
+
+app.use(createRequest);
 
 app.listen(port, () => console.log(`Listening on port ${port}`)); //for the dev version
 //app.listen(port, '172.31.31.77'); //for the deployed version, specify the IP address of the server
