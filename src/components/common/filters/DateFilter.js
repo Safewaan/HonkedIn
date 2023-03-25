@@ -2,16 +2,18 @@ import {
     Text,
     Box
 } from '@chakra-ui/react'
+
 import { RangeDatepicker } from "chakra-dayzed-datepicker";
 
 const DateFilter = ({ placeholder, selectedDates, onDateChange }) => {
     return (
         <div>
             <Box sx={{ display: 'flex', flexDirection: 'row', justifyContent: 'flex-start' }}>
-                <Text>{placeholder}</Text>
+                <Text className="header">{placeholder}</Text>
             </Box>
-            <Box sx={{ display: 'flex', flexDirection: 'row', justifyContent: 'flex-start', zIndex: 1}}>
+            <Box sx={{ display: 'flex', flexDirection: 'row', justifyContent: 'flex-start', zIndex: 1 }}>
                 <RangeDatepicker
+                    className="header"
                     selectedDates={selectedDates}
                     onDateChange={onDateChange}
                     propsConfigs={{
@@ -39,6 +41,10 @@ const DateFilter = ({ placeholder, selectedDates, onDateChange }) => {
                             todayBtnProps: {
                                 borderColor: "#023679"
                             },
+                            isInRangeBtnProps: {
+                                background: '#214E89',
+                                color: '#F0F6FF',
+                            }
                         }
                     }}
                 />
