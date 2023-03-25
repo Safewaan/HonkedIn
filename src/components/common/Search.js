@@ -2,7 +2,8 @@ import {
     Box,
     Input,
     Button,
-    Flex
+    Flex,
+    Link
 } from "@chakra-ui/react";
 
 import {
@@ -31,14 +32,13 @@ const Search = ({ label, onSetSearch, searchTerm, onButtonClick, onResetSearch }
                     className="search-submit"
                 />
             </Flex>
-            <Button
-                variant="link"
+            <Link
                 onClick={onResetSearch}
-                className="search-reset"
+                className="link"
                 _hover={{ textDecor: "none" }}
             >
                 Clear Search
-            </Button>
+            </Link>
         </Box>
     );
 };

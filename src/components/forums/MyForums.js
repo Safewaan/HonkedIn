@@ -32,6 +32,7 @@ import {
     AlertIcon,
     AlertTitle,
     AlertDescription,
+    Text
 } from '@chakra-ui/react';
 
 import NavigationBar from '../common/NavigationBar';
@@ -304,7 +305,7 @@ const MyForums = () => {
                 </Typography>
             </Box>
 
-            <Box sx={{ width: '600px', position: 'absolute', top: 150, left: '50%', transform: 'translateX(-50%)', marginBottom: '20px', zIndex: 1 }}>
+            <Box sx={{ width: '30%', position: 'absolute', top: 185, left: '50%', transform: 'translateX(-50%)', marginBottom: '20px', zIndex: 1 }}>
 
                 <Search
                     label="Search for forum titles or descriptions"
@@ -314,26 +315,23 @@ const MyForums = () => {
                     onButtonClick={loadgetForumsByUserID}
                     onResetSearch={handleRefreshSearch}
                 />
-                <br />
-                <Typography
-                    style={{ color: "black", mb: 2, fontSize: 14, align: 'right' }}
+                <Text
+                    className="header"
                 >
                     Filters
-                </Typography>
+                </Text>
                 <DropdownFilter
                     placeholder="Select a Forum Tag"
                     value={forumFilterTag}
                     onChange={handleForumFilterTag}
                     lists={forumTagList}
                 />
-                <br />
                 <DropdownFilter
-                    placeholder="Select the Status"
+                    placeholder="Select a Status"
                     value={status}
                     onChange={handleStatus}
                     lists={statusList}
                 />
-                <br />
                 <DateFilter
                     placeholder="Select a Date Range"
                     selectedDates={selectedDates}
@@ -346,7 +344,7 @@ const MyForums = () => {
 
             </Box>
 
-            <Box sx={{ position: 'absolute', top: 490, left: '50%', transform: 'translateX(-50%)', zIndex: 0 }}>
+            <Box sx={{ position: 'absolute', top: 550, left: '50%', transform: 'translateX(-50%)', zIndex: 0 }}>
                 {forums.map((forum) => {
                     if (forumFilterTag && forum.forumTag !== forumFilterTag) {
                         return null;

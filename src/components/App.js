@@ -25,6 +25,7 @@ import Dashboard from "./Dashboard";
 import ProfileDashboard from "./users/ProfileDashboard";
 import UpdateStatus from "./users/UpdateStatus";
 import UserSettings from "./users/UserSettings";
+import Requests from "./users/Requests";  
 
 import Network from "./userNetwork/Network";
 import NetworkProfile from "./userNetwork/NetworkProfile";
@@ -51,6 +52,7 @@ import {
   MY_PROFILE_PAGE,
   UPDATE_STATUS_PAGE,
   USER_SETTINGS_PAGE,
+  REQUESTS_PAGE,
   CREATE_RESOURCE_PAGE,
   MY_COMMENTS_PAGE,
   RESOURCES_PAGE,
@@ -100,6 +102,7 @@ function App() {
                 {/* User Network Pages */}
                 <PrivateRoute path={NETWORK_PAGE} component={Network} />
                 <PrivateRoute path={NETWORK_PROFILE_PAGE} component={NetworkProfile} />
+                <PrivateRoute path={REQUESTS_PAGE} component={Requests} />
 
                 {/* Resources Pages */}
                 <PrivateRoute path={CREATE_RESOURCE_PAGE} component={CreateResource} />

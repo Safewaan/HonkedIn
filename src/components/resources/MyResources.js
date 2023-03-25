@@ -313,12 +313,11 @@ const MyResources = () => {
                     onButtonClick={loadgetResourcesByUser}
                     onResetSearch={handleRefreshSearch}
                 />
-                <br />
-                <Typography
-                    style={{ color: "black", mb: 2, fontSize: 14, align: 'right' }}
+                <Text
+                    className="header"
                 >
                     Filters
-                </Typography>
+                </Text>
                 <DropdownFilter
                     placeholder="Select a Media Type Tag"
                     value={resourceTag}
