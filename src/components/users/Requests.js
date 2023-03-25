@@ -160,7 +160,7 @@ const RequestsList = ({ requests, type }) => {
                                     {type}:
                                 </Text>
                                 <Text className="body to-text">
-                                    {request.receiver_name}
+                                    {type === 'To' ? request.receiver_name : request.sender_name}
                                 </Text>
 
                                 <Text
