@@ -9,6 +9,9 @@ router.post('/api/createRequest', (req, res) => {
     let sql = "INSERT INTO shchowdh.requests (sender_id, receiver_id, body) VALUES (?, ?, ?)";
     let data = [req.body.senderID, req.body.receiverID, req.body.body];
 
+    // console.log(sql);
+    // console.log(data);
+
     connection.query(sql, data, (error, results, fields) => {
 
         if (error) {

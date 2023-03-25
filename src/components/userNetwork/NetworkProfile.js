@@ -40,10 +40,56 @@ const NetworkProfile = () => {
 
     const { isOpen, onOpen, onClose } = useDisclosure();
 
-    //const { currentUser } = useAuth()
-    //leaving this one for now, if have time at end, want to implement
-    //logic to redirect to own editable profile page 
-    //const [email, setEmail] = React.useState('');
+    // Store the user's history and currentUser
+    const { currentUser } = useAuth()
+
+    // API: Get the user's fullname for the title. 
+    //Get the user's email and then get their full name
+    const [email, setEmail] = React.useState('');
+    const [firstName, setFirstName] = React.useState('');
+    const [lastName, setLastName] = React.useState('');
+    const [userID, setUserID] = React.useState('');
+
+    // Get the current user's email. 
+    React.useEffect(() => {
+
+        setEmail(currentUser.email);
+        handleUserSearchByEmail(currentUser.email);
+    }, []);
+
+    // Obtain the user ID, firstName and lastName from the query
+    const handleUserSearchByEmail = (email) => {
+        callApiGetUserSearchByEmail(email)
+            .then(res => {
+                var parsed = JSON.parse(res.express);
+                //console.log(parsed[0].id);
+                setUserID(parsed[0].id);
+                setFirstName(parsed[0].firstName)
+                setLastName(parsed[0].lastName)
+
+                handleAPIUserProfile(parsed[0].id);
+            });
+    }
+
+    // Call the API to query with the user's email obtained from Firebase
+    const callApiGetUserSearchByEmail = async (email) => {
+        const url = `${REACT_APP_API_ENDPOINT}/userSearchByEmail`;
+        console.log(url);
+
+        const response = await fetch(url, {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+            },
+            body: JSON.stringify({
+                email: email
+            })
+        });
+        const body = await response.json();
+        if (response.status !== 200) throw Error(body.message);
+        return body;
+    }
+
     const { selectedUserID } = useParams();
     const [openDialog, setOpenDialog] = React.useState(false);
 
@@ -107,6 +153,30 @@ const NetworkProfile = () => {
 
     const [error, setError] = React.useState("");
     const [successfullSubmissionMsg, setsuccessfullSubmissionMsg] = React.useState(false);
+
+    const handleCreateRequest = () => {
+        callAPICreateRequest();
+    }
+
+    const callAPICreateRequest = async () => {
+        const url = `${REACT_APP_API_ENDPOINT}/createRequest`;
+        console.log(url);
+
+        const response = await fetch(url, {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+            },
+            body: JSON.stringify({
+                senderID: userID,
+                receiverID: selectedUserID,
+                body: body
+            })
+        });
+        const bodyResponse = await response.json();
+        if (response.status !== 200) throw Error(bodyResponse.message);
+        return bodyResponse;
+    }
 
     return (
         <>
@@ -225,7 +295,7 @@ const NetworkProfile = () => {
                                 <Button className="button" onClick={onClose} marginRight="8px">
                                     Close
                                 </Button>
-                                <Button className="button">Send</Button>
+                                <Button className="button" onClick={handleCreateRequest}>Send</Button>
                             </ModalFooter>
                         </ModalContent>
                     </Modal>
