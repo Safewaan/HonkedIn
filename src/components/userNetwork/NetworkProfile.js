@@ -155,7 +155,17 @@ const NetworkProfile = () => {
     const [successfullSubmissionMsg, setsuccessfullSubmissionMsg] = React.useState(false);
 
     const handleCreateRequest = () => {
-        callAPICreateRequest();
+        if (body === "") {
+            return setError("Please create a message for your request.");
+        }
+
+        callAPICreateRequest().then(res => {
+            setError("");
+            setsuccessfullSubmissionMsg(true);
+            setTimeout(() => {
+                window.location.reload();
+            }, 3000);
+        });
     }
 
     const callAPICreateRequest = async () => {
@@ -262,7 +272,7 @@ const NetworkProfile = () => {
                     <Modal isOpen={isOpen} onClose={onClose}>
                         <ModalOverlay />
                         <ModalContent>
-                            <ModalHeader className="header">Edit Profile</ModalHeader>
+                            <ModalHeader className="header">Send Request</ModalHeader>
                             {error &&
                                 <Alert
                                     status="error"
@@ -274,18 +284,22 @@ const NetworkProfile = () => {
                                 </Alert>}
                             <ModalBody>
                                 <Form>
+                                    <FormLabel className="body" textAlign="center">
+                                        Send a request to {userName} to connect externally.
+                                    </FormLabel>
                                     <FormControl
                                         className="body"
-                                        marginTop="16px"
+                                        marginTop="32px"
                                     >
                                         <FormLabel className="body">Message:</FormLabel>
                                         <Textarea
                                             onChange={handleBody}
                                             type="About Me"
                                             required
+                                            maxLength="255"
                                         />
                                         <FormHelperText className="body">
-                                            Make sure to include either your phone number or your email address.
+                                            Make sure to include a phone number or email address.
                                         </FormHelperText>
                                     </FormControl>
                                 </Form>
@@ -308,6 +322,17 @@ const NetworkProfile = () => {
                     >Send Request</Button>
                 </Box>
             </Box>
+
+            {
+                successfullSubmissionMsg && (
+                    <Alert
+                        status="success"
+                        sx={{ position: 'fixed', bottom: 0, right: 0, width: '25%', zIndex: 9999 }}>
+                        <AlertIcon />
+                        <AlertDescription>Request successfully sent.</AlertDescription>
+                    </Alert>
+                )
+            }
         </>
     );
 }
