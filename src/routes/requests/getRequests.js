@@ -11,8 +11,8 @@ router.get('/api/getRequests', (req, res) => {
 
     let connection = mysql.createConnection(config);
 
-    let sql = 
-    `SELECT r.request_id, concat(u1.firstName," ", u1.lastName) AS sender_name, concat(u2.firstName," ", u2.lastName) AS receiver_name, r.body
+    let sql =
+        `SELECT r.request_id, concat(u1.firstName," ", u1.lastName) AS sender_name, concat(u2.firstName," ", u2.lastName) AS receiver_name, r.body
     FROM requests r
     INNER JOIN users u1 ON r.sender_id = u1.id
     INNER JOIN users u2 ON r.receiver_id = u2.id`
@@ -24,13 +24,20 @@ router.get('/api/getRequests', (req, res) => {
     }
 
     if (req.query.receiverID) {
-        sql += " WHERE receiver_ID = ?";
-        data = [req.query.receiverID];
+        if (sql.includes("WHERE sender_ID = ?")) {
+            sql += " AND"
+            data = [req.query.senderID, req.query.receiverID];
+        } else {
+            sql += " WHERE"
+            data = [req.query.receiverID];
+        }
+        
+        sql += " receiver_ID = ?";
     }
 
     // Debug logs
-    // console.log(sql);
-    // console.log(data);
+    console.log(sql);
+    console.log(data);
     connection.query(sql, data, (error, results, fields) => {
         if (error) {
             res.status(400).send(error.message);
@@ -38,6 +45,7 @@ router.get('/api/getRequests', (req, res) => {
         }
         let string = JSON.stringify(results);
         res.send({ express: string });
+        console.log({ express: string });
     });
     connection.end();
 

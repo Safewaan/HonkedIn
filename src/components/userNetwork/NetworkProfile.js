@@ -99,6 +99,7 @@ const NetworkProfile = () => {
         handleAPIUserProfile(selectedUserID);
     }, []);
 
+    const [profileID, setProfileID] = React.useState('');
     const [userName, setUserName] = React.useState('');
     const [aboutMe, setAboutMe] = React.useState('');
     const [yearSemester, setYearSemester] = React.useState('');
@@ -113,6 +114,7 @@ const NetworkProfile = () => {
             const parsed = JSON.parse(res.express);
             if (parsed.length !== 0) {
 
+                setProfileID(parsed[0].userID);
                 setUserName(parsed[0].userName);
                 setAboutMe(parsed[0].aboutMe);
                 setYearSemester(parsed[0].yearSemester);
@@ -159,13 +161,20 @@ const NetworkProfile = () => {
             return setError("Please create a message for your request.");
         }
 
-        callAPICreateRequest().then(res => {
-            setError("");
-            setsuccessfullSubmissionMsg(true);
-            setTimeout(() => {
-                window.location.reload();
-            }, 3000);
-        });
+        callApiGetRequestsSentPreviously(userID).then(res => {
+            var parsed = JSON.parse(res.express);
+            if (parsed !== []) {
+                return setError(`You've already sent ${userName} a request.`);
+            } else {
+                callAPICreateRequest().then(res => {
+                    setError("");
+                    setsuccessfullSubmissionMsg(true);
+                    setTimeout(() => {
+                        window.location.reload();
+                    }, 3000);
+                });
+            }
+        })
     }
 
     const callAPICreateRequest = async () => {
@@ -186,6 +195,22 @@ const NetworkProfile = () => {
         const bodyResponse = await response.json();
         if (response.status !== 200) throw Error(bodyResponse.message);
         return bodyResponse;
+    }
+
+    const callApiGetRequestsSentPreviously = async (userID) => {
+        const url = `${REACT_APP_API_ENDPOINT}/getRequests?senderID=${userID}&receiverID=${profileID}`;
+        //debug statement
+        console.log(url);
+
+        const response = await fetch(url, {
+            method: "GET",
+            headers: {
+                "Content-Type": "application/json",
+            }
+        });
+        const body = await response.json();
+        if (response.status !== 200) throw Error(body.message);
+        return body;
     }
 
     return (
