@@ -163,7 +163,9 @@ const NetworkProfile = () => {
 
         callApiGetRequestsSentPreviously(userID).then(res => {
             var parsed = JSON.parse(res.express);
-            if (parsed !== []) {
+            console.log(parsed);
+            console.log(parsed.length);
+            if (parsed.length > 0) {
                 return setError(`You've already sent ${userName} a request.`);
             } else {
                 callAPICreateRequest().then(res => {
