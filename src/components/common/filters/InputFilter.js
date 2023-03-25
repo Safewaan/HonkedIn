@@ -15,7 +15,7 @@ const InputFilter = ({ placeholder, value, onChange }) => {
                     value={value}
                     onChange={onChange}
                     variant="outline"
-                    className="Header"
+                    className="header to-text"
                 />
             </Box>
         </div>
