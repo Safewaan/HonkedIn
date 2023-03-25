@@ -72,3 +72,7 @@ button:hover {
     font-weight: 400 !important;
     text-align: center;
 }
+
+.to-text {
+    text-align: left !important;
+}

@@ -34,6 +34,8 @@ export const UPDATE_STATUS_PAGE = "/update-status";
 
 export const USER_SETTINGS_PAGE = "/user-settings";
 
+export const REQUESTS_PAGE = "/requests";
+
 // Network Routes
 export const NETWORK_PAGE = "/network";
 
@@ -46,5 +48,5 @@ export const RESOURCES_PAGE = "/resources";
 
 export const MY_RESOURCES_PAGE = "/my-resources";
 
-// About us Routes
+// About us Route
 export const ABOUT_US_PAGE = "/about-us";

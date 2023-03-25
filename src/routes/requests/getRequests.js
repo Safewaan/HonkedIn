@@ -11,7 +11,11 @@ router.get('/api/getRequests', (req, res) => {
 
     let connection = mysql.createConnection(config);
 
-    let sql = `SELECT * FROM requests`
+    let sql = 
+    `SELECT r.request_id, concat(u1.firstName," ", u1.lastName) AS sender_name, concat(u2.firstName," ", u2.lastName) AS receiver_name, r.body
+    FROM requests r
+    INNER JOIN users u1 ON r.sender_id = u1.id
+    INNER JOIN users u2 ON r.receiver_id = u2.id`
     let data = [];
 
     if (req.query.senderID) {
