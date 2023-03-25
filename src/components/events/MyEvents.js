@@ -2,62 +2,47 @@ import React, { useRef, useState, useEffect } from "react"
 import { useAuth } from "../../contexts/AuthContext"
 import { Link, useHistory } from "react-router-dom"
 import DatePicker from "react-datepicker";
-import Box from "@material-ui/core/Box";
-import Card from '@material-ui/core/Card';
-import CardActions from '@material-ui/core/CardActions';
-import CardContent from '@material-ui/core/CardContent';
-import Button from '@material-ui/core/Button';
-import Typography from '@material-ui/core/Typography';
-import TextField from '@material-ui/core/TextField';
-import Dialog from '@material-ui/core/Dialog';
-import DialogActions from '@material-ui/core/DialogActions';
-import DialogContent from '@material-ui/core/DialogContent';
-import DialogTitle from '@material-ui/core/DialogTitle';
-import Grid from '@material-ui/core/Grid';
-import FormHelperText from '@material-ui/core/FormHelperText';
-import { makeStyles } from '@material-ui/core/styles';
+import { Card } from 'react-bootstrap';
+
 import Search from '../common/Search';
 import DropdownFilter from "../common/filters/DropdownFilter";
 import ClearFilters from "../common/filters/ClearFilters";
 import NumberFilter from "../common/filters/NumberFilter";
-import "react-datepicker/dist/react-datepicker.css";
-import { RangeDatepicker } from "chakra-dayzed-datepicker";
 import DateFilter from "../common/filters/DateFilter";
 
+import { SingleDatepicker } from "chakra-dayzed-datepicker";
 
 import {
     Alert,
     AlertIcon,
     AlertTitle,
     AlertDescription,
+    Box,
+    Button,
+    Input,
+    FormControl,
+    FormLabel,
+    FormErrorMessage,
+    FormHelperText,
+    NumberInput,
+    NumberInputField,
+    NumberInputStepper,
+    NumberDecrementStepper,
+    NumberIncrementStepper,
+    Modal,
+    ModalOverlay,
+    ModalContent,
+    ModalHeader,
+    ModalFooter,
+    ModalBody,
     Text
-} from '@chakra-ui/react';
+} from '@chakra-ui/react'
 
 import NavigationBar from '../common/NavigationBar';
 
 const { REACT_APP_API_ENDPOINT } = process.env;
 
 const MyEvents = () => {
-
-    const useStyles = makeStyles((theme) => ({
-        formControl: {
-            margin: theme.spacing(1),
-            minWidth: 120,
-        },
-        selectEmpty: {
-            marginTop: theme.spacing(2),
-        },
-        root: {
-            '& > *': {
-                margin: theme.spacing(1),
-                width: '50ch',
-            },
-        },
-        paper: {
-            padding: theme.spacing(2),
-            textAlign: 'center',
-        },
-    }));
 
     const { currentUser } = useAuth();
     const history = useHistory()
@@ -262,8 +247,6 @@ const MyEvents = () => {
         return body;
     }
 
-
-
     const CallApiCancelEvents = async () => {
 
         const url = `${REACT_APP_API_ENDPOINT}/cancelEvent`;
@@ -318,15 +301,15 @@ const MyEvents = () => {
     const handleEditEvent = () => {
         if (eventName === '') {
             setEventNameError(true);
-            setEventNameErrorText('Please enter your event name');
+            setEventNameErrorText('Please enter your event name.');
             return false;
         } else if (eventDesc === '') {
             setEventDescError(true);
-            setEventDescErrorText('Please enter a description of your event');
+            setEventDescErrorText('Please enter a description of your event.');
             return false;
         } else if (eventLocation === '') {
             setEventLocationError(true);
-            setEventLocationErrorText('Please enter the location of your event');
+            setEventLocationErrorText('Please enter the location of your event.');
             return false;
         } else if (eventParticipants === '') {
             setEventParticipantsError(true);
@@ -383,10 +366,8 @@ const MyEvents = () => {
         setRefreshSearch(refreshSearch + 1);
     }
 
-    const classes = useStyles();
-
     // Filters
-    const [status, setStatus] = React.useState('');
+    const [status, setStatus] = React.useState('Active');
     const statusList = ["Active", "Cancelled"];
 
     const handleStatus = (event) => {
@@ -406,6 +387,7 @@ const MyEvents = () => {
         setSelectedDates([]);
     }
 
+    const dateToday = new Date(new Date().getTime() - 24 * 60 * 60 * 1000);
 
     return (
         <div id="body">
@@ -413,12 +395,11 @@ const MyEvents = () => {
             <NavigationBar></NavigationBar>
 
             <Box sx={{ position: 'absolute', top: 115, left: '50%', transform: 'translate(-50%, -50%)' }}>
-                <Typography
-                    variant="h4"
-                    gutterBottom
-                    component="div">
+                <Text
+                    className="title"
+                >
                     My Events
-                </Typography>
+                </Text>
             </Box>
 
             <Box sx={{ width: '600px', position: 'absolute', top: 150, left: '50%', transform: 'translateX(-50%)', marginBottom: '20px', zIndex: 1 }}>
@@ -481,219 +462,316 @@ const MyEvents = () => {
                         }
                     }
                     return (
+                        <Card style={{ width: '400px', marginBottom: '8px', padding: '16px' }} key={event.id}>
+                            <Text className="header to-text">
+                                {event.name}
+                            </Text>
 
-                        <Card style={{ width: '600px', marginBottom: '20px' }} key={event.id}>
-                            <CardContent>
-                                <Typography variant="h5" component="div">
-                                    {event.name}<br />
-                                </Typography>
-                                <Typography sx={{ mb: 1.5 }} color="text.secondary">
-                                    Date: {new Date(new Date(event.date).getTime() - (5 * 60 * 60 * 1000)).toLocaleDateString()}<br />
-                                </Typography>
-                                <Typography sx={{ mb: 1.5 }} color="text.secondary">
-                                    Participants: {event.participants} / {event.totalParticipants}<br />
-                                </Typography>
-                                <Typography sx={{ mb: 1.5 }} color="text.secondary">
-                                    Status: {event.status}<br />
-                                </Typography>
-                            </CardContent>
+                            <Text className="body to-text" marginTop="8px">
+                                Date: {new Date(new Date(event.date).getTime() - (5 * 60 * 60 * 1000)).toLocaleString()}
+                            </Text>
 
-                            <CardActions>
-                                {event.status === "Active" && <Button onClick={() => handleOpenDialog(event)}>Edit Event</Button>}
-                                {event.status === "Active" && <Button onClick={() => handleOpenCancelDialog(event)}>Cancel Event</Button>}
-                                {<Button onClick={() => handleOpenParticipantsDialog(event)}>See Participants</Button>}
-                            </CardActions>
+                            <Text className="body to-text" marginTop="8px">
+                                Participants: {event.participants} / {event.totalParticipants}
+                            </Text>
+
+                            <Text className="body to-text" marginTop="8px">
+                                Status: {event.status}
+                            </Text>
+
+                            <Button
+                                onClick={() => handleOpenParticipantsDialog(event)}
+                                className="button"
+                                marginTop="8px"
+                            >
+                                See Participants
+                            </Button>
+
+                            {event.status === "Active" &&
+                                <Box
+                                    display="flex"
+                                    flexDirection="row"
+                                    marginTop="8px"
+                                >
+                                    <Button
+                                        onClick={() => handleOpenCancelDialog(event)}
+                                        className="button"
+                                        marginRight="8px"
+                                    >
+                                        Cancel Event
+                                    </Button>
+
+                                    <Button
+                                        onClick={() => handleOpenDialog(event)}
+                                        className="button"
+                                    >
+                                        Edit Event
+                                    </Button>
+                                </Box>}
                         </Card>
                     );
                 })}
             </Box>
 
             {selectedEvent && (
-                <div>
-                    {/* Cancel event dialog */}
-                    < Dialog open={isCancelDialogOpen} onClose={handleCloseCancelDialog}>
-                        <DialogTitle>Confirm cancellation</DialogTitle>
-                        <DialogContent>
-                            <Typography variant="body1">
+                <Box>
+                    {/* Cancel event diaglog */}
+                    <Modal isOpen={isCancelDialogOpen} onClose={handleCloseCancelDialog}>
+                        <ModalOverlay />
+                        <ModalContent
+                            style={{ width: '400px', padding: '16px' }}
+                        >
+                            <ModalHeader
+                                className="bigHeader"
+                                textAlign="center"
+                            >
+                                Confirm Cancellation
+                            </ModalHeader>
+
+                            <Text className="header to-text">
                                 Are you sure you want to cancel this event? This action is irreversible.
-                            </Typography>
-                        </DialogContent>
-                        <DialogActions>
-                            <Button onClick={handleCloseCancelDialog}>No</Button>
-                            <Button variant="contained" onClick={handleCancelEvent}>Yes</Button>
-                        </DialogActions>
-                    </Dialog>
+                            </Text>
 
-                    {/* Edit event diaglog */}
-                    < Dialog open={isDialogOpen} onClose={handleCloseDialog} >
-                        <DialogTitle>{selectedEvent.name}</DialogTitle>
-                        <DialogContent>
-                            <EventName
-                                classes={classes}
-                                eventName={eventName}
-                                onEnterEventName={handleEventName}
-                                eventNameError={eventNameError}
-                                eventNameErrorText={eventNameErrorText}
-                            />
+                            <Box
+                                display="flex"
+                                flexDirection="row"
+                                marginTop="8px"
+                            >
+                                <Button
+                                    className="button"
+                                    onClick={handleCloseCancelDialog}
+                                    marginRight="8px"
+                                >
+                                    No
+                                </Button>
+                                <Button
+                                    className="button"
+                                    onClick={handleCancelEvent}
+                                >
+                                    Yes
+                                </Button>
+                            </Box>
+                        </ModalContent>
+                    </Modal>
 
-                            <EventDesc
-                                classes={classes}
-                                eventDesc={eventDesc}
-                                onEnterEventDesc={handleEventDesc}
-                                eventDescError={eventDescError}
-                                eventDescErrorText={eventDescErrorText}
-                            />
+                    {/* Edit event dialog */}
+                    <Modal isOpen={isDialogOpen} onClose={handleCloseDialog}>
+                        <ModalOverlay />
+                        <ModalContent
+                            style={{ width: '400px', padding: '16px' }}
+                        >
+                            <Text align="center" className="form-header">Edit Event</Text>
+                            <FormControl>
+                                <FormControl
+                                    isRequired
+                                    marginTop="16px"
+                                    isInvalid={eventNameError}
+                                >
+                                    <FormLabel className="form-label">Name</FormLabel>
+                                    <Input
+                                        placeholder='Event name'
+                                        className="form-input"
+                                        value={eventName}
+                                        onChange={handleEventName}
+                                        inputProps={{ maxLength: 200 }}
+                                    />
+                                    <FormHelperText className="form-helper-text">Enter the name of your event.</FormHelperText>
+                                    <FormErrorMessage className="form-helper-text">{eventNameErrorText}</FormErrorMessage>
+                                </FormControl>
 
-                            <EventLocation
-                                classes={classes}
-                                eventLocation={eventLocation}
-                                onEnterEventLocation={handleEventLocation}
-                                eventLocationError={eventLocationError}
-                                eventLocationErrorText={eventLocationErrorText}
-                            />
+                                <FormControl
+                                    isRequired
+                                    marginTop="16px"
+                                    isInvalid={eventDescError}>
+                                    <FormLabel className="form-label">Description</FormLabel>
+                                    <Input
+                                        placeholder='Event description'
+                                        className="form-input"
+                                        value={eventDesc}
+                                        onChange={handleEventDesc}
+                                        inputProps={{ maxLength: 350 }}
+                                    />
+                                    <FormHelperText className="form-helper-text">Enter a description of your event.</FormHelperText>
+                                    <FormErrorMessage className="form-helper-text">{eventDescErrorText}</FormErrorMessage>
+                                </FormControl>
 
-                            <EventParticipants
-                                classes={classes}
-                                eventParticipants={eventParticipants}
-                                onEnterEventParticipants={handleEventParticipants}
-                                eventParticipantsError={eventParticipantsError}
-                                eventParticipantsErrorText={eventParticipantsErrorText}
-                            />
+                                <FormControl
+                                    isRequired
+                                    marginTop="16px"
+                                    isInvalid={eventLocationError}>
+                                    <FormLabel className="form-label">Location</FormLabel>
+                                    <Input
+                                        placeholder='Event location'
+                                        className="form-input"
+                                        value={eventLocation}
+                                        onChange={handleEventLocation}
+                                        inputProps={{ maxLength: 350 }}
+                                    />
+                                    <FormHelperText className="form-helper-text">Enter the location of your event.</FormHelperText>
+                                    <FormErrorMessage className="form-helper-text">{eventLocationErrorText}</FormErrorMessage>
+                                </FormControl>
 
-                            <DatePicker
-                                selected={eventDateOG}
-                                onChange={(eventDateOG) => setEventDateOG(eventDateOG)}
-                                dateFormat="yyyy-MM-dd"
-                            />
-                        </DialogContent>
-                        <DialogActions>
-                            <Button onClick={handleCloseDialog}>Close</Button>
-                            {selectedEvent.status === "Active" && <Button onClick={handleEditEvent}>Edit Event</Button>}
-                        </DialogActions>
-                    </Dialog>
+                                <FormControl
+                                    isRequired
+                                    marginTop="16px"
+                                    isInvalid={eventParticipantsError}>
+                                    <FormLabel className="form-label">Maximum Participants</FormLabel>
+                                    <NumberInput
+                                        max={1000}
+                                        min={1}
+                                        className="form-input"
+                                        value={eventParticipants}
+                                        onChange={handleEventParticipants}
+                                    >
+                                        <NumberInputField />
+                                        <NumberInputStepper>
+                                            <NumberIncrementStepper />
+                                            <NumberDecrementStepper />
+                                        </NumberInputStepper>
+                                    </NumberInput>
+                                    <FormHelperText className="form-helper-text">Enter the number of maximum participants of your event.</FormHelperText>
+                                    <FormErrorMessage className="form-helper-text">{eventParticipantsErrorText}</FormErrorMessage>
+                                </FormControl>
 
-                    {/* Get event partipants dialog*/}
-                    < Dialog open={isParticipantsListOpen} onClose={handleCloseParticipantsDialog}>
-                        <DialogTitle>Participants</DialogTitle>
-                        <DialogContent>
-                            <div class="container">
-                                {selectedEventParticipants.map((event) => (
-                                    <ul>
-                                        {event.participantName} <br />
-                                    </ul>
-                                ))}
-                            </div>
-                        </DialogContent>
-                        <DialogActions>
-                            <Button onClick={handleCloseParticipantsDialog}>Close</Button>
-                        </DialogActions>
-                    </Dialog>
-                </div>
-            )}
+                                <FormControl
+                                    isRequired
+                                    marginTop="16px"
+                                >
+                                    <FormLabel className="form-label">Date</FormLabel>
+                                    <SingleDatepicker
+                                        name="date-input"
+                                        date={eventDateOG}
+                                        minDate={dateToday}
+                                        onDateChange={(eventDateOG) => setEventDateOG(eventDateOG)}
+                                        propsConfigs={{
+                                            dayOfMonthBtnProps: {
+                                                defaultBtnProps: {
+                                                    _hover: {
+                                                        background: '#164684',
+                                                        color: '#F0F6FF',
+                                                    },
+                                                    _active: {
+                                                        background: '#214E89',
+                                                    }
+                                                },
+                                                selectedBtnProps: {
+                                                    background: '#023679',
+                                                    color: '#F0F6FF',
+                                                    _hover: {
+                                                        background: '#164684',
+                                                        color: '#F0F6FF',
+                                                    },
+                                                    _active: {
+                                                        background: '#214E89',
+                                                    }
+                                                },
+                                                todayBtnProps: {
+                                                    borderColor: "#023679"
+                                                },
+                                            }
+                                        }}
+                                    />
+                                    <FormHelperText className="form-helper-text">
+                                        Enter the date of your event.
+                                    </FormHelperText>
+                                </FormControl>
+                            </FormControl>
 
-            {showCancelAlertMessage && (
-                <Alert
-                    status="success"
-                    sx={{ position: 'fixed', bottom: 0, right: 0, width: '25%', zIndex: 9999 }}>
-                    <AlertIcon />
-                    <AlertDescription>Event successfully cancelled.</AlertDescription>
-                </Alert>
-            )}
+                            <Box
+                                display="flex"
+                                flexDirection="row"
+                                marginTop="16px"
+                            >
+                                <Button
+                                    className="button"
+                                    onClick={handleCloseDialog}
+                                    marginRight="8px"
+                                >
+                                    Close
+                                </Button>
+                                <Button
+                                    className="button"
+                                    onClick={(event) => handleEditEvent(event)}
+                                >
+                                    Edit
+                                </Button>
+                            </Box>
+                        </ModalContent>
+                    </Modal>
 
-            {showEditAlertMessage && (
-                <Alert
-                    status="success"
-                    sx={{ position: 'fixed', bottom: 0, right: 0, width: '25%', zIndex: 9999 }}>
-                    <AlertIcon />
-                    <AlertDescription>Event successfully editted.</AlertDescription>
-                </Alert>
-            )}
+                    {/* See participants diaglog */}
+                    <Modal isOpen={isParticipantsListOpen} onClose={handleCloseParticipantsDialog}>
+                        <ModalOverlay />
+                        <ModalContent
+                            style={{ width: '400px', padding: '16px' }}
+                        >
+                            <ModalHeader
+                                className="bigHeader"
+                                textAlign="center"
+                            >
+                                Participants
+                            </ModalHeader>
 
-            {eventCurrentParticipantsError && (
-                <Alert
-                    status="error"
-                    sx={{ position: 'fixed', bottom: 0, right: 0, width: '25%', zIndex: 9999 }}>
-                    <AlertIcon />
-                    <AlertDescription>You cannot set the maximum number of participants lower than your
-                        current number of participants. This event currently has {eventCurrentParticipants}
-                        &nbsp;participants.</AlertDescription>
-                </Alert>
-            )}
+                            {selectedEventParticipants.map((event) => (
+                                <Text className="header">
+                                    {event.participantName}
+                                </Text>
+                            ))}
+
+                            <Box
+                                display="flex"
+                                flexDirection="row"
+                                marginTop="16px"
+                            >
+                                <Button
+                                    className="button"
+                                    onClick={handleCloseParticipantsDialog}
+                                >
+                                    Close
+                                </Button>
+                            </Box>
+                        </ModalContent>
+                    </Modal>
+                </Box>
+            )
+            }
+
+            {
+                showCancelAlertMessage && (
+                    <Alert
+                        status="success"
+                        sx={{ position: 'fixed', bottom: 0, right: 0, width: '25%', zIndex: 9999 }}>
+                        <AlertIcon />
+                        <AlertDescription>Event successfully cancelled.</AlertDescription>
+                    </Alert>
+                )
+            }
+
+            {
+                showEditAlertMessage && (
+                    <Alert
+                        status="success"
+                        sx={{ position: 'fixed', bottom: 0, right: 0, width: '25%', zIndex: 9999 }}>
+                        <AlertIcon />
+                        <AlertDescription>Event successfully editted.</AlertDescription>
+                    </Alert>
+                )
+            }
+
+            {
+                eventCurrentParticipantsError && (
+                    <Alert
+                        status="error"
+                        sx={{ position: 'fixed', bottom: 0, right: 0, width: '25%', zIndex: 9999 }}>
+                        <AlertIcon />
+                        <AlertDescription>You cannot set the maximum number of participants lower than your
+                            current number of participants. This event currently has {eventCurrentParticipants}
+                            &nbsp;participants.</AlertDescription>
+                    </Alert>
+                )
+            }
         </div >
     )
 }
-
-const EventName = ({ eventName, onEnterEventName, eventNameError, eventNameErrorText, defaultValue }) => {
-    return (
-        <Grid item>
-            <TextField
-                id="name-of-event"
-                label="Name"
-                placeholder="Enter the name of your event"
-                value={eventName}
-                onChange={onEnterEventName}
-                error={eventNameError}
-                fullWidth
-            />
-            <FormHelperText>{eventNameErrorText}</FormHelperText>
-        </Grid>
-    )
-}
-
-const EventDesc = ({ eventDesc, onEnterEventDesc, eventDescError, eventDescErrorText, defaultValue }) => {
-    return (
-        <Grid item>
-            <TextField
-                id="desc-of-event"
-                label="Description"
-                multiline
-                minrows={4}
-                placeholder="Enter a description of your event"
-                value={eventDesc}
-                onChange={onEnterEventDesc}
-                error={eventDescError}
-                inputProps={{ maxLength: 200 }}
-                fullWidth
-            />
-            <FormHelperText>{eventDescErrorText}</FormHelperText>
-        </Grid>
-    )
-}
-
-const EventLocation = ({ eventLocation, onEnterEventLocation, eventLocationError, eventLocationErrorText, defaultValue }) => {
-    return (
-        <Grid item>
-            <TextField
-                id="location-of-event"
-                label="Location"
-                placeholder="Enter the location of your event"
-                value={eventLocation}
-                onChange={onEnterEventLocation}
-                error={eventLocationError}
-                fullWidth
-
-            />
-            <FormHelperText>{eventLocationErrorText}</FormHelperText>
-        </Grid>
-    )
-}
-
-const EventParticipants = ({ eventParticipants, onEnterEventParticipants, eventParticipantsError, eventParticipantsErrorText, defaultValue }) => {
-    return (
-        <Grid item>
-            <TextField
-                id="Participants-of-event"
-                label="Participants"
-                placeholder="Enter the maximum number of participants for your event"
-                value={eventParticipants}
-                onChange={onEnterEventParticipants}
-                error={eventParticipantsError}
-                fullWidth
-            />
-            <FormHelperText>{eventParticipantsErrorText}</FormHelperText>
-        </Grid>
-    )
-}
-
 
 export default MyEvents;

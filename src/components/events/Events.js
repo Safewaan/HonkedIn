@@ -23,7 +23,7 @@ import {
   ModalFooter,
   ModalBody,
   Text
-} from '@chakra-ui/react'
+} from '@chakra-ui/react';
 
 import NavigationBar from '../common/NavigationBar';
 import Search from '../common/Search';
@@ -307,7 +307,8 @@ const Events = () => {
                 onClick={() => handleOpenDialog(event)}
                 className="button"
                 marginTop="8px"
-              >View Event
+              >
+                View Event
               </Button>
             </Card>
           );
