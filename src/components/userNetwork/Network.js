@@ -1,30 +1,74 @@
-import React, { useRef, useState, useEffect } from "react"
+import React from "react"
 import { useAuth } from "../../contexts/AuthContext"
 import { Link, useHistory } from "react-router-dom"
-import Card from '@material-ui/core/Card';
-import Chip from '@material-ui/core/Chip';
-import CardContent from '@material-ui/core/CardContent';
-import Typography from '@material-ui/core/Typography';
+import { Card } from "react-bootstrap"
+
+import {
+  Avatar,
+  Badge,
+  Box,
+  Center,
+  Flex,
+  Text,
+} from "@chakra-ui/react";
+
 import NavigationBar from '../common/NavigationBar';
-import Box from "@material-ui/core/Box";
 import Search from '../common/Search';
-import { Select, Input } from '@chakra-ui/react'
 import DropdownFilter from "../common/filters/DropdownFilter";
 import InputFilter from "../common/filters/InputFilter";
 import ClearFilters from "../common/filters/ClearFilters";
 
-import {
-  Alert,
-  AlertIcon,
-  AlertTitle,
-  AlertDescription,
-  FormHelperText,
-  Text
-} from '@chakra-ui/react';
-
 const { REACT_APP_API_ENDPOINT } = process.env;
 
 const Network = () => {
+
+  // Store the user's history and currentUser
+  const { currentUser } = useAuth()
+
+  // API: Get the user's fullname for the title. 
+  //Get the user's email and then get their full name
+  const [email, setEmail] = React.useState('');
+  const [firstName, setFirstName] = React.useState('');
+  const [lastName, setLastName] = React.useState('');
+  const [userID, setUserID] = React.useState('');
+
+  // Get the current user's email. 
+  React.useEffect(() => {
+
+    setEmail(currentUser.email);
+    handleUserSearchByEmail(currentUser.email);
+  }, []);
+
+  // Obtain the user ID, firstName and lastName from the query
+  const handleUserSearchByEmail = (email) => {
+    callApiGetUserSearchByEmail(email)
+      .then(res => {
+        var parsed = JSON.parse(res.express);
+        //console.log(parsed[0].id);
+        setUserID(parsed[0].id);
+        setFirstName(parsed[0].firstName)
+        setLastName(parsed[0].lastName)
+      });
+  }
+
+  // Call the API to query with the user's email obtained from Firebase
+  const callApiGetUserSearchByEmail = async (email) => {
+    const url = `${REACT_APP_API_ENDPOINT}/userSearchByEmail`;
+    console.log(url);
+
+    const response = await fetch(url, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        email: email
+      })
+    });
+    const body = await response.json();
+    if (response.status !== 200) throw Error(body.message);
+    return body;
+  }
 
   const [profiles, setProfiles] = React.useState([]);
   const [userSearchTerm, setUserSearchTerm] = React.useState('');
@@ -39,12 +83,9 @@ const Network = () => {
   }, [refreshSearch]);
 
   const handleFindUser = () => {
-    //console.log("The user name being searched is: " + userSearchTerm);
     callApiGetUsers(userSearchTerm)
       .then(res => {
-        //console.log("callApiGetUsers returned: ", res)
         var parsed = JSON.parse(res.express);
-        //console.log("callApiGetUsers parsed: ", parsed[0])
         setProfiles(parsed);
       });
   }
@@ -69,14 +110,10 @@ const Network = () => {
     console.log(url);
 
     const response = await fetch(url, {
-      //method: "POST",
       method: "GET",
       headers: {
         "Content-Type": "application/json",
       }
-      /*, body: { 
-        userSearchTerm: userSearchTerm
-      }*/
     });
     const body = await response.json();
     if (response.status !== 200) throw Error(body.message);
@@ -99,13 +136,12 @@ const Network = () => {
 
       <NavigationBar></NavigationBar>
 
-      <Box sx={{ position: 'absolute', top: 115, left: '50%', transform: 'translate(-50%, -50%)' }}>
-        <Typography
-          variant="h4"
-          gutterBottom
-          component="div">
+      <Box sx={{ position: 'absolute', top: 110, left: '50%', transform: 'translate(-50%, -50%)' }}>
+        <Text
+          className="title"
+        >
           Find New Connections
-        </Typography>
+        </Text>
       </Box>
 
       <Box sx={{ width: '30%', position: 'absolute', top: 150, left: '50%', transform: 'translateX(-50%)', marginBottom: '20px' }}>
@@ -149,37 +185,65 @@ const Network = () => {
             return null
           }
           return (
-            <Card style={{ width: '600px', marginTop: '20px' }} key={profile.userID}>
-              <CardContent>
-                <Link to={`/network-profile/${profile.userID}`} target="_blank">
-                  <Typography variant="h5" component="div">
-                    {profile.userName}
-                  </Typography>
-                </Link>
-                <Chip
-                  key={profile.userID}
-                  label={profile.yearSemester}
-                  color="primary"
-                  size="small"
-                  style={{ marginRight: 8 }}
-                />
+            <Card
+              style={{
+                padding: '16px',
+                width: '500px',
+                marginTop: '8px',
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center',
+              }}
+              key={profile.userID}>
 
-                <Chip
-                  key={profile.userID}
-                  label={profile.program}
-                  color="grey"
-                  size="small"
-                  style={{ marginRight: 8 }}
-                />
-              </CardContent>
-              <br />
+              <Avatar
+                size="xl"
+                src={profile.pictureURL}
+              />
+
+              <Flex alignItems="center">
+                <Flex flexDirection="column">
+
+                  <Center>
+                    {userID === profile.userID ? (
+                      <Link to="/my-profile" target="_blank">
+                        <Text className="headerBig to-text">{profile.userName}</Text>
+                      </Link>
+                    ) : (
+                      <Link to={`/network-profile/${profile.userID}`} target="_blank">
+                        <Text className="headerBig to-text">{profile.userName}</Text>
+                      </Link>
+                    )}
+                  </Center>
+
+                  <Center>
+                    <Badge
+                      className="body"
+                      backgroundColor="#023679"
+                      color="#FFFFFF"
+                      marginTop="4px"
+                    >
+                      {profile.program}
+                    </Badge>
+                  </Center>
+
+                  <Center>
+                    <Badge
+                      className="body"
+                      backgroundColor="#023679"
+                      color="#FFFFFF"
+                      marginTop="4px"
+                    >
+                      {profile.yearSemester}
+                    </Badge>
+                  </Center>
+                </Flex>
+              </Flex>
             </Card>
           );
         })}
       </Box>
-
-
-    </div >
+    </div>
   )
 }
 
