@@ -11,8 +11,10 @@ import {
 const NumberFilter = ({ placeholder, value, onChange }) => {
     return (
         <div>
-            <Box sx={{ display: 'flex', flexDirection: 'row', justifyContent: 'flex-start' }}>
-                <Text>{placeholder}</Text>
+            <Box
+                sx={{ display: 'flex', flexDirection: 'row', justifyContent: 'flex-start' }}
+                marginTop="8px">
+                <Text className="header">{placeholder}</Text>
             </Box>
 
             <Box sx={{ display: 'flex', flexDirection: 'row', justifyContent: 'flex-start' }}>
@@ -21,7 +23,7 @@ const NumberFilter = ({ placeholder, value, onChange }) => {
                     label
                     max={1000}
                     min={1}
-                    className="form-input"
+                    className="header"
                     value={value}
                     onChange={onChange}
                     width="100%"

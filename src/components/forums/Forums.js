@@ -14,6 +14,15 @@ import Chip from '@material-ui/core/Chip';
 import Search from "../common/Search";
 import "react-datepicker/dist/react-datepicker.css";
 
+import {
+    Alert,
+    AlertIcon,
+    AlertTitle,
+    AlertDescription,
+    FormHelperText,
+    Text
+} from '@chakra-ui/react'
+
 const { REACT_APP_API_ENDPOINT } = process.env;
 
 const Forums = () => {
@@ -147,27 +156,23 @@ const Forums = () => {
                     onButtonClick={loadGetForums}
                     onResetSearch={handleRefreshSearch}
                 />
-
-                <br />
-                <Typography
-                    style={{ color: "black", mb: 2, fontSize: 14, align: 'right' }}
+                <Text
+                    className="header"
                 >
                     Filters
-                </Typography>
+                </Text>
                 <DropdownFilter
                     placeholder="Select a Forum Tag"
                     value={forumTag}
                     onChange={handleForumTag}
                     lists={forumTagList}
                 />
-                <br />
                 <DropdownFilter
-                    placeholder="Select the Status"
+                    placeholder="Select a Status"
                     value={status}
                     onChange={handleStatus}
                     lists={statusList}
                 />
-                <br />
                 <DateFilter
                     placeholder="Select a Date Range"
                     selectedDates={selectedDates}
@@ -179,7 +184,7 @@ const Forums = () => {
 
             </Box>
 
-            <Box sx={{ position: 'absolute', top: 550, left: '50%', transform: 'translateX(-50%)', zIndex: 0}}>
+            <Box sx={{ position: 'absolute', top: 550, left: '50%', transform: 'translateX(-50%)', zIndex: 0 }}>
                 {forums.map((forum) => {
                     if (forumTag && forum.forumTag !== forumTag) {
                         return null;
@@ -205,7 +210,7 @@ const Forums = () => {
                     }
 
                     return (
-                        <Card style={{ width: '800px', marginBottom: '20px'}} key={forum.id}>
+                        <Card style={{ width: '800px', marginBottom: '20px' }} key={forum.id}>
                             <CardContent>
                                 <Link to={`/forum/${forum.id}`} target="_blank">
                                     <Typography variant="h5" component="div">

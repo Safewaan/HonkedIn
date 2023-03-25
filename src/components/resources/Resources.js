@@ -12,6 +12,10 @@ import DropdownFilter from "../common/filters/DropdownFilter";
 import ClearFilters from "../common/filters/ClearFilters";
 import Search from '../common/Search';
 
+import {
+    Text
+} from '@chakra-ui/react';
+
 const { REACT_APP_API_ENDPOINT } = process.env;
 
 const Resources = () => {
@@ -133,13 +137,11 @@ const Resources = () => {
                     onButtonClick={loadGetResources}
                     onResetSearch={handleRefreshSearch}
                 />
-
-                <br />
-                <Typography
-                    style={{ color: "black", mb: 2, fontSize: 14, align: 'right' }}
+                <Text
+                    className="header"
                 >
                     Filters
-                </Typography>
+                </Text>
                 <DropdownFilter
                     placeholder="Select a Media Type Tag"
                     value={mediaTag}

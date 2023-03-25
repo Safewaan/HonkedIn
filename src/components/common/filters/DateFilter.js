@@ -8,7 +8,9 @@ import { RangeDatepicker } from "chakra-dayzed-datepicker";
 const DateFilter = ({ placeholder, selectedDates, onDateChange }) => {
     return (
         <div>
-            <Box sx={{ display: 'flex', flexDirection: 'row', justifyContent: 'flex-start' }}>
+            <Box
+                sx={{ display: 'flex', flexDirection: 'row', justifyContent: 'flex-start' }}
+                marginTop="8px">
                 <Text className="header">{placeholder}</Text>
             </Box>
             <Box sx={{ display: 'flex', flexDirection: 'row', justifyContent: 'flex-start', zIndex: 1 }}>
