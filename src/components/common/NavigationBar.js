@@ -21,6 +21,7 @@ import {
 import {
   AddIcon,
   ChevronDownIcon,
+  EmailIcon,
   SettingsIcon
 } from "@chakra-ui/icons";
 
@@ -35,6 +36,7 @@ import {
   MY_FORUMS_PAGE,
   MY_PROFILE_PAGE,
   USER_SETTINGS_PAGE,
+  REQUESTS_PAGE,
   CREATE_RESOURCE_PAGE,
   RESOURCES_PAGE,
   MY_RESOURCES_PAGE,
@@ -58,6 +60,7 @@ export default function NavigationBar() {
 
   const handleHome = redirectToPage(HOME_PAGE);
   const handleSettings = redirectToPage(USER_SETTINGS_PAGE);
+  const handleRequests = redirectToPage(REQUESTS_PAGE);
   const handleEvents = redirectToPage(EVENTS_PAGE);
   const handleMyEvents = redirectToPage(MY_EVENTS_PAGE);
   const handleCreateEvent = redirectToPage(CREATE_EVENT_PAGE);
@@ -107,8 +110,6 @@ export default function NavigationBar() {
         my={2}
         w="1256px"
         display='flex'
-        
-
       >
         <Image
           src={GOOSE_IMAGE}
@@ -200,8 +201,26 @@ export default function NavigationBar() {
           spacing={6}
           alignItems="center"
         >
+          <Button
+            as={Circle}
+            size='32px'
+            bg="#164684"
+            color="#FFFFFF"
+            variant="unstyled"
+            onClick={handleRequests}
+          >
+            <Box display="flex" justifyContent="center">
+              <EmailIcon />
+            </Box>
+          </Button>
+
           <Menu>
-            <MenuButton as={Circle} size='32px' bg="#164684" color="#FFFFFF">
+            <MenuButton
+              as={Circle}
+              size='32px'
+              bg="#164684"
+              color="#FFFFFF"
+            >
               <Box display="flex" justifyContent="center">
                 <SettingsIcon />
               </Box>
