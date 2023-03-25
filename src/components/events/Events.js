@@ -1,16 +1,7 @@
 import React, { useRef, useState, useEffect } from "react"
 import { useAuth } from "../../contexts/AuthContext"
-import Card from '@material-ui/core/Card';
-import CardActions from '@material-ui/core/CardActions';
-import CardContent from '@material-ui/core/CardContent';
-import Button from '@material-ui/core/Button';
-import Typography from '@material-ui/core/Typography';
-import Dialog from '@material-ui/core/Dialog';
-import DialogActions from '@material-ui/core/DialogActions';
-import DialogContent from '@material-ui/core/DialogContent';
-import DialogContentText from '@material-ui/core/DialogContentText';
-import DialogTitle from '@material-ui/core/DialogTitle';
-import Box from "@material-ui/core/Box";
+import { Card } from 'react-bootstrap';
+
 import DropdownFilter from "../common/filters/DropdownFilter";
 import ClearFilters from "../common/filters/ClearFilters";
 import NumberFilter from "../common/filters/NumberFilter";
@@ -22,7 +13,15 @@ import {
   AlertIcon,
   AlertTitle,
   AlertDescription,
+  Box,
+  Button,
   FormHelperText,
+  Modal,
+  ModalOverlay,
+  ModalContent,
+  ModalHeader,
+  ModalFooter,
+  ModalBody,
   Text
 } from '@chakra-ui/react'
 
@@ -212,12 +211,11 @@ const Events = () => {
       <NavigationBar></NavigationBar>
 
       <Box sx={{ position: 'absolute', top: 115, left: '50%', transform: 'translate(-50%, -50%)' }}>
-        <Typography
-          variant="h4"
-          gutterBottom
-          component="div">
+        <Text
+          className="title"
+        >
           Events
-        </Typography>
+        </Text>
       </Box>
 
       <Box sx={{ width: '600px', position: 'absolute', top: 150, left: '50%', transform: 'translateX(-50%)', marginBottom: '20px', zIndex: 1 }}>
@@ -263,7 +261,7 @@ const Events = () => {
         />
       </Box>*/}
 
-      <Box sx={{ position: 'absolute', top: 525, left: '50%', transform: 'translateX(-50%)', zIndex: 0 }}>
+      <Box sx={{ position: 'absolute', top: 500, left: '50%', transform: 'translateX(-50%)', zIndex: 0 }}>
         {events.map((event) => {
           if (status && event.status !== status) {
             return null;
@@ -288,45 +286,143 @@ const Events = () => {
             }
           }
           return (
-            <Card style={{ width: '600px', marginBottom: '20px' }} key={event.id}>
-              <CardContent>
-                <Typography variant="h5" component="div">
-                  {event.name}<br />
-                </Typography>
-                <Typography sx={{ mb: 1.5 }} color="text.secondary">
-                  Date: {new Date(new Date(event.date).getTime() - (5 * 60 * 60 * 1000)).toLocaleString()}<br />
-                </Typography>
-                <Typography sx={{ mb: 1.5 }} color="text.secondary">
-                  Participants: {event.participants} / {event.totalParticipants}<br />
-                </Typography>
-                <Typography sx={{ mb: 1.5 }} color="text.secondary">
-                  Status: {event.status}<br />
-                </Typography>
-              </CardContent>
-              <CardActions>
-                <Button onClick={() => handleOpenDialog(event)}>View Event</Button>
-              </CardActions>
+            <Card style={{ width: '400px', marginBottom: '8px', padding: '16px' }} key={event.id}>
+              <Text className="header to-text">
+                {event.name}
+              </Text>
+
+              <Text className="body to-text" marginTop="8px">
+                Date: {new Date(new Date(event.date).getTime() - (5 * 60 * 60 * 1000)).toLocaleString()}
+              </Text>
+
+              <Text className="body to-text" marginTop="8px">
+                Participants: {event.participants} / {event.totalParticipants}
+              </Text>
+
+              <Text className="body to-text" marginTop="8px">
+                Status: {event.status}
+              </Text>
+
+              <Button
+                onClick={() => handleOpenDialog(event)}
+                className="button"
+                marginTop="8px"
+              >View Event
+              </Button>
             </Card>
           );
         })}
       </Box>
 
       {selectedEvent && (
-        <Dialog open={isDialogOpen} onClose={handleCloseDialog}>
-          <DialogTitle>{selectedEvent.name}</DialogTitle>
-          <DialogContent>
-            <DialogContentText>{selectedEvent.description}</DialogContentText>
-            <DialogContentText>Hosted By: {selectedEvent.creatorName}</DialogContentText>
-            <DialogContentText>Date: {new Date(new Date(selectedEvent.date).getTime() - (5 * 60 * 60 * 1000)).toLocaleString()}</DialogContentText>
-            <DialogContentText>Location: {selectedEvent.location}</DialogContentText>
-            <DialogContentText>Participants: {selectedEvent.participants}/{selectedEvent.totalParticipants}</DialogContentText>
-            <DialogContentText>Status: {selectedEvent.status}</DialogContentText>
-          </DialogContent>
-          <DialogActions>
-            <Button onClick={handleCloseDialog}>Close</Button>
-            {selectedEvent.status === "Active" && <Button onClick={handleJoinEvent}>Join Event</Button>}
-          </DialogActions>
-        </Dialog>
+        <Modal isOpen={isDialogOpen} onClose={handleCloseDialog}>
+          <ModalOverlay />
+          <ModalContent
+            style={{ width: '400px', padding: '16px' }}
+          >
+            <ModalHeader
+              className="bigHeader"
+              textAlign="center"
+            >
+              {selectedEvent.name}
+            </ModalHeader>
+
+            <Text
+              className="header to-text"
+              marginTop="8px"
+            >
+              Description:
+            </Text>
+            <Text
+              className="text to-text"
+              marginTop="2px"
+            >
+              {selectedEvent.description}
+            </Text>
+
+            <Text
+              className="header to-text"
+              marginTop="8px"
+            >
+              Hosted By:
+            </Text>
+            <Text
+              className="text to-text"
+              marginTop="2px"
+            >
+              {selectedEvent.creatorName}
+            </Text>
+
+            <Text
+              className="header to-text"
+              marginTop="8px"
+            >
+              Date:
+            </Text>
+            <Text
+              className="text to-text"
+              marginTop="2px"
+            >
+              {new Date(new Date(selectedEvent.date).getTime() - (5 * 60 * 60 * 1000)).toLocaleString()}
+            </Text>
+
+            <Text
+              className="header to-text"
+              marginTop="8px"
+            >
+              Location:
+            </Text>
+            <Text
+              className="text to-text"
+              marginTop="2px"
+            >
+              {selectedEvent.location}
+            </Text>
+
+            <Text
+              className="header to-text"
+              marginTop="8px"
+            >
+              Participants:
+            </Text>
+            <Text
+              className="text to-text"
+              marginTop="2px"
+            >
+              {selectedEvent.participants}/{selectedEvent.totalParticipants}
+            </Text>
+
+            <Text
+              className="header to-text"
+              marginTop="8px"
+            >
+              Status:
+            </Text>
+            <Text
+              className="text to-text"
+              marginTop="2px"
+            >
+              {selectedEvent.status}
+            </Text>
+
+            <ModalFooter>
+              <Button
+                onClick={handleCloseDialog}
+                className="button"
+                marginRight="8px"
+              >
+                Close
+              </Button>
+
+              {selectedEvent.status === "Active" &&
+                <Button
+                  onClick={handleJoinEvent}
+                  className="button"
+                >
+                  Join Event</Button>}
+            </ModalFooter>
+          </ModalContent>
+        </Modal>
       )}
 
       {alertSeverity !== '' && (
