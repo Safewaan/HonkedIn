@@ -199,7 +199,7 @@ const Network = () => {
               key={profile.userID}>
 
               <Avatar
-                size="2xl"
+                size="xl"
                 src={profile.pictureURL}
               />
 
