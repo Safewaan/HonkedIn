@@ -29,8 +29,8 @@ router.get('/api/getRequests', (req, res) => {
     }
 
     // Debug logs
-    console.log(sql);
-    console.log(data);
+    // console.log(sql);
+    // console.log(data);
     connection.query(sql, data, (error, results, fields) => {
         if (error) {
             res.status(400).send(error.message);
