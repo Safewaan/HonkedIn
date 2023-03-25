@@ -1,23 +1,44 @@
 import React, { useState, useEffect } from "react"
-import { Card } from "react-bootstrap"
+import { Card, Form } from "react-bootstrap"
 import { useAuth } from "../../contexts/AuthContext"
 import { useParams } from 'react-router-dom';
 
 import {
+    Alert,
+    AlertDescription,
+    AlertIcon,
     Avatar,
     Badge,
     Box,
+    Button,
     Center,
+    FormControl,
+    FormLabel,
     Heading,
+    Input,
+    Modal,
+    ModalOverlay,
+    ModalContent,
+    ModalHeader,
+    ModalFooter,
+    ModalBody,
+    Select,
     Text,
+    useDisclosure,
+    Textarea,
+    FormHelperText
 } from "@chakra-ui/react";
 
 import NavigationBar from '../common/NavigationBar';
+
+import "../../styles/style.css";
 
 // Server URL
 const { REACT_APP_API_ENDPOINT } = process.env;
 
 const NetworkProfile = () => {
+
+    const { isOpen, onOpen, onClose } = useDisclosure();
 
     //const { currentUser } = useAuth()
     //leaving this one for now, if have time at end, want to implement
@@ -78,6 +99,14 @@ const NetworkProfile = () => {
         if (response.status !== 200) throw Error(body.message);
         return body;
     }
+
+    const [body, setBody] = React.useState("");
+    const handleBody = (event) => {
+        setBody(event.target.value);
+    }
+
+    const [error, setError] = React.useState("");
+    const [successfullSubmissionMsg, setsuccessfullSubmissionMsg] = React.useState(false);
 
     return (
         <>
@@ -158,7 +187,56 @@ const NetworkProfile = () => {
                             </Text>
                         </Box>
                     </Box>
+
+                    {/*Edit profile dialog*/}
+                    <Modal isOpen={isOpen} onClose={onClose}>
+                        <ModalOverlay />
+                        <ModalContent>
+                            <ModalHeader className="header">Edit Profile</ModalHeader>
+                            {error &&
+                                <Alert
+                                    status="error"
+                                    marginTop="16px"
+                                    className="body"
+                                >
+                                    <AlertIcon />
+                                    {error}
+                                </Alert>}
+                            <ModalBody>
+                                <Form>
+                                    <FormControl
+                                        className="body"
+                                        marginTop="16px"
+                                    >
+                                        <FormLabel className="body">Message:</FormLabel>
+                                        <Textarea
+                                            onChange={handleBody}
+                                            type="About Me"
+                                            required
+                                        />
+                                        <FormHelperText className="body">
+                                            Make sure to include either your phone number or your email address.
+                                        </FormHelperText>
+                                    </FormControl>
+                                </Form>
+                            </ModalBody>
+
+                            <ModalFooter>
+                                <Button className="button" onClick={onClose} marginRight="8px">
+                                    Close
+                                </Button>
+                                <Button className="button">Send</Button>
+                            </ModalFooter>
+                        </ModalContent>
+                    </Modal>
                 </Card>
+
+                <Box float="right" width="15%" marginTop="8px">
+                    <Button
+                        onClick={onOpen}
+                        className="button"
+                    >Send Request</Button>
+                </Box>
             </Box>
         </>
     );
