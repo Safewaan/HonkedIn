@@ -18,15 +18,6 @@ import DropdownFilter from "../common/filters/DropdownFilter";
 import InputFilter from "../common/filters/InputFilter";
 import ClearFilters from "../common/filters/ClearFilters";
 
-import {
-  Alert,
-  AlertIcon,
-  AlertTitle,
-  AlertDescription,
-  FormHelperText,
-  Text
-} from '@chakra-ui/react';
-
 const { REACT_APP_API_ENDPOINT } = process.env;
 
 const Network = () => {
