@@ -3,6 +3,8 @@ const router = express.Router();
 const mysql = require('mysql');
 const config = require('../../../config.js');
 
+
+// Creates a request in the request table
 router.post('/api/createRequest', (req, res) => {
     let connection = mysql.createConnection(config);
 

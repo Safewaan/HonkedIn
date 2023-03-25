@@ -117,8 +117,10 @@ app.use(getMyEvents);
 
 // Request APIs
 const createRequest = require(`${routesDir}requests/createRequest`);
+const getRequests = require(`${routesDir}requests/getRequests`);
 
 app.use(createRequest);
+app.use(getRequests);
 
 app.listen(port, () => console.log(`Listening on port ${port}`)); //for the dev version
 //app.listen(port, '172.31.31.77'); //for the deployed version, specify the IP address of the server
