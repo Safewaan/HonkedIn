@@ -13,6 +13,15 @@ import DropdownFilter from "../common/filters/DropdownFilter";
 import InputFilter from "../common/filters/InputFilter";
 import ClearFilters from "../common/filters/ClearFilters";
 
+import {
+  Alert,
+  AlertIcon,
+  AlertTitle,
+  AlertDescription,
+  FormHelperText,
+  Text
+} from '@chakra-ui/react';
+
 const { REACT_APP_API_ENDPOINT } = process.env;
 
 const Network = () => {
@@ -90,7 +99,7 @@ const Network = () => {
 
       <NavigationBar></NavigationBar>
 
-      <Box sx={{ position: 'absolute', top: 110, left: '50%', transform: 'translate(-50%, -50%)' }}>
+      <Box sx={{ position: 'absolute', top: 115, left: '50%', transform: 'translate(-50%, -50%)' }}>
         <Typography
           variant="h4"
           gutterBottom
@@ -108,20 +117,18 @@ const Network = () => {
           onButtonClick={handleFindUser}
           onResetSearch={handleRefreshSearch}
         />
-        <br />
 
-        <Typography
-          style={{ color: "black", mb: 2, fontSize: 14, align: 'right' }}
+        <Text
+          className="header"
         >
           Filters
-        </Typography>
+        </Text>
         <DropdownFilter
           placeholder="Select a Year and Semester"
           value={yearSemester}
           onChange={handleYearSemester}
           lists={yearList}
         />
-        <br />
         <InputFilter
           placeholder="Filter by Program Name"
           value={program}
@@ -132,11 +139,8 @@ const Network = () => {
         />
 
       </Box>
-      <br />
-      <br />
 
-
-      <Box sx={{ position: 'absolute', top: 400, left: '50%', transform: 'translateX(-50%)' }}>
+      <Box sx={{ position: 'absolute', top: 420, left: '50%', transform: 'translateX(-50%)' }}>
         {profiles.map((profile) => {
           if (yearSemester && profile.yearSemester !== yearSemester) {
             return null;
@@ -175,7 +179,7 @@ const Network = () => {
       </Box>
 
 
-    </div>
+    </div >
   )
 }
 

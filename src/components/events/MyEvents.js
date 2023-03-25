@@ -30,6 +30,7 @@ import {
     AlertIcon,
     AlertTitle,
     AlertDescription,
+    Text
 } from '@chakra-ui/react';
 
 import NavigationBar from '../common/NavigationBar';
@@ -429,25 +430,22 @@ const MyEvents = () => {
                     onButtonClick={loadGetEventsByUser}
                     onResetSearch={handleRefreshSearch}
                 />
-                <br />
-                <Typography
-                    style={{ color: "black", mb: 2, fontSize: 14, align: 'right' }}
+                <Text
+                    className="header"
                 >
                     Filters
-                </Typography>
+                </Text>
                 <DropdownFilter
-                    placeholder="Select the Status"
+                    placeholder="Select a Status"
                     value={status}
                     onChange={handleStatus}
                     lists={statusList}
                 />
-                <br />
                 <NumberFilter
                     placeholder="Select the Maximum Number of Participants"
                     value={filterParticipants}
                     onChange={handleFilterParticipants}
                 />
-                <br />
                 <DateFilter
                     placeholder="Select a Date Range"
                     selectedDates={selectedDates}
