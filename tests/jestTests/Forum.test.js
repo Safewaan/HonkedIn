@@ -7,7 +7,7 @@ import '@testing-library/jest-dom/extend-expect';
 
 describe('<Forum />', () => {
 
-  const forums = [
+  const forum = [
       {
         "id": 1, "creatorID": 1, "forumTitle": "First Forum Title Test", "description": "First Test Forum Description",
         "dateTime": "2023-02-24T05:00:00.000Z", "status": "Active"
@@ -23,7 +23,7 @@ describe('<Forum />', () => {
     const comments = []; 
 
     const loadGetForumCommentsByForumID = jest.fn().mockName('loadGetForumCommentsByForumID');
-    render(<Forum loadGetForumCommentsByForumID={loadGetForumCommentsByForumID} comments={comments} forums={forums}/>);
+    render(<Forum loadGetForumCommentsByForumID={loadGetForumCommentsByForumID} comments={comments} forum={forum}/>);
     expect(loadGetForumCommentsByForumID).toHaveBeenCalled();
 
   });
@@ -38,9 +38,9 @@ describe('<Forum />', () => {
       }
     ]
 
-    render(<Forum loadGetForumCommentsByForumID={noop} forums={forums} comments={comments} />);
-    const string = new Date(new Date('2023-02-23T05:00:00.000Z').getTime() - (5 * 60 * 60 * 1000)).toLocaleString();
-    expect(screen.getByText(`Comment Created:${string}`)).toBeInTheDocument();
+    render(<Forum loadGetForumCommentsByForumID={noop} forum={forum} comments={comments} />);
+    const string = new Date(new Date('2023-02-23T05:00:00.000Z').getTime() - (4 * 60 * 60 * 1000)).toLocaleString();
+    expect(screen.getByText(`Comment Posted: ${string}`)).toBeInTheDocument();
   });
 
 });
