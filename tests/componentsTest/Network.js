@@ -205,15 +205,19 @@ const Network = ({handleFindUser, profiles}) => {
                 <Flex flexDirection="column">
 
                   <Center>
-                    {userID === profile.userID ? (
+                    {/*userID === profile.userID ? (
                       <Link to="/my-profile" target="_blank">
+                      <div>
                         <Text className="headerBig to-text">{profile.userName}</Text>
+                        </div>
                       </Link>
-                    ) : (
-                      <Link to={`/network-profile/${profile.userID}`} target="_blank">
+                    ) : ( */}
+                      {/*<Link to={`/network-profile/${profile.userID}`} target="_blank">*/}
+                  
                         <Text className="headerBig to-text">{profile.userName}</Text>
-                      </Link>
-                    )}
+                       
+                    {/*</Link>*/}
+                   {/*} )*/}
                   </Center>
 
                   <Center>
