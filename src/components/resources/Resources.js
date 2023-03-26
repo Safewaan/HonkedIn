@@ -178,6 +178,7 @@ const Resources = () => {
                     if (mediaTag && resources.mediaTag !== mediaTag) {
                         return null;
                     }
+                    
                     if (selectedDates.length !== 0) {
                         const startDate = new Date(selectedDates[0]);
                         const endDate = new Date(selectedDates[1]);
