@@ -41,8 +41,8 @@ describe('<Forums />', () => {
 
         render(<Forums loadGetForums={noop} forums={forums} />);
         //expect(screen.getByText("Posted on 2023-02-23 by Gabrielle Tang")).toBeInTheDocument();
-        const string = new Date(new Date('2023-02-24T05:00:00.000Z').getTime() - (5 * 60 * 60 * 1000)).toLocaleDateString();
-        expect(screen.getByText(`Posted on ${string} by Gabrielle Tang`)).toBeInTheDocument();
+        const string = new Date(new Date('2023-02-24T05:00:00.000Z').getTime() - (4 * 60 * 60 * 1000)).toLocaleDateString();
+        expect(screen.getByText(`Posted on: ${string}`)).toBeInTheDocument();
     });
 
     it('displays the forum descriptions', () => {
