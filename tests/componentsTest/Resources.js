@@ -29,7 +29,7 @@ import {
 
 const { REACT_APP_API_ENDPOINT } = process.env;
 
-const Resources = (getResources, resources) => {
+const Resources = ({getResources, resources}) => {
 
     //const { currentUser } = useAuth();
     const history = useHistory();
