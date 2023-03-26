@@ -39,6 +39,7 @@ const Forum = () => {
     const [comments, setComments] = React.useState([]);
     const [newComment, setNewComment] = React.useState("");
     const handleNewComment = (forum) => {
+        setCommentCreateError("");
         setNewComment(forum.target.value);
     }
 
@@ -48,6 +49,7 @@ const Forum = () => {
     const [showSuccessfulDeleteComment, setShowSuccessfulDeleteComment] = React.useState(false);
     const [comment, setComment] = React.useState('');
     const [commentError, setCommentError] = React.useState('');
+    const [commentCreateError, setCommentCreateError] = React.useState('');
     const [commentErrorText, setCommentErrorText] = React.useState('');
     const handleEditCommentBody = (comment) => {
         setComment(comment.target.value);
@@ -126,14 +128,18 @@ const Forum = () => {
 
     //API - Insert new comments 
     const handleApiAddComment = () => {
-        callApiAddComment()
-            .then(res => {
-                console.log("callApiAddSubmission returned: ", res)
-            })
-        setshowSuccessfulCreateComment(true);
-        setTimeout(() => {
-            window.location.reload();
-        }, 3000);
+        if (newComment === "") {
+            setCommentCreateError("Please enter a comment.");
+        } else {
+            callApiAddComment()
+                .then(res => {
+                    console.log("callApiAddSubmission returned: ", res)
+                })
+            setshowSuccessfulCreateComment(true);
+            setTimeout(() => {
+                window.location.reload();
+            }, 3000);
+        }
     }
 
     const callApiAddComment = async () => {
@@ -341,26 +347,31 @@ const Forum = () => {
                     </Text>
 
                     {forum.status === "Active" &&
-                        <Box
-                            display="flex"
-                            flexDirection="row"
+                        <FormControl
                             marginTop="16px"
-                        >
-                            <Input
-                                className="body"
-                                placeholder="Add a comment"
-                                value={newComment}
-                                onChange={handleNewComment}
-                                marginRight="8px"
-                            />
-                            <Button
-                                className="button smaller-width"
-                                onClick={handleApiAddComment}
-                                style={{ width: "80px" }}
+                            isInvalid={commentCreateError}>
+                            <FormLabel className="form-label">Create Comment:</FormLabel>
+                            <Box
+                                display="flex"
+                                flexDirection="row"
                             >
-                                Submit
-                            </Button>
-                        </Box>
+                                <Input
+                                    className="body"
+                                    placeholder="Add a comment"
+                                    value={newComment}
+                                    onChange={handleNewComment}
+                                    marginRight="8px"
+                                />
+                                <Button
+                                    className="button smaller-width"
+                                    onClick={handleApiAddComment}
+                                    style={{ width: "80px" }}
+                                >
+                                    Submit
+                                </Button>
+                            </Box>
+                            <FormErrorMessage className="form-helper-text">{commentCreateError}</FormErrorMessage>
+                        </FormControl>
                     }
                     <Text
                         className="header to-text"
@@ -509,8 +520,6 @@ const Forum = () => {
                     </Modal>
                 </div>
             )}
-
-            showSuccessfulCreateComment
 
             {
                 showSuccessfulCreateComment && (
