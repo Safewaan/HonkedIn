@@ -76,3 +76,7 @@ button:hover {
 .to-text {
     text-align: left !important;
 }
+
+.smaller-width {
+    width: 80px !important;
+}
