@@ -98,12 +98,10 @@ const MyEvents = () => {
     const [eventParticipants, setEventParticipants] = React.useState('');
     const [eventParticipantsError, setEventParticipantsError] = React.useState('');
     const [eventParticipantsErrorText, setEventParticipantsErrorText] = React.useState(''); //ERROR EDITING IN RETURN BRACKETS
-    const handleEventParticipants = (event) => {
-        const strToInt = parseInt(event.target.value);
-
+    const handleEventParticipants = (valueString, valueAsNumber) => {
         // If the input is number, update the react state
-        if (!isNaN(strToInt)) {
-            setEventParticipants(parseInt(event.target.value));
+        if (!isNaN(valueAsNumber)) {
+            setEventParticipants(valueAsNumber);
             setEventParticipantsError(false);
             setEventParticipantsErrorText('');
         }
