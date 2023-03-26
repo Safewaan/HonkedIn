@@ -363,7 +363,7 @@ const MyResources = () => {
                     )
                 })}
             </Box>
-            <ChakraProvider>
+
                 {selectedResource && (
                     <div>
                         {/*Edit resource dialog*/}
@@ -437,8 +437,6 @@ const MyResources = () => {
                         <AlertDescription>Resource successfully deleted.</AlertDescription>
                     </Alert>
                 )}
-
-            </ChakraProvider>
         </div>
     );
 

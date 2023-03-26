@@ -256,7 +256,7 @@ const MyForums = () => {
 
     // Filters
     const [forumTag, setForumTag] = React.useState('');
-    const forumTagList = ["School", "Co-op", "Funny", "Debate", "Rant", "Interview", "Class Review", "Good News"];
+    const forumTagList = ["", "School", "Co-op", "Funny", "Debate", "Rant", "Interview", "Class Review", "Good News"];
 
     const handleForumTag = (event) => {
         setForumTag(event.target.value);
