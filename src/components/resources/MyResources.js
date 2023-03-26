@@ -147,7 +147,6 @@ const MyResources = () => {
             }
         });
         const body = await response.json();
-        //console.log("got here");
         if (response.status !== 200) throw Error(body.message);
         return body;
     }
@@ -530,9 +529,8 @@ const MyResources = () => {
                         <AlertIcon />
                         <AlertDescription>Resource successfully deleted.</AlertDescription>
                     </Alert>
-                )
-            }
-        </div >
+                )}
+        </div>
     );
 
 }

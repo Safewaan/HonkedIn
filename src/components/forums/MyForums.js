@@ -1,26 +1,9 @@
 import React, { useRef, useState, useEffect } from "react"
 import { useAuth } from "../../contexts/AuthContext"
 import { Link, useHistory } from "react-router-dom"
-import Card from '@material-ui/core/Card';
-import CardActions from '@material-ui/core/CardActions';
-import CardContent from '@material-ui/core/CardContent';
-import Typography from '@material-ui/core/Typography';
-import Box from "@material-ui/core/Box";
-import Button from '@material-ui/core/Button';
-import TextField from '@material-ui/core/TextField';
-import Grid from '@material-ui/core/Grid';
-import FormHelperText from '@material-ui/core/FormHelperText';
-import { makeStyles } from '@material-ui/core/styles';
-import Dialog from '@material-ui/core/Dialog';
-import DialogActions from '@material-ui/core/DialogActions';
-import DialogContent from '@material-ui/core/DialogContent';
-import DialogTitle from '@material-ui/core/DialogTitle';
-import { Form } from "react-bootstrap"
+import { Card } from 'react-bootstrap';
+
 import Search from '../common/Search';
-import Select from "@material-ui/core/Select";
-import MenuItem from "@material-ui/core/MenuItem";
-import InputLabel from "@material-ui/core/InputLabel";
-import FormControl from "@material-ui/core/FormControl";
 import DropdownFilter from "../common/filters/DropdownFilter";
 import ClearFilters from "../common/filters/ClearFilters";
 import DateFilter from "../common/filters/DateFilter";
@@ -32,6 +15,26 @@ import {
     AlertIcon,
     AlertTitle,
     AlertDescription,
+    Badge,
+    Box,
+    Button,
+    Input,
+    FormControl,
+    FormLabel,
+    FormErrorMessage,
+    FormHelperText,
+    NumberInput,
+    NumberInputField,
+    NumberInputStepper,
+    NumberDecrementStepper,
+    NumberIncrementStepper,
+    Modal,
+    ModalOverlay,
+    ModalContent,
+    ModalHeader,
+    ModalFooter,
+    ModalBody,
+    Select,
     Text
 } from '@chakra-ui/react';
 
@@ -41,36 +44,17 @@ const { REACT_APP_API_ENDPOINT } = process.env;
 
 const MyForums = () => {
 
-    const useStyles = makeStyles((theme) => ({
-        formControl: {
-            margin: theme.spacing(1),
-            minWidth: 120,
-        },
-        selectEmpty: {
-            marginTop: theme.spacing(2),
-        },
-        root: {
-            '& > *': {
-                margin: theme.spacing(1),
-                width: '50ch',
-            },
-        },
-        paper: {
-            padding: theme.spacing(2),
-            textAlign: 'center',
-        },
-    }));
-
-
     const { currentUser } = useAuth();
     const history = useHistory()
     const [email, setEmail] = React.useState('');
     const [userID, setUserID] = React.useState('');
     const [forums, setForums] = useState([]);
     const [selectedForum, setSelectedForum] = React.useState(null);
+
     const [isDialogOpen, setIsDialogOpen] = React.useState(false);
+    const [isArchiveDialogOpen, setIsArchiveDialogOpen] = React.useState(false);
+
     const [showEditAlertMessage, setShowEditAlertMessage] = React.useState(false);
-    const classes = useStyles();
 
     const [forumStatus, setForumStatus] = React.useState('');
     const [showSuccessfulArchiveMsg, setshowSuccessfulArchiveMsg] = React.useState(false);
@@ -136,7 +120,6 @@ const MyForums = () => {
             }
         });
         const body = await response.json();
-        console.log("got here");
         if (response.status !== 200) throw Error(body.message);
         return body;
     }
@@ -145,7 +128,7 @@ const MyForums = () => {
         loadgetForumsByUserID();
     }, [userID, refreshSearch]);
 
-    const callApiArchiveForum = async (forumID) => {
+    const callApiArchiveForum = async () => {
         const url = `${REACT_APP_API_ENDPOINT}/archiveForum`;
         console.log(url);
 
@@ -155,7 +138,7 @@ const MyForums = () => {
                 "Content-Type": "application/json",
             },
             body: JSON.stringify({
-                id: forumID
+                id: selectedForum.id
             })
         });
 
@@ -164,10 +147,9 @@ const MyForums = () => {
         return body;
     }
 
-    async function handleArchiveForum(forumID) {
-        await loaduserSearchByEmail(currentUser.email);
+    async function handleArchiveForum() {
+        callApiArchiveForum();
         setshowSuccessfulArchiveMsg(true);
-        callApiArchiveForum(forumID);
         setTimeout(() => {
             window.location.reload();
         }, 3000);
@@ -217,11 +199,11 @@ const MyForums = () => {
     const handleEditForum = () => {
         if (forumTitle === '') {
             setForumTitleError(true);
-            setForumTitleErrorText('Please enter your forum title');
+            setForumTitleErrorText('Please enter your forum title.');
             return false;
         } else if (forumDesc === '') {
             setForumDescError(true);
-            setForumDescErrorText('Please enter a conversation starter');
+            setForumDescErrorText('Please enter a conversation starter.');
             return false;
         } else {
             //console.log("about to call api edit forum");
@@ -257,6 +239,16 @@ const MyForums = () => {
         setIsDialogOpen(false);
     };
 
+    const handleOpenArchivelDialog = (event) => {
+        setSelectedForum(event);
+        setIsArchiveDialogOpen(true);
+    };
+
+    const handleCloseArchiveDialog = () => {
+        setSelectedForum(null);
+        setIsArchiveDialogOpen(false);
+    };
+
     const handleRefreshSearch = async () => {
         setSearchTerm("");
         setRefreshSearch(refreshSearch + 1);
@@ -264,7 +256,7 @@ const MyForums = () => {
 
     // Filters
     const [forumTag, setForumTag] = React.useState('');
-    const forumTagList = ["School", "Co-op", "Funny", "Debate", "Rant", "Interview", "Class Review", "Good News"];
+    const forumTagList = ["", "School", "Co-op", "Funny", "Debate", "Rant", "Interview", "Class Review", "Good News"];
 
     const handleForumTag = (event) => {
         setForumTag(event.target.value);
@@ -297,12 +289,11 @@ const MyForums = () => {
             <NavigationBar></NavigationBar>
 
             <Box sx={{ position: 'absolute', top: 115, left: '50%', transform: 'translate(-50%, -50%)' }}>
-                <Typography
-                    variant="h4"
-                    gutterBottom
-                    component="div">
+                <Text
+                    className="title"
+                >
                     My Forums
-                </Typography>
+                </Text>
             </Box>
 
             <Box sx={{ width: '30%', position: 'absolute', top: 185, left: '50%', transform: 'translateX(-50%)', marginBottom: '20px', zIndex: 1 }}>
@@ -370,157 +361,235 @@ const MyForums = () => {
                     }
 
                     return (
-                        <Card style={{ width: '800px', marginBottom: '20px' }} key={forum.id}>
-                            <CardContent>
-                                <Link to={`/forum/${forum.id}`} target="_blank">
-                                    <Typography variant="h5" component="div">
-                                        {forum.forumTitle}<br />
-                                    </Typography>
-                                </Link>
-                                {forum.forumTag && <Chip
-                                    key={forum.id}
-                                    label={forum.forumTag}
-                                    color="primary"
-                                    size="small"
-                                    style={{ marginRight: 8 }}
-                                />}
-                                <Typography sx={{ mb: 1.5 }} color="text.secondary">
-                                    Posted on {new Date(forum.dateTime).toLocaleDateString()}<br />
-                                </Typography>
-                                <Typography variant="subtitle2" sx={{ mb: 1.5 }} color="text.secondary">
-                                    Status: {forum.status}<br />
-                                </Typography>
-                                <Typography sx={{ mb: 1.5 }} color="text.secondary">
-                                    <br />{forum.description}<br />
-                                </Typography>
+                        <Card style={{ width: '600px', marginBottom: '8px', padding: '16px' }} key={forum.id}>
+                            <Link to={`/forum/${forum.id}`} target="_blank">
+                                <Text className="headerBig to-text">
+                                    {forum.forumTitle}
+                                </Text>
+                            </Link>
+                            {forum.forumTag &&
+                                <Badge
+                                    className="body"
+                                    backgroundColor="#023679"
+                                    color="#FFFFFF"
+                                    marginTop="4px"
+                                    textAlign="center"
+                                    width="120px"
+                                >
+                                    {forum.forumTag}
+                                </Badge>
+                            }
 
-                            </CardContent>
-                            <CardActions>
-                                {forum.status === "Active" && <Button onClick={() => handleOpenDialog(forum)}>Edit Forum</Button>}
-                                {forum.status === 'Active' && (<Button onClick={() => handleArchiveForum(forum.id)}>Archive Forum</Button>)}
-                            </CardActions>
+                            <Text
+                                className="header to-text"
+                                marginTop="8px"
+                            >
+                                Posted on: {new Date(new Date(forum.dateTime).getTime() - (5 * 60 * 60 * 1000)).toLocaleDateString()}
+                            </Text>
+
+                            <Text
+                                className="header to-text"
+                                marginTop="8px"
+                            >
+                                By: {forum.creatorName}
+                            </Text>
+
+                            <Text
+                                className="header to-text"
+                                marginTop="8px"
+                            >
+                                Status: {forum.status}
+                            </Text>
+
+                            <Text
+                                className="header to-text"
+                                marginTop="8px"
+                            >
+                                Description:
+                            </Text>
+                            <Text
+                                className="text to-text"
+                                marginTop="2px"
+                            >
+                                {forum.description}
+                            </Text>
+                            {forum.status === "Active" &&
+                                <Box
+                                    display="flex"
+                                    flexDirection="row"
+                                    marginTop="16px"
+                                >
+
+                                    <Button
+                                        className="button"
+                                        onClick={() => handleOpenArchivelDialog(forum)}
+                                        marginRight="8px"
+                                    >
+                                        Archive Forum
+                                    </Button>
+
+                                    <Button
+                                        className="button"
+                                        onClick={() => handleOpenDialog(forum)}
+                                    >
+                                        Edit Forum
+                                    </Button>
+                                </Box>
+                            }
                         </Card>
                     );
                 })}
             </Box>
 
             {selectedForum && (
-                <div>
-                    {/* Edit forum diaglog */}
-                    < Dialog open={isDialogOpen} onClose={handleCloseDialog} >
-                        <DialogTitle>{selectedForum.forumTitle}</DialogTitle>
-                        <DialogContent>
-                            <ForumTitle
-                                classes={classes}
-                                forumTitle={forumTitle}
-                                onEnterForumTitle={handleForumTitle}
-                                forumTitleError={forumTitleError}
-                                forumTitleErrorText={forumTitleErrorText}
-                            />
+                <Box>
+                    {/* Archive forum diaglog */}
+                    <Modal isOpen={isArchiveDialogOpen} onClose={handleCloseArchiveDialog}>
+                        <ModalOverlay />
+                        <ModalContent
+                            style={{ width: '400px', padding: '16px' }}
+                        >
+                            <ModalHeader
+                                className="headerBig"
+                                textAlign="center"
+                            >
+                                Confirm Archival
+                            </ModalHeader>
 
-                            <ForumDesc
-                                classes={classes}
-                                forumDesc={forumDesc}
-                                onEnterForumDesc={handleForumDesc}
-                                forumDescError={forumDescError}
-                                forumDescErrorText={forumDescErrorText}
-                            />
+                            <Text className="header to-text">
+                                Are you sure you want to archive this forum? This action is irreversible.
+                            </Text>
 
-                            <ForumTag
-                                classes={classes}
-                                forumTag={forumTag}
-                                handleForumTag={handleForumTag}
-                                forumTagList={forumTagList}
-                            />
+                            <Box
+                                display="flex"
+                                flexDirection="row"
+                                marginTop="16px"
+                            >
+                                <Button
+                                    className="button"
+                                    onClick={handleCloseArchiveDialog}
+                                    marginRight="8px"
+                                >
+                                    No
+                                </Button>
+                                <Button
+                                    className="button"
+                                    onClick={handleArchiveForum}
+                                >
+                                    Yes
+                                </Button>
+                            </Box>
+                        </ModalContent>
+                    </Modal>
 
-                        </DialogContent>
-                        <DialogActions>
-                            <Button onClick={handleCloseDialog}>Close</Button>
-                            {<Button onClick={handleEditForum}>Edit Forum</Button>}
-                        </DialogActions>
-                    </Dialog>
-                </div>
-            )}
+                    {/* Edit forum dialog */}
+                    <Modal isOpen={isDialogOpen} onClose={handleCloseDialog}>
+                        <ModalOverlay />
+                        <ModalContent
+                            style={{ width: '400px', padding: '16px' }}
+                        >
+                            <Text align="center" className="form-header">Edit Forum</Text>
+                            <FormControl>
+                                <FormControl
+                                    isRequired
+                                    marginTop="16px"
+                                    isInvalid={forumTitleError}
+                                >
+                                    <FormLabel className="form-label">Name</FormLabel>
+                                    <Input
+                                        placeholder='Forum name'
+                                        className="form-input"
+                                        value={forumTitle}
+                                        onChange={handleForumTitle}
+                                        inputProps={{ maxLength: 350 }}
+                                    />
+                                    <FormHelperText className="form-helper-text">Enter the name of your forum.</FormHelperText>
+                                    <FormErrorMessage className="form-helper-text">{{ forumTitleErrorText }}</FormErrorMessage>
+                                </FormControl>
 
-            {showEditAlertMessage && (
-                <Alert
-                    status="success"
-                    sx={{ position: 'fixed', bottom: 0, right: 0, width: '25%', zIndex: 9999 }}>
-                    <AlertIcon />
-                    <AlertDescription>Forum successfully edited.</AlertDescription>
-                </Alert>
-            )}
-            {showSuccessfulArchiveMsg && (
-                <Alert
-                    status="success"
-                    sx={{ position: 'fixed', bottom: 0, right: 0, width: '25%', zIndex: 9999 }}>
-                    <AlertIcon />
-                    <AlertDescription>Forum successfully archived.</AlertDescription>
-                </Alert>
-            )}
-        </div >
-    )
+                                <FormControl
+                                    isRequired
+                                    marginTop="16px"
+                                    isInvalid={forumDescError}>
+                                    <FormLabel className="form-label">Description</FormLabel>
+                                    <Input
+                                        placeholder='Forum description'
+                                        className="form-input"
+                                        value={forumDesc}
+                                        onChange={handleForumDesc}
+                                        inputProps={{ maxLength: 350 }}
+                                    />
+                                    <FormHelperText className="form-helper-text">Enter a description of your forum.</FormHelperText>
+                                    <FormErrorMessage className="form-helper-text">{forumDescErrorText}</FormErrorMessage>
+                                </FormControl>
+
+                                <FormControl
+                                    marginTop="16px"
+                                >
+                                    <FormLabel className="form-label">Tag</FormLabel>
+                                    <Select
+                                        labelId="Media-Tag"
+                                        id="MediaTagList"
+                                        value={forumTag}
+                                        onChange={handleForumTag}
+                                        className="form-helper-text"
+                                    >
+                                        {forumTagList.map((tag) => (
+                                            <option value={tag}> {tag} </option>
+                                        ))}
+                                    </Select>
+                                    <FormHelperText className="form-helper-text">Select a tag for your forum.</FormHelperText>
+                                </FormControl>
+
+                            </FormControl>
+
+                            <Box
+                                display="flex"
+                                flexDirection="row"
+                                marginTop="16px"
+                            >
+                                <Button
+                                    className="button"
+                                    onClick={handleCloseDialog}
+                                    marginRight="8px"
+                                >
+                                    Close
+                                </Button>
+                                <Button
+                                    className="button"
+                                    onClick={(event) => handleEditForum(event)}
+                                >
+                                    Edit
+                                </Button>
+                            </Box>
+                        </ModalContent>
+                    </Modal>
+                </Box>
+            )
+            }
 
 
-}
-
-const ForumTitle = ({ forumTitle, onEnterForumTitle, forumTitleError, forumTitleErrorText, defaultValue }) => {
-    return (
-        <Grid item>
-            <TextField
-                id="forum-title"
-                label="Title"
-                placeholder="Enter the title of your forum"
-                value={forumTitle}
-                onChange={onEnterForumTitle}
-                error={forumTitleError}
-                fullWidth
-            />
-            <FormHelperText>{forumTitleErrorText}</FormHelperText>
-        </Grid>
-    )
-}
-
-const ForumDesc = ({ forumDesc, onEnterForumDesc, forumDescError, forumDescErrorText, defaultValue }) => {
-    return (
-        <Grid item>
-            <TextField
-                id="desc-of-forum"
-                label="Description"
-                multiline
-                minrows={4}
-                placeholder="Enter a conversation starter for your forum"
-                value={forumDesc}
-                onChange={onEnterForumDesc}
-                error={forumDescError}
-                inputProps={{ maxLength: 200 }}
-                fullWidth
-            />
-            <FormHelperText>{forumDescErrorText}</FormHelperText>
-        </Grid>
-    )
-}
-
-const ForumTag = ({ classes, forumTag, handleForumTag, forumTagList }) => {
-    return (
-        <Grid item>
-
-            <FormControl className={classes.root}>
-                <InputLabel id="Forum-Tag"> Tags </InputLabel>
-                <Select
-                    label="Forum Tag"
-                    labelId="Forum-Tag"
-                    id="Forum-Tag"
-                    value={forumTag}
-                    onChange={handleForumTag}
-                >
-                    {forumTagList.map((tag) => (
-                        <MenuItem value={tag}> {tag} </MenuItem>
-                    ))}
-                </Select>
-
-            </FormControl>
-        </Grid>
+            {
+                showEditAlertMessage && (
+                    <Alert
+                        status="success"
+                        sx={{ position: 'fixed', bottom: 0, right: 0, width: '25%', zIndex: 9999 }}>
+                        <AlertIcon />
+                        <AlertDescription>Forum successfully edited.</AlertDescription>
+                    </Alert>
+                )
+            }
+            {
+                showSuccessfulArchiveMsg && (
+                    <Alert
+                        status="success"
+                        sx={{ position: 'fixed', bottom: 0, right: 0, width: '25%', zIndex: 9999 }}>
+                        <AlertIcon />
+                        <AlertDescription>Forum successfully archived.</AlertDescription>
+                    </Alert>
+                )
+            }
+        </div>
     )
 }
 

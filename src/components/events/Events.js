@@ -322,8 +322,7 @@ const Events = () => {
             style={{ width: '400px', padding: '16px' }}
           >
             <ModalHeader
-              className="bigHeader"
-              textAlign="center"
+              className="headerBig"
             >
               {selectedEvent.name}
             </ModalHeader>
