@@ -460,7 +460,7 @@ const MyEvents = () => {
                         }
                     }
                     return (
-                        <Card style={{ width: '400px', marginBottom: '8px', padding: '16px' }} key={event.id}>
+                        <Card style={{ width: '500px', marginBottom: '8px', padding: '16px' }} key={event.id}>
                             <Text className="header to-text">
                                 {event.name}
                             </Text>
