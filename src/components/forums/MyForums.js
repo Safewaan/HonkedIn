@@ -120,7 +120,6 @@ const MyForums = () => {
             }
         });
         const body = await response.json();
-        console.log("got here");
         if (response.status !== 200) throw Error(body.message);
         return body;
     }
@@ -129,7 +128,7 @@ const MyForums = () => {
         loadgetForumsByUserID();
     }, [userID, refreshSearch]);
 
-    const callApiArchiveForum = async (forumID) => {
+    const callApiArchiveForum = async () => {
         const url = `${REACT_APP_API_ENDPOINT}/archiveForum`;
         console.log(url);
 
@@ -139,7 +138,7 @@ const MyForums = () => {
                 "Content-Type": "application/json",
             },
             body: JSON.stringify({
-                id: forumID
+                id: selectedForum.id
             })
         });
 
@@ -148,10 +147,9 @@ const MyForums = () => {
         return body;
     }
 
-    async function handleArchiveForum(forumID) {
-        await loaduserSearchByEmail(currentUser.email);
+    async function handleArchiveForum() {
+        callApiArchiveForum();
         setshowSuccessfulArchiveMsg(true);
-        callApiArchiveForum(forumID);
         setTimeout(() => {
             window.location.reload();
         }, 3000);
@@ -515,6 +513,7 @@ const MyForums = () => {
                                 <FormControl
                                     isRequired
                                     marginTop="16px"
+                                    isInvalid={forumTitleError}
                                 >
                                     <FormLabel className="form-label">Name</FormLabel>
                                     <Input
@@ -525,7 +524,7 @@ const MyForums = () => {
                                         inputProps={{ maxLength: 350 }}
                                     />
                                     <FormHelperText className="form-helper-text">Enter the name of your forum.</FormHelperText>
-                                    <FormErrorMessage className="form-helper-text">{{forumTitleErrorText}}</FormErrorMessage>
+                                    <FormErrorMessage className="form-helper-text">{{ forumTitleErrorText }}</FormErrorMessage>
                                 </FormControl>
 
                                 <FormControl
