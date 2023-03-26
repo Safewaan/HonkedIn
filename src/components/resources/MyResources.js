@@ -1,67 +1,46 @@
 import React, { useRef, useState, useEffect } from "react"
 import { useAuth } from "../../contexts/AuthContext"
 import { Link, useHistory } from "react-router-dom"
-import Card from '@material-ui/core/Card';
-import CardContent from '@material-ui/core/CardContent';
-import CardActions from '@material-ui/core/CardActions';
-import Typography from '@material-ui/core/Typography';
+import { Card } from 'react-bootstrap';
+
 import NavigationBar from '../common/NavigationBar';
 import Search from '../common/Search';
-import Chip from '@material-ui/core/Chip';
 import DropdownFilter from "../common/filters/DropdownFilter";
 import ClearFilters from "../common/filters/ClearFilters";
-import Dialog from '@material-ui/core/Dialog';
-import DialogActions from '@material-ui/core/DialogActions';
-import DialogContent from '@material-ui/core/DialogContent';
-import DialogTitle from '@material-ui/core/DialogTitle';
-import Button from '@material-ui/core/Button';
-import { ChakraProvider } from "@chakra-ui/provider";
-import { makeStyles } from '@material-ui/core/styles';
-import FormHelperText from '@material-ui/core/FormHelperText';
+
 import {
     Alert,
     AlertIcon,
     AlertTitle,
     AlertDescription,
+    Badge,
     Box,
+    Button,
     Input,
     FormControl,
     FormLabel,
     FormErrorMessage,
+    FormHelperText,
+    NumberInput,
+    NumberInputField,
+    NumberInputStepper,
+    NumberDecrementStepper,
+    NumberIncrementStepper,
+    Modal,
+    ModalOverlay,
+    ModalContent,
+    ModalHeader,
+    ModalFooter,
+    ModalBody,
     Select,
     Text
-} from '@chakra-ui/react';
-
-//import "../../styles/form-style.css";
+} from '@chakra-ui/react'
 
 const { REACT_APP_API_ENDPOINT } = process.env;
 
 const MyResources = () => {
-    const useStyles = makeStyles((theme) => ({
-        formControl: {
-            margin: theme.spacing(1),
-            minWidth: 120,
-        },
-        selectEmpty: {
-            marginTop: theme.spacing(2),
-        },
-        root: {
-            '& > *': {
-                margin: theme.spacing(1),
-                width: '50ch',
-            },
-        },
-        paper: {
-            padding: theme.spacing(2),
-            textAlign: 'center',
-        },
-    }));
-
-
     const { currentUser } = useAuth();
     const history = useHistory()
-    const classes = useStyles();
-
 
     const [searchTerm, setSearchTerm] = React.useState("");
     const [refreshSearch, setRefreshSearch] = React.useState(1);
@@ -296,12 +275,11 @@ const MyResources = () => {
             <NavigationBar></NavigationBar>
 
             <Box sx={{ position: 'absolute', top: 115, left: '50%', transform: 'translate(-50%, -50%)' }}>
-                <Typography
-                    variant="h4"
-                    gutterBottom
-                    component="div">
+                <Text
+                    className="title"
+                >
                     My Resources
-                </Typography>
+                </Text>
             </Box>
 
             <Box sx={{ width: '600px', position: 'absolute', top: 185, left: '50%', transform: 'translateX(-50%)', marginBottom: '20px' }}>
@@ -335,180 +313,228 @@ const MyResources = () => {
                         return null;
                     }
                     return (
-                        <Card style={{ width: '800px', marginBottom: '20px' }} key={resource.id}>
-                            <CardContent>
-                                <Typography variant="h5" component="div">
-                                    {resource.resourcesTitle}<br />
-                                </Typography>
-                                {resource.mediaTag && <Chip
-                                    key={resource.id}
-                                    label={resource.mediaTag}
-                                    color="primary"
-                                    size="small"
-                                    style={{ marginRight: 8 }}
-                                />}
-                                <Typography sx={{ mb: 1.5 }} color="text.secondary">
-                                    Posted on {new Date(new Date(resource.dateTime).getTime() - (5 * 60 * 60 * 1000)).toLocaleDateString()}
-                                </Typography>
-                                <a href={`${resource.resourcesLink}`} target="_blank">
-                                    <Typography sx={{ mb: 1.5 }} color="text.secondary">
-                                        <br />{resource.resourcesLink}<br />
-                                    </Typography>
-                                </a>
-                            </CardContent>
-                            <CardActions>
-                                {<Button onClick={() => handleOpenDialog(resource)}>Edit Resource</Button>}
-                                {<Button onClick={() => handleOpenDeleteDialog(resource)}>Delete Resource</Button>}
-                            </CardActions>
+                        <Card style={{ width: '600px', marginBottom: '8px', padding: '16px' }}>
+                            <Text className="headerBig to-text">
+                                {resource.resourcesTitle}
+                            </Text>
+
+                            {resource.mediaTag &&
+                                <Badge
+                                    className="body"
+                                    backgroundColor="#023679"
+                                    color="#FFFFFF"
+                                    marginTop="4px"
+                                    textAlign="center"
+                                    width="140px"
+                                >
+                                    {resource.mediaTag}
+                                </Badge>
+                            }
+
+                            <Text
+                                className="header to-text"
+                                marginTop="8px"
+                            >
+                                Posted on: {new Date(new Date(resource.dateTime).getTime() - (5 * 60 * 60 * 1000)).toLocaleDateString()}
+                            </Text>
+
+                            <Text
+                                className="header to-text"
+                                marginTop="8px"
+                            >
+                                By: {resource.creatorName}
+                            </Text>
+
+                            <Text
+                                className="header to-text"
+                                marginTop="8px"
+                            >
+                                Link to Resource:
+                            </Text>
+                            <a href={`${resource.resourcesLink}`} target="_blank">
+                                <Text
+                                    className="text to-text"
+                                    marginTop="2px"
+                                >
+                                    {resource.resourcesLink}
+                                </Text>
+                            </a>
+
+                            <Box
+                                display="flex"
+                                flexDirection="row"
+                                marginTop="8px"
+                            >
+                                <Button
+                                    onClick={() => handleOpenDeleteDialog(resource)}
+                                    className="button"
+                                    marginRight="8px"
+                                >
+                                    Delete Resource
+                                </Button>
+
+                                <Button
+                                    onClick={() => handleOpenDialog(resource)}
+                                    className="button"
+                                >
+                                    Edit Resource
+                                </Button>
+                            </Box>
                         </Card>
                     )
                 })}
             </Box>
-            <ChakraProvider>
-                {selectedResource && (
-                    <div>
-                        {/*Edit resource dialog*/}
-                        < Dialog open={isDialogOpen} onClose={handleCloseDialog} >
-                            <DialogTitle>{selectedResource.resourcesTitle}</DialogTitle>
-                            <DialogContent>
-                                <ResourceTitle
-                                    classes={classes}
-                                    resourceTitle={resourceTitle}
-                                    onEnterResourceTitle={handleResourceTitle}
-                                    resourceTitleError={resourceTitleError}
-                                    resourceTitleErrorText={resourceTitleErrorText}
-                                />
 
-                                <ResourceLink
-                                    classes={classes}
-                                    resourceLink={resourceLink}
-                                    onEnterResourceLink={handleResourceLink}
-                                    resourceLinkError={resourceLinkError}
-                                    resourceLinkErrorText={resourceLinkErrorText}
-                                />
+            {selectedResource && (
+                <Box>
+                    {/* Cancel event diaglog */}
+                    <Modal isOpen={openDeleteDialog} onClose={handleCloseDeleteDialog}>
+                        <ModalOverlay />
+                        <ModalContent
+                            style={{ width: '400px', padding: '16px' }}
+                        >
+                            <ModalHeader
+                                className="bigHeader"
+                                textAlign="center"
+                            >
+                                Confirm Deletion
+                            </ModalHeader>
 
-                                <MediaTag
-                                    classes={classes}
-                                    mediaTag={mediaTag}
-                                    handleMediaTag={handleMediaTag}
-                                    mediaTagList={mediaTagList}
-                                />
+                            <Text className="header to-text">
+                                Are you sure you want to delete this resource? This action is irreversible.
+                            </Text>
 
-                            </DialogContent>
-                            <DialogActions>
-                                <Button onClick={handleCloseDialog}>Close</Button>
-                                {<Button onClick={handleEditForum}>Edit Resource</Button>}
-                            </DialogActions>
-                        </Dialog>
-                    </div>
-                )}
+                            <Box
+                                display="flex"
+                                flexDirection="row"
+                                marginTop="8px"
+                            >
+                                <Button
+                                    className="button"
+                                    onClick={handleCloseDeleteDialog}
+                                    marginRight="8px"
+                                >
+                                    No
+                                </Button>
+                                <Button
+                                    className="button"
+                                    onClick={handleDeleteResource}
+                                >
+                                    Yes
+                                </Button>
+                            </Box>
+                        </ModalContent>
+                    </Modal>
 
-                {showEditAlertMessage && (
+                    <Modal isOpen={isDialogOpen} onClose={handleCloseDialog}>
+                        <ModalOverlay />
+                        <ModalContent
+                            style={{ width: '400px', padding: '16px' }}
+                        >
+                            {/*Edit resource dialog*/}
+                            <Text align="center" className="form-header">Edit Resource</Text>
+                            <FormControl>
+                                <FormControl
+                                    isRequired
+                                    marginTop="16px"
+                                    isInvalid={resourceTitleError}
+                                >
+                                    <FormLabel className="form-label">Title</FormLabel>
+                                    <Input
+                                        placeholder='Resource title'
+                                        className="form-input"
+                                        value={resourceTitle}
+                                        onChange={handleResourceTitle}
+                                        inputProps={{ maxLength: 200 }}
+                                    />
+                                    <FormHelperText className="form-helper-text">Enter the title of your resource.</FormHelperText>
+                                    <FormErrorMessage className="form-helper-text">{resourceTitleErrorText}</FormErrorMessage>
+                                </FormControl>
+
+                                <FormControl
+                                    isRequired
+                                    marginTop="16px"
+                                    isInvalid={resourceLinkError}>
+                                    <FormLabel className="form-label">Link</FormLabel>
+                                    <Input
+                                        placeholder='Resource link'
+                                        className="form-input"
+                                        value={resourceLink}
+                                        onChange={handleResourceLink}
+                                        inputProps={{ maxLength: 1000 }}
+                                    />
+                                    <FormHelperText className="form-helper-text">Enter the link to your resource ex: "https://www.google.com/".</FormHelperText>
+                                    <FormErrorMessage className="form-helper-text">{resourceLinkErrorText}</FormErrorMessage>
+                                </FormControl>
+
+                                <FormControl
+                                    marginTop="16px"
+                                >
+                                    <FormLabel className="form-label">Tag</FormLabel>
+                                    <Select
+                                        labelId="Media-Tag"
+                                        id="MediaTagList"
+                                        value={mediaTag}
+                                        onChange={handleMediaTag}
+                                        className="form-helper-text"
+                                    >
+                                        {mediaTagList.map((tag) => (
+                                            <option value={tag}> {tag} </option>
+                                        ))}
+                                    </Select>
+                                    <FormHelperText className="form-helper-text">Select a tag for your resource.</FormHelperText>
+                                </FormControl>
+                            </FormControl>
+
+                            <Box
+                                display="flex"
+                                flexDirection="row"
+                                marginTop="16px"
+                            >
+                                <Button
+                                    className="button"
+                                    onClick={handleCloseDialog}
+                                    marginRight="8px"
+                                >
+                                    Close
+                                </Button>
+                                <Button
+                                    className="button"
+                                    onClick={handleEditForum}
+                                >
+                                    Edit
+                                </Button>
+                            </Box>
+                        </ModalContent>
+                    </Modal>
+                </Box>
+            )
+            }
+
+            {
+                showEditAlertMessage && (
                     <Alert
                         status="success"
                         sx={{ position: 'fixed', bottom: 0, right: 0, width: '25%', zIndex: 9999 }}>
                         <AlertIcon />
                         <AlertDescription>Resource successfully edited.</AlertDescription>
                     </Alert>
-                )}
+                )
+            }
 
-                {selectedResource && (
-                    <div>
-                        {/* delete resource dialog*/}
-                        <Dialog open={openDeleteDialog} onClose={handleCloseDeleteDialog}>
-                            <DialogTitle> Confirm deletion</DialogTitle>
-                            <DialogContent>
-                                <Typography variant="body1">
-                                    Are you sure you want to delete this resource? This action is irreversible.
-                                </Typography>
-                            </DialogContent>
-                            <DialogActions>
-                                <Button onClick={handleCloseDeleteDialog}>No</Button>
-                                <Button onClick={handleDeleteResource}>Yes</Button>
-                            </DialogActions>
-                        </Dialog>
-                    </div>
-                )}
-
-                {showSuccessfulDeleteMsg && (
+            {
+                showSuccessfulDeleteMsg && (
                     <Alert
                         status="success"
                         sx={{ position: 'fixed', bottom: 0, right: 0, width: '25%', zIndex: 9999 }}>
                         <AlertIcon />
                         <AlertDescription>Resource successfully deleted.</AlertDescription>
                     </Alert>
-                )}
-
-            </ChakraProvider>
-        </div>
+                )
+            }
+        </div >
     );
 
 }
-
-const ResourceTitle = ({ resourceTitle, onEnterResourceTitle, resourceTitleError, resourceTitleErrorText }) => {
-    return (
-        <div>
-            <FormControl
-                isRequired
-                marginTop="16px"
-                isInvalid={resourceTitleError}
-            >
-                <Input
-                    id="resource-title"
-                    label="Title"
-                    placeholder="Enter the resource title"
-                    value={resourceTitle}
-                    onChange={onEnterResourceTitle}
-                    error={resourceTitleError}
-                    fullWidth
-                />
-                <FormHelperText>{resourceTitleErrorText}</FormHelperText>
-            </FormControl>
-        </div>
-    )
-}
-
-const ResourceLink = ({ resourceLink, onEnterResourceLink, resourceLinkError, resourceLinkErrorText }) => {
-    return (
-        <div>
-            <FormControl
-                isRequired
-                marginTop="16px"
-                isInvalid={resourceLinkError}>
-                <FormLabel className="form-label">Link</FormLabel>
-                <Input
-                    placeholder='Resource link'
-                    className="form-input"
-                    value={resourceLink}
-                    onChange={onEnterResourceLink}
-                    inputProps={{ maxLength: 1000 }}
-                />
-                <FormHelperText className="form-helper-text">Enter the link to your resource ex: "https://www.google.com/".</FormHelperText>
-                <FormErrorMessage className="form-helper-text">{resourceLinkErrorText}</FormErrorMessage>
-            </FormControl>
-        </div>
-    )
-}
-const MediaTag = ({ mediaTag, handleMediaTag, mediaTagList }) => {
-    return (
-        <div>
-            <FormLabel className="form-label">Tag</FormLabel>
-            <Select
-                labelId="Media-Tag"
-                id="MediaTagList"
-                value={mediaTag}
-                onChange={handleMediaTag}
-                className="form-helper-text"
-            >
-                {mediaTagList.map((tag) => (
-                    <option value={tag}> {tag} </option>
-                ))}
-            </Select>
-            <FormHelperText className="form-helper-text">Select a tag for your resource.</FormHelperText>
-        </div>
-    )
-}
-
-
 
 export default MyResources; 
