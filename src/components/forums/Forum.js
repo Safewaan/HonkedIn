@@ -484,7 +484,7 @@ const Forum = () => {
                                 marginTop="16px"
                                 isInvalid={commentError}
                             >
-                                <FormLabel className="form-label">Name</FormLabel>
+                                <FormLabel className="form-label">Comment:</FormLabel>
                                 <Input
                                     placeholder='Forum name'
                                     className="form-input"
