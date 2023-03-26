@@ -196,7 +196,7 @@ const CreateResource = () => {
     return (
         <div>
             <NavigationBar></NavigationBar>
-            <Form>
+            <Form onSubmit={validateResources}>
             <Card style={{ padding: '16px' }}>
                 <Text align="center" className="form-header">Create a Resource</Text>
                 <FormControl>
