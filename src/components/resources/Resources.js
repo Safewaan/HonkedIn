@@ -6,6 +6,7 @@ import { Card } from 'react-bootstrap';
 import NavigationBar from '../common/NavigationBar';
 import DropdownFilter from "../common/filters/DropdownFilter";
 import ClearFilters from "../common/filters/ClearFilters";
+import DateFilter from "../common/filters/DateFilter";
 import Search from '../common/Search';
 
 import {
@@ -116,8 +117,11 @@ const Resources = () => {
         return body;
     }
 
+    const [selectedDates, setSelectedDates] = React.useState([]);
+
     const handleRefreshFilter = async () => {
         setMediaTag("");
+        setSelectedDates([]);
     }
     const handleRefreshSearch = async () => {
         setSearchTerm("");
@@ -137,7 +141,7 @@ const Resources = () => {
                 </Text>
             </Box>
 
-            <Box sx={{ width: '30%', position: 'absolute', top: 185, left: '50%', transform: 'translateX(-50%)', marginBottom: '20px' }}>
+            <Box sx={{ width: '30%', position: 'absolute', top: 185, left: '50%', transform: 'translateX(-50%)', marginBottom: '20px', zIndex: 1 }}>
                 <Search
                     label="Search for resource names or creators"
                     searchTerm={searchTerm}
@@ -157,6 +161,11 @@ const Resources = () => {
                     onChange={handleMediaTag}
                     lists={mediaTagList}
                 />
+                <DateFilter
+                    placeholder="Select a Date Range"
+                    selectedDates={selectedDates}
+                    onDateChange={(selectedDates) => setSelectedDates(selectedDates)}
+                />
                 <ClearFilters
                     onClick={() => handleRefreshFilter()}
                 />
@@ -164,11 +173,29 @@ const Resources = () => {
             </Box>
 
 
-            <Box sx={{ position: 'absolute', top: 390, left: '50%', transform: 'translateX(-50%)' }}>
+            <Box sx={{ position: 'absolute', top: 465, left: '50%', transform: 'translateX(-50%)' }}>
                 {resources.map((resources) => {
                     if (mediaTag && resources.mediaTag !== mediaTag) {
                         return null;
                     }
+                    
+                    if (selectedDates.length !== 0) {
+                        const startDate = new Date(selectedDates[0]);
+                        const endDate = new Date(selectedDates[1]);
+                        const convertDate = (new Date(resources.dateTime).getTime() - (5 * 60 * 60 * 1000));
+                        const forumDate = new Date(convertDate);
+
+                        startDate.setHours(0, 0, 0, 0);
+                        endDate.setHours(0, 0, 0, 0);
+                        forumDate.setHours(0, 0, 0, 0);
+
+                        if (!(forumDate >= startDate && forumDate <= endDate) &&
+                            !(forumDate === startDate && forumDate >= startDate) &&
+                            !(forumDate === endDate && forumDate <= endDate)) {
+                            return null;
+                        }
+                    }
+
                     return (
                         <Card style={{ width: '600px', marginBottom: '8px', padding: '16px' }}>
                             <Text className="headerBig to-text">

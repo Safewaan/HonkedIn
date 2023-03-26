@@ -7,6 +7,7 @@ import NavigationBar from '../common/NavigationBar';
 import Search from '../common/Search';
 import DropdownFilter from "../common/filters/DropdownFilter";
 import ClearFilters from "../common/filters/ClearFilters";
+import DateFilter from "../common/filters/DateFilter";
 
 import {
     Alert,
@@ -259,8 +260,11 @@ const MyResources = () => {
         setIsDialogOpen(false);
     };
 
+    const [selectedDates, setSelectedDates] = React.useState([]);
+
     const handleRefreshFilter = async () => {
         setResourceTag("");
+        setSelectedDates([]);
     }
 
     const handleRefreshSearch = async () => {
@@ -281,7 +285,7 @@ const MyResources = () => {
                 </Text>
             </Box>
 
-            <Box sx={{ width: '600px', position: 'absolute', top: 185, left: '50%', transform: 'translateX(-50%)', marginBottom: '20px' }}>
+            <Box sx={{ width: '600px', position: 'absolute', top: 185, left: '50%', transform: 'translateX(-50%)', marginBottom: '20px', zIndex: 1 }}>
                 <Search
                     label="Search for resource names"
                     searchTerm={searchTerm}
@@ -301,15 +305,37 @@ const MyResources = () => {
                     onChange={handleResourceTag}
                     lists={resourceTagList}
                 />
+                <DateFilter
+                    placeholder="Select a Date Range"
+                    selectedDates={selectedDates}
+                    onDateChange={(selectedDates) => setSelectedDates(selectedDates)}
+                />
                 <ClearFilters
                     onClick={() => handleRefreshFilter()}
                 />
             </Box>
 
-            <Box sx={{ position: 'absolute', top: 390, left: '50%', transform: 'translateX(-50%)' }}>
+            <Box sx={{ position: 'absolute', top: 465, left: '50%', transform: 'translateX(-50%)' }}>
                 {resources.map((resource) => {
                     if (resourceTag && resource.mediaTag !== resourceTag) {
                         return null;
+                    }
+
+                    if (selectedDates.length !== 0) {
+                        const startDate = new Date(selectedDates[0]);
+                        const endDate = new Date(selectedDates[1]);
+                        const convertDate = (new Date(resource.dateTime).getTime() - (5 * 60 * 60 * 1000));
+                        const forumDate = new Date(convertDate);
+
+                        startDate.setHours(0, 0, 0, 0);
+                        endDate.setHours(0, 0, 0, 0);
+                        forumDate.setHours(0, 0, 0, 0);
+
+                        if (!(forumDate >= startDate && forumDate <= endDate) &&
+                            !(forumDate === startDate && forumDate >= startDate) &&
+                            !(forumDate === endDate && forumDate <= endDate)) {
+                            return null;
+                        }
                     }
                     return (
                         <Card style={{ width: '600px', marginBottom: '8px', padding: '16px' }}>
