@@ -110,7 +110,7 @@ const MyComments = () => {
                             className="header to-text"
                             marginTop="8px"
                         >
-                            Commented on {new Date(new Date(comment.commentDateTime).getTime() - (5 * 60 * 60 * 1000)).toLocaleString()}
+                            Commented on {new Date(new Date(comment.commentDateTime).getTime() - (4 * 60 * 60 * 1000)).toLocaleString()}
                         </Text>
 
                         <Text

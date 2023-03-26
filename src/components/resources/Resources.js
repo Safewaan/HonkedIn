@@ -192,7 +192,7 @@ const Resources = () => {
                                 className="header to-text"
                                 marginTop="8px"
                             >
-                                Posted on: {new Date(new Date(resources.dateTime).getTime() - (5 * 60 * 60 * 1000)).toLocaleDateString()}
+                                Posted on: {new Date(new Date(resources.dateTime).getTime() - (4 * 60 * 60 * 1000)).toLocaleDateString()}
                             </Text>
 
                             <Text

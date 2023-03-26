@@ -316,7 +316,7 @@ const Forum = () => {
                         className="header to-text"
                         marginTop="8px"
                     >
-                        Posted on: {new Date(new Date(forum.dateTime).getTime() - (5 * 60 * 60 * 1000)).toLocaleDateString()}
+                        Posted on: {new Date(new Date(forum.dateTime).getTime() - (4 * 60 * 60 * 1000)).toLocaleDateString()}
                     </Text>
 
                     <Text
@@ -388,11 +388,11 @@ const Forum = () => {
                             </Text>
 
                             <Text className="body to-text">
-                                Comment Posted: {new Date(new Date(comment.commentDateTime).getTime() - (5 * 60 * 60 * 1000)).toLocaleString()}
+                                Comment Posted: {new Date(new Date(comment.commentDateTime).getTime() - (4 * 60 * 60 * 1000)).toLocaleString()}
                             </Text>
                             {comment.editedCommentDateTime &&
                                 <Text className="body to-text">
-                                    Comment Edited: {new Date(new Date(comment.editedCommentDateTime).getTime() - (5 * 60 * 60 * 1000)).toLocaleString()}
+                                    Comment Edited: {new Date(new Date(comment.editedCommentDateTime).getTime() - (4 * 60 * 60 * 1000)).toLocaleString()}
                                 </Text>
                             }
 

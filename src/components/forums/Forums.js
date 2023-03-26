@@ -189,7 +189,7 @@ const Forums = () => {
                     if (selectedDates.length !== 0) {
                         const startDate = new Date(selectedDates[0]);
                         const endDate = new Date(selectedDates[1]);
-                        const convertDate = (new Date(forum.dateTime).getTime() - (5 * 60 * 60 * 1000));
+                        const convertDate = (new Date(forum.dateTime).getTime() - (4 * 60 * 60 * 1000));
                         const forumDate = new Date(convertDate);
 
                         startDate.setHours(0, 0, 0, 0);
@@ -227,7 +227,7 @@ const Forums = () => {
                                 className="header to-text"
                                 marginTop="8px"
                             >
-                                Posted on: {new Date(new Date(forum.dateTime).getTime() - (5 * 60 * 60 * 1000)).toLocaleDateString()}
+                                Posted on: {new Date(new Date(forum.dateTime).getTime() - (4 * 60 * 60 * 1000)).toLocaleDateString()}
                             </Text>
 
                             <Text

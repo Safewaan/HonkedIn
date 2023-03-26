@@ -183,7 +183,7 @@ export default function Dashboard() {
                   {event.name}
                 </Text>
                 <Text className="body to-text" marginTop="8px">
-                  Date: {new Date(new Date(event.date).getTime() - (5 * 60 * 60 * 1000)).toLocaleDateString()}
+                  Date: {new Date(new Date(event.date).getTime() - (4 * 60 * 60 * 1000)).toLocaleDateString()}
                 </Text>
                 <Text className="body to-text" marginTop="8px">
                   Location: {event.location}
@@ -246,7 +246,7 @@ export default function Dashboard() {
                   {event.name}
                 </Text>
                 <Text className="body to-text" marginTop="8px">
-                  Date: {new Date(new Date(event.date).getTime() - (5 * 60 * 60 * 1000)).toLocaleDateString()}
+                  Date: {new Date(new Date(event.date).getTime() - (4 * 60 * 60 * 1000)).toLocaleDateString()}
                 </Text>
                 <Text className="body to-text" marginTop="8px">
                   Location: {event.location}

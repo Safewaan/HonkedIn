@@ -446,7 +446,7 @@ const MyEvents = () => {
                     if (selectedDates.length !== 0) {
                         const startDate = new Date(selectedDates[0]);
                         const endDate = new Date(selectedDates[1]);
-                        const convertDate = (new Date(event.date).getTime() - (5 * 60 * 60 * 1000));
+                        const convertDate = (new Date(event.date).getTime() - (4 * 60 * 60 * 1000));
                         const eventDate = new Date(convertDate);
 
                         startDate.setHours(0, 0, 0, 0);
@@ -466,7 +466,7 @@ const MyEvents = () => {
                             </Text>
 
                             <Text className="body to-text" marginTop="8px">
-                                Date: {new Date(new Date(event.date).getTime() - (5 * 60 * 60 * 1000)).toLocaleString()}
+                                Date: {new Date(new Date(event.date).getTime() - (4 * 60 * 60 * 1000)).toLocaleDateString()}
                             </Text>
 
                             <Text className="body to-text" marginTop="8px">
