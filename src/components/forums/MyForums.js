@@ -384,42 +384,22 @@ const MyForums = () => {
                                 className="header to-text"
                                 marginTop="8px"
                             >
-                                Posted on:
-                            </Text>
-                            <Text
-                                className="text to-text"
-                                marginTop="2px"
-                            >
-                                {new Date(new Date(forum.dateTime).getTime() - (5 * 60 * 60 * 1000)).toLocaleDateString()}
+                                Posted on: {new Date(new Date(forum.dateTime).getTime() - (5 * 60 * 60 * 1000)).toLocaleDateString()}
                             </Text>
 
                             <Text
                                 className="header to-text"
                                 marginTop="8px"
                             >
-                                By:
+                                By: {forum.creatorName}
                             </Text>
-                            <Text
-                                className="text to-text"
-                                marginTop="2px"
-                            >
-                                {forum.creatorName}
-                            </Text>
-
 
                             <Text
                                 className="header to-text"
                                 marginTop="8px"
                             >
-                                Status:
+                                Status: {forum.status}
                             </Text>
-                            <Text
-                                className="text to-text"
-                                marginTop="2px"
-                            >
-                                {forum.status}
-                            </Text>
-
 
                             <Text
                                 className="header to-text"
