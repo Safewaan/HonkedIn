@@ -171,7 +171,7 @@ const Resources = () => {
                     }
                     return (
                         <Card style={{ width: '600px', marginBottom: '8px', padding: '16px' }}>
-                            <Text className="header to-text">
+                            <Text className="headerBig to-text">
                                 {resources.resourcesTitle}
                             </Text>
 
@@ -192,26 +192,14 @@ const Resources = () => {
                                 className="header to-text"
                                 marginTop="8px"
                             >
-                                Posted on:
-                            </Text>
-                            <Text
-                                className="text to-text"
-                                marginTop="2px"
-                            >
-                                {new Date(new Date(resources.dateTime).getTime() - (5 * 60 * 60 * 1000)).toLocaleDateString()}
+                                Posted on: {new Date(new Date(resources.dateTime).getTime() - (5 * 60 * 60 * 1000)).toLocaleDateString()}
                             </Text>
 
                             <Text
                                 className="header to-text"
                                 marginTop="8px"
                             >
-                                By:
-                            </Text>
-                            <Text
-                                className="text to-text"
-                                marginTop="2px"
-                            >
-                                {resources.creatorName}
+                                By: {resources.creatorName}
                             </Text>
 
                             <Text
