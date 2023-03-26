@@ -131,7 +131,7 @@ const Resources = ({getResources, resources}) => {
 
     React.useEffect(() => {
         getResources();
-      }, [getResources]);
+      }, [getResources, refreshSearch]);
 
 
     return (
