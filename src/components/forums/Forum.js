@@ -481,8 +481,8 @@ const Forum = () => {
                                     onChange={handleEditCommentBody}
                                     inputProps={{ maxLength: 350 }}
                                 />
-                                <FormHelperText className="form-helper-text">Enter the name of your forum.</FormHelperText>
-                                <FormErrorMessage className="form-helper-text">{{ commentError }}</FormErrorMessage>
+                                <FormHelperText className="form-helper-text">Enter your updated comment.</FormHelperText>
+                                <FormErrorMessage className="form-helper-text">{commentErrorText}</FormErrorMessage>
                             </FormControl>
 
                             <Box
