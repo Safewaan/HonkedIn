@@ -117,11 +117,13 @@ const Requests = () => {
 
             <NavigationBar></NavigationBar>
 
-            <Box marginTop="90px">
+            <Box sx={{ position: 'absolute', top: 115, left: '50%', transform: 'translateX(-50%)' }}>
                 <Box>
                     <Text
                         className="title"
-                        marginBottom="16px">Sent Requests
+                        marginBottom="16px"
+                    >
+                        Sent Requests
                     </Text>
                     <RequestsList
                         requests={sentRequests}
@@ -132,7 +134,9 @@ const Requests = () => {
                 <Box>
                     <Text
                         className="title"
-                        marginBottom="16px">Received Requests
+                        marginBottom="16px"
+                    >
+                        Received Requests
                     </Text>
                     <RequestsList
                         requests={receivedRequests}
