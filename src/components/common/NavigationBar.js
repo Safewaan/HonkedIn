@@ -34,6 +34,7 @@ import {
   CREATE_FORUM_PAGE,
   FORUMS_PAGE,
   MY_FORUMS_PAGE,
+  MY_COMMENTS_PAGE,
   MY_PROFILE_PAGE,
   USER_SETTINGS_PAGE,
   REQUESTS_PAGE,
@@ -68,6 +69,7 @@ export default function NavigationBar() {
   const handleCreateForum = redirectToPage(CREATE_FORUM_PAGE);
   const handleForums = redirectToPage(FORUMS_PAGE);
   const handleMyForums = redirectToPage(MY_FORUMS_PAGE);
+  const handleMyComments = redirectToPage(MY_COMMENTS_PAGE);
   const handleCreateResources = redirectToPage(CREATE_RESOURCE_PAGE);
   const handleResources = redirectToPage(RESOURCES_PAGE);
   const handleMyResources = redirectToPage(MY_RESOURCES_PAGE);
@@ -160,6 +162,10 @@ export default function NavigationBar() {
             <MenuGroup>
               <MenuItem className="navbar-dropdown-text" onClick={handleForums} >All Forums</MenuItem>
               <MenuItem className="navbar-dropdown-text" onClick={handleMyForums}>My Forums</MenuItem>
+            </MenuGroup>
+            <MenuDivider />
+            <MenuGroup>
+              <MenuItem className="navbar-dropdown-text" onClick={handleMyComments} >My Comments</MenuItem>
             </MenuGroup>
             <MenuDivider />
             <MenuGroup>
