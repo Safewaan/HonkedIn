@@ -12,20 +12,8 @@ import Search from "../common/Search";
 import "react-datepicker/dist/react-datepicker.css";
 
 import {
-    Alert,
-    AlertIcon,
-    AlertTitle,
-    AlertDescription,
     Badge,
     Box,
-    Button,
-    FormHelperText,
-    Modal,
-    ModalOverlay,
-    ModalContent,
-    ModalHeader,
-    ModalFooter,
-    ModalBody,
     Text
 } from '@chakra-ui/react';
 
@@ -216,7 +204,7 @@ const Forums = () => {
                     }
 
                     return (
-                        <Card style={{ width: '800px', marginBottom: '8px', padding: '16px' }} key={forum.id}>
+                        <Card style={{ width: '600px', marginBottom: '8px', padding: '16px' }} key={forum.id}>
                             <Link to={`/forum/${forum.id}`} target="_blank">
                                 <Text className="headerBig to-text">
                                     {forum.forumTitle}

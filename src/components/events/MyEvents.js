@@ -36,7 +36,7 @@ import {
     ModalFooter,
     ModalBody,
     Text
-} from '@chakra-ui/react'
+} from '@chakra-ui/react';
 
 import NavigationBar from '../common/NavigationBar';
 
