@@ -219,14 +219,7 @@ const NetworkProfile = () => {
         <>
             <NavigationBar></NavigationBar>
 
-            <Box
-                p="6"
-                width="800px"
-                position="absolute"
-                top="40%"
-                left="50%"
-                transform="translate(-50%, -50%)"
-            >
+            <Box sx={{ position: 'absolute', top: 115, left: '50%', width: 800, transform: 'translateX(-50%)' }}>
                 <Card>
                     <Center>
                         <Avatar
