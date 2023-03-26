@@ -1,17 +1,14 @@
 import React, { useRef, useState, useEffect } from "react"
 import { useAuth } from "../../contexts/AuthContext"
 import { Link, useHistory } from "react-router-dom"
-import Card from '@material-ui/core/Card';
-import CardActions from '@material-ui/core/CardActions';
-import CardContent from '@material-ui/core/CardContent';
-import Typography from '@material-ui/core/Typography';
+import { Card } from 'react-bootstrap';
+
 import NavigationBar from '../common/NavigationBar';
-import Box from "@material-ui/core/Box";
 import DropdownFilter from "../common/filters/DropdownFilter";
 import ClearFilters from "../common/filters/ClearFilters";
 import DateFilter from "../common/filters/DateFilter";
-import Chip from '@material-ui/core/Chip';
 import Search from "../common/Search";
+
 import "react-datepicker/dist/react-datepicker.css";
 
 import {
@@ -19,9 +16,19 @@ import {
     AlertIcon,
     AlertTitle,
     AlertDescription,
+    Badge,
+    Box,
+    Button,
     FormHelperText,
+    Modal,
+    ModalOverlay,
+    ModalContent,
+    ModalHeader,
+    ModalFooter,
+    ModalBody,
     Text
-} from '@chakra-ui/react'
+} from '@chakra-ui/react';
+
 
 const { REACT_APP_API_ENDPOINT } = process.env;
 
@@ -139,12 +146,11 @@ const Forums = () => {
             <NavigationBar></NavigationBar>
 
             <Box sx={{ position: 'absolute', top: 115, left: '50%', transform: 'translate(-50%, -50%)' }}>
-                <Typography
-                    variant="h4"
-                    gutterBottom
-                    component="div">
+                <Text
+                    className="title"
+                >
                     Forums
-                </Typography>
+                </Text>
             </Box>
 
             <Box sx={{ width: '30%', position: 'absolute', top: 185, left: '50%', transform: 'translateX(-50%)', marginBottom: '20px', zIndex: 1 }}>
@@ -210,31 +216,78 @@ const Forums = () => {
                     }
 
                     return (
-                        <Card style={{ width: '800px', marginBottom: '20px' }} key={forum.id}>
-                            <CardContent>
-                                <Link to={`/forum/${forum.id}`} target="_blank">
-                                    <Typography variant="h5" component="div">
-                                        {forum.forumTitle}<br />
-                                    </Typography>
-                                </Link>
-                                {forum.forumTag && <Chip
-                                    key={forum.id}
-                                    label={forum.forumTag}
-                                    color="primary"
-                                    size="small"
-                                    style={{ marginRight: 8 }}
-                                />}
-                                <Typography sx={{ mb: 1.5 }} color="text.secondary">
-                                    Posted on {new Date(new Date(forum.dateTime).getTime() - (5 * 60 * 60 * 1000)).toLocaleDateString()}<br />
-                                    by {forum.creatorName}<br />
-                                </Typography>
-                                <Typography variant="subtitle2" sx={{ mb: 1.5 }} color="text.secondary">
-                                    Status: {forum.status}<br />
-                                </Typography>
-                                <Typography sx={{ mb: 1.5 }} color="text.secondary">
-                                    <br />{forum.description}<br />
-                                </Typography>
-                            </CardContent>
+                        <Card style={{ width: '800px', marginBottom: '8px', padding: '16px' }} key={forum.id}>
+                            <Link to={`/forum/${forum.id}`} target="_blank">
+                                <Text className="headerBig to-text">
+                                    {forum.forumTitle}
+                                </Text>
+                            </Link>
+                            {forum.forumTag &&
+                                <Badge
+                                    className="body"
+                                    backgroundColor="#023679"
+                                    color="#FFFFFF"
+                                    marginTop="4px"
+                                    textAlign="center"
+                                    width="120px"
+                                >
+                                    {forum.forumTag}
+                                </Badge>
+                            }
+
+                            <Text
+                                className="header to-text"
+                                marginTop="8px"
+                            >
+                                Posted on:
+                            </Text>
+                            <Text
+                                className="text to-text"
+                                marginTop="2px"
+                            >
+                                {new Date(new Date(forum.dateTime).getTime() - (5 * 60 * 60 * 1000)).toLocaleDateString()}
+                            </Text>
+
+                            <Text
+                                className="header to-text"
+                                marginTop="8px"
+                            >
+                                By:
+                            </Text>
+                            <Text
+                                className="text to-text"
+                                marginTop="2px"
+                            >
+                                {forum.creatorName}
+                            </Text>
+
+
+                            <Text
+                                className="header to-text"
+                                marginTop="8px"
+                            >
+                                Status:
+                            </Text>
+                            <Text
+                                className="text to-text"
+                                marginTop="2px"
+                            >
+                                {forum.status}
+                            </Text>
+
+
+                            <Text
+                                className="header to-text"
+                                marginTop="8px"
+                            >
+                                Description:
+                            </Text>
+                            <Text
+                                className="text to-text"
+                                marginTop="2px"
+                            >
+                                {forum.description}
+                            </Text>
                         </Card>
                     );
                 })}

@@ -520,7 +520,7 @@ const MyEvents = () => {
                             style={{ width: '400px', padding: '16px' }}
                         >
                             <ModalHeader
-                                className="bigHeader"
+                                className="headerBig"
                                 textAlign="center"
                             >
                                 Confirm Cancellation
@@ -533,7 +533,7 @@ const MyEvents = () => {
                             <Box
                                 display="flex"
                                 flexDirection="row"
-                                marginTop="8px"
+                                marginTop="16px"
                             >
                                 <Button
                                     className="button"
@@ -704,7 +704,7 @@ const MyEvents = () => {
                             style={{ width: '400px', padding: '16px' }}
                         >
                             <ModalHeader
-                                className="bigHeader"
+                                className="headerBig"
                                 textAlign="center"
                             >
                                 Participants
