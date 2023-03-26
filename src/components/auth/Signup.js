@@ -103,7 +103,7 @@ export default function Signup() {
   }
 
   return (
-    <Box transform="translateY(-10%)">
+    <Box sx={{ position: 'absolute', top: 0, left: '50%', width: 400, transform: 'translateX(-50%)' }}>
       <Box
         className="title"
         display="flex"

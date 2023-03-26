@@ -262,137 +262,139 @@ const CreateEvent = () => {
   return (
     <div>
       <NavigationBar></NavigationBar>
-      <Card style={{ padding: '16px' }}>
-        <Text align="center" className="form-header">Create an Event</Text>
-        <FormControl>
-          <FormControl
-            isRequired
-            marginTop="16px"
-            isInvalid={eventNameError}
-          >
-            <FormLabel className="form-label">Name</FormLabel>
-            <Input
-              placeholder='Event name'
-              className="form-input"
-              value={eventName}
-              onChange={handleEventName}
-              inputProps={{ maxLength: 200 }}
-            />
-            <FormHelperText className="form-helper-text">Enter the name of your event.</FormHelperText>
-            <FormErrorMessage className="form-helper-text">{eventNameErrorText}</FormErrorMessage>
-          </FormControl>
-
-          <FormControl
-            isRequired
-            marginTop="16px"
-            isInvalid={eventDescError}>
-            <FormLabel className="form-label">Description</FormLabel>
-            <Input
-              placeholder='Event description'
-              className="form-input"
-              value={eventDesc}
-              onChange={handleEventDesc}
-              inputProps={{ maxLength: 350 }}
-            />
-            <FormHelperText className="form-helper-text">Enter a description of your event.</FormHelperText>
-            <FormErrorMessage className="form-helper-text">{eventDescErrorText}</FormErrorMessage>
-          </FormControl>
-
-          <FormControl
-            isRequired
-            marginTop="16px"
-            isInvalid={eventLocationError}>
-            <FormLabel className="form-label">Location</FormLabel>
-            <Input
-              placeholder='Event location'
-              className="form-input"
-              value={eventLocation}
-              onChange={handleEventLocation}
-              inputProps={{ maxLength: 350 }}
-            />
-            <FormHelperText className="form-helper-text">Enter the location of your event.</FormHelperText>
-            <FormErrorMessage className="form-helper-text">{eventLocationErrorText}</FormErrorMessage>
-          </FormControl>
-
-          <FormControl
-            isRequired
-            marginTop="16px"
-            isInvalid={eventParticipantsError}>
-            <FormLabel className="form-label">Maximum Participants</FormLabel>
-            <NumberInput
-              max={1000}
-              min={1}
-              className="form-input"
-              value={eventParticipants}
-              onChange={handleEventParticipants}
+      <Box sx={{ position: 'absolute', top: 115, left: '50%', width: 600, transform: 'translateX(-50%)' }}>
+        <Card style={{ padding: '16px' }}>
+          <Text align="center" className="form-header">Create an Event</Text>
+          <FormControl>
+            <FormControl
+              isRequired
+              marginTop="16px"
+              isInvalid={eventNameError}
             >
-              <NumberInputField />
-              <NumberInputStepper>
-                <NumberIncrementStepper />
-                <NumberDecrementStepper />
-              </NumberInputStepper>
-            </NumberInput>
-            <FormHelperText className="form-helper-text">Enter the number of maximum participants of your event.</FormHelperText>
-            <FormErrorMessage className="form-helper-text">{eventParticipantsErrorText}</FormErrorMessage>
+              <FormLabel className="form-label">Name</FormLabel>
+              <Input
+                placeholder='Event name'
+                className="form-input"
+                value={eventName}
+                onChange={handleEventName}
+                inputProps={{ maxLength: 200 }}
+              />
+              <FormHelperText className="form-helper-text">Enter the name of your event.</FormHelperText>
+              <FormErrorMessage className="form-helper-text">{eventNameErrorText}</FormErrorMessage>
+            </FormControl>
+
+            <FormControl
+              isRequired
+              marginTop="16px"
+              isInvalid={eventDescError}>
+              <FormLabel className="form-label">Description</FormLabel>
+              <Input
+                placeholder='Event description'
+                className="form-input"
+                value={eventDesc}
+                onChange={handleEventDesc}
+                inputProps={{ maxLength: 350 }}
+              />
+              <FormHelperText className="form-helper-text">Enter a description of your event.</FormHelperText>
+              <FormErrorMessage className="form-helper-text">{eventDescErrorText}</FormErrorMessage>
+            </FormControl>
+
+            <FormControl
+              isRequired
+              marginTop="16px"
+              isInvalid={eventLocationError}>
+              <FormLabel className="form-label">Location</FormLabel>
+              <Input
+                placeholder='Event location'
+                className="form-input"
+                value={eventLocation}
+                onChange={handleEventLocation}
+                inputProps={{ maxLength: 350 }}
+              />
+              <FormHelperText className="form-helper-text">Enter the location of your event.</FormHelperText>
+              <FormErrorMessage className="form-helper-text">{eventLocationErrorText}</FormErrorMessage>
+            </FormControl>
+
+            <FormControl
+              isRequired
+              marginTop="16px"
+              isInvalid={eventParticipantsError}>
+              <FormLabel className="form-label">Maximum Participants</FormLabel>
+              <NumberInput
+                max={1000}
+                min={1}
+                className="form-input"
+                value={eventParticipants}
+                onChange={handleEventParticipants}
+              >
+                <NumberInputField />
+                <NumberInputStepper>
+                  <NumberIncrementStepper />
+                  <NumberDecrementStepper />
+                </NumberInputStepper>
+              </NumberInput>
+              <FormHelperText className="form-helper-text">Enter the number of maximum participants of your event.</FormHelperText>
+              <FormErrorMessage className="form-helper-text">{eventParticipantsErrorText}</FormErrorMessage>
+            </FormControl>
+
+            <FormControl
+              isRequired
+              marginTop="16px"
+              isInvalid={eventDateErrorText}
+            >
+              <FormLabel className="form-label">Date</FormLabel>
+              <SingleDatepicker
+                name="date-input"
+                date={eventDateOG}
+                minDate={dateToday}
+                onDateChange={(eventDateOG) => setEventDateOG(eventDateOG)}
+                propsConfigs={{
+                  dayOfMonthBtnProps: {
+                    defaultBtnProps: {
+                      _hover: {
+                        background: '#164684',
+                        color: '#F0F6FF',
+                      },
+                      _active: {
+                        background: '#214E89',
+                      }
+                    },
+                    selectedBtnProps: {
+                      background: '#023679',
+                      color: '#F0F6FF',
+                      _hover: {
+                        background: '#164684',
+                        color: '#F0F6FF',
+                      },
+                      _active: {
+                        background: '#214E89',
+                      }
+                    },
+                    todayBtnProps: {
+                      borderColor: "#023679"
+                    },
+                  }
+                }}
+              />
+              <FormHelperText className="form-helper-text">
+                Enter the date of your event.
+              </FormHelperText>
+              <FormErrorMessage className="form-helper-text">
+                {eventDateErrorText}
+              </FormErrorMessage>
+            </FormControl>
           </FormControl>
 
-          <FormControl
-            isRequired
-            marginTop="16px"
-            isInvalid={eventDateErrorText}
-          >
-            <FormLabel className="form-label">Date</FormLabel>
-            <SingleDatepicker
-              name="date-input"
-              date={eventDateOG}
-              minDate={dateToday}
-              onDateChange={(eventDateOG) => setEventDateOG(eventDateOG)}
-              propsConfigs={{
-                dayOfMonthBtnProps: {
-                  defaultBtnProps: {
-                    _hover: {
-                      background: '#164684',
-                      color: '#F0F6FF',
-                    },
-                    _active: {
-                      background: '#214E89',
-                    }
-                  },
-                  selectedBtnProps: {
-                    background: '#023679',
-                    color: '#F0F6FF',
-                    _hover: {
-                      background: '#164684',
-                      color: '#F0F6FF',
-                    },
-                    _active: {
-                      background: '#214E89',
-                    }
-                  },
-                  todayBtnProps: {
-                    borderColor: "#023679"
-                  },
-                }
-              }}
-            />
-            <FormHelperText className="form-helper-text">
-              Enter the date of your event.
-            </FormHelperText>
-            <FormErrorMessage className="form-helper-text">
-              {eventDateErrorText}
-            </FormErrorMessage>
-          </FormControl>
-        </FormControl>
-
-        <Box marginTop="16px">
-          <Button
-            className="form-submit"
-            onClick={(event) => validateEvent(event)}
-          >
-            Submit
-          </Button>
-        </Box>
-      </Card >
+          <Box marginTop="16px">
+            <Button
+              className="form-submit"
+              onClick={(event) => validateEvent(event)}
+            >
+              Submit
+            </Button>
+          </Box>
+        </Card >
+      </Box>
 
       {
         successfullSubmissionMsg && (
