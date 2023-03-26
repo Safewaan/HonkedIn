@@ -155,7 +155,7 @@ const Resources = ({getResources, resources}) => {
                         return null;
                     }
                     return (
-                        <Card style={{ width: '600px', marginBottom: '8px', padding: '16px' }}>
+                        <Card style={{ width: '600px', marginBottom: '8px', padding: '16px' }} key={resources.id}>
                             <Text className="headerBig to-text">
                                 {resources.resourcesTitle}
                             </Text>

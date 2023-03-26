@@ -24,6 +24,4 @@ import React from 'react';
         render(<Resources getResources={noop} resources={resources} />);
         expect(screen.getByText('Test Resource 1')).toBeInTheDocument();
       });
-    
-
  });
