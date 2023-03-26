@@ -183,71 +183,73 @@ const CreateForum = () => {
         <div>
             <NavigationBar></NavigationBar>
 
-            <Card style={{ padding: '16px' }}>
-                <Text align="center" className="form-header">Create a Forum</Text>
-                <FormControl>
-                    <FormControl
-                        isRequired
-                        marginTop="16px"
-                        isInvalid={forumNameError}
-                    >
-                        <FormLabel className="form-label">Name</FormLabel>
-                        <Input
-                            placeholder='Forum name'
-                            className="form-input"
-                            value={forumName}
-                            onChange={handleForumName}
-                            inputProps={{ maxLength: 350 }}
-                        />
-                        <FormHelperText className="form-helper-text">Enter the name of your forum.</FormHelperText>
-                        <FormErrorMessage className="form-helper-text">{forumNameErrorText}</FormErrorMessage>
-                    </FormControl>
-
-                    <FormControl
-                        isRequired
-                        marginTop="16px"
-                        isInvalid={forumDescError}>
-                        <FormLabel className="form-label">Description</FormLabel>
-                        <Input
-                            placeholder='Forum description'
-                            className="form-input"
-                            value={forumDesc}
-                            onChange={handleForumDesc}
-                            inputProps={{ maxLength: 350 }}
-                        />
-                        <FormHelperText className="form-helper-text">Enter a description of your forum.</FormHelperText>
-                        <FormErrorMessage className="form-helper-text">{forumDescErrorText}</FormErrorMessage>
-                    </FormControl>
-
-                    <FormControl
-                        marginTop="16px"
-                    >
-                        <FormLabel className="form-label">Tag</FormLabel>
-                        <Select
-                            labelId="Media-Tag"
-                            id="MediaTagList"
-                            value={forumTag}
-                            onChange={handleForumTag}
-                            className="form-helper-text"
+            <Box sx={{ position: 'absolute', top: 115, left: '50%', width: 600, transform: 'translateX(-50%)' }}>
+                <Card style={{ padding: '16px' }}>
+                    <Text align="center" className="form-header">Create a Forum</Text>
+                    <FormControl>
+                        <FormControl
+                            isRequired
+                            marginTop="16px"
+                            isInvalid={forumNameError}
                         >
-                            {forumTagList.map((tag) => (
-                                <option value={tag}> {tag} </option>
-                            ))}
-                        </Select>
-                        <FormHelperText className="form-helper-text">Select a tag for your forum.</FormHelperText>
+                            <FormLabel className="form-label">Name</FormLabel>
+                            <Input
+                                placeholder='Forum name'
+                                className="form-input"
+                                value={forumName}
+                                onChange={handleForumName}
+                                inputProps={{ maxLength: 350 }}
+                            />
+                            <FormHelperText className="form-helper-text">Enter the name of your forum.</FormHelperText>
+                            <FormErrorMessage className="form-helper-text">{forumNameErrorText}</FormErrorMessage>
+                        </FormControl>
+
+                        <FormControl
+                            isRequired
+                            marginTop="16px"
+                            isInvalid={forumDescError}>
+                            <FormLabel className="form-label">Description</FormLabel>
+                            <Input
+                                placeholder='Forum description'
+                                className="form-input"
+                                value={forumDesc}
+                                onChange={handleForumDesc}
+                                inputProps={{ maxLength: 350 }}
+                            />
+                            <FormHelperText className="form-helper-text">Enter a description of your forum.</FormHelperText>
+                            <FormErrorMessage className="form-helper-text">{forumDescErrorText}</FormErrorMessage>
+                        </FormControl>
+
+                        <FormControl
+                            marginTop="16px"
+                        >
+                            <FormLabel className="form-label">Tag</FormLabel>
+                            <Select
+                                labelId="Media-Tag"
+                                id="MediaTagList"
+                                value={forumTag}
+                                onChange={handleForumTag}
+                                className="form-helper-text"
+                            >
+                                {forumTagList.map((tag) => (
+                                    <option value={tag}> {tag} </option>
+                                ))}
+                            </Select>
+                            <FormHelperText className="form-helper-text">Select a tag for your forum.</FormHelperText>
+                        </FormControl>
+
                     </FormControl>
 
-                </FormControl>
-
-                <Box marginTop="16px">
-                    <Button
-                        className="form-submit"
-                        onClick={(event) => validateForum(event)}
-                    >
-                        Submit
-                    </Button>
-                </Box>
-            </Card >
+                    <Box marginTop="16px">
+                        <Button
+                            className="form-submit"
+                            onClick={(event) => validateForum(event)}
+                        >
+                            Submit
+                        </Button>
+                    </Box>
+                </Card>
+            </Box>
 
             {successfullSubmissionMsg && (
                 <Alert

@@ -103,7 +103,7 @@ const CreateResource = () => {
     }
 
     const [mediaTag, setMediaTag] = React.useState('');
-    const mediaTagList = ["","Interview Tips", "Youtube", "Stack Overflow", "School", "Personal Website", "Spreadsheet"];
+    const mediaTagList = ["", "Interview Tips", "Youtube", "Stack Overflow", "School", "Personal Website", "Spreadsheet"];
 
     const handleMediaTag = (event) => {
         setMediaTag(event.target.value);
@@ -196,74 +196,76 @@ const CreateResource = () => {
     return (
         <div>
             <NavigationBar></NavigationBar>
-            <Form onSubmit={validateResources}>
-            <Card style={{ padding: '16px' }}>
-                <Text align="center" className="form-header">Create a Resource</Text>
-                <FormControl>
-                    <FormControl
-                        isRequired
-                        marginTop="16px"
-                        isInvalid={resourcesTitleError}
-                    >
-                        <FormLabel className="form-label">Title</FormLabel>
-                        <Input
-                            placeholder='Resource title'
-                            id='title'
-                            className="form-input"
-                            value={resourcesTitle}
-                            onChange={handleResourcesTitle}
-                            inputProps={{ maxLength: 200 }}
-                        />
-                        <FormHelperText className="form-helper-text">Enter the title of your resource.</FormHelperText>
-                        <FormErrorMessage className="form-helper-text">{resourcesTitleErrorText}</FormErrorMessage>
-                    </FormControl>
+            <Box sx={{ position: 'absolute', top: 115, left: '50%', width: 600, transform: 'translateX(-50%)' }}>
+                <Form onSubmit={validateResources}>
+                    <Card style={{ padding: '16px' }}>
+                        <Text align="center" className="form-header">Create a Resource</Text>
+                        <FormControl>
+                            <FormControl
+                                isRequired
+                                marginTop="16px"
+                                isInvalid={resourcesTitleError}
+                            >
+                                <FormLabel className="form-label">Title</FormLabel>
+                                <Input
+                                    placeholder='Resource title'
+                                    id='title'
+                                    className="form-input"
+                                    value={resourcesTitle}
+                                    onChange={handleResourcesTitle}
+                                    inputProps={{ maxLength: 200 }}
+                                />
+                                <FormHelperText className="form-helper-text">Enter the title of your resource.</FormHelperText>
+                                <FormErrorMessage className="form-helper-text">{resourcesTitleErrorText}</FormErrorMessage>
+                            </FormControl>
 
-                    <FormControl
-                        isRequired
-                        marginTop="16px"
-                        isInvalid={resourcesLinkError}>
-                        <FormLabel className="form-label">Link</FormLabel>
-                        <Input
-                            placeholder='Resource link'
-                            className="form-input"
-                            id='link'
-                            value={resourcesLink}
-                            onChange={handleResourcesLink}
-                            inputProps={{ maxLength: 1000 }}
-                        />
-                        <FormHelperText className="form-helper-text">Enter the link to your resource ex: "https://www.google.com/".</FormHelperText>
-                        <FormErrorMessage className="form-helper-text">{resourcesLinkErrorText}</FormErrorMessage>
-                    </FormControl>
+                            <FormControl
+                                isRequired
+                                marginTop="16px"
+                                isInvalid={resourcesLinkError}>
+                                <FormLabel className="form-label">Link</FormLabel>
+                                <Input
+                                    placeholder='Resource link'
+                                    className="form-input"
+                                    id='link'
+                                    value={resourcesLink}
+                                    onChange={handleResourcesLink}
+                                    inputProps={{ maxLength: 1000 }}
+                                />
+                                <FormHelperText className="form-helper-text">Enter the link to your resource ex: "https://www.google.com/".</FormHelperText>
+                                <FormErrorMessage className="form-helper-text">{resourcesLinkErrorText}</FormErrorMessage>
+                            </FormControl>
 
-                    <FormControl
-                        marginTop="16px"
-                    >
-                        <FormLabel className="form-label">Tag</FormLabel>
-                        <Select
-                            labelId="Media-Tag"
-                            id="MediaTagList"
-                            value={mediaTag}
-                            onChange={handleMediaTag}
-                            className="form-helper-text"
-                        >
-                            {mediaTagList.map((tag) => (
-                                <option value={tag}> {tag} </option>
-                            ))}
-                        </Select>
-                        <FormHelperText className="form-helper-text">Select a tag for your resource.</FormHelperText>
-                    </FormControl>
-                </FormControl>
+                            <FormControl
+                                marginTop="16px"
+                            >
+                                <FormLabel className="form-label">Tag</FormLabel>
+                                <Select
+                                    labelId="Media-Tag"
+                                    id="MediaTagList"
+                                    value={mediaTag}
+                                    onChange={handleMediaTag}
+                                    className="form-helper-text"
+                                >
+                                    {mediaTagList.map((tag) => (
+                                        <option value={tag}> {tag} </option>
+                                    ))}
+                                </Select>
+                                <FormHelperText className="form-helper-text">Select a tag for your resource.</FormHelperText>
+                            </FormControl>
+                        </FormControl>
 
-                <Box marginTop="16px">
-                    <Button
-                        className="form-submit"
-                        onClick={(event) => validateResources(event)}
-                    >
-                        Submit
-                    </Button>
-                </Box>
-            </Card>
-            </Form>
+                        <Box marginTop="16px">
+                            <Button
+                                className="form-submit"
+                                onClick={(event) => validateResources(event)}
+                            >
+                                Submit
+                            </Button>
+                        </Box>
+                    </Card>
+                </Form>
+            </Box>
 
             {successfullSubmissionMsg && (
                 <Alert
