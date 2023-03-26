@@ -25,7 +25,7 @@ describe('<MyComments />', () => {
     ]
 
     render(<MyComments loadGetComments={noop} myComments={myComments} />);
-    const string = new Date(new Date('2023-02-23T05:00:00.000Z').getTime() - (5 * 60 * 60 * 1000)).toLocaleString();
+    const string = new Date(new Date('2023-02-23T05:00:00.000Z').getTime() - (4 * 60 * 60 * 1000)).toLocaleString();
     expect(screen.getByText(`Commented on ${string}`)).toBeInTheDocument();
   });
 
