@@ -1,18 +1,28 @@
 import React, { useRef, useState, useEffect } from "react"
 import { useAuth } from "../../contexts/AuthContext"
 import { Link, useHistory } from "react-router-dom"
-import Card from '@material-ui/core/Card';
-import CardContent from '@material-ui/core/CardContent';
-import Typography from '@material-ui/core/Typography';
+import { Card } from 'react-bootstrap';
+
 import NavigationBar from '../common/NavigationBar';
-import Box from "@material-ui/core/Box";
-import Chip from '@material-ui/core/Chip';
-import { Select } from '@chakra-ui/react'
 import DropdownFilter from "../common/filters/DropdownFilter";
 import ClearFilters from "../common/filters/ClearFilters";
 import Search from '../common/Search';
 
 import {
+    Alert,
+    AlertIcon,
+    AlertTitle,
+    AlertDescription,
+    Badge,
+    Box,
+    Button,
+    FormHelperText,
+    Modal,
+    ModalOverlay,
+    ModalContent,
+    ModalHeader,
+    ModalFooter,
+    ModalBody,
     Text
 } from '@chakra-ui/react';
 
@@ -120,12 +130,11 @@ const Resources = () => {
             <NavigationBar></NavigationBar>
 
             <Box sx={{ position: 'absolute', top: 115, left: '50%', transform: 'translate(-50%, -50%)' }}>
-                <Typography
-                    variant="h4"
-                    gutterBottom
-                    component="div">
+                <Text
+                    className="title"
+                >
                     Resources
-                </Typography>
+                </Text>
             </Box>
 
             <Box sx={{ width: '30%', position: 'absolute', top: 185, left: '50%', transform: 'translateX(-50%)', marginBottom: '20px' }}>
@@ -161,28 +170,64 @@ const Resources = () => {
                         return null;
                     }
                     return (
-                        <Card style={{ width: '800px', marginBottom: '20px' }}>
-                            <CardContent>
-                                <Typography variant="h5" component="div">
-                                    {resources.resourcesTitle}<br />
-                                </Typography>
-                                {resources.mediaTag && <Chip
-                                    key={resources.id}
-                                    label={resources.mediaTag}
-                                    color="primary"
-                                    size="small"
-                                    style={{ marginRight: 8 }}
-                                />}
-                                <Typography sx={{ mb: 1.5 }} color="text.secondary">
-                                    Posted on {new Date(new Date(resources.dateTime).getTime() - (5 * 60 * 60 * 1000)).toLocaleDateString()}<br />
-                                    by {resources.creatorName}<br />
-                                </Typography>
-                                <a href={`${resources.resourcesLink}`} target="_blank">
-                                    <Typography sx={{ mb: 1.5 }} color="text.secondary">
-                                        <br />{resources.resourcesLink}<br />
-                                    </Typography>
-                                </a>
-                            </CardContent>
+                        <Card style={{ width: '600px', marginBottom: '8px', padding: '16px' }}>
+                            <Text className="header to-text">
+                                {resources.resourcesTitle}
+                            </Text>
+
+                            {resources.mediaTag &&
+                                <Badge
+                                    className="body"
+                                    backgroundColor="#023679"
+                                    color="#FFFFFF"
+                                    marginTop="4px"
+                                    textAlign="center"
+                                    width="140px"
+                                >
+                                    {resources.mediaTag}
+                                </Badge>
+                            }
+
+                            <Text
+                                className="header to-text"
+                                marginTop="8px"
+                            >
+                                Posted on:
+                            </Text>
+                            <Text
+                                className="text to-text"
+                                marginTop="2px"
+                            >
+                                {new Date(new Date(resources.dateTime).getTime() - (5 * 60 * 60 * 1000)).toLocaleDateString()}
+                            </Text>
+
+                            <Text
+                                className="header to-text"
+                                marginTop="8px"
+                            >
+                                By:
+                            </Text>
+                            <Text
+                                className="text to-text"
+                                marginTop="2px"
+                            >
+                                {resources.creatorName}
+                            </Text>
+
+                            <Text
+                                className="header to-text"
+                                marginTop="8px"
+                            >
+                                Link to Resource:
+                            </Text>
+                            <a href={`${resources.resourcesLink}`} target="_blank">
+                                <Text
+                                    className="text to-text"
+                                    marginTop="2px"
+                                >
+                                    {resources.resourcesLink}
+                                </Text>
+                            </a>
                         </Card>
                     );
                 })}
