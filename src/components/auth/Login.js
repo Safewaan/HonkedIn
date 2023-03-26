@@ -79,7 +79,7 @@ export default function Login() {
               {error}
             </Alert>}
 
-          <Form>
+          <Form onSubmit={handleSubmit}>
             <FormControl
               id="email"
               className="body"
@@ -110,7 +110,7 @@ export default function Login() {
               marginTop="16px"
               onClick={handleSubmit}
             >
-              Log In
+              Log In 
             </Button>
           </Form>
 
