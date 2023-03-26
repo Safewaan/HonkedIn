@@ -466,7 +466,7 @@ const MyEvents = () => {
                             </Text>
 
                             <Text className="body to-text" marginTop="8px">
-                                Date: {new Date(new Date(event.date).getTime() - (4 * 60 * 60 * 1000)).toLocaleString()}
+                                Date: {new Date(new Date(event.date).getTime() - (4 * 60 * 60 * 1000)).toLocaleDateString()}
                             </Text>
 
                             <Text className="body to-text" marginTop="8px">

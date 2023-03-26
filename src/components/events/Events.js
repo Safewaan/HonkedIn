@@ -292,7 +292,7 @@ const Events = () => {
               </Text>
 
               <Text className="body to-text" marginTop="8px">
-                Date: {new Date(new Date(event.date).getTime() - (4 * 60 * 60 * 1000)).toLocaleString()}
+                Date: {new Date(new Date(event.date).getTime() - (4 * 60 * 60 * 1000)).toLocaleDateString()}
               </Text>
 
               <Text className="body to-text" marginTop="8px">
@@ -363,7 +363,7 @@ const Events = () => {
               className="body to-text"
               marginTop="2px"
             >
-              {new Date(new Date(selectedEvent.date).getTime() - (4 * 60 * 60 * 1000)).toLocaleString()}
+              {new Date(new Date(selectedEvent.date).getTime() - (4 * 60 * 60 * 1000)).toLocaleDateString()}
             </Text>
 
             <Text
