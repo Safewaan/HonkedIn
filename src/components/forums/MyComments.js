@@ -1,12 +1,14 @@
 import React, { useRef, useState, useEffect } from "react"
 import { useAuth } from "../../contexts/AuthContext"
 import { Link, useHistory } from "react-router-dom"
-import Card from '@material-ui/core/Card';
-import CardActions from '@material-ui/core/CardActions';
-import CardContent from '@material-ui/core/CardContent';
-import Typography from '@material-ui/core/Typography';
+import { Card } from "react-bootstrap"
+
+import {
+    Box,
+    Text
+} from "@chakra-ui/react";
+
 import NavigationBar from '../common/NavigationBar';
-import Box from "@material-ui/core/Box";
 
 const { REACT_APP_API_ENDPOINT } = process.env;
 
@@ -76,9 +78,6 @@ const MyComments = () => {
             headers: {
                 "Content-Type": "application/json",
             },
-            /*body: JSON.stringify({
-                userID: userID
-            })*/
         });
         const body = await response.json();
         if (response.status !== 200) throw Error(body.message);
@@ -86,39 +85,44 @@ const MyComments = () => {
     }
 
     return (
-        <div id="body">
+        <div >
 
             <NavigationBar></NavigationBar>
 
-            <Box sx={{ position: 'absolute', top: 110, left: '50%', transform: 'translate(-50%, -50%)' }}>
-                <Typography
-                    variant="h4"
-                    gutterBottom
-                    component="div">
+            <Box sx={{ position: 'absolute', top: 115, left: '50%', transform: 'translate(-50%, -50%)' }}>
+                <Text
+                    className="title"
+                >
                     My Comments
-                </Typography>
+                </Text>
             </Box>
 
-    <Box sx={{ position: 'absolute', top: 150, left: '50%', transform: 'translateX(-50%)' }}>
-        {myComments.map((comment) => (
-            <Card style={{ width: '800px', marginBottom: '20px' }} key={comment.id}>
-                <CardContent>
-                    <Link to={`/forum/${comment.forumID}`} target="_blank">
-                        <Typography variant="h5" component="div">
-                            {comment.forumTitle}<br />
-                        </Typography>
-                    </Link>
-                    <Typography sx={{ mb: 1.5 }} color="text.secondary">
-                        Commented on {new Date(new Date(comment.commentDateTime).getTime() - (5 * 60 * 60 * 1000)).toLocaleString()}<br />
-                    </Typography>
-                    <Typography sx={{ mb: 1.5 }} color="text.secondary">
-                        <br />{comment.comment}<br />
-                    </Typography>
-                </CardContent>
-            </Card>
-        ))}
-        </Box>
-    </div>
+            <Box sx={{ position: 'absolute', top: 185, left: '50%', transform: 'translateX(-50%)' }}>
+                {myComments.map((comment) => (
+                    <Card style={{ width: '600px', marginBottom: '8px', padding: "16px" }} key={comment.id}>
+                        <Link to={`/forum/${comment.forumID}`} target="_blank">
+                            <Text className="headerBig to-text">
+                                {comment.forumTitle}
+                            </Text>
+                        </Link>
+
+                        <Text
+                            className="header to-text"
+                            marginTop="8px"
+                        >
+                            Commented on {new Date(new Date(comment.commentDateTime).getTime() - (5 * 60 * 60 * 1000)).toLocaleString()}
+                        </Text>
+
+                        <Text
+                            className="header to-text"
+                            marginTop="8px"
+                        >
+                            {comment.comment}
+                        </Text>
+                    </Card>
+                ))}
+            </Box>
+        </div>
     )
 }
 
