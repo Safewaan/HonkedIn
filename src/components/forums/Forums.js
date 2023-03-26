@@ -251,7 +251,7 @@ const Forums = () => {
                                 Description:
                             </Text>
                             <Text
-                                className="text to-text"
+                                className="body to-text"
                                 marginTop="2px"
                             >
                                 {forum.description}

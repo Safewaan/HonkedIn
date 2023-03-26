@@ -13,7 +13,7 @@ router.get('/api/getRecentEvents', (req, res) => {
     WHERE events.status = "Active"
     AND events.date > now()
 	ORDER BY events.date ASC
-    LIMIT 5`;
+    LIMIT 3`;
 	let data = [req.body.userID];
 
 	// console.log(sql);

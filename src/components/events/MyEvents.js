@@ -400,7 +400,7 @@ const MyEvents = () => {
                 </Text>
             </Box>
 
-            <Box sx={{ width: '600px', position: 'absolute', top: 150, left: '50%', transform: 'translateX(-50%)', marginBottom: '20px', zIndex: 1 }}>
+            <Box sx={{ width: '600px', position: 'absolute', top: 185, left: '50%', transform: 'translateX(-50%)', marginBottom: '20px', zIndex: 1 }}>
                 <Search
                     label="Search for event names or descriptions"
                     searchTerm={searchTerm}
@@ -435,7 +435,7 @@ const MyEvents = () => {
                 />
             </Box>
 
-            <Box sx={{ position: 'absolute', top: 525, left: '50%', transform: 'translateX(-50%)', zIndex: 0 }}>
+            <Box sx={{ position: 'absolute', top: 550, left: '50%', transform: 'translateX(-50%)', zIndex: 0 }}>
                 {events.map((event) => {
                     if (status && event.status !== status) {
                         return null;
