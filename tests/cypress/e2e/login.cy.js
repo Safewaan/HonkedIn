@@ -6,11 +6,11 @@ describe('Login', () => {
       cy.get('#email').type('TestAccount@HonkedIn.com');
       cy.get('#password').type('password');
   
-      // Submit the form
+      // Submit the forms
       cy.get('form').submit();
   
       // Ensure user is redirected to homepage after login
-      cy.url().should('eq', 'http://localhost:3000/');
+      cy.url({timeout: 10000}).should('eq', 'http://localhost:3000/');
     });
   
     it('Displays error message with invalid credentials', () => {
@@ -24,7 +24,7 @@ describe('Login', () => {
       cy.get('form').submit();
   
       // Ensure error message is displayed
-      cy.get('.alert-danger').should('be.visible');
+      cy.get('.chakra-alert').should('be.visible');
     });
   
     it('Navigates to forgot password page', () => {

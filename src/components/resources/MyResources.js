@@ -288,6 +288,7 @@ const MyResources = () => {
             <Box sx={{ width: '600px', position: 'absolute', top: 185, left: '50%', transform: 'translateX(-50%)', marginBottom: '20px', zIndex: 1 }}>
                 <Search
                     label="Search for resource names"
+                    id='search'
                     searchTerm={searchTerm}
                     onSetSearch={handleSearch}
                     fullWidth
@@ -301,6 +302,7 @@ const MyResources = () => {
                 </Text>
                 <DropdownFilter
                     placeholder="Select a Media Type Tag"
+                    id="filter"
                     value={resourceTag}
                     onChange={handleResourceTag}
                     lists={resourceTagList}
