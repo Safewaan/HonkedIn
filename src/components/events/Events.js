@@ -218,7 +218,7 @@ const Events = () => {
         </Text>
       </Box>
 
-      <Box sx={{ width: '600px', position: 'absolute', top: 150, left: '50%', transform: 'translateX(-50%)', marginBottom: '20px', zIndex: 1 }}>
+      <Box sx={{ width: '600px', position: 'absolute', top: 185, left: '50%', transform: 'translateX(-50%)', marginBottom: '20px', zIndex: 1 }}>
         <Search
           label="Search for event names, descriptions, or hosts"
           searchTerm={searchTerm}
@@ -261,7 +261,7 @@ const Events = () => {
         />
       </Box>*/}
 
-      <Box sx={{ position: 'absolute', top: 500, left: '50%', transform: 'translateX(-50%)', zIndex: 0 }}>
+      <Box sx={{ position: 'absolute', top: 550, left: '50%', transform: 'translateX(-50%)', zIndex: 0 }}>
         {events.map((event) => {
           if (status && event.status !== status) {
             return null;
@@ -334,7 +334,7 @@ const Events = () => {
               Description:
             </Text>
             <Text
-              className="text to-text"
+              className="body to-text"
               marginTop="2px"
             >
               {selectedEvent.description}
@@ -347,7 +347,7 @@ const Events = () => {
               Hosted By:
             </Text>
             <Text
-              className="text to-text"
+              className="body to-text"
               marginTop="2px"
             >
               {selectedEvent.creatorName}
@@ -360,7 +360,7 @@ const Events = () => {
               Date:
             </Text>
             <Text
-              className="text to-text"
+              className="body to-text"
               marginTop="2px"
             >
               {new Date(new Date(selectedEvent.date).getTime() - (5 * 60 * 60 * 1000)).toLocaleString()}
@@ -373,7 +373,7 @@ const Events = () => {
               Location:
             </Text>
             <Text
-              className="text to-text"
+              className="body to-text"
               marginTop="2px"
             >
               {selectedEvent.location}
@@ -386,7 +386,7 @@ const Events = () => {
               Participants:
             </Text>
             <Text
-              className="text to-text"
+              className="body to-text"
               marginTop="2px"
             >
               {selectedEvent.participants}/{selectedEvent.totalParticipants}
@@ -399,7 +399,7 @@ const Events = () => {
               Status:
             </Text>
             <Text
-              className="text to-text"
+              className="body to-text"
               marginTop="2px"
             >
               {selectedEvent.status}

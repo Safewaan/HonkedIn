@@ -1,29 +1,15 @@
 import React, { useRef, useState, useEffect } from "react"
-import { Card, Button, Alert } from "react-bootstrap"
+import { Card } from "react-bootstrap"
 import { useAuth } from "../contexts/AuthContext"
 import { Link, useHistory } from "react-router-dom"
-import AppBar from "@material-ui/core/AppBar";
-import Toolbar from "@material-ui/core/Toolbar";
-import IconButton from "@material-ui/core/IconButton";
-import Typography from "@material-ui/core/Typography";
-import Menu from '@material-ui/core/Menu';
-import Drawer from "@material-ui/core/Drawer";
-import Container from '@material-ui/core/Container';
-import Avatar from '@material-ui/core/Avatar';
-import List from "@material-ui/core/List";
-import ListItem from "@material-ui/core/ListItem";
-import ListItemText from "@material-ui/core/ListItemText";
-import Box from "@material-ui/core/Box";
-import Tooltip from '@material-ui/core/Tooltip';
-import MenuItem from '@material-ui/core/MenuItem';
-import Paper from '@material-ui/core/Paper';
+
 import NavigationBar from './common/NavigationBar';
-import CardContent from '@material-ui/core/CardContent';
-import { makeStyles } from '@material-ui/core/styles';
 
 import {
+  Box,
   Grid,
-  GridItem
+  GridItem,
+  Text
 } from '@chakra-ui/react';
 
 const pages = ['Events'];
@@ -173,119 +159,110 @@ export default function Dashboard() {
   return (
     <>
       <NavigationBar></NavigationBar>
-      <Box sx={{ position: 'absolute', top: 150, left: '50%', transform: 'translateX(-50%)' }}>
-        <Typography
-          variant="h2"
-          gutterBottom
-          sx={{
-            mr: 2,
-            display: { xs: 'none', md: 'flex' },
-            fontFamily: 'monospace',
-            fontWeight: 700,
-            letterSpacing: '.3rem',
-            color: 'inherit',
-            textDecoration: 'none'
-          }}
-          component="div">
-          Welcome to HonkedIn!
-        </Typography>
+      <Box sx={{ position: 'absolute', top: 115, left: '50%', transform: 'translate(-50%, -50%)' }}>
+        <Text
+          className="title"
+        >
+          Dashboard
+        </Text>
       </Box>
 
-      <Box sx={{ width: 1200, height: 1000, position: 'absolute', top: 250, left: '50%', transform: 'translateX(-50%)', display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
+      <Box sx={{ width: '1200px', position: 'absolute', top: 185, left: '50%', transform: 'translateX(-50%)', marginBottom: '20px', zIndex: 1 }}>
         <Grid templateColumns='repeat(3, 1fr)' gap={6}>
           <GridItem xs={8} md={4}>
-            <Typography
-              variant="h5"
-              align="center"
-              gutterBottom
-              component="div">
+            <Text
+              className="headerBig"
+              marginBottom="16px"
+            >
               Upcoming Events
-            </Typography>
+            </Text>
+
             {events.map((event) => (
-              <Card style={{ width: '200 px', marginBottom: '20px' }} key={event.id}>
-                <CardContent>
-                  <Typography variant="h5" component="div">
-                    {event.name}<br />
-                  </Typography>
-                  <Typography sx={{ mb: 1.5 }} color="text.secondary">
-                    Date: {new Date(new Date(event.date).getTime() - (5 * 60 * 60 * 1000)).toLocaleDateString()}<br />
-                  </Typography>
-                  <Typography sx={{ mb: 1.5 }} color="text.secondary">
-                    Location: {event.location}<br />
-                  </Typography>
-                  <Typography sx={{ mb: 1.5 }} color="text.secondary">
-                    {event.description}<br />
-                  </Typography>
-                </CardContent>
+              <Card style={{ marginBottom: '8px', padding: '16px' }} key={event.id}>
+                <Text className="header to-text">
+                  {event.name}
+                </Text>
+                <Text className="body to-text" marginTop="8px">
+                  Date: {new Date(new Date(event.date).getTime() - (5 * 60 * 60 * 1000)).toLocaleDateString()}
+                </Text>
+                <Text className="body to-text" marginTop="8px">
+                  Location: {event.location}
+                </Text>
+                <Text className="body to-text" marginTop="8px">
+                  {event.description}
+                </Text>
               </Card>
             ))}
             <Link to={`/events`}>
-              <Typography
-                variant="h6"
-                align="left"
-                gutterBottom
-                component="div">
-                View all events
-              </Typography>
+              <Text
+                className="link"
+              >
+                View Upcoming Events
+              </Text>
             </Link>
           </GridItem>
 
           <GridItem xs={8} md={4}>
-            <Typography
-              variant="h5"
-              align="center"
-              gutterBottom
-              component="div">
+            <Text
+              className="headerBig"
+              marginBottom="16px"
+            >
               Popular Forums
-            </Typography>
+            </Text>
             {forums.map((forum) => (
-              <Card style={{ width: '200 px', marginBottom: '20px' }} key={forum.id}>
-                <CardContent>
-                  <Link to={`/forum/${forum.id}`} target="_blank">
-                    <Typography variant="h5" component="div">
-                      {forum.forumTitle}<br />
-                    </Typography>
-                  </Link>
-                  <Typography sx={{ mb: 1.5 }} color="text.secondary">
-                    {forum.description}<br />
-                  </Typography>
-                </CardContent>
+              <Card style={{ marginBottom: '8px', padding: '16px' }} key={forum.id}>
+                <Link to={`/forum/${forum.id}`} target="_blank">
+                  <Text className="header to-text">
+                    {forum.forumTitle}
+                  </Text>
+                </Link>
+                <Text
+                  className="body to-text"
+                  marginTop="2px"
+                >
+                  {forum.description}
+                </Text>
               </Card>
             ))}
             <Link to={`/forums`}>
-              <Typography
-                variant="h6"
-                align="left"
-                gutterBottom
-                component="div">
-                View all forums
-              </Typography>
+              <Text
+                className="link"
+              >
+                View Popular Forums
+              </Text>
             </Link>
           </GridItem>
 
           <GridItem xs={8} md={4}>
-            <Typography
-              variant="h5"
-              align="center"
-              gutterBottom
-              component="div">
-              Your RSVPed Events
-            </Typography>
-            {myEvents.map((myEvent) => (
-              <Card style={{ width: '200 px', marginBottom: '20px' }} key={myEvent.id}>
-                <CardContent>
-                  <Typography variant="h5" component="div">
-                    {myEvent.name}<br />
-                  </Typography>
-                  <Typography sx={{ mb: 1.5 }} color="text.secondary">
-                    Date: {new Date(new Date(myEvent.date).getTime() - (5 * 60 * 60 * 1000)).toLocaleDateString()}<br />
-                  </Typography>
-                  <Typography sx={{ mb: 1.5 }} color="text.secondary">
-                    Location: {myEvent.location}<br />
-                  </Typography>
-                </CardContent>
+            <Text
+              className="headerBig"
+              marginBottom="16px"
+            >
+              Joined Events
+            </Text>
+            {myEvents.map((event) => (
+              <Card style={{ marginBottom: '8px', padding: '16px' }} key={event.id}>
+                <Text className="header to-text">
+                  {event.name}
+                </Text>
+                <Text className="body to-text" marginTop="8px">
+                  Date: {new Date(new Date(event.date).getTime() - (5 * 60 * 60 * 1000)).toLocaleDateString()}
+                </Text>
+                <Text className="body to-text" marginTop="8px">
+                  Location: {event.location}
+                </Text>
+                <Text className="body to-text" marginTop="8px">
+                  {event.description}
+                </Text>
               </Card>
             ))}
+            <Link to={`/events`}>
+              <Text
+                className="link"
+              >
+                Join More Events!
+              </Text>
+            </Link>
           </GridItem>
         </Grid>
       </Box>

@@ -14,7 +14,7 @@ router.get('/api/getPopularForums', (req, res) => {
     AND forums.status = 'Active'
     GROUP BY forumComments.forumID
     ORDER BY valueOccurrence DESC
-    LIMIT 5;`;
+    LIMIT 3;`;
 	let data = [req.body.userID];
 
 	// console.log(sql);

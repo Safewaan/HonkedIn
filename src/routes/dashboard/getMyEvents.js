@@ -18,7 +18,7 @@ router.get('/api/getMyEvents', (req, res) => {
     AND events.date > now()
     AND events.status = "Active"
 	ORDER BY events.date
-    LIMIT 5;`;
+    LIMIT 3;`;
 	let data = [req.query.userID];
 
 	// console.log(sql);

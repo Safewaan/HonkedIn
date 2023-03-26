@@ -352,7 +352,7 @@ const MyResources = () => {
                             </Text>
                             <a href={`${resource.resourcesLink}`} target="_blank">
                                 <Text
-                                    className="text to-text"
+                                    className="body to-text"
                                     marginTop="2px"
                                 >
                                     {resource.resourcesLink}
