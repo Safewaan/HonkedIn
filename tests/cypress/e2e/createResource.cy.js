@@ -8,28 +8,22 @@ describe('Create Resource', () => {
         cy.get('form').submit();
     }
 
-     it('Creates a valid resource', () => {
-         login; 
-         //visits the create resource page
-         cy.visit('/create-resource');
- 
-         // Fill out title, link, and tag
-         cy.get('#title').type('How to write an E2E test');
-         cy.get('#link').type('https://docs.cypress.io/guides/end-to-end-testing/writing-your-first-end-to-end-test');
-         cy.get('#MediaTagList').select('School');
- 
-         cy.intercept('POST', [
-             {creatorID: 0, resourcesTitle: '', 
-             resourcesLink: '',
-             mediaTag: ''} 
-         ]);
- 
-         cy.get('form').submit();
- 
-         cy.get('#title').should('be.empty');
-         cy.get('#link').should('be.empty');
-         cy.get('#MediaTagList').should('have.value', '');
-     }) 
+    it('Creates a valid resource', () => {
+        login;
+        //visits the create resource page
+        cy.visit('/create-resource');
+
+        // Fill out title, link, and tag
+        cy.get('#title').type('How to write an E2E test');
+        cy.get('#link').type('https://docs.cypress.io/guides/end-to-end-testing/writing-your-first-end-to-end-test');
+        cy.get('#MediaTagList').select('School');
+
+        cy.get('form').submit();
+
+        cy.get('#title').should('be.empty');
+        cy.get('#link').should('be.empty');
+        cy.get('#MediaTagList').should('have.value', '');
+    })
 
     it('requires link to be filled for valid resource creation', () => {
 
@@ -66,6 +60,20 @@ describe('Create Resource', () => {
         cy.contains('How to write an E2E test');
         cy.contains('https://docs.cypress.io/guides/end-to-end-testing/writing-your-first-end-to-end-test');
         cy.contains('School');
+    })
+
+    it('lets resources be filtered and searched accurately', () => {
+        //visits the create resource page
+        cy.visit('/my-resources');
+
+        //search 
+        cy.get('#search').type('E2E').click();
+        //resource should be displayed
+        cy.contains('How to write an E2E test');
+        //filters
+        cy.get('#filter').select('Interview Tips')
+        //resource should not be displayed
+        cy.get('How to write an E2E test').should('not.exist');
     })
 
 })

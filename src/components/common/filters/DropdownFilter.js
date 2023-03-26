@@ -14,6 +14,7 @@ const DropdownFilter = ({ placeholder, value, onChange, lists }) => {
                     value={value}
                     onChange={onChange}
                     className="header to-text"
+                    id="filter"
                 >
                     {lists.map((list) => (
                         <option key={list} value={list}>
