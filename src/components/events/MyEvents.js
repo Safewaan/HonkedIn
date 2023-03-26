@@ -751,7 +751,7 @@ const MyEvents = () => {
                         status="success"
                         sx={{ position: 'fixed', bottom: 0, right: 0, width: '25%', zIndex: 9999 }}>
                         <AlertIcon />
-                        <AlertDescription>Event successfully editted.</AlertDescription>
+                        <AlertDescription>Event successfully edited.</AlertDescription>
                     </Alert>
                 )
             }
