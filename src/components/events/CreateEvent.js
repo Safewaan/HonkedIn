@@ -24,7 +24,6 @@ import {
   NumberInputStepper,
   NumberDecrementStepper,
   NumberIncrementStepper,
-  Select,
   Text
 } from '@chakra-ui/react';
 
