@@ -127,7 +127,7 @@ export default function UpdateStatus() {
       <Card>
         <Card.Body>
 
-          <Text className="header">Update Credentials</Text>
+          <Text className="header">Update Status</Text>
 
           <FormControl>
             <FormControl
