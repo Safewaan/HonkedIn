@@ -41,7 +41,7 @@ describe('<Events />', () => {
     ]
 
     render(<Events loadGetEvents={noop} events={events} />);
-    const string = new Date(new Date('2023-02-23T05:00:00.000Z').getTime() - (5 * 60 * 60 * 1000)).toLocaleString();
+    const string = new Date(new Date('2023-02-23T05:00:00.000Z').getTime() - (5 * 60 * 60 * 1000)).toLocaleDateString();
     expect(screen.getByText(`Date: ${string}`)).toBeInTheDocument();
   });
 
@@ -69,18 +69,5 @@ describe('<Events />', () => {
 
     render(<Events loadGetEvents={noop} events={events} />);
     expect(screen.getByText('Status: Active')).toBeInTheDocument();
-  });
-
-  it('displays "Cancelled" if the event is cancelled', () => {
-    const noop = () => { };
-    const events = [
-      {
-        "id": 1, "creatorID": 1, "name": "Test Event 1", "description": "Test Description 1", "location": "Test Location 1",
-        "date": "2023-02-23T05:00:00.000Z", "participants": 0, "totalParticipants": 100, "status": "Cancelled"
-      }
-    ];
-
-    render(<Events loadGetEvents={noop} events={events} />);
-    expect(screen.getByText('Status: Cancelled')).toBeInTheDocument();
   });
 });

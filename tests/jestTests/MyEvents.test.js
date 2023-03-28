@@ -7,11 +7,11 @@ import '@testing-library/jest-dom/extend-expect';
 describe('<myEvents />', () => {
 
   it('loads my events on first render', async () => {
-    const loadGetMyEvents = jest.fn().mockName('loadGetMyEvents');
+    const loadGetEventsByUser = jest.fn().mockName('loadGetMyEvents');
     const events = [];
 
-    render(<MyEvents loadGetMyEvents={loadGetMyEvents} events={events} />);
-    expect(loadGetMyEvents).toHaveBeenCalled();
+    render(<MyEvents loadGetEventsByUser={loadGetEventsByUser} events={events} />);
+    expect(loadGetEventsByUser).toHaveBeenCalled();
   });
 
   it('displays the number of participants', () => {
@@ -23,7 +23,7 @@ describe('<myEvents />', () => {
       }
     ]
 
-    render(<MyEvents loadGetMyEvents={noop} events={events} />);
+    render(<MyEvents loadGetEventsByUser={noop} events={events} />);
     expect(screen.getByText('Participants: 0 / 100')).toBeInTheDocument();
   });
 
@@ -36,7 +36,7 @@ describe('<myEvents />', () => {
       }
     ]
 
-    render(<MyEvents loadGetMyEvents={noop} events={events} />);
+    render(<MyEvents loadGetEventsByUser={noop} events={events} />);
     expect(screen.getByText('Status: Active')).toBeInTheDocument();
   });
 });
